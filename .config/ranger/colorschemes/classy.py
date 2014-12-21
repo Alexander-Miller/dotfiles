@@ -21,7 +21,7 @@ class Default(ColorScheme):
                 fg = 54 #pale purple
             if context.directory:
                 attr |= normal
-                fg = blue
+                fg = 39
             elif context.executable and not \
                     any((context.media, context.container,
                         context.fifo, context.socket)):
@@ -80,7 +80,7 @@ class Default(ColorScheme):
         elif context.in_statusbar:
             if context.permissions:
                 if context.good:
-                    fg = black
+                    fg = white
                 elif context.bad:
                     fg = red
             if context.marked:
