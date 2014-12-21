@@ -26,7 +26,7 @@ bindsym $mod+shift+z exec xkill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+Tab exec i3-dmenu-desktop
+bindsym $mod+Tab exec j4-dmenu-desktop --dmenu="dmenu -p 'run:'"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -178,7 +178,7 @@ bar {
 
 exec --no-startup-id wicd-gtk
 exec dropbox start
-exec feh --bg-scale /home/a/Dropbox/Sync/wallpaper/light.jpg
+exec feh --bg-scale ~/.wallpapers/forest2.jpg
 exec xfce4-notes
 
 
