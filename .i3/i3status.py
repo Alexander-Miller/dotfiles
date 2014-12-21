@@ -1,0 +1,1 @@
+/home/a/Dropbox/Sync/i3/i3status.py

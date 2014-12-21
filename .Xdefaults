@@ -1,0 +1,37 @@
+! stuff
+*.background: #222222
+*.foreground: #ccb18b
+*.cursorColor:#ccb18b
+*.colorBD:    #ccb18b
+*.colorUL:    #ccb18b
+*.colorIT:    #ccb18b
+
+! urxvt
+URxvt*cursorBlink:        true
+URxvt*cursorUnderline:    true
+URxvt*font:               xft:inconsolata-g:size=9
+URxvt*boldFont:           xft:inconsolata-g:size=9:bold
+URxvt*scrollBar:          false
+URxvt.perl-ext-common:    default,matcher
+URxvt.url-launcher:       firefox
+URxvt.matcher.button:     1
+URxvt.internalBorder:     16
+URxvt.lineSpace:          1
+URxvt.letterSpace:        0
+
+URxvt*color0: #6d9eac
+URxvt*color1: #db4a1b
+URxvt*color2: #595959
+URxvt*color3: #b78773
+URxvt*color4: #6d9eac
+URxvt*color5: #db4a1b
+URxvt*color6: #595959
+URxvt*color7: #b78773
+URxvt*color8: #6d9eac
+URxvt*color9: #db4a1b
+URxvt*color10: #595959
+URxvt*color11: #8fd5ff
+URxvt*color12: #b78773
+URxvt*color13: #6d9eac
+URxvt*color14: #db4a1b
+URxvt*color15: #595959
