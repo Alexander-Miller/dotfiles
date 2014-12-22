@@ -18,8 +18,8 @@ DL_NOW    = None
 TIME_NOW  = time()
 
 COLOR_STD       = '#dddddd'
-COLOR_ICON      = '#1Fc5FF'
-COLOR_SEPARATOR = '#BB6900'
+COLOR_ICON      = '#1fc5ff'
+COLOR_SEPARATOR = '#bb6900'
 COLOR_URGENT    = '#f24444'
 
 ICON_SEPARATOR = '  '
@@ -97,8 +97,8 @@ def online():
         down, up = net_snapshot()
         block(ICON_DOWN, down + ' ' + up, COLOR_STD)
         block(ICON_WIFI, '{:.0f}% @ {}'.format(quality, ess_id), COLOR_STD)
-    else:
-        block(ICON_WIFI, 'n/a', COLOR_STD)
+    #else:
+    #    block(ICON_WIFI, 'n/a', COLOR_STD)
 
 def charge():
     tokens    = run(CMD_BATTERY).split()
