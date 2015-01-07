@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ # -*- coding: utf-8 -*-
 
 from json import dumps
 from subprocess import Popen, PIPE
@@ -26,8 +26,8 @@ ICON_SEPARATOR = '  '
 ICON_TIME      = ' '
 ICON_CALENDAR  = '  '
 ICON_VOLUME    = ' '
-ICON_CHARGE    = ' '
-ICON_BATTERY   = ' ' 
+ICON_BATTERY   = ' '
+ICON_PLUG      = ' ' 
 ICON_WIFI      = ' '
 ICON_RAM       = ' '
 ICON_CPU       = ' '
@@ -97,15 +97,13 @@ def online():
         down, up = net_snapshot()
         block(ICON_DOWN, down + ' ' + up, COLOR_STD)
         block(ICON_WIFI, '{:.0f}% @ {}'.format(quality, ess_id), COLOR_STD)
-    #else:
-    #    block(ICON_WIFI, 'n/a', COLOR_STD)
 
 def charge():
     tokens    = run(CMD_BATTERY).split()
-    perc_left = tokens[3] if len(tokens) is 4 else tokens[3][:-1]
-    time_left = tokens[4] if len(tokens) is not 4 else 'Full'
+    perc_left = tokens[3] if len(tokens) == 4 else tokens[3][:-1]
+    time_left = tokens[4] if len(tokens) != 4 else 'Full'
     txt_color = COLOR_URGENT if int(perc_left[:-1]) <= 30 else COLOR_STD
-    block(ICON_CHARGE if tokens[2] is 'Discharging' else ICON_BATTERY, time_left, txt_color)
+    block(ICON_BATTERY if tokens[2] == 'Discharging,' else ICON_PLUG, time_left, txt_color)
 
 def date_time():
     date_time = run(CMD_DATE)
@@ -117,7 +115,7 @@ def date_time():
 
 def volume():
     volume = run(CMD_VOLUME)
-    text = 'n/a' if volume is '' else volume
+    text = 'n/a' if volume == '' else volume
     block(ICON_VOLUME, text, COLOR_STD)
 
 def pad(pre, text, post):
@@ -161,7 +159,6 @@ def main():
         stdout.flush()
         sleep(NAP_TIME)
         BLOCKS = []
- 
+
 if __name__ == '__main__':
     main()
-
