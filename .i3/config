@@ -26,7 +26,7 @@ bindsym $mod+shift+z exec xkill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+Tab exec j4-dmenu-desktop --dmenu="dmenu -i -l 20 -nb '#2a2a2a'"
+bindsym $mod+Tab exec j4-dmenu-desktop --dmenu="dmenu -i -t -l 20 -nb '#3d3d3d' -nf '#eeeeee' -sb '#6699cc' -sf '#000000'"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -143,53 +143,25 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-
-
-
-
-                                             
-
-
-
-
 bar {        
         status_command python ~/.i3/i3status.py 1
-        font pango: terminus, awesome 8
+        font pango: terminus 8
         position top
 
         colors {
-            background         #2a2a2a
+            background         #3d3d3d
             separator          #33D04E
-            focused_workspace  #ffffff #285577
-            active_workspace   #ffffff #333333
-            inactive_workspace #888888 #222222
+            focused_workspace  #000000 #6699cc #111111
+            active_workspace   #000000 #333333
+            inactive_workspace #000000 #888888 #222222
             urgent_workspace   #ffffff #900000
         }
 }
 
-
-
-
-
-
-
-
-
-
 exec --no-startup-id wicd-gtk
 exec dropbox start
 exec feh --bg-scale ~/.wallpapers/forest2.jpg
-exec xfce4-notes
 exec setxkbmap -option ctrl:nocaps
-
-
-
-
-
-
-
-
-
                                                       
 gap_size 8
 for_window [class="^.*"] border pixel 3
@@ -208,15 +180,6 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
 #font pango:DejaVu Sans Mono 9
-
-
-
-
-
-
-
-
-
 
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #3366dd #ffffff #2e9ef4
