@@ -178,7 +178,7 @@ bar {
 
 exec --no-startup-id wicd-gtk
 exec dropbox start
-exec feh --bg-scale ~/.wallpapers/forest2.jpg
+exec feh --bg-scale ~/.wallpapers/flower_pattern.png
 exec xfce4-notes
 exec setxkbmap -option ctrl:nocaps
 
