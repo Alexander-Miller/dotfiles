@@ -1,5 +1,4 @@
 
-! urxvt
 URxvt*cursorBlink:        true
 URxvt*cursorUnderline:    true
 URxvt*font:               xft:inconsolata-g:size=10
@@ -10,7 +9,7 @@ URxvt.url-launcher:       firefox
 URxvt.matcher.button:     1
 URxvt.internalBorder:     16
 URxvt.lineSpace:          1
-URxvt.letterSpace:        0
+URxvt.letterSpace:        -2
 
 *.foreground: #ccb18b
 *.cursorcolor:#ccb18b
@@ -18,12 +17,12 @@ URxvt.letterSpace:        0
 *.colorul:    #ccb18b
 *.colorit:    #ccb18b
 *background:  #1d1f21
-*color0:      #000000
-*color1:      #912226
-*color2:      #778900
-*color3:      #ae7b00
-*color4:      #1d2594
-*color5:      #682a9b
+*color0:      #cccccc
+*color1:      #bd5049
+*color2:      #808d49
+*color3:      #b98d50
+*color4:      #506d79
+*color5:      #79596d
 *color6:      #2b6651
 *color7:      #929593
 *color8:      #666666
@@ -33,4 +32,5 @@ URxvt.letterSpace:        0
 *color12:     #81a2be
 *color13:     #b294bb
 *color14:     #8abeb7
-*color15:     #ecebec
+*color15:     #ecebec           
+
