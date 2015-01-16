@@ -3,7 +3,7 @@ from ranger.gui.color import *
 
 class Default(ColorScheme):
     def use(self, context):
-        fg   = 58
+        fg   = 0
         attr = default_colors[2]
         bg   = -1
 
@@ -34,46 +34,40 @@ class Default(ColorScheme):
             if context.selected:
                 bg = fg
                 fg = 16
-#            elif context.device:
-#                fg = 12
-#            if context.tag_marker and not context.selected:
-#            if not context.selected and (context.cut or context.copied):
-#        elif context.in_titlebar:
-#            #attr |= normal
-#            if context.hostname:
-#             #   attr |= normal
-#              #  fg = red
-#            elif context.directory:
-#               # fg = red
-#            elif context.tab:
-#                if context.good:
-#                #    bg = green
-#            elif context.link:
-#                #fg = magenta
-#
-#        elif context.in_statusbar:
-#            if context.permissions:
-#                if context.good:
-#                 #   fg = white
-#                elif context.bad:
-#                  #  fg = red
-#            if context.marked:
-#                #attr |= bold | reverse
-#                #fg = yellow
-#            if context.message:
-#                if context.bad:
-#                 #   attr |= bold
-#                  #  fg = red
-#
-#        if context.text:
-#            if context.highlight:
-#                #attr |= bold
-#
-#        if context.in_taskview:
-#            if context.title:
-#                #fg = red
-#
-#            if context.selected:
-#                #attr |= normal
+            elif context.device:
+                fg = 12
+                
+        elif context.in_titlebar:
+            attr |= bold
+            if context.hostname:
+                fg = context.bad and red or green
+            elif context.directory:
+                fg = blue
+            elif context.tab:
+                if context.good:
+                    fg = red
+            elif context.link:
+                fg = cyan
+
+        elif context.in_statusbar:
+            if context.permissions:
+                if context.good:
+                    fg = cyan
+                elif context.bad:
+                    fg = magenta
+            if context.marked:
+                attr |= bold | reverse
+                fg = yellow
+            if context.message:
+                if context.bad:
+                    attr |= bold
+                    fg = red
+            if context.vcsinfo:
+                fg = blue
+                attr &= ~bold
+            if context.vcscommit:
+                fg = yellow
+                attr &= ~bold
         
         return fg, bg, attr
+
