@@ -34,3 +34,21 @@ URxvt.letterSpace:        -2
 *color14:     #8abeb7
 *color15:     #ecebec           
 
+rofi.width: 50
+rofi.lines: 4
+rofi.columns: 4
+rofi.font: Droid Sans Mono For Powerline 10
+rofi.fg: #6699ff
+rofi.bg: #333333
+rofi.hlfg: #000000
+rofi.hlbg: #d2777a
+rofi.bc: #99cc99
+rofi.bw: 1
+rofi.loc: 0
+rofi.padding: 20
+rofi.yoffset: 0
+rofi.xoffset: 0
+rofi.fixed-num-lines: false
+rofi.hmode: false
+rofi.terminal: rxvt-unicode
+rofi.ssh-set-title: true
