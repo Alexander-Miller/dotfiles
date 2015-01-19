@@ -42,7 +42,7 @@ rofi.fg: #6699ff
 rofi.bg: #333333
 rofi.hlfg: #000000
 rofi.hlbg: #d2777a
-rofi.bc: #99cc99
+rofi.bc: #cc6666
 rofi.bw: 1
 rofi.loc: 0
 rofi.padding: 20
