@@ -64,6 +64,7 @@ def cpu():
         line = lines[i]
         perc = float(line[2].replace(',', '.'))
         load = '{:5.2f}%'.format(perc)
+        load = '{:05.2f}%'.format(perc)
         pack(load, COLOR_STD if perc <= 80.0 else COLOR_URGENT)
         if i < len(cpus) - 1:
             pack(' | ', COLOR_STD)
