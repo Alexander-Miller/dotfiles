@@ -25,21 +25,30 @@
 ;;el-get packages
 (setq my:el-get-packages
       '(
-        tomorrow-theme
-        neotree
-        rainbow-mode
+        ace-jump-mode
+        anaconda-mode
         auctex
-        reftex
-        powerline
-        magit
+        company
+        company-anaconda
+        company-auctex
+        company-ghc
+        company-math
+        company-mode
+        ghc-mod
         god-mode
-        helm
-        multiple-cursors
-        smartscan
         haskell-mode
-        offlineimap
+        helm
+        hi2
+        magit
         mu4e
-        linum-relative
+        multiple-cursors
+        neotree
+        offlineimap
+        powerline
+        rainbow-mode
+        reftex
+        tomorrow-theme
+        yasnippet
         ))
 (el-get 'sync my:el-get-packages)
 
@@ -81,9 +90,6 @@
 
 ;;save sessions
 (desktop-save-mode 1)
-
-;;jumping to next word at point
-(smartscan-mode 1)
 
 ;;smoother scrolling
 (setq scroll-step 1
@@ -287,7 +293,11 @@
 (global-set-key (kbd "M-<up>") 'beginning-of-buffer)
 (global-set-key (kbd "M-<down>") 'end-of-buffer)
 (global-set-key (kbd "C-M-ä") 'forward-sexp)
-(global-set-key (kbd "C-M-l") 'backward-sexp)
+(global-set-key (kbd "C-M-l") 'backward-sexp)        
+
+;;ace-jump
+(global-set-key (kbd "C-x j") 'ace-jump-line-mode)
+(global-set-key (kbd "C-x C-j") 'ace-jump-char-mode)
 
 ;;windove buffer switching
 (global-set-key (kbd "<C-right>") 'windmove-right)
