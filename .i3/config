@@ -147,7 +147,7 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
-gaps inner 6
+gaps inner 0
 
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"
@@ -174,47 +174,40 @@ mode "$mode_gaps_outer" {
 }
 
 bar {        
-        status_command python ~/.i3/i3status.py 1
+        status_command python ~/.i3/i3status.py 0.5
         font pango: terminus 8
         position top
 
         colors {
             background         #3d3d3d
             separator          #33D04E
-            focused_workspace  #000000 #6699cc #111111
-            active_workspace   #000000 #333333
+            focused_workspace  #6699cc #6699cc #111111
+            active_workspace   #000000 #888888 #222222
             inactive_workspace #000000 #888888 #222222
-            urgent_workspace   #ffffff #900000
+            urgent_workspace   #900000 #900000 #ffffff
         }
 }
 
 exec dropbox start
-exec feh --bg-scale ~/.wallpapers/forest2.png
 exec setxkbmap -option ctrl:nocaps
+exec xrdb ~/.Xdefaults
                                                       
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 3
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable; border pixel 5
-for_window [class="Xfce4-notes"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 workspace_auto_back_and_forth yes
 focus_follows_mouse no
 smart_borders on
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below. ISO 10646 = Unicode
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, if you need a lot of unicode glyphs or
-# right-to-left text rendering, you should instead use pango for rendering and
-# chose a FreeType font, such as:
-#font pango:DejaVu Sans Mono 9
+# Font for window titles.
+font pango: droid sans mono for powerline 10
 
 # class                 border  backgr. text    indicator
-client.focused          #4c7899 #ff3333 #ffffff #2e9ef4
-client.focused_inactive #333333 #aa6666 #ffffff #484e50
-client.unfocused        #333333 #0e1f45 #888888 #292d2e
+client.focused          #4c7899 #4c78c9 #ffffff #2e9ef4
+client.focused_inactive #333333 #3d3d3d #ffffff #666666
+client.unfocused        #333333 #3d3d3d #999999 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
 
 # Original
