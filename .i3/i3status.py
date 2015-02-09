@@ -7,7 +7,7 @@ from time import sleep, time
 
 NAP_TIME = 5
 if len(argv) > 1:
-    NAP_TIME = int(argv[1])
+    NAP_TIME = float(argv[1])
 
 BLOCKS    = []
 UL_PREV   = None
