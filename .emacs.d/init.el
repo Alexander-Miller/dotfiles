@@ -26,6 +26,7 @@
 (setq my:el-get-packages
       '(
         ace-jump-mode
+        aggressive-indent-mode
         anaconda-mode
         auctex
         company
@@ -34,6 +35,7 @@
         company-ghc
         company-math
         company-mode
+        escreen
         ghc-mod
         god-mode
         haskell-mode
@@ -58,7 +60,7 @@
 
 (load-theme 'tomorrow-night-eighties t)
 
-(set-default-font "droid sans mono for powerline-10")
+(set-default-font "droid sans mono for powerline-11")
 
 ;;set tabs to 4 spacesss
 (setq-default indent-tabs-mode nil)
@@ -72,7 +74,7 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-;;autocomplete parensp
+;;autocomplete parens
 (electric-pair-mode 1)
 
 ;;show matching parenthesis
@@ -97,10 +99,7 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
-;;line highlighting does not play well with rainbow mode
-(global-hl-line-mode 0)
-
-;;title is file name if available otherwise buffernamexs
+;;title is file name if available otherwise buffernames
 (setq frame-title-format '(buffer-file-name "%f" ("%b")))
 
 ;;files always end with a new line
@@ -108,8 +107,12 @@
 
 (setq x-select-enable-clipboard t)
 
+(aggressive-indent-global-mode t)
+
 ;;to open files in current session through the terminal
 (server-start)
+
+(semantic-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Company
@@ -121,16 +124,17 @@
 
 (let ((bg (face-attribute 'default :background)))
   (custom-set-faces
-   `(company-tooltip ((t :background "lightgray" :foreground "black")))
-   `(company-tooltip-selection ((t :background "steelblue" :foreground "white")))
-   `(company-tooltip-mouse ((t :background "blue" :foreground "white")))
-   `(company-tooltip-common ((t :background "lightgray" :foreground "black")))
-   `(company-tooltip-common-selection ((t t :background "lightgray" :foreground "black")))
-   `(company-tooltip-annotation ((t :background "#00ff00" :foreground "#ff0000")))
-   `(company-scrollbar-fg ((t :background "black")))
-   `(company-scrollbar-bg ((t :background "gray")))
-   `(company-preview ((t :background nil :foreround "darkgray")))
-   `(company-preview-common ((t :background nil :foreground "darkgray")))))
+   `(company-tooltip ((t :background "#666666" :foreground "#dfdfdf")))
+   `(company-tooltip-selection ((t :background "RoyalBlue4" :foreground "#dfdfdf")))
+   `(company-tooltip-mouse ((t :background "RoyalBlue4" :foreground "#000000")))
+   `(company-tooltip-common ((t :background "#666666" :foreground "#000000")))
+   `(company-tooltip-common-selection ((t :background "RoyalBlue4" :foreground "#000000")))
+   `(company-tooltip-annotation ((t :background "#666666" :foreground "#33ff33")))
+   `(company-scrollbar-fg ((t :background "#c82829")))
+   `(company-scrollbar-bg ((t :background "#444444")))
+   `(company-preview ((t :background nil :foreround "#f99157")))
+   `(company-preview-common ((t :background nil :foreground "#00ffff")))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX
@@ -152,10 +156,10 @@
 (company-auctex-init)
 
 ;;setup qpdf aus standard viewer
-(setq TeX-view-program-selection
-      '((output-pdf "PDF Viewer")))
-(setq TeX-view-program-list
-      '(("PDF Viewer" "qpdfview --unique %o")))
+;;(setq TeX-view-program-selection
+;;'((output-pdf "PDF Viewer")))
+;;(setq TeX-view-program-list
+;;'(("PDF Viewer" "qpdfview --unique %o")))
 
 ;;proper indentation of list items
 (setq LaTeX-item-indent 0)
@@ -171,21 +175,41 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'haskell-mode-hook 'turn-on-hi2)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
   (add-to-list 'exec-path my-cabal-path))
-(custom-set-variables '(haskell-tags-on-save t))
 
 (setq haskell-process-suggest-remove-import-lines t)
 (setq haskell-process-auto-import-loaded-modules t)
 (setq haskell-process-log t)
+(setq haskell-process-type 'cabal-repl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helm
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq helm-split-window-in-side-p nil)
+(setq helm-move-to-line-cycle-in-source t)
+(setq helm-ff-search-library-in-sexp t)
+(setq helm-scroll-amount 8)
+(setq helm-ff-file-name-history-use-recentf t)
+
+(setq helm-autoresize-max-height '100)
+(setq helm-autoresize-min-height '50)
+
+(setq helm-buffers-fuzzy-matching t)
+(setq helm-recentf-fuzzy-match t)
+(setq helm-M-x-fuzzy-match t)
+(setq helm-semantic-fuzzy-match t)
+(setq helm-imenu-fuzzy-match t)
+
+(when (executable-find "ack-grep")
+  (setq helm-grep-default-command "ack-grep -Hn --no-group --no-color %e %p %f"
+        helm-grep-default-recurse-command "ack-grep -H --no-group --no-color %e %p %f"))
+
 (helm-mode 1)
-(helm-autoresize-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Cua-mode
@@ -207,6 +231,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (org-indent-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; escreen
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'escreen-goto-screen-hook 'escreen-enable-number-mode-if-more-than-one-screen)
+(escreen-install)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; custom functions
@@ -246,21 +276,21 @@
 
 ;;helm
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-S-p") 'helm-semantic-or-imenu)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) 
 (define-key helm-map (kbd "C-z") 'helm-select-action)
 (define-key helm-find-files-map (kbd "C-q") 'helm-find-files-grep)
+(define-key helm-grep-map (kbd "C-l") 'backward-char)
+(define-key helm-grep-map (kbd "C-x l") 'helm-recenter-top-bottom-other-window)
 
 ;;TODO: find out how to get these maps to loop
 (my-helm-map-lines helm-map)
 (my-helm-map-lines helm-find-files-map)
 (my-helm-map-lines helm-buffer-map)
-
-;;getting rid of yasnippet's latex interference
-                                        ;(define-key yas-keymap (kbd "C-d") 'forward-char)
 
 ;;haskell
 (eval-after-load 'haskell-mode
@@ -315,8 +345,27 @@
 (global-set-key (kbd "C-x C-0") 'delete-window)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 
+;;escreen
+(define-key global-map (kbd "C-z") nil)
+(setq escreen-prefix-char (kbd "C-<tab>"))
+(define-key escreen-map (kbd "<tab>") 'escreen-goto-next-screen)
+
+;;magit
+;;(define-key magit-status-mode-map (kbd "ö") 'magit-goto-next-section)
+(define-key magit-mode-map (kbd "ö") 'magit-goto-next-section)
+
 (global-set-key [f8] 'neotree-toggle)
 
+;; open dirs in dired in current window
+(put 'dired-find-alternate-file 'disabled nil)
+
+(defface ace-jump-face-foreground
+  '((((class color)) (:foreground "#f2777a" :underline nil))
+    (((background dark)) (:foreground "gray100" :underline nil))
+    (((background light)) (:foreground "gray0" :underline nil))
+    (t (:foreground "gray100" :underline nil)))
+  "Face for foreground of AceJump motion"
+  :group 'ace-jump)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -324,25 +373,26 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#cccccc" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#2d2d2d"))
  '(custom-safe-themes
    (quote
-    ("cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
+    ("ace9f12e0c00f983068910d9025eefeb5ea7a711e774ee8bb2af5f7376018ad2" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "1157a4055504672be1df1232bed784ba575c60ab44d8e6c7b3800ae76b42f8bd" "e4e97731f52a5237f37ceb2423cb327778c7d3af7dc831788473d4a76bcc9760" "cf08ae4c26cacce2eebff39d129ea0a21c9d7bf70ea9b945588c1c66392578d1" default)))
  '(fci-rule-color "#393939"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-preview ((t :background nil :foreround "darkgray")))
- '(company-preview-common ((t :background nil :foreground "darkgray")))
- '(company-scrollbar-bg ((t :background "gray")))
- '(company-scrollbar-fg ((t :background "black")))
- '(company-tooltip ((t :background "lightgray" :foreground "black")))
- '(company-tooltip-annotation ((t :background "#00ff00" :foreground "#ff0000")))
- '(company-tooltip-common ((t :background "lightgray" :foreground "black")))
- '(company-tooltip-common-selection ((t t :background "lightgray" :foreground "black")))
- '(company-tooltip-mouse ((t :background "blue" :foreground "white")))
- '(company-tooltip-selection ((t :background "steelblue" :foreground "white"))))
 
+ ;;remove atrocious green highlight color
+ '(highlight ((t :background "#3f3f3f")))
+ 
+ '(company-preview ((t :background nil :foreround "#f99157")))
+ '(company-preview-common ((t :background nil :foreground "#00ffff")))
+ '(company-scrollbar-bg ((t :background "#444444")))
+ '(company-scrollbar-fg ((t :background "#c82829")))
+ '(company-tooltip ((t :background "#666666" :foreground "#dfdfdf")))
+ '(company-tooltip-annotation ((t :background "#666666" :foreground "#33ff33")))
+ '(company-tooltip-common ((t :background "#666666" :foreground "#000000")))
+ '(company-tooltip-common-selection ((t :background "RoyalBlue4" :foreground "#000000")))
+ '(company-tooltip-mouse ((t :background "RoyalBlue4" :foreground "#000000")))
+ '(company-tooltip-selection ((t :background "RoyalBlue4" :foreground "#dfdfdf"))))
