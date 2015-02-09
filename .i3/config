@@ -181,7 +181,7 @@ bar {
         colors {
             background         #3d3d3d
             separator          #33D04E
-            focused_workspace  #6699cc #6699cc #111111
+            focused_workspace  #000000 #6699cc #111111
             active_workspace   #000000 #888888 #222222
             inactive_workspace #000000 #888888 #222222
             urgent_workspace   #900000 #900000 #ffffff
