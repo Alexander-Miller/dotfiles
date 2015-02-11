@@ -1,8 +1,8 @@
 
 URxvt*cursorBlink:        true
 URxvt*cursorUnderline:    true
-URxvt*font:               xft:inconsolata-g:size=10
-URxvt*boldFont:           xft:inconsolata-g:size=10:bold
+URxvt*font:               xft:droid sans mono for powerline:size=10
+URxvt*boldFont:           xft:droid sans mono for powerline:size=10:bold
 URxvt*scrollBar:          false
 URxvt.perl-ext-common:    default,matcher
 URxvt.url-launcher:       firefox
