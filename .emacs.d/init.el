@@ -263,6 +263,16 @@
   (define-key key-map (kbd "C-p") 'helm-previous-line)
   (define-key key-map (kbd "C-ö") 'helm-next-line))
 
+(defun my-next-line-recenter ()
+  (interactive)
+  (next-line)
+  (recenter))
+
+(defun my-previous-line-recenter ()
+  (interactive)
+  (previous-line)
+  (recenter))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -273,6 +283,8 @@
 (global-set-key (kbd "C-k") 'kill-whole-line)
 (global-set-key (kbd "C-j") 'my-make-line)
 (global-set-key (kbd "C-x l") 'recenter-top-bottom)
+(global-set-key (kbd "M-ö") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'backward-paragraph)
 
 ;;helm
 (global-set-key (kbd "M-x") 'helm-M-x)
