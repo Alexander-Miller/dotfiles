@@ -326,7 +326,8 @@
 ;;navigation
 (global-set-key (kbd "C-p") 'previous-line)
 (global-set-key (kbd "C-l") 'backward-char)
-(global-set-key (kbd "C-ö") 'next-line)
+(global-set-key (kbd "C-ö") 'my-next-line-recenter)
+(global-set-key (kbd "C-p") 'my-previous-line-recenter)
 (global-set-key (kbd "C-ä") 'forward-char)
 (global-set-key (kbd "M-l") 'left-word)
 (global-set-key (kbd "M-ä") 'right-word)
