@@ -1,15 +1,14 @@
-
-URxvt*cursorBlink:        true
-URxvt*cursorUnderline:    true
-URxvt*font:               xft:droid sans mono for powerline:size=10
-URxvt*boldFont:           xft:droid sans mono for powerline:size=10:bold
-URxvt*scrollBar:          false
-URxvt.perl-ext-common:    default,matcher
-URxvt.url-launcher:       firefox
-URxvt.matcher.button:     1
-URxvt.internalBorder:     16
-URxvt.lineSpace:          1
-URxvt.letterSpace:        -2
+URxvt*cursorBlink:     true
+URxvt*cursorUnderline: true
+URxvt*font:            xft:droid sans mono for powerline:size=12
+URxvt*boldFont:        xft:droid sans mono for powerline:size=12:bold
+URxvt*scrollBar:       false
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher:    firefox
+URxvt.matcher.button:  1
+URxvt.internalBorder:  16
+URxvt.lineSpace:       1
+URxvt.letterSpace:     -2
 
 *.foreground: #ccb18b
 *.cursorcolor:#ccb18b
@@ -32,24 +31,23 @@ URxvt.letterSpace:        -2
 *color12:     #81a2be
 *color13:     #b294bb
 *color14:     #8abeb7
-*color15:     #ecebec           
+*color15:     #ecebec
 
-rofi.width: 50
-rofi.lines: 4
-rofi.columns: 4
-rofi.font: Droid Sans Mono For Powerline 10
-rofi.fg: #6699ff
-rofi.bg: #333333
-rofi.hlfg: #000000
-rofi.hlbg: #d2777a
-rofi.bc: #dd6666
-rofi.bw: 1
-rofi.loc: 0
-rofi.padding: 20
-rofi.yoffset: 0
-rofi.xoffset: 0
+rofi.width:           50
+rofi.lines:           6
+rofi.columns:         3
+rofi.font:            Droid Sans Mono For Powerline 12
+rofi.fg:              #ccb18b
+rofi.bg:              #1f1f1f
+rofi.hlfg:            #000000
+rofi.hlbg:            #4c78c9
+rofi.bc:              #1f1f1f
+rofi.bw:              1
+rofi.loc:             0
+rofi.padding:         20
+rofi.yoffset:         0
+rofi.xoffset:         0
 rofi.fixed-num-lines: false
-rofi.hmode: false
-rofi.terminal: rxvt-unicode
-rofi.ssh-set-title: true
-
+rofi.hmode:           false
+rofi.terminal:        rxvt-unicode
+rofi.ssh-set-title:   true
