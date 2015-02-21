@@ -24,50 +24,49 @@ class Default(ColorScheme):
             if context.border:
                 fg = 7
             if context.media:
-                fg = 41
+                fg = 2
             if context.executable:
-                fg = 77
+                fg = 9
             if context.empty:
-                fg = 83
+                fg = 81
             if context.directory:
                 fg = 12
             if context.selected:
-                bg = fg
-                fg = 16
+                attr = reverse
             elif context.device:
                 fg = 12
                 
         elif context.in_titlebar:
-            attr |= bold
+            attr = bold
             if context.hostname:
                 fg = context.bad and red or green
             elif context.directory:
-                fg = blue
+                fg = 13
             elif context.tab:
                 if context.good:
-                    fg = red
+                    fg = 1
             elif context.link:
-                fg = cyan
+                fg = 14
 
         elif context.in_statusbar:
             if context.permissions:
                 if context.good:
-                    fg = cyan
+                    fg = 10
                 elif context.bad:
-                    fg = magenta
+                    fg = 9
             if context.marked:
-                attr |= bold | reverse
-                fg = yellow
+                attr = bold
+                fg = 3
             if context.message:
                 if context.bad:
                     attr |= bold
-                    fg = red
+                    fg = 9
             if context.vcsinfo:
-                fg = blue
-                attr &= ~bold
+                fg = 12
+                attr = bold
             if context.vcscommit:
-                fg = yellow
-                attr &= ~bold
+                fg = 11
+                attr = bold
         
         return fg, bg, attr
 
