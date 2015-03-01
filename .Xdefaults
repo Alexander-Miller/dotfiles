@@ -15,7 +15,7 @@ URxvt.letterSpace:     -2
 *.colorbd:    #ccb18b
 *.colorul:    #ccb18b
 *.colorit:    #ccb18b
-*background:  #1d1f21
+*background:  #1f1f1f
 *color0:      #cccccc
 *color1:      #bd5049
 *color2:      #808d49
@@ -51,3 +51,4 @@ rofi.fixed-num-lines: false
 rofi.hmode:           false
 rofi.terminal:        rxvt-unicode
 rofi.ssh-set-title:   true
+
