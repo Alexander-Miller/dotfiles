@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Ultra-Flat 1.2
+Comment=A modern flat theme
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Ultra-Flat
+MetacityTheme=Ultra-Flat
+ButtonLayout=:minimize,maximize,close
