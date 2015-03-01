@@ -173,7 +173,7 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-bar {        
+bar {
         status_command python ~/.i3/i3status.py 0.5
         font pango: terminus 8
         position top
@@ -191,7 +191,7 @@ bar {
 exec dropbox start
 exec setxkbmap -option ctrl:nocaps
 exec xrdb ~/.Xdefaults
-                                                      
+exec compton -b
 for_window [class="^.*"] border pixel 3
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable; border pixel 5
