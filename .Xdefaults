@@ -33,9 +33,9 @@ URxvt.letterSpace:     -2
 *color14:     #8abeb7
 *color15:     #ecebec
 
-rofi.width:           50
-rofi.lines:           6
-rofi.columns:         3
+rofi.width:           75
+rofi.lines:           10
+rofi.columns:         1  
 rofi.font:            Droid Sans Mono For Powerline 12
 rofi.fg:              #ccb18b
 rofi.bg:              #1f1f1f
