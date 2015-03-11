@@ -22,12 +22,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+q kill
 bindsym $mod+shift+z exec xkill
 
-# start dmenu (a program launcher)
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-#bindsym $mod+Tab exec j4-dmenu-desktop --dmenu="dmenu -i -t -l 20 -nb '#3d3d3d' -nf '#eeeeee' -sb '#6699cc' -sf '#000000'"
-
+# Rofi run and window switch dialogues
 bindsym $mod+Tab exec rofi -show run
 bindsym $mod+shift+Return exec rofi -show window
 
@@ -147,7 +142,7 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
-gaps inner 0
+gaps inner 8
 
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"
@@ -192,7 +187,7 @@ exec dropbox start
 exec setxkbmap -option ctrl:nocaps
 exec xrdb ~/.Xdefaults
 exec compton -b
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 1
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable; border pixel 5
 for_window [window_role="pop-up"] floating enable
@@ -206,8 +201,8 @@ font pango: droid sans mono for powerline 10
 
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #4c78c9 #ffffff #2e9ef4
-client.focused_inactive #333333 #3d3d3d #ffffff #666666
-client.unfocused        #333333 #3d3d3d #999999 #292d2e
+client.focused_inactive #333333 #1f1f1f #ffffff #666666
+client.unfocused        #333333 #1f1f1f #999999 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
 
 # Original
