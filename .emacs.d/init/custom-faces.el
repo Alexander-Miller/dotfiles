@@ -42,22 +42,24 @@
  `(term-color-white   ((t (:foreground "#ecebec" :background "#ecebec"))))
 
  ;; org mode
- `(org-todo    ((t (:box (:line-width 1 :color "#000000") :foreground "#111111" :background "#f2777a"))))
- `(org-done    ((t (:box (:line-width 1 :color "#000000") :foreground "#111111" :background "#99cc99"))))
- `(org-level-1 ((t (:underline t ))))
+ `(org-todo    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#f2777a"))))
+ `(org-done    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#99cc99"))))
+ `(org-level-1 ((t (:foreground "#6699cc" :background "#2d2d2d" :underline t :height 1.0))))
 
  ;; helm @TODO
- `(helm-action        ((t (:foreground "#6699cc"))))
- `(helm-ff-directory  ((t (:foreground "#6699cc"))))
- `(helm-ff-executable ((t (:foreground "#f2777a"))))
- `(helm-ff-file       ((t (:foreground "#cccccc"))))
- `(helm-ff-symlink    ((t (:foreground "#cc99cc"))))
- `(helm-selection     ((t (:background "#3a3a3a" :bold t))))
- `(helm-moccur-buffer ((t (:foreground "#80cf49"))))
- `(helm-source-header ((t (:family "Sans Serif" :height 1.3 :weight bold :foreground "white" :background "#2F69BF"))))
- `(helm-match         ((t (:foreground "#f99157" :background "#1f1f1f"))))
- `(helm-dir-heading   ((t (:foreground "#ffffff" :background "#00ff00")))) ;; TODO
- `(helm-file-name     ((t (:foreground "#ff0000" :background "#00ff00")))) ;; TODO
+ `(helm-action         ((t (:foreground "#6699cc"))))
+ `(helm-ff-directory   ((t (:foreground "#6699cc"))))
+ `(helm-ff-executable  ((t (:foreground "#f2777a"))))
+ `(helm-ff-file        ((t (:foreground "#cccccc"))))
+ `(helm-ff-symlink     ((t (:foreground "#8abeb7"))))
+ `(helm-selection      ((t (:background "#3a3a3a" :bold t))))
+ `(helm-moccur-buffer  ((t (:foreground "#80cf49"))))
+ `(helm-source-header  ((t (:family "Sans Serif" :height 1.3 :weight bold :foreground "white" :background "#2F69BF"))))
+ `(helm-match          ((t (:foreground "#f99157" :background "#1f1f1f"))))
+ `(helm-selection-line ((t (:background "#3a3a3a" :bold t))))
+ `(helm-isearch-match  ((t (:background "#ff0000" :background "#00ffff")))) ;; TODO
+ `(helm-dir-heading    ((t (:foreground "#ffffff" :background "#00ff00")))) ;; TODO
+ `(helm-file-name      ((t (:foreground "#ff0000" :background "#00ff00")))) ;; TODO
  ;;`(helm-candidate-number ((t (:foreground "black" :background "#FFFF66"))))
  ;;`(helm-dir-priv ((t (:foreground "dark red" :background "light grey"))))
  ;;`(helm-ff-invalid-symlink ((t (:foreground "yellow" :background "red"))))
@@ -66,8 +68,6 @@
  ;;`(helm-grep-match ((t ,match)))
  ;;`(helm-grep-running ((t (:weight bold :foreground "white"))))
  ;;`(helm-grep-lineno ((t ,shadow)))
- ;;`(helm-isearch-match ((t (:background "#CCFFCC"))))
- ;;`(helm-selection-line ((t ,volatile-highlight)))
  ;;`(helm-swoop-target-line-face ((t ,volatile-highlight)))
  ;;`(helm-swoop-target-line-block-face ((t (:background "#CCCC00" :foreground "#222222"))))
  ;;`(helm-swoop-target-word-face ((t (:weight bold :foreground nil :background "#FDBD33"))))
@@ -78,7 +78,7 @@
  '(default ((t (:foreground "#cccccc" :background "#222222"))))
 
  ;; better visibility for LaTeX preview
- '(preview-reference-face ((t (:foreground "#ffffff" :background "#222222"))))
+ '(preview-reference-face ((t (:foreground "#ffffff" :background "#222222" :height 1.0))))
 
  ;; mode line
  '(sml/folder          ((t (:foreground "#111111"))))
@@ -88,11 +88,16 @@
  '(powerline-active1   ((t (:foreground "#ffdb1a" :background "#ab3737"))))
  '(powerline-active2   ((t (:foreground "#111111" :background "#6b95b2"))))
 
+ ;; better ace visibility
+ '(ace-jump-face-foreground ((t (:foreground "#ffdb1a" :background "#ab3737"))))
+ '(aw-leading-char-face     ((t (:foreground "#ffdb1a" :background "#ab3737"))))
+
  '(fringe ((t (:background "#3a3a3a"))))
- '(linum  ((t (:background "#3a3a3a" :foreground "#ccb18b"))))
+ '(linum  ((t (:background "#3a3a3a" :foreground "#ccb18b" :underline nil :bold nil :italic nil :height 1.0))))
  )
 
 ;; terminal text color
 (setq term-default-fg-color "#ccb18b")
 
 (powerline-reset)
+
