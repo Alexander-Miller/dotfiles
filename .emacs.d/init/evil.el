@@ -64,6 +64,9 @@
   "+"   'set-mark-command
   "j"   'ace-jump-char-mode
   "C-j" 'ace-jump-line-mode)
+(defun aggressive-indent-if ()
+  (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode))
+    (aggressive-indent-mode 1)))
 
 ;; evil state hooks
 (add-hook 'evil-normal-state-entry-hook
@@ -77,7 +80,7 @@
           '(lambda ()
              (set-face-background 'powerline-active1 "#2f2f2f")
              (set-face-background 'mode-line "#6b95b2")
-             (aggressive-indent-mode 1)
+             (aggressive-indent-if)
              (powerline-reset)))
 
 (add-hook 'evil-visual-state-entry-hook
@@ -91,5 +94,6 @@
           '(lambda ()
              (set-face-background 'powerline-active1 "#3d6837")
              (set-face-background 'mode-line "#6b95b2")
-             (aggressive-indent-mode 1)
+             (aggressive-indent-if)
              (powerline-reset)))
+
