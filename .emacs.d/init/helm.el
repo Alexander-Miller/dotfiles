@@ -27,12 +27,6 @@
 (setq helm-autoresize-max-height 50)
 (setq helm-autoresize-min-height 50)
 
-;; size of helm's buffers is not managed by golden ratio
-(defun pl/helm-alive-p ()
-  (if (boundp 'helm-alive-p)
-      (symbol-value 'helm-alive-p)))
-(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
-
 ;; keys
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-,") 'helm-select-action)
