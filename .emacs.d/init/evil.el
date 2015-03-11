@@ -9,6 +9,8 @@
 
 (global-evil-leader-mode 1)
 (evil-mode 1)
+(global-evil-surround-mode 1)
+
 
 ;; not needed with aggresive-indent-mode
 (setq evil-auto-indent 0)
@@ -39,8 +41,11 @@
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
 
-(define-key evil-normal-state-map (kbd "f") 'isearch-forward)
-(define-key evil-normal-state-map (kbd "F") 'isearch-backward)
+(define-key evil-normal-state-map (kbd "C-s") 'isearch-forward)
+(define-key evil-normal-state-map (kbd "C-r") 'isearch-backward)
+
+(define-key evil-normal-state-map (kbd "f") 'ace-jump-char-mode)
+(define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
 
 (evil-leader/set-key
   "f s" 'save-buffer
@@ -56,14 +61,14 @@
   "C-o" 'helm-occur
   "C-r" 'helm-resume
   "0"   'delete-window
-  "o"   'other-window
+  "o"   'ace-window
   "1"   'delete-other-windows
   "2"   'split-window-vertically
   "3"   'split-window-horizontally
   "r"   'query-replace-regexp
   "+"   'set-mark-command
-  "j"   'ace-jump-char-mode
-  "C-j" 'ace-jump-line-mode)
+  "j"   'ace-jump-line-mode)
+
 (defun aggressive-indent-if ()
   (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode))
     (aggressive-indent-mode 1)))
