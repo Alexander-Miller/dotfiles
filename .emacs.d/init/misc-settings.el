@@ -5,8 +5,10 @@
 ;; base theme, many additions in custom-faces.el
 (load-theme 'tomorrow-night-eighties t)
 
-;; size is probably best compromise between my small and big screens
-(set-default-font "droid sans mono for powerline-11")
+;; default font
+(set-default-font "Fantasque Sans Mono:pixelsize=20")
+(add-to-list 'default-frame-alist
+             '(font . "Fantasque Sans Mono:pixelsize=20"))
 
 ;; next-line will always add new lines at the end of a buffer
 (setq next-line-add-newlines t)

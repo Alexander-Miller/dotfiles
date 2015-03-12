@@ -1,7 +1,7 @@
 URxvt*cursorBlink:     true
 URxvt*cursorUnderline: true
-URxvt*font:            xft:droid sans mono for powerline:size=12
-URxvt*boldFont:        xft:droid sans mono for powerline:size=12:bold
+URxvt*font:            xft:Fantasque Sans Mono:size=14
+URxvt*boldFont:        xft:Fantasque Sans Mono:size=14:bold
 URxvt*scrollBar:       false
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher:    firefox
@@ -36,7 +36,7 @@ URxvt.letterSpace:     -2
 rofi.width:           75
 rofi.lines:           10
 rofi.columns:         1  
-rofi.font:            Droid Sans Mono For Powerline 12
+rofi.font:            Fantasque Sans Mono 14
 rofi.fg:              #ccb18b
 rofi.bg:              #1f1f1f
 rofi.hlfg:            #000000
