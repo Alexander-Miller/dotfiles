@@ -45,6 +45,9 @@
 ;; automatic resizing of focussed buffers
 (golden-ratio-mode 1)
 
+;; make sure golden ratio works with ace-window
+(add-to-list 'golden-ratio-extra-commands 'ace-window)
+
 ;; buffers not managed by golden ratio
 (defun pl/helm-alive-p ()
   (if (boundp 'helm-alive-p)
@@ -58,7 +61,10 @@
 ;; navigation based on visual, not logical lines
 (global-visual-line-mode 1)
 
+;; mode line theming
 (setq sml/no-confirm-load-theme t)
 (sml/setup)
 (sml/apply-theme 'automatic)
 
+;; escreen init
+(escreen-install)
