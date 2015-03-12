@@ -11,7 +11,6 @@
 (evil-mode 1)
 (global-evil-surround-mode 1)
 
-
 ;; not needed with aggresive-indent-mode
 (setq evil-auto-indent 0)
 
@@ -24,20 +23,27 @@
 ;; character search will skip newlines
 (setq evil-find-skip-newlines t)
 
-(define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
-(define-key evil-insert-state-map (kbd "C-a") 'evil-beginning-of-line)
-(define-key evil-visual-state-map (kbd "C-a") 'evil-beginning-of-line)
-(define-key evil-operator-state-map (kbd "C-a") 'evil-beginning-of-line)
+(my/def-key-for-maps
+ (kbd "C-a") 'evil-beginning-of-visual-line
+ (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map))
 
-(define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
-(define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
-(define-key evil-visual-state-map (kbd "C-e") 'evil-end-of-line)
-(define-key evil-operator-state-map (kbd "C-e") 'evil-end-of-line)
+(my/def-key-for-maps
+ (kbd "C-e") 'evil-end-of-visual-line
+ (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map))
+
+(my/def-key-for-maps
+ (kbd "C-x l") 'recenter-top-bottom
+ (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
+
+(my/def-key-for-maps
+ (kbd "C-x C-x") 'evil-goto-mark
+ (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
+
+(my/def-key-for-maps
+ (kbd "C-x l") 'recenter-top-bottom
+ (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
 
 (define-key evil-insert-state-map (kbd "C-<SPC>") 'company-complete)
-
-(define-key evil-normal-state-map (kbd "C-x C-x") 'evil-goto-mark)
-(define-key evil-insert-state-map (kbd "C-x C-x") 'evil-goto-mark)
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
 
@@ -68,10 +74,6 @@
   "r"   'query-replace-regexp
   "+"   'set-mark-command
   "j"   'ace-jump-line-mode)
-
-(defun aggressive-indent-if ()
-  (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode))
-    (aggressive-indent-mode 1)))
 
 ;; evil state hooks
 (add-hook 'evil-normal-state-entry-hook
