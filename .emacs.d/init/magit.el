@@ -1,21 +1,17 @@
-;; ======================
-;; git and its eco system
-;; ======================
+;; ============================
+;; magit/git and its eco system
+;; ============================
 
-(defun bind-key-for-maps (maps key action)
-  (mapcar
-   (lambda (map)
-     (define-key map key action))
-   maps))
-
-(eval-after-load 'magit
-  '(progn
-     (define-key magit-status-mode-map (kbd "c-k") 'magit-discard-item)
-     ;;(define-key magit-status-mode-map (kbd "j") 'next-line)
-     ;;(define-key magit-status-mode-map (kbd "k") 'previous-line)
-     (bind-key-for-maps (list magit-status-mode-map) (kbd "j") 'next-line)
-     (bind-key-for-maps (list magit-status-mode-map) (kbd "k") 'previous-line)
-     (bind-key-for-maps (list magit-status-mode-map) (kbd "M-j") 'magit-goto-next-sibling-section)
-     (bind-key-for-maps (list magit-status-mode-map) (kbd "M-k") 'magit-goto-previous-sibling-section)))
+(with-eval-after-load 'magit
+  (my/def-key-for-maps
+   (kbd "C-k") 'magit-discard-item (list magit-status-mode-map))
+  (my/def-key-for-maps
+   (kbd "j") 'next-line (list magit-status-mode-map))
+  (my/def-key-for-maps
+   (kbd "k") 'previous-line (list magit-status-mode-map))
+  (my/def-key-for-maps
+   (kbd "M-j") 'magit-goto-next-sibling-section (list magit-status-mode-map))
+  (my/def-key-for-maps
+   (kbd "M-k") 'magit-goto-previous-sibling-section (list magit-status-mode-map)))
 
 
