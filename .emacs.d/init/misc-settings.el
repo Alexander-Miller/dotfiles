@@ -50,3 +50,14 @@
 
 ;; open fish files in sh-mode
 (add-to-list 'auto-mode-alist '("\\.fish\\'" . sh-mode))
+
+;; make ace jump case sensitive
+(setq ace-jump-mode-case-fold nil)
+
+;; jump only in current buffer
+(setq ace-jump-mode-scope 'window)
+
+;; remove fringe, adapt line numbers
+(set-fringe-mode '(0 . 0))
+(setq nlinum-format "%d ")
+
