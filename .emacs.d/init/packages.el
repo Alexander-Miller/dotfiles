@@ -21,37 +21,40 @@
 (setq my:el-get-packages
       '(
         ace-jump-mode
+        ace-window
         aggressive-indent-mode
         anaconda-mode
         auctex
         company
         company-anaconda
         company-auctex
-        ;;company-ghc
+        company-ghc
         company-math
         company-mode
         escreen
         evil
         evil-leader
-        evil-org-mode
-        ;;ghc-mod
+        evil-surround
+        ghc-mod
         golden-ratio
-        ;;haskell-mode
+        haskell-mode
         helm
-        ;;hi2
+        hi2
         magit
-        mu4e
+        ;;mu4e
         multiple-cursors
         neotree
+        nlinum
         offlineimap
+        org-bullets
         powerline
         projectile
         rainbow-mode
         reftex
+        smart-mode-line
         tomorrow-theme
         undo-tree
-        yasnippet
-        ))
+        yasnippet))
 
 (el-get 'sync my:el-get-packages)
 
