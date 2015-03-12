@@ -43,6 +43,7 @@ bindsym $mod+a focus left
 bindsym $mod+s focus down
 bindsym $mod+w focus up
 bindsym $mod+d focus right
+bindsym $mod+u [urgent=latest] focus
 
 # Alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -170,7 +171,7 @@ mode "$mode_gaps_outer" {
 
 bar {
         status_command python ~/.i3/i3status.py 0.5
-        font pango: terminus 8
+        font pango: terminus 9
         position top
 
         colors {
