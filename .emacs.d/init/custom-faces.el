@@ -42,9 +42,9 @@
  `(term-color-white   ((t (:foreground "#ecebec" :background "#ecebec"))))
 
  ;; org mode
- `(org-todo    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#f2777a"))))
- `(org-done    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#99cc99"))))
- `(org-level-1 ((t (:foreground "#6699cc" :background "#2d2d2d" :underline t :height 1.0))))
+ `(org-todo    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#f2777a" :bold 1))))
+ `(org-done    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#99cc99" :bold 1))))
+ `(org-level-1 ((t (:foreground "#6699cc" :background "#2d2d2d" :underline t :height 1.2))))
 
  ;; helm @TODO
  `(helm-action         ((t (:foreground "#6699cc"))))
@@ -81,12 +81,11 @@
  '(preview-reference-face ((t (:foreground "#ffffff" :background "#222222" :height 1.0))))
 
  ;; mode line
- '(sml/folder          ((t (:foreground "#111111"))))
- '(sml/filename        ((t (:foreground "#111111" :bold t))))
- '(mode-line           ((t (:foreground "#111111" :background "#6b95b2"))))
- '(mode-line-buffer-id ((t (:foreground "#111111"))))
- '(powerline-active1   ((t (:foreground "#ffdb1a" :background "#ab3737"))))
- '(powerline-active2   ((t (:foreground "#111111" :background "#6b95b2"))))
+ '(sml/folder          ((t (:foreground "#111111" :height 0.95))))
+ '(sml/filename        ((t (:foreground "#111111" :bold t :height 1.0))))
+ '(mode-line           ((t (:foreground "#111111" :background "#6b95b2" :height 0.90))))
+ '(powerline-active1   ((t (:foreground "#ffdb1a" :background "#ab3737" :height 1.00))))
+ '(powerline-active2   ((t (:foreground "#111111" :background "#6b95b2" :height 0.95))))
 
  ;; better ace visibility
  '(ace-jump-face-foreground ((t (:foreground "#ffdb1a" :background "#ab3737"))))
