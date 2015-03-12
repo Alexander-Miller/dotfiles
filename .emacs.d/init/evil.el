@@ -23,13 +23,27 @@
 ;; character search will skip newlines
 (setq evil-find-skip-newlines t)
 
+;; beginning and end of line
 (my/def-key-for-maps
  (kbd "C-a") 'evil-beginning-of-visual-line
  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map))
-
 (my/def-key-for-maps
  (kbd "C-e") 'evil-end-of-visual-line
  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map))
+
+;; next and previous line -> previous
+(my/def-key-for-maps
+ (kbd "j") 'evil-next-visual-line
+ (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
+(my/def-key-for-maps
+ (kbd "k") 'evil-previous-visual-line
+ (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
+
+;; word and character searching
+(define-key evil-normal-state-map (kbd "C-s") 'isearch-forward)
+(define-key evil-normal-state-map (kbd "C-r") 'isearch-backward)
+(define-key evil-normal-state-map (kbd "f") 'ace-jump-char-mode)
+(define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
 
 (my/def-key-for-maps
  (kbd "C-x l") 'recenter-top-bottom
@@ -39,19 +53,9 @@
  (kbd "C-x C-x") 'evil-goto-mark
  (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
 
-(my/def-key-for-maps
- (kbd "C-x l") 'recenter-top-bottom
- (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
-
 (define-key evil-insert-state-map (kbd "C-<SPC>") 'company-complete)
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
-
-(define-key evil-normal-state-map (kbd "C-s") 'isearch-forward)
-(define-key evil-normal-state-map (kbd "C-r") 'isearch-backward)
-
-(define-key evil-normal-state-map (kbd "f") 'ace-jump-char-mode)
-(define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
 
 (evil-leader/set-key
   "f s" 'save-buffer
@@ -87,7 +91,7 @@
           '(lambda ()
              (set-face-background 'powerline-active1 "#2f2f2f")
              (set-face-background 'mode-line "#6b95b2")
-             (aggressive-indent-if)
+             (my/aggressive-indent-if)
              (powerline-reset)))
 
 (add-hook 'evil-visual-state-entry-hook
@@ -101,6 +105,6 @@
           '(lambda ()
              (set-face-background 'powerline-active1 "#3d6837")
              (set-face-background 'mode-line "#6b95b2")
-             (aggressive-indent-if)
+             (my/aggressive-indent-if)
              (powerline-reset)))
 
