@@ -32,7 +32,7 @@
  (kbd "C-e") 'evil-end-of-visual-line
  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map))
 
-;; next and previous line -> previous
+;; next and previous line -> visual
 (my/def-key-for-maps
  (kbd "j") 'evil-next-visual-line
  (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
@@ -57,6 +57,8 @@
 (define-key evil-insert-state-map (kbd "C-<SPC>") 'company-complete)
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
+
+(define-key evil-operator-state-map (kbd "f") 'evil-ace-jump-char-mode)
 
 (evil-leader/set-key
   "f s" 'save-buffer
