@@ -10,6 +10,7 @@
 (global-evil-leader-mode 1)
 (evil-mode 1)
 (global-evil-surround-mode 1)
+(global-evil-matchit-mode 1)
 
 ;; not needed with aggresive-indent-mode
 (setq evil-auto-indent 0)

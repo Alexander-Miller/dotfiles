@@ -34,6 +34,7 @@
         escreen
         evil
         evil-leader
+        evil-matchit
         evil-surround
         ghc-mod
         golden-ratio
