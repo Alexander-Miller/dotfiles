@@ -5,6 +5,7 @@
 ;; latex mode hooks
 (add-hook 'latex-mode-hook
           '(lambda ()
+             '(rainbow-delimiters-mode)
              '(turn-on-reftex)
              '(setq reftex-plug-into-AUCTeX 1)
              '(latex-math-mode)))

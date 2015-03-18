@@ -50,6 +50,7 @@
         org-bullets
         powerline
         projectile
+        rainbow-delimiters
         rainbow-mode
         reftex
         smart-mode-line

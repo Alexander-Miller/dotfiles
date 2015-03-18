@@ -68,3 +68,7 @@
 
 ;; escreen init
 (escreen-install)
+
+;; rainbow delimiter hooks
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+
