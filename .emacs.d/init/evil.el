@@ -92,7 +92,7 @@
 
 (add-hook 'evil-emacs-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#2f2f2f")
+             (set-face-background 'powerline-active1 "#a0522d")
              (set-face-background 'mode-line "#6b95b2")
              (my/aggressive-indent-if)
              (powerline-reset)))
