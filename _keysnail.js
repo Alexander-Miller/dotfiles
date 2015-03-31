@@ -5,19 +5,9 @@
 // ========================================================================= //
 //{{%PRESERVE%
 // Put your codes here
-plugins.options["kkk.sites"] = [".google"];
 
-key.setGlobalKey(["C-c","f"], function (aEvent, aArg) {
-        ext.exec("hok-start-foreground-mode", aArg);
-}, "Hok - Foreground hint mode", true);
-
-key.setGlobalKey(["C-c","d"], function (aEvent, aArg) {
-    ext.exec("hok-start-background-mode", aArg);
-}, "Hok - Background hint mode", true);
-
-key.setViewKey([['C-:'], ['j']], function (ev) {
-    key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_DOWN, true);
-}, 'Scroll line down');
+plugins.options["kkk.sites"] = [".google", ".youtube", ".isnichwahr", ".github"];
+plugins.options["hok.hint_keys"] = "asdqwejkui";
 
 //}}%PRESERVE%
 // ========================================================================= //
@@ -63,7 +53,7 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
 });
 
 
-// ============================= Key bindings ============================== //
+// ============================= Global Key Bindings ============================== //
 
 key.setGlobalKey('C-M-r', function (ev) {
     userscript.reload();
@@ -169,6 +159,7 @@ key.setGlobalKey('M-l', function (ev) {
     getBrowser().mTabContainer.advanceSelectedTab(-1, true);
 }, 'Select previous tab');
 
+// ============================= View Key Bindings ============================== //
 key.setViewKey([['C-n'], ['j']], function (ev) {
     key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_DOWN, true);
 }, 'Scroll line down');
@@ -241,6 +232,39 @@ key.setViewKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, 'Focus to the previous button');
 
+key.setViewKey(["C-d"], function (aEvent, aArg) {
+    ext.exec("hok-start-foreground-mode", aArg);
+}, "Hok - Foreground hint mode", true);
+
+key.setViewKey(["d"], function (aEvent, aArg) {
+    ext.exec("hok-start-background-mode", aArg);
+}, "Hok - Background hint mode", true);
+
+key.setViewKey(["D"], function (aEvent, aArg) {
+    ext.exec("hok-start-continuous-mode", aArg);
+}, "Hok - Continuous hint mode", true);
+
+key.setViewKey(["j"], function (ev) {
+    key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_DOWN, true);
+}, 'Scroll line down');
+
+key.setViewKey(["k"], function (ev) {
+    key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_UP, false);
+}, 'Scroll line down');
+
+key.setViewKey(["q"], function (ev) {
+    BrowserCloseTabOrWindow();
+}, 'Close tab / window');
+
+key.setViewKey('i', function (ev, arg) {
+    util.setBoolPref("accessibility.browsewithcaret", true);
+}, 'Enter to caret mode', true);
+
+key.setViewKey("a", function (ev, arg) {
+    ext.exec("tanything", arg);
+}, "view all tabs", true);
+
+// ============================= Edit Key Bindings ============================== //
 key.setEditKey(['C-x', 'h'], function (ev) {
     command.selectAll(ev);
 }, 'Select whole text', true);
@@ -398,6 +422,7 @@ key.setEditKey('M-p', function (ev) {
     command.walkInputElement(command.elementsRetrieverTextarea, false, true);
 }, 'Focus to the previous text area');
 
+// ============================= Caret Key Bindings ============================== //
 key.setCaretKey([['C-a'], ['^']], function (ev) {
     ev.target.ksMarked ? goDoCommand("cmd_selectBeginLine") : goDoCommand("cmd_beginLine");
 }, 'Move caret to the beginning of the line');
@@ -499,3 +524,8 @@ key.setCaretKey('M-p', function (ev) {
 key.setCaretKey('M-n', function (ev) {
     command.walkInputElement(command.elementsRetrieverButton, false, true);
 }, 'Focus to the previous button');
+
+key.setCaretKey('i', function (ev, arg) {
+    util.setBoolPref("accessibility.browsewithcaret", false);
+}, 'Leave from caret mode', true);
+
