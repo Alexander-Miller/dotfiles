@@ -40,12 +40,12 @@
  `(term-color-magenta ((t (:foreground "#b294bb" :background "#b294bb"))))
  `(term-color-cyan    ((t (:foreground "#2b6651" :background "#2b6651"))))
  `(term-color-white   ((t (:foreground "#ecebec" :background "#ecebec"))))
-
+ 
  ;; org mode
- `(org-todo    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#f2777a" :bold 1))))
- `(org-done    ((t (:box (:line-width 2 :color "#000000") :foreground "#111111" :background "#99cc99" :bold 1))))
- `(org-level-1 ((t (:foreground "#6699cc" :background "#2d2d2d" :underline t :height 1.2))))
-
+ `(org-todo    ((t (:box (:line-width 3 :color "#4d4d4d") :foreground "#333333" :background "#f2777a" :bold 1))))
+ `(org-done    ((t (:box (:line-width 3 :color "#4d4d4d") :foreground "#333333" :background "#99cc99" :bold 1))))
+ `(org-level-1 ((t (:foreground "#6699cc" :background "#2f2f2f" :underline t :height 1.2))))
+ 
  ;; helm @TODO
  `(helm-action         ((t (:foreground "#6699cc"))))
  `(helm-ff-directory   ((t (:foreground "#6699cc"))))
