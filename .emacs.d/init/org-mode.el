@@ -22,6 +22,17 @@
   (define-key org-mode-map (kbd "M-m") 'org-mark-element)
 
   (evil-leader/set-key-for-mode 'org-mode
+    "<SPC> o"   'org-todo
+    "<SPC> C-o" 'org-insert-todo-heading-respect-content
+    "<SPC> -"   'org-ctrl-c-minus
+    "<SPC> u"   'outline-up-heading
+    "<SPC> j"   'org-forward-heading-same-level
+    "<SPC> k"   'org-backward-heading-same-level
+    "<SPC> w"   'org-refile
+    "<SPC> s m" 'org-mark-subtree
+    "<SPC> s x" 'org-cut-subtree
+    "<SPC> s c" 'org-copy-subtree
+    "<SPC> s p" 'org-paste-subtree
     "<SPC> t r" 'org-table-recalculate-buffer-tables
     "<SPC> t R" 'org-table-recalculate
     "<SPC> t c" 'org-table-create-or-convert-from-region))
