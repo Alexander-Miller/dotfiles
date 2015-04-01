@@ -3,16 +3,17 @@ from ranger.gui.color import *
 
 class Default(ColorScheme):
     def use(self, context):
-        fg   = 0
-        attr = default_colors[2]
-        bg   = -1
+        #fg   = 0
+        #attr = default_colors[2]
+        #bg   = -1
 
+        fg, bg, attr = default_colors
         if context.reset:
             return default_colors
 
         elif context.in_browser:
             if context.fifo or context.socket:
-                fg = 21
+                fg = 2
             if context.device:
                 bg = 77
             if context.badinfo:
@@ -23,18 +24,19 @@ class Default(ColorScheme):
                 fg = 13
             if context.border:
                 fg = 7
-            if context.media:
-                fg = 2
             if context.executable:
                 fg = 9
             if context.empty:
                 fg = 81
             if context.directory:
+                attr = bold
                 fg = 12
             if context.selected:
                 attr = reverse
             elif context.device:
                 fg = 12
+            if context.media:
+                fg = 10
                 
         elif context.in_titlebar:
             attr = bold
@@ -44,7 +46,7 @@ class Default(ColorScheme):
                 fg = 13
             elif context.tab:
                 if context.good:
-                    fg = 1
+                    fg = 3
             elif context.link:
                 fg = 14
 
