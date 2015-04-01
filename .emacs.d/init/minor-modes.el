@@ -13,6 +13,12 @@
 ;; parse buffers for their semantic content
 (semantic-mode 1)
 
+;; reparse buffers when idle
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+
+;; show semantic info about token at point
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+
 ;; highlight marked regions
 (transient-mark-mode 1)
 
