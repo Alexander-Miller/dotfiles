@@ -170,7 +170,7 @@ mode "$mode_gaps_outer" {
 }
 
 bar {
-        status_command python ~/.i3/i3status.py 0.5
+        status_command python ~/.config/i3/i3status.py 0.5
         font pango: terminus 9
         position top
 
