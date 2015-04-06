@@ -1,3 +1,21 @@
+""""""""""""""""
+""" Settings """
+""""""""""""""""
+
+" more convenient hint chars "
+set hintchars=asdfqwejkln
+
+" use emacs as external browser "
+set editor="emacsclient"
+
+" show tabs' numbers "
+set tabnumbers=true
+
+
+""""""""""""""""""""
+""" Key Bindings """
+""""""""""""""""""""
+
 " faster scrolling "
 nnoremap j 4j
 nnoremap k 4k
@@ -5,8 +23,7 @@ nnoremap k 4k
 " hinting "
 nmap d ;b
 nmap D ;o
-set hintchars=asdfqwejkln
-highlight Hint font-family: Fantasque Sans Mono; font-size: 18px !important; text-transform: uppercase; color: #eeeeee; background-color: #1155a9;
+nmap <C-d> ;F
 
 " h and l for tab navigation, ., for left and right "
 nnoremap h :tabprevious<CR>
@@ -17,11 +34,19 @@ nnoremap . l<CR>
 " q to close tabs "
 nmap q :quit<CR>
 
-" use emacs as external browser "
-set editor="emacsclient"
 
-" show tabs' numbers "
-set tabnumbers=true
+""""""""""""""""""""""""
+""" Firefox Settings """
+""""""""""""""""""""""""
 
 " don't hide menus in fullscreen "
 set! browser.fullscreen.autohide=false
+" to prevent q on the last tab from closing the window: "
+set! browser.tabs.closeWindowWithLastTab=false
+
+
+"""""""""""
+""" CSS """
+"""""""""""
+hi CmdLine background: #282828; color: #6699cc; transition: all 0.25s;
+hi Hint font-family: Fantasque Sans Mono; font-size: 18px !important; text-transform: uppercase; color: #eeeeee; background-color: #1155a9;
