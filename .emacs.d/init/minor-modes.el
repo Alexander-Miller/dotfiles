@@ -74,7 +74,13 @@
 
 ;; escreen init
 (escreen-install)
+(setq escreen-prefix-char (kbd "C-ü"))
+(define-key escreen-map (kbd "d") 'escreen-goto-next-screen)
+(define-key escreen-map (kbd "a") 'escreen-goto-prev-screen)
+(define-key escreen-map (kbd "l") 'escreen-menu)
 
 ;; rainbow delimiter hooks
 (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 
+;; better line breaking
+(global-visual-line-mode t)
