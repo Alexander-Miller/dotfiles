@@ -7,12 +7,12 @@ bindsym $mod+shift+x exec ~/.config/i3/i3lock_wrapper
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
 
+
 # Start common applications
-bindsym $mod+Return exec rxvt-unicode
-bindsym $mod+F1 exec firefox
-bindsym $mod+F2 exec thunderbird
-bindsym $mod+F3 exec subl
-bindsym $mod+F4 exec xvt-unicode -e ranger
+bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+F1 exec --no-startup-id firefox
+bindsym $mod+F2 exec --no-startup-id thunderbird
+bindsym $mod+F3 exec --no-startup-id i3-sensible-terminal -e ranger
 
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -147,8 +147,6 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
-gaps inner 8
-
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"
         bindsym i      mode "$mode_gaps_inner"
@@ -177,10 +175,17 @@ bar {
         status_command python ~/.config/i3/i3status.py 0.5
         font pango: terminus 9
         position top
+        mode dock
+        tray_output primary
+        workspace_buttons yes
+        strip_workspace_numbers yes
+        binding_mode_indicator yes
 
         colors {
             background         #3d3d3d
+            statusline         #00ffff
             separator          #33D04E
+            ################## border  bground text
             focused_workspace  #6699cc #6699cc #111111
             active_workspace   #000000 #888888 #222222
             inactive_workspace #000000 #888888 #222222
@@ -188,11 +193,10 @@ bar {
         }
 }
 
-exec dropbox start
-exec setxkbmap -option ctrl:nocaps
-exec xrdb ~/.Xdefaults
-exec compton -b
-for_window [class="^.*"] border pixel 5
+exec --no-startup-id dropbox start
+exec --no-startup-id setxkbmap -option ctrl:nocaps
+exec --no-startup-id xrdb ~/.Xdefaults
+exec --no-startup-id compton -b
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [window_role="pop-up"] floating enable
@@ -200,9 +204,16 @@ for_window [window_role="task_dialog"] floating enable
 workspace_auto_back_and_forth yes
 focus_follows_mouse no
 smart_borders on
+mouse_warping none
+force_display_urgency_hint 1000 ms
+new_window pixel 5
+new_float none
+gaps inner 10
+
+assign [class="Firefox"] → 2
 
 # Font for window titles.
-font pango: droid sans mono for powerline 10
+font pango: Fantasque Sans Mono 12
 
 # class                 border  backgr. text    indicator
 client.focused          #4c7899 #4c78c9 #ffffff #2e9ef4
