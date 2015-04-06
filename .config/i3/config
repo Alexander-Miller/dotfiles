@@ -1,7 +1,7 @@
 set $mod Mod4
 
 # Lock Screen
-bindsym $mod+shift+x exec ~/.i3/i3lock_wrapper
+bindsym $mod+shift+x exec ~/.config/i3/i3lock_wrapper
 
 # Volume up and down
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
@@ -23,8 +23,12 @@ bindsym $mod+q kill
 bindsym $mod+shift+z exec xkill
 
 # Rofi run and window switch dialogues
-bindsym $mod+Tab exec rofi -show run
-bindsym $mod+shift+Return exec rofi -show window
+bindsym $mod+Tab exec rofi -rnow
+bindsym $mod+l exec rofi -now
+
+# screenshot
+bindsym --release Print exec scrot -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym --release Shift+Print exec scrot -d 3 -s ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
