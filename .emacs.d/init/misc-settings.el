@@ -7,8 +7,7 @@
 
 ;; default font
 (set-default-font "Fantasque Sans Mono:pixelsize=20")
-(add-to-list 'default-frame-alist
-             '(font . "Fantasque Sans Mono:pixelsize=20"))
+(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono:pixelsize=20"))
 
 ;; next-line will always add new lines at the end of a buffer
 (setq next-line-add-newlines t)
@@ -61,3 +60,8 @@
 (set-fringe-mode '(0 . 0))
 (setq nlinum-format "%d ")
 
+;; more convenient chars for ace-jump-mode
+(setq ace-jump-mode-move-keys '(?a ?s ?d ?f ?q ?w ?e ?x ?c ?h ?j ?k ?l ?n ?m ?i))
+
+;; trailing whitespac removal
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
