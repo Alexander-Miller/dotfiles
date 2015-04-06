@@ -41,11 +41,21 @@
  (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
 
 ;; word and character searching
-(define-key evil-normal-state-map (kbd "C-s") 'isearch-forward)
-(define-key evil-normal-state-map (kbd "C-r") 'isearch-backward)
+(define-key evil-normal-state-map (kbd "C-s") 'evil-search-forward)
+(define-key evil-normal-state-map (kbd "C-r") 'evil-search-backward)
 (define-key evil-normal-state-map (kbd "f") 'ace-jump-char-mode)
 (define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
 
+;; faster scrolling
+(define-key evil-normal-state-map (kbd "J") 'my/quick-forward)
+(define-key evil-normal-state-map (kbd "K") 'my/quick-backward)
+
+;; jump paren pairs with ,
+(my/def-key-for-maps
+ (kbd ",") 'evilmi-jump-items
+ (list evil-normal-state-map evil-visual-state-map))
+
+;; recenter screen in all states
 (my/def-key-for-maps
  (kbd "C-x l") 'recenter-top-bottom
  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
@@ -68,7 +78,7 @@
   "f k" 'kill-buffer
   "H H" 'helm-apropos
   "g s" 'magit-status
-  "l"   'helm-mini
+  "l"   'helm-buffers-list
   "i"   'helm-semantic-or-imenu
   "M"   'helm-man-woman
   "C-o" 'helm-occur
@@ -110,4 +120,3 @@
              (set-face-background 'mode-line "#6b95b2")
              (my/aggressive-indent-if)
              (powerline-reset)))
-

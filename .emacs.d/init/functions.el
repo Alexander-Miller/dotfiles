@@ -11,6 +11,18 @@
   (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode))
     (aggressive-indent-mode 1)))
 
+(defun my/quick-forward ()
+  "Quicker forward scrolling"
+  (interactive)
+  (setq current-prefix-arg 5)
+  (call-interactively 'evil-next-visual-line))
+
+(defun my/quick-backward ()
+  "Quicker backward scrolling"
+  (interactive)
+  (setq current-prefix-arg 5)
+  (call-interactively 'evil-previous-visual-line))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function - removes calls to redisplay that render ace modes unbearably slow.
    See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode" 
