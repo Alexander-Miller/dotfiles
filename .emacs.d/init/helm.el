@@ -9,6 +9,12 @@
 (setq helm-semantic-fuzzy-match 1)
 (setq helm-imenu-fuzzy-match 1)
 (setq helm-apropos-fuzzy-match 1)
+(setq helm-buffers-fuzzy-matching 1)
+(setq helm-completion-in-region-fuzzy-match 1)
+(setq helm-file-cache-fuzzy-match 1)
+(setq helm-projectile-fuzzy-match 1)
+(setq helm-semantic-fuzzy-match 1)
+(setq helm-recentf-fuzzy-match 1)
 
 ;; cycle through selection
 (setq helm-move-to-line-cycle-in-source 1)
