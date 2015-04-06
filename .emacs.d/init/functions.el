@@ -8,7 +8,7 @@
 
 (defun my/aggressive-indent-if ()
   "Activate aggressive indent mode unless the current major mode prevents it."
-  (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode))
+  (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode conf-space-mode))
     (aggressive-indent-mode 1)))
 
 (defun my/quick-forward ()
