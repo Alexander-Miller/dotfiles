@@ -1,0 +1,27 @@
+" faster scrolling "
+nnoremap j 4j
+nnoremap k 4k
+
+" hinting "
+nmap d ;b
+nmap D ;o
+set hintchars=asdfqwejkln
+highlight Hint font-family: Fantasque Sans Mono; font-size: 18px !important; text-transform: uppercase; color: #eeeeee; background-color: #1155a9;
+
+" h and l for tab navigation, ., for left and right "
+nnoremap h :tabprevious<CR>
+nnoremap l :tabnext<CR>
+nnoremap , h<CR>
+nnoremap . l<CR>
+
+" q to close tabs "
+nmap q :quit<CR>
+
+" use emacs as external browser "
+set editor="emacsclient"
+
+" show tabs' numbers "
+set tabnumbers=true
+
+" don't hide menus in fullscreen "
+set! browser.fullscreen.autohide=false
