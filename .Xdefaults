@@ -16,9 +16,9 @@ URxvt.letterSpace:     -2
 *.colorul:    #ccb18b
 *.colorit:    #ccb18b
 *background:  #282828
-*color0:      #cccccc
+*color0:      #414141
 *color1:      #bd5049
-*color2:      #808d49
+*color2:      #b5bd68
 *color3:      #b98d50
 *color4:      #506d79
 *color5:      #79596d
@@ -26,7 +26,7 @@ URxvt.letterSpace:     -2
 *color7:      #929593
 *color8:      #666666
 *color9:      #cc6666
-*color10:     #b5bd68
+*color10:     #b5dd68
 *color11:     #f0c674
 *color12:     #81a2be
 *color13:     #b294bb
@@ -35,7 +35,7 @@ URxvt.letterSpace:     -2
 
 rofi.width:           75
 rofi.lines:           10
-rofi.columns:         1  
+rofi.columns:         1
 rofi.font:            Fantasque Sans Mono 14
 rofi.fg:              #ccb18b
 rofi.bg:              #282828
