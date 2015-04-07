@@ -36,10 +36,13 @@
         evil-leader
         evil-matchit
         evil-surround
+        flycheck
         ghc-mod
         golden-ratio
         haskell-mode
         helm
+        helm-ag
+        helm-swoop
         hi2
         magit
         ;;mu4e
