@@ -82,10 +82,13 @@
 
  ;; mode line
  '(sml/folder          ((t (:foreground "#111111" :height 0.95))))
- '(sml/filename        ((t (:foreground "#111111" :bold t :height 1.0))))
+ '(sml/filename        ((t (:foreground "#111111" :height 1.0))))
  '(mode-line           ((t (:foreground "#111111" :background "#6b95b2" :height 0.90))))
+ '(mode-line-inactive  ((t (:foreground "#111111" :background "#6b95b2" :height 0.90))))
  '(powerline-active1   ((t (:foreground "#ffdb1a" :background "#ab3737" :height 1.00))))
  '(powerline-active2   ((t (:foreground "#111111" :background "#6b95b2" :height 0.95))))
+ '(powerline-inactive1 ((t (:foreground "#ffdb1a" :background "#ab3737" :height 1.00))))
+ '(powerline-inactive2 ((t (:foreground "#111111" :background "#6b95b2" :height 0.95))))
 
  ;; better ace visibility
  '(ace-jump-face-foreground ((t (:foreground "#ffdb1a" :background "#ab3737"))))
