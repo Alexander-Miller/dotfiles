@@ -15,10 +15,13 @@ set tabnumbers=true
 """"""""""""""""""""
 """ Key Bindings """
 """"""""""""""""""""
-
 " faster scrolling "
-nnoremap j 4j
-nnoremap k 4k
+nnoremap j 6j
+nnoremap k 6k
+
+" even faster scrolling "
+nnoremap J 16j
+nnoremap K 16k
 
 " hinting "
 nmap d ;b
