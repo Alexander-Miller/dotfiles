@@ -10,5 +10,7 @@
 
 (setq company-idle-delay 3)
 
-(define-key evil-normal-state-map (kbd "C-<SPC>") 'company-complete)
-(define-key evil-insert-state-map (kbd "C-<SPC>") 'company-complete)
+(define-key evil-normal-state-map (kbd "C-<SPC>") 'helm-company)
+(define-key evil-insert-state-map (kbd "C-<SPC>") 'helm-company)
+(define-key company-active-map    (kbd "C-j")     'company-select-next)
+(define-key company-active-map    (kbd "C-k")     'company-select-previous)

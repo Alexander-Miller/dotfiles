@@ -64,8 +64,6 @@
  (kbd "C-x C-x") 'evil-goto-mark
  (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
 
-(define-key evil-insert-state-map (kbd "C-<SPC>") 'company-complete)
-
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
 
 (define-key evil-operator-state-map (kbd "f") 'evil-ace-jump-char-mode)

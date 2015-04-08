@@ -42,6 +42,7 @@
         haskell-mode
         helm
         helm-ag
+        helm-company
         helm-swoop
         hi2
         magit
