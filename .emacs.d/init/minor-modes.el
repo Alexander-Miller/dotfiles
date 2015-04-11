@@ -84,3 +84,7 @@
 
 ;; better line breaking
 (global-visual-line-mode t)
+
+;; must be loaded manually or std git-gutter is used
+(require 'git-gutter-fringe)
+(global-git-gutter-mode t)

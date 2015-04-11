@@ -38,6 +38,8 @@
         evil-surround
         flycheck
         ghc-mod
+        git-gutter
+        git-gutter-fringe
         golden-ratio
         haskell-mode
         helm
@@ -47,6 +49,7 @@
         hi2
         magit
         ;;mu4e
+        multi-term
         multiple-cursors
         neotree
         nlinum
@@ -63,4 +66,3 @@
         yasnippet))
 
 (el-get 'sync my:el-get-packages)
-
