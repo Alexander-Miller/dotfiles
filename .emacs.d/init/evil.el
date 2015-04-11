@@ -43,8 +43,10 @@
 ;; word and character searching
 (define-key evil-normal-state-map (kbd "C-s") 'evil-search-forward)
 (define-key evil-normal-state-map (kbd "C-r") 'evil-search-backward)
-(define-key evil-normal-state-map (kbd "f") 'ace-jump-char-mode)
 (define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
+(my/def-key-for-maps
+ (kbd "f") 'ace-jump-char-mode
+ (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
 
 ;; faster scrolling
 (define-key evil-normal-state-map (kbd "J") 'my/quick-forward)
@@ -60,13 +62,21 @@
  (kbd "C-x l") 'recenter-top-bottom
  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
 
+;; evaluate definition at point
+(my/def-key-for-maps
+ (kbd "C-x x") 'eval-defun
+ (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+
+;; inserting newlines
+(my/def-key-for-maps
+ (kbd "C-j") 'my/electric-newline-and-maybe-indent
+ (list evil-normal-state-map evil-insert-state-map))
+
 (my/def-key-for-maps
  (kbd "C-x C-x") 'evil-goto-mark
  (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
 
 (define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
-
-(define-key evil-operator-state-map (kbd "f") 'evil-ace-jump-char-mode)
 
 (evil-leader/set-key
   "f s" 'save-buffer
@@ -74,15 +84,18 @@
   "f S" 'save-some-buffers
   "f e" 'eval-buffer
   "f k" 'kill-buffer
+  "f r" 'helm-recentf
   "H H" 'helm-apropos
   "g s" 'magit-status
   "l"   'helm-buffers-list
   "i"   'helm-semantic-or-imenu
   "M"   'helm-man-woman
-  "C-o" 'helm-occur
+  "C-o" 'helm-swoop
   "C-r" 'helm-resume
+  "C-j" 'evil-join
   "0"   'delete-window
   "o"   'ace-window
+  "O"   'other-frame
   "1"   'delete-other-windows
   "2"   'split-window-vertically
   "3"   'split-window-horizontally

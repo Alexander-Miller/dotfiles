@@ -54,7 +54,7 @@
 (setq ace-jump-mode-case-fold nil)
 
 ;; jump only in current buffer
-(setq ace-jump-mode-scope 'window)
+(setq-default ace-jump-mode-scope 'window)
 
 ;; leave enough fringe for git-gutter, adapt line numbers
 (set-fringe-mode '(8 . 0))

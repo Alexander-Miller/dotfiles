@@ -17,15 +17,27 @@
   (setq current-prefix-arg 5)
   (call-interactively 'evil-next-visual-line))
 
+(defun my/electric-newline-and-maybe-indent ()
+  "Will insert a new in insert and normal states, with the position adjusted in the latter case."
+  (interactive)
+  (cond
+   ((evil-normal-state-p)
+    (progn
+      (evil-append 1)
+      (electric-newline-and-maybe-indent)
+      (evil-normal-state)))
+   ((evil-insert-state-p)
+    (electric-newline-and-maybe-indent)))))
+
 (defun my/quick-backward ()
-  "Quicker backward scrolling"
+  "Quicker backward scrolling."
   (interactive)
   (setq current-prefix-arg 5)
   (call-interactively 'evil-previous-visual-line))
 
 (defun evil-half-cursor ()
-  "Rewrite of evil's own function - removes calls to redisplay that render ace modes unbearably slow.
-   See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode" 
+  "Rewrite of evil's own function - will remove calls to redisplay that render ace modes unbearably slow.
+   See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode"
   (let (height)
     ;; make `window-line-height' reliable
     (setq height (window-line-height))
