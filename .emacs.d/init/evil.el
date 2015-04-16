@@ -46,24 +46,27 @@
 ;; word and character searching
 (define-key evil-normal-state-map (kbd "C-s") 'evil-search-forward)
 (define-key evil-normal-state-map (kbd "C-r") 'evil-search-backward)
-(define-key evil-normal-state-map (kbd "F") 'ace-jump-word-mode)
 (my/def-key-for-maps
- (kbd "f") 'ace-jump-char-mode
+ (kbd "C-f") 'ace-jump-char-mode
  (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
 
 ;; faster scrolling
-(define-key evil-normal-state-map (kbd "J") 'my/quick-forward)
-(define-key evil-normal-state-map (kbd "K") 'my/quick-backward)
+(my/def-key-for-maps
+ (kbd "J") 'my/quick-forward
+ (list evil-normal-state-map evil-motion-state-map))
+(my/def-key-for-maps
+ (kbd "K") 'my/quick-backward
+ (list evil-normal-state-map evil-motion-state-map))
 
 ;; jump paren pairs with ,
 (my/def-key-for-maps
  (kbd ",") 'evilmi-jump-items
- (list evil-normal-state-map evil-visual-state-map))
+ (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
 
 ;; recenter screen in all states
 (my/def-key-for-maps
  (kbd "C-x l") 'recenter-top-bottom
- (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-emacs-state-map))
+ (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map evil-emacs-state-map))
 
 ;; evaluate definition at point
 (my/def-key-for-maps
@@ -72,14 +75,29 @@
 
 ;; inserting newlines
 (my/def-key-for-maps
- (kbd "C-j") 'my/electric-newline-and-maybe-indent
+ (kbd "C-j") 'my/newline-and-indent
  (list evil-normal-state-map evil-insert-state-map))
+
+;; adding/removing comments
+(my/def-key-for-maps
+ (kbd "C-7") 'comment-line
+ (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+
+;; escape quits everything
+(my/def-key-for-maps
+ [escape] 'keyboard-quit
+ (list evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-visual-state-map evil-emacs-state-map))
+(define-key helm-map [escape] 'keyboard-quit)
 
 (my/def-key-for-maps
  (kbd "C-x C-x") 'evil-goto-mark
  (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
 
-(define-key evil-normal-state-map (kbd "C-p") 'helm-show-kill-ring)
+(my/def-key-for-maps
+ (kbd "C-p") 'helm-show-kill-ring
+ (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
+
+(define-key evil-emacs-state-map (kbd "C-v") 'set-mark-command)
 
 (evil-leader/set-key
   "f s" 'save-buffer
@@ -96,9 +114,9 @@
   "C-o" 'helm-swoop
   "C-r" 'helm-resume
   "C-j" 'evil-join
-  "0"   'delete-window
   "o"   'ace-window
   "O"   'other-frame
+  "0"   'delete-window
   "1"   'delete-other-windows
   "2"   'split-window-vertically
   "3"   'split-window-horizontally

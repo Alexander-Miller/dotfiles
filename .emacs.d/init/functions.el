@@ -11,29 +11,29 @@
   (unless (member (buffer-local-value 'major-mode (current-buffer)) '(python-mode org-mode conf-space-mode))
     (aggressive-indent-mode 1)))
 
-(defun my/quick-forward ()
-  "Quicker forward scrolling"
-  (interactive)
-  (setq current-prefix-arg 5)
-  (call-interactively 'evil-next-visual-line))
-
-(defun my/electric-newline-and-maybe-indent ()
-  "Will insert a new in insert and normal states, with the position adjusted in the latter case."
+(defun my/newline-and-indent ()
+  "Will insert a new line in insert and normal states, with the position adjusted in the latter case."
   (interactive)
   (cond
    ((evil-normal-state-p)
     (progn
       (evil-append 1)
-      (electric-newline-and-maybe-indent)
+      (newline-and-indent)
       (evil-normal-state)))
    ((evil-insert-state-p)
-    (electric-newline-and-maybe-indent)))))
+    (newline-and-indent))))
 
 (defun my/quick-backward ()
   "Quicker backward scrolling."
   (interactive)
   (setq current-prefix-arg 5)
   (call-interactively 'evil-previous-visual-line))
+
+(defun my/quick-forward ()
+  "Quicker forward scrolling"
+  (interactive)
+  (setq current-prefix-arg 5)
+  (call-interactively 'evil-next-visual-line))
 
 (defun evil-half-cursor ()
   "Rewrite of evil's own function - will remove calls to redisplay that render ace modes unbearably slow.
