@@ -56,8 +56,8 @@
 
 ;; buffers not managed by golden ratio
 (defun pl/helm-alive-p ()
-  (if (boundp 'helm-alive-p)
-      (symbol-value 'helm-alive-p)))
+(if (boundp 'helm-alive-p)
+    (symbol-value 'helm-alive-p)))
 (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
 (add-to-list 'golden-ratio-exclude-modes "neotree-mode")
 
@@ -88,3 +88,6 @@
 ;; must be loaded manually or std git-gutter is used
 (require 'git-gutter-fringe)
 (global-git-gutter-mode t)
+
+;; so we can switch to normal mode via jk
+(key-chord-mode t)
