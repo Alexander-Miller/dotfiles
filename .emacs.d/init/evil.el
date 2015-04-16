@@ -12,6 +12,8 @@
 (global-evil-surround-mode 1)
 (global-evil-matchit-mode 1)
 
+(setq evil-default-state 'normal)
+
 ;; not needed with aggresive-indent-mode
 (setq evil-auto-indent 0)
 
