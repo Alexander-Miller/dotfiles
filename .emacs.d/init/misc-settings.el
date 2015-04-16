@@ -58,15 +58,18 @@
 
 ;; leave enough fringe for git-gutter, adapt line numbers
 (set-fringe-mode '(8 . 0))
-(setq-default nlinum-format "%d ")
+(setq-default nlinum-format " %d ")
 
 ;; more convenient chars for ace-jump-mode
 (setq ace-jump-mode-move-keys '(?a ?s ?d ?f ?q ?w ?e ?x ?c ?h ?j ?k ?l ?n ?m ?i))
 
-;; trailing whitespac removal
+;; convennient trailing whitespace removal
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; show flycheck messages in a popup
 (eval-after-load 'flycheck
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+;; empty line indicator in fringe
+(setq-default indicate-empty-lines t)
