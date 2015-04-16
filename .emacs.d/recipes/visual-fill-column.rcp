@@ -1,0 +1,6 @@
+
+(:name visual-fill-column
+       :description "Mimic fill-column in viual-line-mode"
+       :website "https://github.com/joostkremers/visual-fill-column"
+       :type github
+       :pkgname "joostkremers/visual-fill-column")

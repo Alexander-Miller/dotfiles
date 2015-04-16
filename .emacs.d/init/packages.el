@@ -63,6 +63,8 @@
         smart-mode-line
         tomorrow-theme
         undo-tree
+        visual-fill-column
+        writeroom-mode
         yasnippet))
 
 (el-get 'sync my:el-get-packages)
