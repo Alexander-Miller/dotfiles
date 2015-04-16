@@ -6,8 +6,8 @@
 (load-theme 'tomorrow-night-eighties t)
 
 ;; default font
-(set-default-font "Fantasque Sans Mono:pixelsize=20")
-(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono:pixelsize=20"))
+(set-default-font "Fantasque Sans Mono:pixelsize=19")
+(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono:pixelsize=19"))
 
 ;; next-line will always add new lines at the end of a buffer
 (setq next-line-add-newlines t)
