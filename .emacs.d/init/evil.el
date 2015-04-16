@@ -24,6 +24,9 @@
 ;; character search will skip newlines
 (setq evil-find-skip-newlines t)
 
+;; better than escape
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+
 ;; beginning and end of line
 (my/def-key-for-maps
  (kbd "C-a") 'evil-beginning-of-visual-line

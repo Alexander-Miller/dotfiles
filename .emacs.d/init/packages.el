@@ -47,6 +47,7 @@
         helm-company
         helm-swoop
         hi2
+        key-chord
         magit
         ;;mu4e
         multi-term
