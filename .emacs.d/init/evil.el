@@ -108,11 +108,14 @@
   "f r" 'helm-recentf
   "H H" 'helm-apropos
   "g s" 'magit-status
+  "h i" 'helm-semantic-or-imenu
+  "h s" 'helm-swoop
+  "h S" 'helm-multi-swoop
+  "h a" 'helm-ag
+  "h A" 'helm-do-ag
+  "h r" 'helm-resume
   "l"   'helm-buffers-list
-  "i"   'helm-semantic-or-imenu
   "M"   'helm-man-woman
-  "C-o" 'helm-swoop
-  "C-r" 'helm-resume
   "C-j" 'evil-join
   "o"   'ace-window
   "O"   'other-frame
