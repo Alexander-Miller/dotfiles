@@ -65,3 +65,8 @@
 
 ;; trailing whitespac removal
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; show flycheck messages in a popup
+(eval-after-load 'flycheck
+  '(custom-set-variables
+   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))

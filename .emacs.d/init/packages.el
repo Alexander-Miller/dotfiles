@@ -37,6 +37,7 @@
         evil-matchit
         evil-surround
         flycheck
+        flycheck-pos-tip
         ghc-mod
         git-gutter
         git-gutter-fringe
@@ -56,6 +57,7 @@
         nlinum
         offlineimap
         org-bullets
+        popup
         powerline
         projectile
         rainbow-delimiters
