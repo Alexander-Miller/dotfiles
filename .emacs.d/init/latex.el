@@ -3,42 +3,43 @@
 ;; ========================
 
 ;; latex mode hooks
-(add-hook 'latex-mode-hook
+(add-hook 'TeX-mode-hook
           '(lambda ()
-             '(rainbow-delimiters-mode)
-             '(turn-on-reftex)
-             '(setq reftex-plug-into-AUCTeX 1)
-             '(latex-math-mode)))
+             (rainbow-delimiters-mode t)
+             (turn-on-reftex)
+             (setq reftex-plug-into-AUCTeX t)
+             (latex-math-mode t)))
 
 (with-eval-after-load "latex"
 
   ;; save style information when saving the buffer
-  (setq TeX-auto-save 1)
+  (setq-default TeX-auto-save 1)
 
   ;; parse file after loading if no style hook is found
-  (setq TeX-parse-self 1)
+  (setq-default TeX-parse-self 1)
 
   ;;AUCTeX multidoc awareness for \input
   (setq-default TeX-master nil)
 
   ;; use PDF TeX as default executable
-  (setq TeX-PDF-mode 1)
+  (setq-default TeX-PDF-mode 1)
 
   ;; do not ask for permission to start TeX
-  (setq TeX-save-query nil)
+  (setq-default TeX-save-query nil)
 
   ;;proper indentation of list items
-  (setq LaTeX-item-indent 0)
+  (setq-default LaTeX-item-indent 0)
 
   ;; dont use different text sizes
-  (setq font-latex-fontify-script nil)
-  (setq font-latex-fontify-sectioning 'color)
+  (setq-default font-latex-fontify-script nil)
+  (setq-default font-latex-fontify-sectioning 'color)
 
   (evil-leader/set-key-for-mode 'latex-mode
     "<tab> e"   'LaTeX-environment
     "<tab> s"   'LaTeX-section
     "<tab> i"   'LaTeX-insert-item
     "<tab> c"   'LaTeX-close-environment
+    "<tab> m"   'TeX-insert-macro
 
     "<tab> f e" 'LaTeX-fill-environment
     "<tab> f r" 'LaTeX-fill-region
