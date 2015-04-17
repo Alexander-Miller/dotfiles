@@ -88,7 +88,7 @@
 ;; escape quits everything
 (my/def-key-for-maps
  [escape] 'keyboard-quit
- (list evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-visual-state-map evil-emacs-state-map))
+ (list evil-normal-state-map evil-operator-state-map evil-visual-state-map evil-emacs-state-map))
 (define-key helm-map [escape] 'keyboard-quit)
 
 (my/def-key-for-maps
