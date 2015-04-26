@@ -1,7 +1,8 @@
 
-(load-file "~/.emacs.d/init/packages.el")
+(add-to-list 'load-path "~/.emacs.d/init")
 
 (load-file "~/.emacs.d/init/functions.el")
+(require 'packages)
 
 (load-file "~/.emacs.d/init/misc-settings.el")
 
