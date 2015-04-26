@@ -66,10 +66,5 @@
 ;; convennient trailing whitespace removal
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; show flycheck messages in a popup
-(eval-after-load 'flycheck
-  '(custom-set-variables
-   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-
 ;; empty line indicator in fringe
 (setq-default indicate-empty-lines t)

@@ -49,7 +49,6 @@
         evil-matchit
         evil-surround
         flycheck
-        flycheck-pos-tip
         ghc-mod
         git-gutter
         git-gutter-fringe
