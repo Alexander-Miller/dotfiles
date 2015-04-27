@@ -22,3 +22,5 @@
 
 (load-file "~/.emacs.d/init/org-mode.el")
 
+(require 'modeline)
+

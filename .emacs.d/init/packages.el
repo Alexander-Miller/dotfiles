@@ -1,7 +1,5 @@
 ;;; package.el --- package management setup
-
 ;;; Commentary:
-;;; standard el-get setup to administer packages over multiple installations
 
 ;;; Code:
 
