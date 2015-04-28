@@ -193,6 +193,7 @@ bar {
 }
 
 exec --no-startup-id dropbox start
+exec --no-startup-id setxkbmap -layout de
 exec --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id xrdb ~/.Xdefaults
 exec --no-startup-id compton -b
