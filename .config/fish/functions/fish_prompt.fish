@@ -28,7 +28,7 @@ function fish_prompt
     #echo -n :(prompt_pwd)
     echo -n :(pwd|sed "s=$HOME=~=")
     set_color -o green
-    echo -n -s (__fish_git_prompt) "$__fish_prompt_normal" "$prompt_status" "$delim" 
+    echo -n -s (__fish_git_prompt) "$__fish_prompt_normal" "$prompt_status" "$delim"
     set_color normal
     set_color $retc
     #if [ $tty = tty ]
@@ -43,7 +43,7 @@ function fish_prompt
     #echo -n (date +%X)
     #set_color -o green
     #echo -n ]
-    
+
     # Check if acpi exists
     if not set -q __fish_nim_prompt_has_acpi
     	if type acpi > /dev/null
@@ -52,7 +52,7 @@ function fish_prompt
     		set -g __fish_nim_prompt_has_acpi '' # empty string
     	end
     end
-    	
+
     if test "$__fish_nim_prompt_has_acpi"
 		if [ (acpi -a 2> /dev/null | grep off) ]
 			echo -n '─['
