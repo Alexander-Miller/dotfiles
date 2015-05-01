@@ -43,6 +43,13 @@
     (helm-mini)
     (setq helm-split-window-default-side 'org-value)))
 
+(defun my/what-face (pos)
+  "Reveal face at point."
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function - will remove calls to redisplay that render ace modes unbearably slow.
    See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode"
