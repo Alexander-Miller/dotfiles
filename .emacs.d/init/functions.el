@@ -35,6 +35,14 @@
   (setq current-prefix-arg 5)
   (call-interactively 'evil-next-visual-line))
 
+(defun my/helm-mini-below ()
+  "Open helm-mini on the underside of the screen reguardless of current helm-split-window-default-side value."
+  (interactive)
+  (let ((org-value 'helm-split-window-default-side))
+    (setq helm-split-window-default-side 'below)
+    (helm-mini)
+    (setq helm-split-window-default-side 'org-value)))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function - will remove calls to redisplay that render ace modes unbearably slow.
    See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode"

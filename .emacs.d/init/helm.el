@@ -31,6 +31,7 @@
  helm-input-idle-delay                  0.1 ;; delay before helm udates - also in undelayed sources
  helm-display-source-at-screen-top      nil ;; don't display different sources right at the top
  helm-completion-window-scroll-margin   5   ;; leave small margin at the top and bottom
+ helm-split-window-default-side         'right
  helm-kill-ring-max-lines-number        5   ;; show at most 5 lines of kill ring candidates
  helm-default-external-file-browser     "urxvt -e ranger" ;; always use ranger
  helm-ff-transformer-show-only-basename t   ;; don't show full paths in helm-find-files
@@ -46,7 +47,9 @@
 (define-key helm-map            (kbd "C-,")   'helm-select-action)
 (define-key helm-map            (kbd "C-j")   'helm-next-line)
 (define-key helm-map            (kbd "C-k")   'helm-previous-line)
+(define-key helm-map            (kbd "M-j")   'helm-next-source)
+(define-key helm-map            (kbd "M-k")   'helm-previous-source)
 (define-key helm-find-files-map (kbd "C-d")   'helm-ff-persistent-delete)
 (define-key helm-buffer-map     (kbd "C-d")   'helm-buffer-run-kill-persistent)
 (global-set-key                 (kbd "M-x")   'helm-M-x)
-(global-set-key                 (kbd "C-x b") 'helm-buffers-list)
+(global-set-key                 (kbd "C-x b") 'my/helm-mini-below)

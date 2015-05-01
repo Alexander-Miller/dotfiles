@@ -116,7 +116,7 @@
   "h a" 'helm-ag
   "h A" 'helm-do-ag
   "h r" 'helm-resume
-  "l"   'helm-buffers-list
+  "l"   'my/helm-mini-below
   "M"   'helm-man-woman
   "C-j" 'evil-join
   "o"   'ace-window
