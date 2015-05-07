@@ -1,8 +1,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/init")
 
-(require 'modeline)
-
 (require 'packages-cfg)
 (require 'functions-cfg)
 (require 'shell-cfg)
@@ -13,3 +11,4 @@
 (require 'latex-cfg)
 (require 'magit-cfg)
 (require 'org-mode-cfg)
+(require 'modeline-cfg)
