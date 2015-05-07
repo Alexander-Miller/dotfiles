@@ -1,8 +1,14 @@
-;; ============================
-;; magit/git and its eco system
-;; ============================
+;;; magit-cfg.el --- magit config
+
+;;; Commentary:
+;;; Code:
+
+(setq-default magit-last-seen-setup-instructions "1.4.0")
 
 (with-eval-after-load 'magit
+
+  (define-key magit-status-mode-map (kbd "C-v") 'set-mark-command)
+
   (my/def-key-for-maps
    (kbd "j") 'next-line (list magit-status-mode-map magit-log-mode-map))
   (my/def-key-for-maps
@@ -21,4 +27,5 @@
   (my/def-key-for-maps
    (kbd "M-k") 'magit-goto-previous-sibling-section (list magit-status-mode-map)))
 
-
+(provide 'magit-cfg)
+;;; magit-cfg.el ends here
