@@ -1,9 +1,8 @@
-;; ========================
-;; evil and its eco system
-;; ========================
+;;; evil-cfg.el --- evil config
 
-;; the key will no longer work after this file was reloaded, so
-;; it must only be set once
+;;; Commentary:
+;;; Code:
+
 (if (not (bound-and-true-p global-evil-leader-mode))
     (evil-leader/set-leader "<SPC>"))
 
@@ -12,21 +11,13 @@
 (global-evil-surround-mode 1)
 (global-evil-matchit-mode 1)
 
-(setq evil-default-state 'normal)
+(setq-default
+ evil-default-state      'normal
+ evil-auto-indent        0
+ evil-shift-width        4
+ evil-repeat-move-cursor 0
+ evil-find-skip-newlines t)
 
-;; not needed with aggresive-indent-mode
-(setq evil-auto-indent 0)
-
-;; shift width via <>
-(setq evil-shift-width 4)
-
-;; repeating with . will not move the cursor
-(setq evil-repeat-move-cursor 0)
-
-;; character search will skip newlines
-(setq evil-find-skip-newlines t)
-
-;; better than escape
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 
 ;; beginning and end of line
@@ -55,10 +46,10 @@
 ;; faster scrolling
 (my/def-key-for-maps
  (kbd "J") 'my/quick-forward
- (list evil-normal-state-map evil-motion-state-map))
+ (list evil-normal-state-map evil-motion-state-map evil-operator-state-map))
 (my/def-key-for-maps
  (kbd "K") 'my/quick-backward
- (list evil-normal-state-map evil-motion-state-map))
+ (list evil-normal-state-map evil-motion-state-map evil-operator-state-map))
 
 ;; jump paren pairs with ,
 (my/def-key-for-maps
@@ -89,7 +80,7 @@
 (my/def-key-for-maps
  [escape] 'keyboard-quit
  (list evil-normal-state-map evil-operator-state-map evil-visual-state-map evil-emacs-state-map))
-(define-key helm-map [escape] 'keyboard-quit)
+(define-key helm-map [escape] 'helm-keyboard-quit)
 
 (my/def-key-for-maps
  (kbd "C-x C-x") 'evil-goto-mark
@@ -98,8 +89,6 @@
 (my/def-key-for-maps
  (kbd "C-p") 'helm-show-kill-ring
  (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
-
-(define-key evil-emacs-state-map (kbd "C-v") 'set-mark-command)
 
 (evil-leader/set-key
   "f s" 'save-buffer
@@ -129,31 +118,39 @@
   "+"   'set-mark-command
   "j"   'ace-jump-line-mode)
 
-;; evil state hooks
 (add-hook 'evil-normal-state-entry-hook
           '(lambda ()
              (set-face-background 'powerline-active1 "#ab3737")
-             (set-face-background 'mode-line "#6b95b2")
+             (set-face-background 'powerline-inactive1 "#ab3737")
+             (set-face-background 'mode-line "#446688")
+             (set-face-background 'sml/vc-edited "#ab3737")
+             (set-face-background 'sml/vc "#ab3737")
              (aggressive-indent-mode 0)
              (powerline-reset)))
 
 (add-hook 'evil-emacs-state-entry-hook
           '(lambda ()
              (set-face-background 'powerline-active1 "#a0522d")
-             (set-face-background 'mode-line "#6b95b2")
+             (set-face-background 'mode-line "#446688")
              (my/aggressive-indent-if)
              (powerline-reset)))
 
 (add-hook 'evil-visual-state-entry-hook
           '(lambda ()
              (set-face-background 'powerline-active1 "#79596d")
-             (set-face-background 'mode-line "#6b95b2")
+             (set-face-background 'mode-line "#446688")
              (aggressive-indent-mode 0)
              (powerline-reset)))
 
 (add-hook 'evil-insert-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#3d6837")
-             (set-face-background 'mode-line "#6b95b2")
+             (set-face-background 'powerline-active1 "#3d5837")
+             (set-face-background 'powerline-inactive1 "#3d5837")
+             (set-face-background 'mode-line "#446688")
+             (set-face-background 'sml/vc "#3d5837")
+             (set-face-background 'sml/vc-edited "#3d5837")
              (my/aggressive-indent-if)
              (powerline-reset)))
+
+(provide 'evil-cfg)
+;;; evil-cfg.el ends here
