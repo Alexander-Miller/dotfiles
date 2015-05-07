@@ -1,8 +1,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/init")
 
-(load-file "~/.emacs.d/init/latex.el")
-
 (load-file "~/.emacs.d/init/magit.el")
 
 (load-file "~/.emacs.d/init/org-mode.el")
@@ -16,3 +14,4 @@
 (require 'helm-cfg)
 (require 'evil-cfg)
 (require 'company-cfg)
+(require 'latex-cfg)

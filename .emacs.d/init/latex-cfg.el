@@ -1,14 +1,31 @@
-;; ========================
-;; LaTeX and its eco system
-;; ========================
+;;; latex-cfg.el --- latex eco-system configuration
+
+;;; Commentary:
+
+;;; Code:
 
 ;; latex mode hooks
+(defun latex-company-setup ()
+  "Use only relevant backends."
+  (setq-local company-backends
+              '((company-latex-commands
+                 company-math-symbols-latex
+                 company-math-symbols-unicode
+                 company-auctex-labels
+                 company-auctex-bibs
+                 company-auctex-macros
+                 company-auctex-symbols
+                 company-auctex-environments
+                 company-files
+                 company-dabbrev))))
+
 (add-hook 'TeX-mode-hook
           '(lambda ()
              (rainbow-delimiters-mode t)
              (turn-on-reftex)
              (setq reftex-plug-into-AUCTeX t)
-             (latex-math-mode t)))
+             (latex-math-mode t)
+             (latex-company-setup)))
 
 (with-eval-after-load "latex"
 
@@ -64,3 +81,6 @@
     "<tab> P b" 'preview-clearout-buffer
     "<tab> P p" 'preview-clearout-at-point
     "<tab> P f" 'preview-clearout-document))
+
+(provide 'latex-cfg)
+;;; latex-cfg.el ends here
