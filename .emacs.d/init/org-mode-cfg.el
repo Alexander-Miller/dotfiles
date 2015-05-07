@@ -1,14 +1,17 @@
-;; ============================
-;; org-mode and its eco system
-;; ============================
+;;; org-mode-cfg.el --- org-mode config
 
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+;;; Commentary:
+;;; Code:
+
+(add-hook 'org-mode-hook '(lambda () (org-bullets-mode 1)))
 
 (with-eval-after-load "org"
-  (setq org-startup-indented 1)
-  (setq org-startup-align-all-tables 1)
-  (setq org-startup-folded 1)
-  
+
+  (setq-default
+   org-startup-indented         1
+   org-startup-align-all-tables 1
+   org-startup-folded           1)
+
   (define-key org-mode-map (kbd "M-j") 'org-metadown)
   (define-key org-mode-map (kbd "M-k") 'org-metaup)
   (define-key org-mode-map (kbd "M-h") 'org-metaleft)
@@ -36,3 +39,6 @@
     "<tab> t r" 'org-table-recalculate-buffer-tables
     "<tab> t R" 'org-table-recalculate
     "<tab> t c" 'org-table-create-or-convert-from-region))
+
+(provide 'org-mode-cfg)
+;;; org-mode-cfg.el ends here
