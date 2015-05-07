@@ -12,3 +12,5 @@
 (require 'magit-cfg)
 (require 'org-mode-cfg)
 (require 'modeline-cfg)
+(require 'diminish-cfg)
+
