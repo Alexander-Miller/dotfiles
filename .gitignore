@@ -3,3 +3,5 @@
 /.emacs.d/.emacs.desktop
 /.config/ranger/tagged
 /.config/ranger/__pycache__/
+/.config/fish/fish_history
+/.config/fish/fishd.a-laptop
