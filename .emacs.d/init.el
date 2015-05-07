@@ -15,5 +15,6 @@
 
 (require 'packages-cfg)
 (require 'functions-cfg)
+(require 'shell-cfg)
 (require 'misc-settings-cfg)
 (require 'helm-cfg)
