@@ -9,7 +9,7 @@
 (diminish 'undo-tree-mode "UT")
 (diminish 'visual-line-mode "VL")
 (with-eval-after-load "aggressive-indent"
-    (diminish 'aggressive-indent-mode " ⇒"))
+  (diminish 'aggressive-indent-mode " ➠"))
 
 (provide'diminish-cfg)
 ;;; diminish-cfg.el ends here
