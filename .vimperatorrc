@@ -78,6 +78,9 @@ map <A-m> :tabmove<SPACE>
 map <A-Left> :tabmove! -1<CR>
 map <A-Right> :tabmove! +1<CR>
 
+"quick google"
+map <C-x>g :tabopen www.google.de<CR>
+
 """"""""""""""""""""""""
 """ Firefox Settings """
 """"""""""""""""""""""""
