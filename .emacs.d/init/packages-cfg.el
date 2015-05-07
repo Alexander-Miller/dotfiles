@@ -1,6 +1,6 @@
-;;; package.el --- package management setup
-;;; Commentary:
+;;; package.el --- package management config
 
+;;; Commentary:
 ;;; Code:
 
 (setq-default package-archives
@@ -8,7 +8,6 @@
                 ("org"   . "http://orgmode.org/elpa/")
                 ("gnu"   . "http://elpa.gnu.org/packages/")))
 
-;; acquire el-get
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (unless (require 'el-get nil t)
   (url-retrieve
@@ -17,17 +16,14 @@
      (goto-char (point-max))
      (eval-print-last-sexp))))
 
-;; add custom recipes
 (add-to-list 'el-get-recipe-path "~/.emacs.d/recipes/")
 
 (el-get 'sync)
 
-;; add elpa to el-get
 (require 'el-get-elpa)
 (unless (file-directory-p el-get-recipe-path-elpa)
   (el-get-elpa-build-local-recipes))
 
-;; el-get packages
 (setq my:el-get-packages
       '(
         ace-jump-mode
@@ -40,7 +36,6 @@
         company-auctex
         company-ghc
         company-math
-        company-mode
         escreen
         evil
         evil-leader
@@ -59,6 +54,7 @@
         hi2
         key-chord
         magit
+        markdown-mode
         ;;mu4e
         multi-term
         multiple-cursors
@@ -77,9 +73,10 @@
         undo-tree
         visual-fill-column
         writeroom-mode
-        yasnippet))
+        yasnippet
+        ))
 
 (el-get 'sync my:el-get-packages)
 
-(provide 'packages)
-;;; packages.el ends here
+(provide 'packages-cfg)
+;;; packages-cfg.el ends here
