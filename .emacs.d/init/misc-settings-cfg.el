@@ -21,6 +21,7 @@
 (subword-mode                 t)
 (transient-mark-mode          t)
 (undo-tree-mode               t)
+(horizontal-scroll-bar-mode   0)
 (scroll-bar-mode              0)
 (tool-bar-mode                0)
 
