@@ -120,35 +120,37 @@
 
 (add-hook 'evil-normal-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#ab3737")
+             (set-face-background 'powerline-active1   "#ab3737")
              (set-face-background 'powerline-inactive1 "#ab3737")
-             (set-face-background 'mode-line "#446688")
-             (set-face-background 'sml/vc-edited "#ab3737")
-             (set-face-background 'sml/vc "#ab3737")
+             (set-face-background 'sml/vc-edited       "#ab3737")
+             (set-face-background 'sml/vc              "#ab3737")
              (aggressive-indent-mode 0)
              (powerline-reset)))
 
 (add-hook 'evil-emacs-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#a0522d")
-             (set-face-background 'mode-line "#446688")
+             (set-face-background 'powerline-active1   "#444444")
+             (set-face-background 'powerline-inactive1 "#444444")
+             (set-face-background 'sml/vc-edited       "#444444")
+             (set-face-background 'sml/vc              "#444444")
              (my/aggressive-indent-if)
              (powerline-reset)))
 
 (add-hook 'evil-visual-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#79596d")
-             (set-face-background 'mode-line "#446688")
+             (set-face-background 'powerline-active1   "#634566")
+             (set-face-background 'powerline-inactive1 "#634566")
+             (set-face-background 'sml/vc-edited       "#634566")
+             (set-face-background 'sml/vc              "#634566")
              (aggressive-indent-mode 0)
              (powerline-reset)))
 
 (add-hook 'evil-insert-state-entry-hook
           '(lambda ()
-             (set-face-background 'powerline-active1 "#3d5837")
+             (set-face-background 'powerline-active1   "#3d5837")
              (set-face-background 'powerline-inactive1 "#3d5837")
-             (set-face-background 'mode-line "#446688")
-             (set-face-background 'sml/vc "#3d5837")
-             (set-face-background 'sml/vc-edited "#3d5837")
+             (set-face-background 'sml/vc              "#3d5837")
+             (set-face-background 'sml/vc-edited       "#3d5837")
              (my/aggressive-indent-if)
              (powerline-reset)))
 
