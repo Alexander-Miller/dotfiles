@@ -19,20 +19,18 @@ TIME_NOW  = time()
 
 COLOR_STD       = '#dddddd'
 COLOR_ICON      = '#1fc5ff'
-COLOR_SEPARATOR = '#bb6900'
+COLOR_SEPARATOR = '#66cc66'
 COLOR_URGENT    = '#f24444'
 
-ICON_SEPARATOR = '  '
+ICON_SEPARATOR = '    '
 ICON_TIME      = ' '
 ICON_CALENDAR  = '  '
 ICON_VOLUME    = ' '
 ICON_BATTERY   = ' '
-ICON_PLUG      = ' ' 
+ICON_PLUG      = ' '
 ICON_WIFI      = ' '
 ICON_RAM       = ' '
 ICON_CPU       = ' '
-ICON_DOWN      = ' ' 
-ICON_UP        = ''
 
 CMD_DATE    = 'date +"%a %d %b %T"'
 CMD_VOLUME  = 'amixer -D pulse get Master | grep -o "[0-9]*%" | head -n1'
