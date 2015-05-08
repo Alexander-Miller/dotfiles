@@ -5,7 +5,7 @@
 ;;; Code:
 
 (require 'git-gutter-fringe)
-(global-nlinum-mode           t)
+;;(global-nlinum-mode           t)
 (global-prettify-symbols-mode t)
 (global-visual-line-mode      t)
 (global-git-gutter-mode       t)
@@ -44,6 +44,8 @@
  tab-width                       4
  whitespace-line-column          120
  x-select-enable-clipboard       t)
+
+(load-theme 'morning-star t)
 
 (load "server")
 (unless (server-running-p) (server-start))

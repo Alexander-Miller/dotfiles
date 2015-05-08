@@ -55,6 +55,7 @@
         key-chord
         magit
         markdown-mode
+        morning-star-theme
         ;;mu4e
         multi-term
         multiple-cursors
