@@ -33,13 +33,12 @@ ICON_RAM       = ' '
 ICON_CPU       = ' '
 
 CMD_DATE    = 'date +"%a %d %b %T"'
-CMD_VOLUME  = 'amixer -D pulse get Master | grep -o "[0-9]*%" | head -n1'
+CMD_VOLUME  = 'amixer -D pulse get Master | ag -o "[0-9]*%" | head -n1'
 CMD_BATTERY = 'acpi'
-CMD_WIFI    = 'iwconfig wlan0 | grep -o "ESSID:\\".*\\"\|Quality=[0-9]\{1,3\}"'
-CMD_DL_UPL  = 'cat /proc/net/dev | grep wlan0'
-CMD_IP      = 'ifconfig eth0 | grep -o "inet addr:\\([1-9]\\+.\\)\\{4\\}"'
-CMD_RAM     = 'free -m | grep "Mem:\|-/+"'
-CMD_CPU     = 'sar 1 1 -P ALL | grep -o "\([0-9][0-9]:\?\)\{3\}[[:space:]]\+[0-9][[:space:]]\+[0-9]\+[.,][0-9]\+"'
+CMD_WIFI    = 'iwconfig wlp4s0 | ag -o "ESSID:\".*\"|Quality=[0-9]{1,3}"'
+CMD_DL_UPL  = 'cat /proc/net/dev | ag wlan0'
+CMD_RAM     = 'free -m | ag "Mem:"'
+CMD_CPU     = 'sar 1 1 -P ALL | ag "([0-9][0-9]:?){3}[[[:space:]]+[0-9][[:space:]]+[0-9]+[.,][0-9]+"'
 
 def run(command):
     call   = Popen(command, shell = True, stdout = PIPE)
@@ -93,8 +92,6 @@ def online():
     if len(wifi) > 1:
         ess_id   = wifi[0].strip().split(':')[1][1:-1]
         quality  = int(wifi[1].strip().split('=')[1]) * 1.4285
-        down, up = net_snapshot()
-        block(ICON_DOWN, down + ' ' + up, COLOR_STD)
         block(ICON_WIFI, '{:.0f}% @ {}'.format(quality, ess_id), COLOR_STD)
 
 def charge():
