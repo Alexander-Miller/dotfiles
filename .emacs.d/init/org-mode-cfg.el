@@ -8,9 +8,10 @@
 (with-eval-after-load "org"
 
   (setq-default
-   org-startup-indented         1
-   org-startup-align-all-tables 1
-   org-startup-folded           1)
+   org-startup-indented           t
+   org-startup-align-all-tables   t
+   org-startup-folded             t
+   org-src-fontify-natively       t)
 
   (define-key org-mode-map (kbd "M-j") 'org-metadown)
   (define-key org-mode-map (kbd "M-k") 'org-metaup)
