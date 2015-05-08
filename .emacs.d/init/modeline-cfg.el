@@ -5,7 +5,7 @@
 
 (setq-default
  sml/no-confirm-load-theme         t
- powerline-default-separator       'wave
+ powerline-default-separator       'slant
  powerline-buffer-size-suffix      nil
  mode-line-in-non-selected-windows nil
  display-time-24hr-format          t
