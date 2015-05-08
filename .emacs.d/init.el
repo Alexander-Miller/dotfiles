@@ -1,4 +1,4 @@
-
+;;(package-initialize)
 (add-to-list 'load-path "~/.emacs.d/init")
 
 (require 'packages-cfg)
