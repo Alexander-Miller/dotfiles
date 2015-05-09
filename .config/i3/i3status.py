@@ -9,13 +9,7 @@ NAP_TIME = 5
 if len(argv) > 1:
     NAP_TIME = float(argv[1])
 
-BLOCKS    = []
-UL_PREV   = None
-DL_PREV   = None
-TIME_PREV = None
-UL_NOW    = None
-DL_NOW    = None
-TIME_NOW  = time()
+BLOCKS = []
 
 COLOR_STD       = '#dddddd'
 COLOR_ICON      = '#1fc5ff'
@@ -36,7 +30,6 @@ CMD_DATE    = 'date +"%a %d %b %T"'
 CMD_VOLUME  = 'amixer -D pulse get Master | ag -o "[0-9]*%" | head -n1'
 CMD_BATTERY = 'acpi'
 CMD_WIFI    = 'iwconfig wlp4s0 | ag -o "ESSID:\".*\"|Quality=[0-9]{1,3}"'
-CMD_DL_UPL  = 'cat /proc/net/dev | ag wlan0'
 CMD_RAM     = 'free -m | ag "Mem:"'
 CMD_CPU     = 'sar 1 1 -P ALL | ag "([0-9][0-9]:?){3}[[[:space:]]+[0-9][[:space:]]+[0-9]+[.,][0-9]+"'
 
@@ -74,20 +67,6 @@ def ram():
     block(ICON_RAM, text, COLOR_STD)
 
 def online():
-    def net_snapshot():
-        global UL_PREV, UL_NOW, DL_PREV, DL_NOW, TIME_PREV, TIME_NOW
-        columns   = run(CMD_DL_UPL).split()
-        UL_PREV   = UL_NOW
-        DL_PREV   = DL_NOW
-        TIME_PREV = TIME_NOW
-        TIME_NOW  = time()
-        time_diff = TIME_NOW - TIME_PREV
-        DL_NOW    = float(columns[1])
-        UL_NOW    = float(columns[9])
-        DL_SPEED  = 0.0 if DL_PREV is None else (DL_NOW - DL_PREV) / 1024.0**2 / time_diff
-        UL_SPEED  = 0.0 if UL_PREV is None else (UL_NOW - UL_PREV) / 1024.0**2 / time_diff
-        return '{:1.2f} MB/s'.format(DL_SPEED), '{:1.2f} MB/s'.format(UL_SPEED)
-
     wifi = run(CMD_WIFI).split('\n')
     if len(wifi) > 1:
         ess_id   = wifi[0].strip().split(':')[1][1:-1]
@@ -98,7 +77,7 @@ def charge():
     tokens    = run(CMD_BATTERY).split()
     perc_left = tokens[3] if len(tokens) == 4 else tokens[3][:-1]
     time_left = tokens[4] if len(tokens) != 4 else 'Full'
-    txt_color = COLOR_URGENT if int(perc_left[:-1]) <= 30 else COLOR_STD
+    txt_color = COLOR_URGENT if int(perc_left[:-1]) <= 25 else COLOR_STD
     block(ICON_BATTERY if tokens[2] == 'Discharging,' else ICON_PLUG, time_left, txt_color)
 
 def date_time():
@@ -113,17 +92,6 @@ def volume():
     volume = run(CMD_VOLUME)
     text = 'n/a' if volume == '' else volume
     block(ICON_VOLUME, text, COLOR_STD)
-
-def pad(pre, text, post):
-    if pre == 1:
-        text = ' ' + text
-    elif pre == 2:
-        text = '  ' + text
-    if post == 1:
-        text += ' '
-    elif post == 2:
-        text += '  '
-    return text
 
 def block(icon, text, color):
     pack(ICON_SEPARATOR, COLOR_SEPARATOR)
