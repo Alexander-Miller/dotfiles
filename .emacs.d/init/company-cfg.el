@@ -39,17 +39,6 @@
                 company-files
                 company-dabbrev)))
 
-(my/def-key-for-maps
- (kbd "C-<SPC>") 'company-complete
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
-(define-key company-active-map [esc]         'company-cancel)
-(define-key company-active-map (kbd "C-i")   '(lambda () (interactive) (company-complete-selection)(company-complete)))
-(define-key company-active-map (kbd "C-j")   'company-select-next)
-(define-key company-active-map (kbd "C-k")   'company-select-previous)
-(define-key company-active-map (kbd "C-ü")   'helm-company)
-(define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-(define-key company-active-map (kbd "C-o")   'company-other-backend)
-
 (defconst backend-priorities
   '((company-anaconda . 0)
     (company-capf . 7)

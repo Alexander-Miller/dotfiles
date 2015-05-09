@@ -41,17 +41,5 @@
   "Will remove unnecessary helm header."
   (setq header-line-format nil))
 
-;; helm and global keys
-(define-key helm-map            (kbd "<tab>") 'helm-execute-persistent-action)
-(define-key helm-map            (kbd "C-,")   'helm-select-action)
-(define-key helm-map            (kbd "C-j")   'helm-next-line)
-(define-key helm-map            (kbd "C-k")   'helm-previous-line)
-(define-key helm-map            (kbd "M-j")   'helm-next-source)
-(define-key helm-map            (kbd "M-k")   'helm-previous-source)
-(define-key helm-find-files-map (kbd "C-d")   'helm-ff-persistent-delete)
-(define-key helm-buffer-map     (kbd "C-d")   'helm-buffer-run-kill-persistent)
-(global-set-key                 (kbd "M-x")   'helm-M-x)
-(global-set-key                 (kbd "C-x b") 'my/helm-mini-below)
-
 (provide 'helm-cfg)
 ;;; helm-cfg.el ends here
