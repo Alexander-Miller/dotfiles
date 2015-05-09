@@ -1,6 +1,5 @@
 ;;(package-initialize)
 (add-to-list 'load-path "~/.emacs.d/init")
-
 (require 'packages-cfg)
 (require 'functions-cfg)
 (require 'shell-cfg)
@@ -13,3 +12,4 @@
 (require 'org-mode-cfg)
 (require 'modeline-cfg)
 (require 'diminish-cfg)
+(require 'flycheck-cfg)
