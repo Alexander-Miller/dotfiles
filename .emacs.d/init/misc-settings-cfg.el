@@ -51,14 +51,16 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-(set-frame-font "Fantasque Sans Mono 13")
+(set-frame-font "Fantasque Sans Mono 12")
+(set-fontset-font "fontset-default" nil
+                  (font-spec :size 16 :name "Symbola"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook '(lambda () (rainbow-delimiters-mode t)))
 
-(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 13"))
+(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
 
 (add-to-list 'auto-mode-alist '("\\.fish\\'" . sh-mode))
 
