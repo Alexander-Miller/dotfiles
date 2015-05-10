@@ -9,10 +9,10 @@
 (diminish 'undo-tree-mode    " ")
 (diminish 'visual-line-mode  "")
 (diminish 'subword-mode      "")
-(diminish 'anaconda-mode     "ANC")
+(diminish 'anaconda-mode     " 🐍")
 (diminish 'company-mode      " ")
 (with-eval-after-load "rainbow-mode"
-  (diminish 'rainbow-mode "RB"))
+  (diminish 'rainbow-mode "🌈"))
 (with-eval-after-load "magit"
   (diminish 'magit-auto-revert-mode ""))
 (with-eval-after-load "aggressive-indent"
