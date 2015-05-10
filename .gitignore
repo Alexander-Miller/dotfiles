@@ -5,3 +5,11 @@
 /.config/ranger/__pycache__/
 /.config/fish/fish_history
 /.config/fish/fishd.a-laptop
+/.config/mpd/sticker.sql
+/.config/mpd/database
+/.config/mpd/log
+/.config/mpd/pid
+/.config/mpd/playlists
+/.config/mpd/state
+/.ncmpcpp/error.log
+/.ncmpcpp/patterns.list
