@@ -5,10 +5,11 @@
 ;;; Code:
 
 (require 'git-gutter-fringe)
-;;(global-nlinum-mode           t)
+(global-auto-revert-mode      t)
+(global-git-gutter-mode       t)
 (global-prettify-symbols-mode t)
 (global-visual-line-mode      t)
-(global-git-gutter-mode       t)
+(yas-global-mode              t)
 (blink-cursor-mode            t)
 (column-number-mode           t)
 (desktop-save-mode            t)

@@ -30,7 +30,8 @@
 (setq-default
  company-backends
  '(company-css company-clang company-semantic company-eclim company-nxml
-               (company-bbdb
+               (company-yasnippet
+                company-bbdb
                 company-xcode
                 company-cmake
                 company-capf
@@ -44,7 +45,8 @@
 
 (defconst backend-priorities
   '((company-anaconda . 0)
-    (company-capf . 7)
+    (company-capf . 6)
+    (company-yasnippet . 7)
     (company-keywords . 8)
     (company-files . 9)
     (company-dabbrev-code . 10)

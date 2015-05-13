@@ -16,6 +16,7 @@
                  company-auctex-macros
                  company-auctex-symbols
                  company-auctex-environments
+                 company-yasnippet
                  company-files
                  company-dabbrev))))
 
