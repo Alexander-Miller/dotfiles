@@ -36,6 +36,7 @@
         company-auctex
         company-ghc
         company-math
+        dired-plus
         escreen
         evil
         evil-leader

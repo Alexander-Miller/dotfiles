@@ -13,4 +13,5 @@
 (require 'modeline-cfg)
 (require 'diminish-cfg)
 (require 'flycheck-cfg)
+(require 'dired-cfg)
 (require 'keybinds-cfg)
