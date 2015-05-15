@@ -16,22 +16,22 @@ URxvt.letterSpace:     -2
 *.colorul:    #ccb18b
 *.colorit:    #ccb18b
 *background:  #282828
-*color0:      #414141
-*color1:      #bd5049
-*color2:      #b5bd68
-*color3:      #b98d50
-*color4:      #506d79
-*color5:      #79596d
-*color6:      #2b6651
-*color7:      #929593
-*color8:      #666666
+*color0:      #1a1a1a
+*color1:      #cc6666
+*color2:      #66aa66
+*color3:      #f0c674
+*color4:      #446688
+*color5:      #a374a8
+*color6:      #339999
+*color7:      #a3a3a3
+*color8:      #1a1a1a
 *color9:      #cc6666
-*color10:     #b5dd68
+*color10:     #66aa66
 *color11:     #f0c674
-*color12:     #81a2be
-*color13:     #b294bb
-*color14:     #8abeb7
-*color15:     #ecebec
+*color12:     #446688
+*color13:     #a374a8
+*color14:     #339999
+*color15:     #a3a3a3
 
 rofi.width:           75
 rofi.lines:           10
@@ -51,5 +51,3 @@ rofi.fixed-num-lines: false
 rofi.hmode:           false
 rofi.terminal:        rxvt-unicode
 rofi.ssh-set-title:   true
-
-Xcursor.theme: win8
