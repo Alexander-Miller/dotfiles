@@ -1,7 +1,6 @@
 ;;; misc-settings.cfg --- various minor settings
 
 ;;; Commentary:
-
 ;;; Code:
 
 (require 'git-gutter-fringe)
@@ -75,6 +74,7 @@
 (add-to-list 'golden-ratio-exclude-modes "neotree-mode")
 (add-to-list 'golden-ratio-exclude-modes "term-mode")
 (add-to-list 'golden-ratio-exclude-modes "reftex-toc-mode")
+(add-to-list 'golden-ratio-exclude-modes "flycheck-error-list-mode")
 (add-to-list 'golden-ratio-inhibit-functions
              '(lambda () (if (boundp 'helm-alive-p) (symbol-value 'helm-alive-p))))
 
