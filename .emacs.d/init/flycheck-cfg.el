@@ -7,6 +7,7 @@
 
   (setq-default
    flycheck-idle-change-delay          4
+   flycheck-indication-mode            'right-fringe
    flycheck-check-syntax-automatically '(mode-enabled save idle-change))
 
   (define-key flycheck-mode-map flycheck-keymap-prefix nil)
