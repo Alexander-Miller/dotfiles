@@ -31,27 +31,15 @@
 
 (with-eval-after-load "latex"
 
-  ;; save style information when saving the buffer
-  (setq-default TeX-auto-save 1)
-
-  ;; parse file after loading if no style hook is found
-  (setq-default TeX-parse-self 1)
-
-  ;;AUCTeX multidoc awareness for \input
-  (setq-default TeX-master nil)
-
-  ;; use PDF TeX as default executable
-  (setq-default TeX-PDF-mode 1)
-
-  ;; do not ask for permission to start TeX
-  (setq-default TeX-save-query nil)
-
-  ;;proper indentation of list items
-  (setq-default LaTeX-item-indent 0)
-
-  ;; dont use different text sizes
-  (setq-default font-latex-fontify-script nil)
-  (setq-default font-latex-fontify-sectioning 'color)
+  (setq-default
+   font-latex-fontify-script     nil
+   font-latex-fontify-sectioning 'color
+   LaTeX-item-indent             0
+   TeX-master                    nil
+   TeX-save-query                nil
+   TeX-auto-save                 t
+   TeX-parse-self                t
+   TeX-PDF-mode                  t)
 
   (evil-leader/set-key-for-mode 'latex-mode
     "<tab> e"   'LaTeX-environment
