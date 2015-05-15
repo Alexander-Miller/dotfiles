@@ -11,7 +11,7 @@
 (diminish 'subword-mode      "")
 (diminish 'company-mode      " ")
 (diminish 'yas-minor-mode    " ")
-(with-eval-after-load "anaconda"
+(with-eval-after-load 'anaconda-mode
   (diminish 'anaconda-mode " 🐍"))
 (with-eval-after-load "rainbow-mode"
   (diminish 'rainbow-mode " 🌈"))
