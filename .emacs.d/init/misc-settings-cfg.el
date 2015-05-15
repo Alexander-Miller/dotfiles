@@ -74,8 +74,11 @@
 
 (add-to-list 'golden-ratio-exclude-modes "neotree-mode")
 (add-to-list 'golden-ratio-exclude-modes "term-mode")
+(add-to-list 'golden-ratio-exclude-modes "reftex-toc-mode")
 (add-to-list 'golden-ratio-inhibit-functions
              '(lambda () (if (boundp 'helm-alive-p) (symbol-value 'helm-alive-p))))
 
 (provide 'misc-settings-cfg)
 ;;; misc-settings-cfg.el ends here
+(setq ispell-program-name "hunspell")
+(setq ispell-dictionary "deutsch8")
