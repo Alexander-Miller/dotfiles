@@ -60,8 +60,10 @@ Hence only the less important backends neet to be explicitly marked."
     (if (null pr) -1 pr)))
 
 (defun equal-priotity-sort-function (c1 c2)
-  "Will lexicographically sort C1 and C2 if their backends are of equal priority."
-  (string-lessp c1 c2))
+  ;; "Will lexicographically sort C1 and C2 if their backends are of equal priority."
+  ;; (string-lessp c1 c2))
+  "Try to keep same order because C1 and C2 are already sorted by sort-by-occurence."
+  nil)
 
 (defun company-sort-by-backend-priority (candidates)
   "Will sort completion CANDIDATES according to their priorities.
@@ -69,26 +71,26 @@ In case of equal priorities lexicographical ordering is used.
 Duplicate candidates will be removed as well."
   (sort (delete-dups candidates)
         (lambda (c1 c2)
-          (let ((b1 (get-text-property 0 'company-backend c1))
-                (b2 (get-text-property 0 'company-backend c2)))
-            (let ((diff (- (priority-of-backend b1) (priority-of-backend b2))))
-              (if (= diff 0)
-                  (equal-priotity-sort-function c1 c2)
-                (if (< 0 diff) nil t)))))))
+          (let* ((b1 (get-text-property 0 'company-backend c1))
+                 (b2 (get-text-property 0 'company-backend c2))
+                 (diff (- (priority-of-backend b1) (priority-of-backend b2))))
+            (if (= diff 0)
+                (equal-priotity-sort-function c1 c2)
+              (if (< 0 diff) nil t))))))
 
 (setq-default company-transformers '(company-sort-by-occurrence company-sort-by-backend-priority))
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-capf company-keywords company-dabbrev-code company-files)))))
+                             '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
 
 (add-hook 'lisp-interaction-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-capf company-keywords company-dabbrev-code company-files)))))
+                             '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
 
 (add-hook 'python-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-anaconda company-files company-dabbrev-code)))))
+                             '((company-anaconda company-yasnippet company-files company-dabbrev-code)))))
 
 (provide 'company-cfg)
 ;;; company-cfg.el ends here
