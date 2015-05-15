@@ -86,6 +86,10 @@
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" point))))
 
+(defun my/what-major-mode ()
+  "Provides the exact name of the current major mode."
+  (interactive) (message "%s" major-mode))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
 Will remove calls to redisplay that render ace modes unbearably slow.
