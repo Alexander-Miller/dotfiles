@@ -30,8 +30,9 @@
  ace-jump-mode-case-fold         nil
  ace-jump-mode-move-keys         '(?a ?s ?d ?f ?q ?w ?e ?x ?c ?h ?j ?k ?l ?n ?m ?i)
  ace-jump-mode-scope             'window
- ;; backup-directory-alist          '(("." . ,(concat user-emacs-directory "backups")))
+ backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
+ fill-column                     80
  frame-title-format              '(buffer-file-name "%f" ("%b"))
  fringe-mode                     '(1 . 0)
  indent-tabs-mode                nil
