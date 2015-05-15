@@ -26,6 +26,7 @@
              (turn-on-reftex)
              (setq reftex-plug-into-AUCTeX t)
              (latex-math-mode t)
+             (tex-fold-mode t)
              (latex-company-setup)))
 
 (with-eval-after-load "latex"
@@ -64,13 +65,25 @@
     "<tab> f s" 'LaTeX-fill-section
     "<tab> f f" 'LaTeX-fill-buffer
 
-    "<tab> o b" '(lambda () (interactive) (TeX-font nil 2) (evil-insert 1))
-    "<tab> o s" '(lambda () (interactive) (TeX-font nil 3) (evil-insert 1))
-    "<tab> o e" '(lambda () (interactive) (TeX-font nil 5) (evil-insert 1))
-    "<tab> o i" '(lambda () (interactive) (TeX-font nil 9) (evil-insert 1))
+    "<tab> l b" 'TeX-fold-buffer
+    "<tab> l c" 'TeX-fold-comment
+    "<tab> l l" 'TeX-fold-dwim
+    "<tab> l f" 'TeX-fold-buffer
+    "<tab> l e" 'TeX-fold-env
+    "<tab> l r" 'TeX-fold-region
+    "<tab> L i" 'TeX-fold-clearout-item
+    "<tab> L f" 'TeX-fold-clearout-buffer
+    "<tab> L p" 'TeX-fold-clearout-paragraph
+    "<tab> L r" 'TeX-fold-clearout-region
+
+    "<tab> o b" '(lambda () (interactive) (TeX-font nil 2)  (evil-insert 1))
+    "<tab> o s" '(lambda () (interactive) (TeX-font nil 3)  (evil-insert 1))
+    "<tab> o e" '(lambda () (interactive) (TeX-font nil 5)  (evil-insert 1))
+    "<tab> o i" '(lambda () (interactive) (TeX-font nil 9)  (evil-insert 1))
     "<tab> o r" '(lambda () (interactive) (TeX-font nil 18) (evil-insert 1))
     "<tab> o l" '(lambda () (interactive) (TeX-font nil 19) (evil-insert 1))
     "<tab> o t" '(lambda () (interactive) (TeX-font nil 20) (evil-insert 1))
+    "<tab> o d" '(lambda () (interactive) (TeX-font nil 4))
 
     "<tab> p e" 'preview-environment
     "<tab> p r" 'preview-region
