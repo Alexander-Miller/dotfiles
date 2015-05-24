@@ -25,12 +25,12 @@ URxvt.letterSpace:     -2
 *color6:      #339999
 *color7:      #a3a3a3
 *color8:      #1a1a1a
-*color9:      #cc6666
-*color10:     #66aa66
-*color11:     #f0c674
-*color12:     #446688
-*color13:     #a374a8
-*color14:     #339999
+*color9:      #ff6666
+*color10:     #669a66
+*color11:     #f0b664
+*color12:     #537aa0
+*color13:     #722b7a
+*color14:     #2fa7a7
 *color15:     #a3a3a3
 
 rofi.width:           75
