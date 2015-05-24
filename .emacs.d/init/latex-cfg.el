@@ -31,6 +31,9 @@
 
 (with-eval-after-load "latex"
 
+  (define-key reftex-toc-mode-map (kbd "j") 'reftex-toc-next)
+  (define-key reftex-toc-mode-map (kbd "k") 'reftex-toc-previous)
+
   (setq-default
    font-latex-fontify-script     nil
    font-latex-fontify-sectioning 'color
