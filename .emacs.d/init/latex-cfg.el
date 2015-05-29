@@ -18,31 +18,35 @@
                  company-auctex-environments
                  company-yasnippet
                  company-files
+                 company-dabbrev-code
                  company-dabbrev))))
 
 (add-hook 'TeX-mode-hook
           '(lambda ()
              (rainbow-delimiters-mode t)
+             (latex-math-mode t)
+             (flyspell-mode t)
+             (tex-fold-mode t)
              (turn-on-reftex)
              (setq reftex-plug-into-AUCTeX t)
-             (latex-math-mode t)
-             (tex-fold-mode t)
              (latex-company-setup)))
+
+(with-eval-after-load 'reftex-mode
+  (define-key reftex-toc-mode-map (kbd "j") 'reftex-toc-next)
+  (define-key reftex-toc-mode-map (kbd "k") 'reftex-toc-previous)
+  (setq-default reftex-toc-split-windows-horizontally t))
 
 (with-eval-after-load "latex"
 
-  (define-key reftex-toc-mode-map (kbd "j") 'reftex-toc-next)
-  (define-key reftex-toc-mode-map (kbd "k") 'reftex-toc-previous)
-
   (setq-default
-   font-latex-fontify-script     nil
-   font-latex-fontify-sectioning 'color
-   LaTeX-item-indent             0
-   TeX-master                    nil
-   TeX-save-query                nil
-   TeX-auto-save                 t
-   TeX-parse-self                t
-   TeX-PDF-mode                  t)
+   font-latex-fontify-script             nil
+   font-latex-fontify-sectioning         'color
+   LaTeX-item-indent                     0
+   TeX-master                            nil
+   TeX-save-query                        nil
+   TeX-auto-save                         t
+   TeX-parse-self                        t
+   TeX-PDF-mode                          t)
 
   (evil-leader/set-key-for-mode 'latex-mode
     "<tab> e"   'LaTeX-environment
