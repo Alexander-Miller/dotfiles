@@ -3,7 +3,10 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'org-mode-hook '(lambda () (org-bullets-mode 1)))
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (setq-local company-backends '((company-dabbrev)))
+             (org-bullets-mode 1)))
 
 (with-eval-after-load "org"
 
