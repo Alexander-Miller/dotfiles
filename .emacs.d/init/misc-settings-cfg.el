@@ -1,4 +1,4 @@
-;;; misc-settings.cfg --- various minor settings
+;;; misc-settings-cfg.el --- various minor settings
 
 ;;; Commentary:
 ;;; Code:
@@ -6,6 +6,7 @@
 (require 'git-gutter-fringe)
 (global-auto-revert-mode      t)
 (global-git-gutter-mode       t)
+(global-hl-line-mode          t)
 (global-prettify-symbols-mode t)
 (global-visual-line-mode      t)
 (yas-global-mode              t)
