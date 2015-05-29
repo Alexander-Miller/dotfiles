@@ -29,14 +29,13 @@
         ace-jump-mode
         ace-window
         aggressive-indent-mode
-        anaconda-mode
         auctex
         company
-        company-anaconda
         company-auctex
         company-ghc
         company-math
         dired-plus
+        elpy
         escreen
         evil
         evil-leader

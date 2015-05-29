@@ -16,3 +16,4 @@
 (require 'flycheck-cfg)
 (require 'dired-cfg)
 (require 'keybinds-cfg)
+(require 'python-cfg)

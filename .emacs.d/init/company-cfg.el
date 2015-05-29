@@ -88,9 +88,7 @@ Duplicate candidates will be removed as well."
           '(lambda () (setq-local company-backends
                              '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
 
-(add-hook 'python-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-anaconda company-yasnippet company-files company-dabbrev-code)))))
 
 (provide 'company-cfg)
 ;;; company-cfg.el ends here
