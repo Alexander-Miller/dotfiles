@@ -6,6 +6,7 @@
 (require 'misc-settings-cfg)
 (require 'helm-cfg)
 (require 'evil-cfg)
+(require 'avy-cfg)
 (require 'company-cfg)
 (require 'latex-cfg)
 (require 'magit-cfg)

@@ -29,7 +29,7 @@
  (kbd "C-r") 'evil-search-backward
  (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
 (my/def-key-for-maps
- (kbd "C-f") 'ace-jump-char-mode
+ (kbd "C-f") 'evil-avy-goto-char
  (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
 
 ;; faster scrolling
@@ -130,7 +130,7 @@
   "3"   'split-window-horizontally
   "r"   'query-replace-regexp
   "+"   'set-mark-command
-  "j"   'ace-jump-line-mode
+  "j"   'avy-goto-line
   "e i" 'el-get-install
   "e I" 'el-get-reinstall
   "e r" 'el-get-remove
