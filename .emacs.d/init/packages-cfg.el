@@ -26,7 +26,6 @@
 
 (setq my:el-get-packages
       '(
-        ace-jump-mode
         ace-window
         aggressive-indent-mode
         auctex
@@ -34,6 +33,8 @@
         company-auctex
         company-ghc
         company-math
+        define-word
+        diminish
         dired-plus
         elpy
         escreen
@@ -64,14 +65,12 @@
         nlinum
         offlineimap
         org-bullets
-        popup
         powerline
         projectile
         rainbow-delimiters
         rainbow-mode
         reftex
         smart-mode-line
-        tomorrow-theme
         undo-tree
         visual-fill-column
         writeroom-mode
