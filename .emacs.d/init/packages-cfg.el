@@ -41,6 +41,7 @@
         evil-leader
         evil-matchit
         evil-surround
+        expand-region
         flycheck
         ghc-mod
         git-gutter

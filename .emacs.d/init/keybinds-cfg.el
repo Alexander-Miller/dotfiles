@@ -82,6 +82,9 @@
  (kbd "C-x C-x") 'evil-goto-mark
  (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
 
+;; expand region
+(define-key evil-normal-state-map (kbd "C-w") 'er/expand-region)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
