@@ -21,8 +21,8 @@
    multi-term-dedicated-buffer-name         "Dedicated Fish"
    multi-term-scroll-to-bottom-on-output    t
    multi-term-switch-after-close            nil
-   multi-term-dedicated-window-height       33
-   multi-term-dedicated-max-window-height   33
+   multi-term-dedicated-window-height       50
+   multi-term-dedicated-max-window-height   50
    multi-term-dedicated-select-after-open-p t))
 
 (provide 'shell-cfg)
