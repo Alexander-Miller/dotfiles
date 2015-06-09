@@ -23,13 +23,13 @@ URxvt.letterSpace:     -2
 *color4:      #446688
 *color5:      #a374a8
 *color6:      #339999
-*color7:      #a3a3a3
-*color8:      #1a1a1a
-*color9:      #ff6666
-*color10:     #669a66
-*color11:     #f0b664
-*color12:     #537aa0
-*color13:     #722b7a
+*color7:      #666666
+*color8:      #a3a3a3
+*color9:      #dd7777
+*color10:     #77bb77
+*color11:     #f2d785
+*color12:     #557799
+*color13:     #b485b9
 *color14:     #2fa7a7
 *color15:     #a3a3a3
 
@@ -40,7 +40,7 @@ rofi.font:            Fantasque Sans Mono 14
 rofi.fg:              #ccb18b
 rofi.bg:              #282828
 rofi.hlfg:            #000000
-rofi.hlbg:            #4c78c9
+rofi.hlbg:            #446688
 rofi.bc:              #282828
 rofi.bw:              1
 rofi.loc:             0
