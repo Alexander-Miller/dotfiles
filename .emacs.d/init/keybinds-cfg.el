@@ -85,6 +85,9 @@
 ;; expand region
 (define-key evil-normal-state-map (kbd "C-w") 'er/expand-region)
 
+;; for convenience
+(global-set-key (kbd "C-c ö") 'my/what-face)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
@@ -112,7 +115,8 @@
   "f f" 'helm-find-files
   "f S" 'save-some-buffers
   "f e" 'eval-buffer
-  "f k" 'kill-buffer
+  "f k" 'kill-this-buffer
+  "f K" 'kill-buffer
   "f r" 'helm-recentf
   "H H" 'helm-apropos
   "g s" 'magit-status
