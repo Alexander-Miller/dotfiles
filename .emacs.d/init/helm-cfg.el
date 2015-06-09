@@ -6,6 +6,7 @@
 (helm-mode 1)
 
 (setq-default
+ helm-ag-base-command                   "ag -f --hidden --nocolor --nogroup --depth -1"
  helm-M-x-fuzzy-match                   t
  helm-semantic-fuzzy-match              t
  helm-imenu-fuzzy-match                 t
