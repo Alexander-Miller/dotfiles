@@ -72,6 +72,7 @@
         reftex
         smart-mode-line
         undo-tree
+        vimrc-mode
         visual-fill-column
         writeroom-mode
         yasnippet
