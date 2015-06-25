@@ -5,20 +5,24 @@
 
 (diminish 'helm-mode         "")
 (diminish 'golden-ratio-mode "")
+(diminish 'subword-mode      "")
 (diminish 'git-gutter-mode   " ")
 (diminish 'undo-tree-mode    " ")
 (diminish 'visual-line-mode  " ")
-(diminish 'subword-mode      "")
 (diminish 'company-mode      " ")
 (diminish 'yas-minor-mode    " ")
 (with-eval-after-load 'anaconda-mode
   (diminish 'anaconda-mode " 🐍"))
-(with-eval-after-load "rainbow-mode"
+(with-eval-after-load 'rainbow-mode
   (diminish 'rainbow-mode " 🌈"))
-(with-eval-after-load "magit"
+(with-eval-after-load 'magit-auto-revert-mode
   (diminish 'magit-auto-revert-mode " "))
 (with-eval-after-load "aggressive-indent"
   (diminish 'aggressive-indent-mode " ➠"))
+(with-eval-after-load "flyspell"
+  (diminish 'flyspell-mode " ✈"))
+(with-eval-after-load "smartparens"
+  (diminish 'flyspell-mode " ()"))
 
 (provide'diminish-cfg)
 ;;; diminish-cfg.el ends here
