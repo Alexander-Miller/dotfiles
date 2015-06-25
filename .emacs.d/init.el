@@ -15,5 +15,6 @@
 (require 'diminish-cfg)
 (require 'flycheck-cfg)
 (require 'dired-cfg)
-(require 'keybinds-cfg)
 (require 'python-cfg)
+(require 'projectile-cfg)
+(require 'keybinds-cfg)
