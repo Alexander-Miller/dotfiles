@@ -7,6 +7,7 @@
 
 (setq-default
  helm-ag-base-command                   "ag -f --hidden --nocolor --nogroup --depth -1"
+ helm-echo-input-in-header-line         t
  helm-M-x-fuzzy-match                   t
  helm-semantic-fuzzy-match              t
  helm-imenu-fuzzy-match                 t
@@ -38,9 +39,19 @@
  helm-ff-transformer-show-only-basename t
  helm-ff-auto-update-initial-value      nil)
 
-(defadvice helm-display-mode-line (after undisplay-header activate)
-  "Will remove unnecessary helm header."
-  (setq header-line-format nil))
+;; (defadvice helm-display-mode-line (after undisplay-header activate)
+  ;; "Will remove unnecessary helm header."
+  ;; (setq header-line-format nil))
+
+(defun helm-hide-minibuffer-maybe ()
+  (when (with-helm-buffer helm-echo-input-in-header-line)
+    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+      (overlay-put ov 'window (selected-window))
+      (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
+                              `(:background ,bg-color :foreground ,bg-color)))
+      (setq-local cursor-type nil))))
+
+(add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
 
 (provide 'helm-cfg)
 ;;; helm-cfg.el ends here
