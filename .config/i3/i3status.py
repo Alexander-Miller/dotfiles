@@ -121,10 +121,7 @@ def pack(text, color):
 
 
 def main():
-    global BLOCKS
-    stdout.write('{"click_events": true, "version": 1}')
-    stdout.write('[')
-    stdout.write('[],')
+    stdout.write('{"click_events": true, "version": 1}[[],')
     while True:
         for func in [cpu, ram, online, charge, date_time, volume]:
             try_catch(func)
@@ -132,7 +129,7 @@ def main():
         stdout.write(dumps(BLOCKS) + ',')
         stdout.flush()
         sleep(NAP_TIME)
-        BLOCKS = []
+        BLOCKS.clear()
 
 if __name__ == '__main__':
     main()
