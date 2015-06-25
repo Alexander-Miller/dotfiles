@@ -1,11 +1,11 @@
 set $mod Mod4
 
 # Lock Screen
-bindsym $mod+shift+x exec ~/.config/i3/i3lock_wrapper
+bindsym $mod+shift+x exec --no-startup-id ~/.config/i3/i3lock_wrapper
 
 # Volume up and down
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
 
 # screen brightness up and down
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -dec 10
@@ -23,15 +23,15 @@ bindsym $mod+minus scratchpad show
 
 # kill
 bindsym $mod+q kill
-bindsym $mod+shift+z exec xkill
+bindsym $mod+shift+z exec --no-startup-id xkill
 
 # Rofi run and window switch dialogues
-bindsym $mod+Tab exec rofi -show run
-bindsym $mod+l exec rofi -show window
+bindsym $mod+Tab exec --no-startup-id rofi -show run
+bindsym $mod+l exec --no-startup-id rofi -show window
 
 # screenshot
-bindsym --release Print exec scrot -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
-bindsym --release Shift+Print exec scrot -d 3 -s ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym --release Print exec --no-startup-id scrot -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym --release Shift+Print exec --no-startup-id scrot -d 3 -s ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
