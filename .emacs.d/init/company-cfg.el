@@ -90,5 +90,30 @@ Duplicate candidates will be removed as well."
 
           '(lambda () (setq-local company-backends
 
+(defun company-off (arg)
+  "Use default keys when company is not active.
+ARG is ignored."
+  (my/def-key-for-maps
+   (kbd "C-j") 'my/newline-and-indent
+   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
+  (my/def-key-for-maps
+   (kbd "C-k") 'kill-line
+   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map)))
+
+(defun company-on (arg)
+  "Use company's keys when company is active.
+Necessary due to company-quickhelp using global key maps.
+ARG is ignored."
+  (my/def-key-for-maps
+   (kbd "C-j") 'company-select-next
+   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
+  (my/def-key-for-maps
+   (kbd "C-k") 'company-select-previous
+   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map)))
+
+(add-hook 'company-completion-started-hook   #'company-on)
+(add-hook 'company-completion-finished-hook  #'company-off)
+(add-hook 'company-completion-cancelled-hook #'company-off)
+
 (provide 'company-cfg)
 ;;; company-cfg.el ends here

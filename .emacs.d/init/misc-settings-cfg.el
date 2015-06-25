@@ -12,6 +12,7 @@
 (yas-global-mode              t)
 (blink-cursor-mode            t)
 (column-number-mode           t)
+(company-quickhelp-mode       t)
 (desktop-save-mode            t)
 (semantic-mode                t)
 (electric-pair-mode           t)
@@ -39,6 +40,7 @@
  inhibit-splash-screen           t
  next-line-add-newlines          t
  nlinum-format                   " %d"
+ pos-tip-background-color        "#444444"
  require-final-newline           t
  scroll-conservatively           1000
  scroll-margin                   15

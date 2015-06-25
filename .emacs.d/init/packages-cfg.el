@@ -25,14 +25,14 @@
   (el-get-elpa-build-local-recipes))
 
 (setq my:el-get-packages
-      '(
-        ace-window
+      '(ace-window
         aggressive-indent-mode
         auctex
         company
         company-auctex
         company-ghc
         company-math
+        company-quickhelp
         define-word
         diminish
         dired-plus
