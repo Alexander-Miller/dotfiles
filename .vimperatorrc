@@ -86,10 +86,21 @@ map <C-x>g :tabopen www.google.de<CR>
 """"""""""""""""""""""""
 " don't hide menus in fullscreen
 set! browser.fullscreen.autohide=false
-" to prevent q on the last tab from closing the window:
+" to prevent q on the last tab from closing the window
 set! browser.tabs.closeWindowWithLastTab=false
 " download dir
 set! browser.download.dir=~/downloads
+" fix choppy scrolling
+set! layout.frame_rate.precise=true
+" faster load times
+set! privacy.trackingprotection.enabled=true
+" Sooner javascript garbage collection
+set! javascript.options.mem.high_water_mark=30
+" Fewer forward/backward history entries
+set! browser.sessionhistory.max_entries=10
+" Greater image cache
+set! image.mem.max_decoded_image_kb=512000
+
 
 """""""""""
 """ CSS """
