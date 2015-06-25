@@ -87,6 +87,7 @@
 
 ;; for convenience
 (global-set-key (kbd "C-c ö") 'my/what-face)
+(global-set-key (kbd "C-^") 'evil-buffer)
 
 ;; company binds
 (my/def-key-for-maps
