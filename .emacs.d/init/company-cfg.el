@@ -88,7 +88,9 @@ Duplicate candidates will be removed as well."
           '(lambda () (setq-local company-backends
                              '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
 
-          '(lambda () (setq-local company-backends
+(add-hook 'css-mode-hook
+          (lambda () (setq-local company-backends
+                            '((company-css company-yasnippet company-dabbrev-code company-files company-dabbrev)))))
 
 (defun company-off (arg)
   "Use default keys when company is not active.
