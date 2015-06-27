@@ -22,7 +22,7 @@
 (with-eval-after-load "flyspell"
   (diminish 'flyspell-mode " ✈"))
 (with-eval-after-load "smartparens"
-  (diminish 'flyspell-mode " ()"))
+  (diminish 'smartparens-mode " ()"))
 
 (provide'diminish-cfg)
 ;;; diminish-cfg.el ends here
