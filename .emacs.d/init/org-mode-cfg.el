@@ -3,18 +3,26 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'org-mode-hook
-          '(lambda ()
-             (setq-local company-backends '((company-dabbrev)))
-             (org-bullets-mode 1)))
+(defun my/org-mode-hook ()
+  "Org-mode hook."
+  (setq-local company-backends '((company-dabbrev)))
+  (org-bullets-mode t))
+
+(add-hook 'org-mode-hook #'my/org-mode-hook)
 
 (with-eval-after-load "org"
 
   (setq-default
-   org-startup-indented           t
+   org-catch-invisible-edits      'show
+   org-fontify-whole-heading-line t
+   org-list-indent-offset         40
+   org-src-fontify-natively       t
    org-startup-align-all-tables   t
    org-startup-folded             t
-   org-src-fontify-natively       t)
+   org-startup-indented           t)
+
+  (global-set-key (kbd "C-c a" ) 'org-agenda)
+  (global-set-key (kbd "C-c c" ) 'org-capture)
 
   (define-key org-mode-map (kbd "M-j") 'org-metadown)
   (define-key org-mode-map (kbd "M-k") 'org-metaup)
@@ -31,14 +39,16 @@
   (evil-leader/set-key-for-mode 'org-mode
     "<tab> o"   'org-todo
     "<tab> C-o" 'org-insert-todo-heading-respect-content
+    "<tab> c"   'org-toggle-checkbox
     "<tab> -"   'org-ctrl-c-minus
     "<tab> u"   'outline-up-heading
     "<tab> j"   'org-forward-heading-same-level
     "<tab> k"   'org-backward-heading-same-level
     "<tab> w"   'org-refile
+    "<tab> ="   'org-sort
     "<tab> s m" 'org-mark-subtree
-    "<tab> s x" 'org-cut-subtree
-    "<tab> s c" 'org-copy-subtree
+    "<tab> s d" 'org-cut-subtree
+    "<tab> s y" 'org-copy-subtree
     "<tab> s p" 'org-paste-subtree
     "<tab> t r" 'org-table-recalculate-buffer-tables
     "<tab> t R" 'org-table-recalculate
