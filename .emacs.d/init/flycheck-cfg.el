@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook prog-mode-hook '(lambda () (flycheck-mode t)))
+(add-hook 'prog-mode-hook '(lambda () (flycheck-mode t)))
 
 (with-eval-after-load "flycheck"
 
