@@ -53,7 +53,6 @@
         helm-ag
         helm-company
         helm-swoop
-        hi2
         key-chord
         magit
         markdown-mode
@@ -65,6 +64,7 @@
         nlinum
         offlineimap
         org-bullets
+        org-mode
         powerline
         projectile
         rainbow-delimiters

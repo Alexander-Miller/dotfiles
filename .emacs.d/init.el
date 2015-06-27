@@ -16,5 +16,6 @@
 (require 'flycheck-cfg)
 (require 'dired-cfg)
 (require 'python-cfg)
+(require 'haskell-cfg)
 (require 'projectile-cfg)
 (require 'keybinds-cfg)

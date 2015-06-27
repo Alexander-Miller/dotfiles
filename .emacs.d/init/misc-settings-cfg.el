@@ -77,6 +77,7 @@
 (add-to-list 'golden-ratio-extra-commands 'switch-window)
 
 (add-to-list 'golden-ratio-exclude-modes "neotree-mode")
+(add-to-list 'golden-ratio-exclude-modes "haskell-interactive-mode")
 (add-to-list 'golden-ratio-exclude-modes "term-mode")
 (add-to-list 'golden-ratio-exclude-modes "reftex-toc-mode")
 (add-to-list 'golden-ratio-exclude-modes "flycheck-error-list-mode")
@@ -92,6 +93,14 @@
 
 (dolist (hook hl-line-exclude-mode-hooks)
   (add-hook hook #'locally-turn-off-hl-line-mode))
+
+(setq-default
+ prettify-symbols-alist
+ '(("lambda" . 955)
+   ("<=" . "⇐")
+   ("=>" . "⇒")
+   ("<-" . "←")
+   ("->" . "→")))
 
 (provide 'misc-settings-cfg)
 ;;; misc-settings-cfg.el ends here
