@@ -14,8 +14,38 @@
 (add-hook 'python-mode-hook          #'my/python-mode-hook)
 (add-hook 'inferior-python-mode-hook #'my/inferior-python-mode-hook)
 
-(with-eval-after-load 'python-mode
+(with-eval-after-load "python"
+
+  (defun elpy-doc-popup ()
+  "Show documentation popup for the symbol at point."
+  (interactive)
+  (let ((symbol-at-point nil)
+        (doc nil))
+    (when (not current-prefix-arg)
+      (setq doc (elpy-rpc-get-docstring))
+      (when (not doc)
+        (save-excursion
+          (python-nav-backward-up-list)
+          (setq doc (elpy-rpc-get-docstring))))
+      (when (not doc)
+        (setq doc (elpy-rpc-get-pydoc-documentation
+                   (elpy-doc--symbol-at-point))))
+      (when (not doc)
+        (save-excursion
+          (python-nav-backward-up-list)
+          (setq doc (elpy-rpc-get-pydoc-documentation
+                     (elpy-doc--symbol-at-point))))))
+    (when (not doc)
+      (setq doc (elpy-rpc-get-pydoc-documentation
+                 (elpy-doc--read-identifier-from-minibuffer
+                  (elpy-doc--symbol-at-point)))))
+    (if doc (pos-tip-show doc nil nil nil -1)
+      (error "No documentation found"))))
+
+  (define-key python-mode-map (kbd "C-ä") 'elpy-doc-popup)
+
   (setq-default elpy-rpc-backend "jedi")
+
   (elpy-enable))
 
 (provide 'python-cfg)
