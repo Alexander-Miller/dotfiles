@@ -38,6 +38,8 @@
  fringe-mode                     '(1 . 0)
  indent-tabs-mode                nil
  inhibit-splash-screen           t
+ ispell-dictionary               "en_UK"
+ ispell-program-name             "hunspell"
  next-line-add-newlines          t
  nlinum-format                   " %d"
  pos-tip-background-color        "#444444"
@@ -64,6 +66,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 (add-hook 'prog-mode-hook '(lambda () (rainbow-delimiters-mode t)))
+(add-hook 'prog-mode-hook '(lambda () (flyspell-prog-mode t)))
 (add-hook 'text-mode-hook #'turn-on-flyspell)
 
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 11"))
@@ -106,5 +109,3 @@
 
 (provide 'misc-settings-cfg)
 ;;; misc-settings-cfg.el ends here
-(setq ispell-program-name "hunspell")
-(setq ispell-dictionary "deutsch8")

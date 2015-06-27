@@ -90,6 +90,21 @@
   "Provides the exact name of the current major mode."
   (interactive) (message "%s" major-mode))
 
+(defun my/switch-dict (dict)
+  "Use DICT as Ispell dictionary."
+  (message "Now using \"%s\" dictionary." dict)
+  (setq-default ispell-dictionary dict)
+  (if flyspell-mode
+      (progn (flyspell-mode nil) (flyspell-mode t) (flyspell-buffer))))
+
+(defun my/choose-dict ()
+  "Use Helm to choose new Ispell dictionary."
+  (interactive)
+  (let ((dicts (ispell-valid-dictionary-list)))
+    (helm :sources '((name       . "Choose new Ispell dictionary")
+                     (candidates . dicts)
+                     (action     . my/switch-dict)))))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
 Will remove calls to redisplay that render ace modes unbearably slow.
