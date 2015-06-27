@@ -84,7 +84,8 @@
 (add-to-list 'golden-ratio-inhibit-functions
              '(lambda () (if (boundp 'helm-alive-p) (symbol-value 'helm-alive-p))))
 
-(defconst hl-line-exclude-mode-hooks '(magit-status-mode-hook magit-log-mode-hook org-mode-hook)
+(defconst hl-line-exclude-mode-hooks
+  '(magit-status-mode-hook magit-log-mode-hook org-mode-hook term-mode-hook undo-tree-visualizer-mode-hook)
   "Major modes where hl-line mode will be locally turned off.")
 
 (defun locally-turn-off-hl-line-mode ()
@@ -92,7 +93,8 @@
   (setq-local global-hl-line-mode nil))
 
 (dolist (hook hl-line-exclude-mode-hooks)
-  (add-hook hook #'locally-turn-off-hl-line-mode))
+  (remove-hook hook #'locally-turn-off-hl-line-mode)
+  (add-hook    hook #'locally-turn-off-hl-line-mode))
 
 (setq-default
  prettify-symbols-alist
