@@ -31,16 +31,17 @@
              (setq reftex-plug-into-AUCTeX t)
              (latex-company-setup)))
 
-(with-eval-after-load 'reftex-mode
-  (define-key reftex-toc-mode-map (kbd "j") 'reftex-toc-next)
-  (define-key reftex-toc-mode-map (kbd "k") 'reftex-toc-previous)
-  (setq-default reftex-toc-split-windows-horizontally t))
 
 (with-eval-after-load "latex"
 
+  (with-eval-after-load "reftex-toc"
+    (define-key reftex-toc-mode-map (kbd "j") 'reftex-toc-next)
+    (define-key reftex-toc-mode-map (kbd "k") 'reftex-toc-previous)
+    (setq-default reftex-toc-split-windows-horizontally t))
+
   (setq-default
    font-latex-fontify-script             nil
-   font-latex-fontify-sectioning         'color
+   font-latex-fontify-sectioning         nil
    LaTeX-item-indent                     0
    TeX-master                            nil
    TeX-save-query                        nil
