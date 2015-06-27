@@ -38,7 +38,7 @@
  fringe-mode                     '(1 . 0)
  indent-tabs-mode                nil
  inhibit-splash-screen           t
- ispell-dictionary               "en_UK"
+ ispell-dictionary               "en_GB"
  ispell-program-name             "hunspell"
  next-line-add-newlines          t
  nlinum-format                   " %d"
@@ -64,10 +64,9 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-(add-hook 'prog-mode-hook '(lambda () (rainbow-delimiters-mode t)))
-(add-hook 'prog-mode-hook '(lambda () (flyspell-prog-mode t)))
-(add-hook 'text-mode-hook #'turn-on-flyspell)
+(add-hook 'after-save-hook  'executable-make-buffer-file-executable-if-script-p)
+(add-hook 'prog-mode-hook   '(lambda () (rainbow-delimiters-mode t)))
+(add-hook 'prog-mode-hook   '(lambda () (flyspell-prog-mode)))
 
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 11"))
 
