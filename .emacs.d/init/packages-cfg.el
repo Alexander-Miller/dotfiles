@@ -41,6 +41,7 @@
         evil
         evil-leader
         evil-matchit
+        evil-numbers
         evil-surround
         expand-region
         flycheck

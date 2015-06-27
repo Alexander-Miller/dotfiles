@@ -89,6 +89,10 @@
 (global-set-key (kbd "C-c ö") 'my/what-face)
 (global-set-key (kbd "C-^") 'evil-buffer)
 
+;; evil numbers
+(global-set-key (kbd "C-c C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c C--") 'evil-numbers/dec-at-pt)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
