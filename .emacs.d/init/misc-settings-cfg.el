@@ -16,6 +16,7 @@
 (desktop-save-mode            t)
 (semantic-mode                t)
 (electric-pair-mode           t)
+(dtrt-indent-mode             t)
 (golden-ratio-mode            t)
 (key-chord-mode               t)
 (menu-bar-mode                t)

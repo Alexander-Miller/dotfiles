@@ -36,6 +36,7 @@
         define-word
         diminish
         dired-plus
+        dtrt-indent
         elpy
         escreen
         evil
