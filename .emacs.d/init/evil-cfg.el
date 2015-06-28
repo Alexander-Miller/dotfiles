@@ -18,5 +18,8 @@
  evil-repeat-move-cursor 0
  evil-find-skip-newlines t)
 
+(add-hook 'evil-visual-state-entry-hook (lambda () (setq-local global-hl-line-mode nil)))
+(add-hook 'evil-visual-state-exit-hook  (lambda () (setq-local global-hl-line-mode t)))
+
 (provide 'evil-cfg)
 ;;; evil-cfg.el ends here
