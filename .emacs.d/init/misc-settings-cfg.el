@@ -4,23 +4,22 @@
 ;;; Code:
 
 (require 'git-gutter-fringe)
+
 (global-auto-revert-mode      t)
+(global-eldoc-mode            t)
 (global-git-gutter-mode       t)
 (global-hl-line-mode          t)
 (global-prettify-symbols-mode t)
 (global-visual-line-mode      t)
 (yas-global-mode              t)
-(blink-cursor-mode            t)
 (column-number-mode           t)
 (company-quickhelp-mode       t)
 (desktop-save-mode            t)
-(semantic-mode                t)
-(electric-pair-mode           t)
 (dtrt-indent-mode             t)
 (golden-ratio-mode            t)
 (key-chord-mode               t)
 (menu-bar-mode                t)
-(show-paren-mode              t)
+(semantic-mode                t)
 (subword-mode                 t)
 (transient-mark-mode          t)
 (undo-tree-mode               t)
@@ -50,6 +49,7 @@
  scroll-preserve-screen-position nil
  show-paren-delay                0
  tab-width                       4
+ undo-outer-limit                42000000
  whitespace-line-column          120
  x-select-enable-clipboard       t)
 

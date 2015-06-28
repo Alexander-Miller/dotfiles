@@ -44,6 +44,7 @@
         evil-leader
         evil-matchit
         evil-numbers
+        evil-smartparens
         evil-surround
         expand-region
         flycheck
@@ -75,6 +76,7 @@
         rainbow-mode
         reftex
         smart-mode-line
+        smartparens
         undo-tree
         vimrc-mode
         visual-fill-column

@@ -18,4 +18,5 @@
 (require 'python-cfg)
 (require 'haskell-cfg)
 (require 'projectile-cfg)
+(require 'smartparens-cfg)
 (require 'keybinds-cfg)
