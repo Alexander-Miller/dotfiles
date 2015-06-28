@@ -93,6 +93,11 @@
 (global-set-key (kbd "C-c C-+") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C-c C--") 'evil-numbers/dec-at-pt)
 
+;; evil exchange
+(my/def-key-for-maps
+ (kbd "gx") 'evil-exchange
+ (list evil-normal-state-map evil-visual-state-map))
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete

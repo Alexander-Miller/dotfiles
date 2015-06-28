@@ -39,6 +39,7 @@
         elpy
         escreen
         evil
+        evil-exchange
         evil-leader
         evil-matchit
         evil-numbers
