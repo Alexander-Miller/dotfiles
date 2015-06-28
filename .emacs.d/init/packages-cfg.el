@@ -56,6 +56,7 @@
         helm-ag
         helm-company
         helm-swoop
+        highlight-symbol
         key-chord
         magit
         markdown-mode

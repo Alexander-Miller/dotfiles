@@ -68,6 +68,7 @@
 (add-hook 'after-save-hook  'executable-make-buffer-file-executable-if-script-p)
 (add-hook 'prog-mode-hook   '(lambda () (rainbow-delimiters-mode t)))
 (add-hook 'prog-mode-hook   '(lambda () (flyspell-prog-mode)))
+(add-hook 'prog-mode-hook   '(lambda () (highlight-symbol-mode)))
 
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 11"))
 

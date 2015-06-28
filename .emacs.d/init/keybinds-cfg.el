@@ -128,6 +128,7 @@
   "f k" 'kill-this-buffer
   "f K" 'kill-buffer
   "f r" 'helm-recentf
+  "t h" 'highlight-symbol
   "H H" 'helm-apropos
   "g s" 'magit-status
   "h i" 'helm-semantic-or-imenu

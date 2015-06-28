@@ -23,6 +23,8 @@
   (diminish 'flyspell-mode " ✈"))
 (with-eval-after-load "smartparens"
   (diminish 'smartparens-mode " ()"))
+(with-eval-after-load "highlight-symbol"
+  (diminish 'highlight-symbol-mode " $"))
 
 (provide'diminish-cfg)
 ;;; diminish-cfg.el ends here
