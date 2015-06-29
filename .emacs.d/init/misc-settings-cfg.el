@@ -10,6 +10,7 @@
 (global-git-gutter-mode       t)
 (global-hl-line-mode          t)
 (global-prettify-symbols-mode t)
+(global-subword-mode          t)
 (global-visual-line-mode      t)
 (yas-global-mode              t)
 (column-number-mode           t)
