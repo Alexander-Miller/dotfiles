@@ -16,6 +16,8 @@
 
 (with-eval-after-load "python"
 
+  (elpy-enable)
+
   (defun elpy-doc-popup ()
   "Show documentation popup for the symbol at point."
   (interactive)
@@ -47,9 +49,7 @@
   (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
   (setq elpy-modules (remove 'elpy-module-highlight-indentation elpy-modules))
 
-  (setq-default elpy-rpc-backend "jedi")
-
-  (elpy-enable))
+  (setq-default elpy-rpc-backend "jedi"))
 
 (provide 'python-cfg)
 ;;; python-cfg.el ends here
