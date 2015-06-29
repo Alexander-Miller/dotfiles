@@ -120,6 +120,11 @@
 (global-set-key                 (kbd "M-x")   'helm-M-x)
 (global-set-key                 (kbd "C-x b") 'my/helm-mini-below)
 
+;; yasnippet binds
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-c y") 'yas-expand)
+
 (evil-leader/set-key
   "f s" 'save-buffer
   "f f" 'helm-find-files
