@@ -44,6 +44,9 @@
 
   (define-key python-mode-map (kbd "C-ä") 'elpy-doc-popup)
 
+  (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
+  (setq elpy-modules (remove 'elpy-module-highlight-indentation elpy-modules))
+
   (setq-default elpy-rpc-backend "jedi")
 
   (elpy-enable))
