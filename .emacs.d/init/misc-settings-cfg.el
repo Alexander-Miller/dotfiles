@@ -35,6 +35,7 @@
  ace-jump-mode-scope             'window
  backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
+ dtrt-indent-verbosity           0
  fill-column                     80
  frame-title-format              '(buffer-file-name "%f" ("%b"))
  fringe-mode                     '(1 . 0)
@@ -60,7 +61,7 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-(set-frame-font "Fantasque Sans Mono 11")
+(set-frame-font "Fantasque Sans Mono 12")
 (set-fontset-font "fontset-default" nil
                   (font-spec :size 16 :name "Symbola"))
 
@@ -72,7 +73,7 @@
 (add-hook 'prog-mode-hook   '(lambda () (flyspell-prog-mode)))
 (add-hook 'prog-mode-hook   '(lambda () (highlight-symbol-mode)))
 
-(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 11"))
+(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
 
 (add-to-list 'auto-mode-alist '("\\.fish\\'" . sh-mode))
 
