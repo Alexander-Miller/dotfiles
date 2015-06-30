@@ -25,6 +25,7 @@ ICON_PLUG      = ' '
 ICON_WIFI      = ' '
 ICON_RAM       = ' '
 ICON_CPU       = ' '
+ICON_MUSIC     = ' '
 
 CMD_DATE    = 'date +"%a %d %b %T"'
 CMD_VOLUME  = 'amixer -D pulse get Master | ag -o "[0-9]*%" | head -n1'
@@ -32,6 +33,7 @@ CMD_BATTERY = 'acpi'
 CMD_WIFI    = 'iwconfig wlp4s0 | ag -o "ESSID:\".*\"|Quality=[0-9]{1,3}"'
 CMD_RAM     = 'free -m | ag "Mem:"'
 CMD_CPU     = 'sar 1 1 -P ALL | ag "([0-9][0-9]:?){3}[[[:space:]]+[0-9][[:space:]]+[0-9]+[.,][0-9]+"'
+CMD_MUSIC   = 'mpc | head -1'
 
 
 def run(command):
@@ -101,6 +103,12 @@ def volume():
     block(ICON_VOLUME, text, COLOR_STD)
 
 
+def music():
+    song = run(CMD_MUSIC)
+    if not song.startswith('volume'):
+        block(ICON_MUSIC, song, COLOR_STD)
+
+
 def block(icon, text, color):
     pack(ICON_SEPARATOR, COLOR_SEPARATOR)
     pack(icon, COLOR_ICON)
@@ -123,7 +131,7 @@ def pack(text, color):
 def main():
     stdout.write('{"click_events": true, "version": 1}[[],')
     while True:
-        for func in [cpu, ram, online, charge, date_time, volume]:
+        for func in [music, cpu, ram, online, charge, date_time, volume]:
             try_catch(func)
         pack(' ', COLOR_SEPARATOR)
         stdout.write(dumps(BLOCKS) + ',')
