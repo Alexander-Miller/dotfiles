@@ -5,6 +5,7 @@
 
 (require 'git-gutter-fringe)
 
+(global-anzu-mode             t)
 (global-auto-revert-mode      t)
 (global-eldoc-mode            t)
 (global-git-gutter-mode       t)

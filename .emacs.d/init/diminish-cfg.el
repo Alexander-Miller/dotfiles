@@ -6,6 +6,7 @@
 (diminish 'helm-mode         "")
 (diminish 'golden-ratio-mode "")
 (diminish 'subword-mode      "")
+(diminish 'anzu-mode         "")
 (diminish 'git-gutter-mode   " ")
 (diminish 'undo-tree-mode    " ")
 (diminish 'visual-line-mode  " ")

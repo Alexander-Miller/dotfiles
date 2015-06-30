@@ -40,6 +40,7 @@
         elpy
         escreen
         evil
+        evil-anzu
         evil-exchange
         evil-leader
         evil-matchit

@@ -151,7 +151,8 @@
   "1"   'delete-other-windows
   "2"   'split-window-vertically
   "3"   'split-window-horizontally
-  "r"   'query-replace-regexp
+  "r"   'anzu-query-replace-regexp
+  "R"   'anzu-query-replace-at-cursor
   "+"   'set-mark-command
   "j"   'avy-goto-line
   "e i" 'el-get-install
