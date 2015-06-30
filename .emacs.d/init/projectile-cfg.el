@@ -3,6 +3,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(projectile-global-mode t)
+
 (with-eval-after-load "projectile"
 
   (helm-projectile-on)
