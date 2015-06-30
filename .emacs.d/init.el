@@ -12,7 +12,6 @@
 (require 'magit-cfg)
 (require 'org-mode-cfg)
 (require 'modeline-cfg)
-(require 'diminish-cfg)
 (require 'flycheck-cfg)
 (require 'dired-cfg)
 (require 'python-cfg)
@@ -20,3 +19,4 @@
 (require 'projectile-cfg)
 (require 'smartparens-cfg)
 (require 'keybinds-cfg)
+(require 'diminish-cfg)

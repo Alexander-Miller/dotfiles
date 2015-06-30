@@ -7,16 +7,16 @@
 (diminish 'golden-ratio-mode "")
 (diminish 'subword-mode      "")
 (diminish 'anzu-mode         "")
-(diminish 'git-gutter-mode   " ")
-(diminish 'undo-tree-mode    " ")
-(diminish 'visual-line-mode  " ")
-(diminish 'company-mode      " ")
-(diminish 'yas-minor-mode    " ")
-(with-eval-after-load 'anaconda-mode
-  (diminish 'anaconda-mode " 🐍"))
+(diminish 'undo-tree-mode    "")
+(diminish 'visual-line-mode  "")
+(diminish 'yas-minor-mode    "")
+(diminish 'git-gutter-mode " ")
+(diminish 'company-mode   " ")
+(with-eval-after-load "elpy"
+  (diminish 'elpy-mode " 🐍"))
 (with-eval-after-load 'rainbow-mode
   (diminish 'rainbow-mode " 🌈"))
-(with-eval-after-load 'magit-auto-revert-mode
+(with-eval-after-load "magit"
   (diminish 'magit-auto-revert-mode " "))
 (with-eval-after-load "aggressive-indent"
   (diminish 'aggressive-indent-mode " ➠"))
@@ -25,9 +25,9 @@
 (with-eval-after-load "smartparens"
   (diminish 'smartparens-mode " ()"))
 (with-eval-after-load "evil-smartparens"
-  (diminish 'evil-smartparens-mode " (E)"))
+  (diminish 'evil-smartparens-mode ""))
 (with-eval-after-load "highlight-symbol"
-  (diminish 'highlight-symbol-mode " $"))
+  (diminish 'highlight-symbol-mode ""))
 
 (provide'diminish-cfg)
 ;;; diminish-cfg.el ends here
