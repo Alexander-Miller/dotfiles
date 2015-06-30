@@ -4,7 +4,7 @@
 ;;; Code:
 
 (with-eval-after-load "dired"
-  (diredp-toggle-find-file-reuse-dir 1)
+
   (evil-define-key 'normal dired-mode-map "l" 'dired-find-alternate-file)
   (evil-define-key 'normal dired-mode-map "h" 'diredp-up-directory-reuse-dir-buffer)
   (evil-define-key 'normal dired-mode-map (kbd "RET")
@@ -22,9 +22,13 @@
   ;; (evil-define-key 'normal dired-mode-map "N" 'evil-search-previous)
   ;; (evil-define-key 'normal dired-mode-map "q" 'kill-this-buffer)
   (put 'dired-find-alternate-file 'disabled nil)
+  (diredp-toggle-find-file-reuse-dir t)
+
   (setq-default
-   diredp-wrap-around-flag t
-   diredp-hide-details-initially-flag t))
+   dired-listing-switches             "-alh"
+   dired-dwim-target                  t
+   diredp-wrap-around-flag            t
+   diredp-hide-details-initially-flag nil))
 
 (provide 'dired-cfg)
 ;;; dired-cfg.el ends here
