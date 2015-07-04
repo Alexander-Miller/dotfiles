@@ -35,6 +35,7 @@
         company-quickhelp
         define-word
         diminish
+        dired-hacks
         dired-plus
         dtrt-indent
         elpy
