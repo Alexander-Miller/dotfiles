@@ -15,7 +15,6 @@
  display-time-interval             30)
 
 (sml/setup)
-(display-time-mode t)
 (powerline-center-evil-theme)
 
 (provide 'modeline-cfg)
