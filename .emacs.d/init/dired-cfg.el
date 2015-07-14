@@ -5,10 +5,32 @@
 
 (with-eval-after-load "dired"
 
-  (evil-define-key 'normal dired-mode-map "l" 'dired-find-alternate-file)
-  (evil-define-key 'normal dired-mode-map "h" 'diredp-up-directory-reuse-dir-buffer)
-  (evil-define-key 'normal dired-mode-map (kbd "RET")
-     '(lambda () (interactive) (call-process-shell-command (concat "xdg-open " (shell-quote-argument (dired-get-filename))))))
+  (defun dired-mark-backward ()
+    "Mark file and move up."
+    (interactive)
+    (call-interactively 'dired-mark)
+    (call-interactively 'dired-previous-line)
+    (call-interactively 'dired-previous-line))
+
+  (defun dired-unmark-backward ()
+    "Unmark file and move up."
+    (interactive)
+    (call-interactively 'dired-unmark)
+    (call-interactively 'dired-previous-line)
+    (call-interactively 'dired-previous-line))
+
+  (defun dired-xdg-open ()
+    "Open file under point with default application."
+    (interactive)
+    (call-process-shell-command
+     (concat "xdg-open " (shell-quote-argument (dired-get-filename)) " &")))
+
+  (evil-define-key 'normal dired-mode-map (kbd "M-m") #'dired-mark-backward)
+  (evil-define-key 'normal dired-mode-map (kbd "M-u") #'dired-unmark-backward)
+  (evil-define-key 'normal dired-mode-map "l"         #'dired-find-alternate-file)
+  (evil-define-key 'normal dired-mode-map "h"         #'diredp-up-directory-reuse-dir-buffer)
+  (evil-define-key 'normal dired-mode-map (kbd "RET") #'dired-xdg-open)
+
   ;; TODO
   ;; (evil-define-key 'normal dired-mode-map "o" 'dired-sort-toggle-or-edit)
   ;; (evil-define-key 'normal dired-mode-map "v" 'dired-toggle-marks)
