@@ -28,6 +28,7 @@
       '(ace-window
         aggressive-indent-mode
         auctex
+        bongo
         company
         company-auctex
         company-ghc
@@ -80,6 +81,7 @@
         smart-mode-line
         smartparens
         undo-tree
+        volume
         vimrc-mode
         visual-fill-column
         writeroom-mode

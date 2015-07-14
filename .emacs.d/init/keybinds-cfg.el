@@ -134,6 +134,7 @@
   "f K" 'kill-buffer
   "f r" 'helm-recentf
   "t h" 'highlight-symbol
+  "t v" 'volume
   "H H" 'helm-apropos
   "g s" 'magit-status
   "h i" 'helm-semantic-or-imenu
