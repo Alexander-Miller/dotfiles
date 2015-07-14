@@ -108,16 +108,6 @@
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "C-o")   'company-other-backend)
 
-;; archive navigation
-(define-key tar-mode-map (kbd "j") 'tar-next-line)
-(define-key tar-mode-map (kbd "k") 'tar-previous-line)
-(define-key tar-mode-map (kbd "J") 'my/quick-forward)
-(define-key tar-mode-map (kbd "K") 'my/quick-backward)
-(define-key archive-mode-map (kbd "j") 'archive-next-line)
-(define-key archive-mode-map (kbd "k") 'archive-previous-line)
-(define-key archive-mode-map (kbd "J") 'my/quick-forward)
-(define-key archive-mode-map (kbd "K") 'my/quick-backward)
-
 ;; helm binds
 (define-key helm-map            (kbd "<tab>") 'helm-execute-persistent-action)
 (define-key helm-map            (kbd "C-,")   'helm-select-action)

@@ -60,5 +60,19 @@
   (dired-rainbow-define executable "#cc6666" ("py" "PY" "el" "EL" "hs" "HS" "sh" "SH"))
   (dired-rainbow-define-chmod executable-unix "#cc6666" "-.*x.*"))
 
+(with-eval-after-load 'tar-mode
+
+  (define-key tar-mode-map (kbd "j") #'tar-next-line)
+  (define-key tar-mode-map (kbd "k") #'tar-previous-line)
+  (define-key tar-mode-map (kbd "J") #'my/quick-forward)
+  (define-key tar-mode-map (kbd "K") #'my/quick-backward))
+
+(with-eval-after-load 'archive-mode
+
+  (define-key archive-mode-map (kbd "j") #'archive-next-line)
+  (define-key archive-mode-map (kbd "k") #'archive-previous-line)
+  (define-key archive-mode-map (kbd "J") #'my/quick-forward)
+  (define-key archive-mode-map (kbd "K") #'my/quick-backward))
+
 (provide 'dired-cfg)
 ;;; dired-cfg.el ends here
