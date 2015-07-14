@@ -44,7 +44,10 @@
   (diredp-toggle-find-file-reuse-dir t)
 
   (setq-default
-   dired-listing-switches             "-alh"
+   dired-listing-switches             "--group-directories-first -alhv"
+   dired-omit-mode                    t
+   dired-dwim-target                  t
+   dired-recursive-copies             t
    dired-dwim-target                  t
    diredp-wrap-around-flag            t
    diredp-hide-details-initially-flag nil)
