@@ -75,8 +75,8 @@ def ram():
 def online():
     wifi = run(CMD_WIFI).split('\n')
     if len(wifi) > 1:
-        ess_id   = wifi[0].strip().split(':')[1][1:-1]
-        quality  = int(wifi[1].strip().split('=')[1]) * 1.4285
+        ess_id  = wifi[0].strip().split(':')[1][1:-1]
+        quality = int(wifi[1].strip().split('=')[1]) * 1.4285
         block(ICON_WIFI, '{:.0f}% @ {}'.format(quality, ess_id), COLOR_STD)
 
 
