@@ -103,6 +103,10 @@
   (remove-hook hook #'locally-turn-off-hl-line-mode)
   (add-hook    hook #'locally-turn-off-hl-line-mode))
 
+(defadvice quit-window
+    (after quit-window-golden-ratio-compatibility activate)
+  (golden-ratio))
+
 (setq-default
  prettify-symbols-alist
  '(("lambda" . 955)
