@@ -23,9 +23,11 @@
 
 (define-key smartparens-strict-mode-map [remap sp-delete-char] 'delete-char)
 
+(sp-pair "<" ">")
 (define-key evil-visual-state-map (kbd "(")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "(")))
 (define-key evil-visual-state-map (kbd "[")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "[")))
 (define-key evil-visual-state-map (kbd "{")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "{")))
+(define-key evil-visual-state-map (kbd "<")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "<")))
 (define-key evil-visual-state-map (kbd "\"") (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "\"")))
 
 (evil-leader/set-key
