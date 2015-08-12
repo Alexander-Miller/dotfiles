@@ -115,5 +115,13 @@
    ("<-" . "←")
    ("->" . "→")))
 
+(setq shackle-rules
+      '((".*cider-repl.*"  :regexp t :ratio    0.33)
+        (".*cider-error.*" :regexp t :noselect t)))
+
+(setq shackle-default-rule '(:select t))
+
+(defadvice shackle-display-buffer (after shackle-gg activate) (golden-ratio))
+
 (provide 'misc-settings-cfg)
 ;;; misc-settings-cfg.el ends here

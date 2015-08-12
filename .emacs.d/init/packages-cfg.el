@@ -78,6 +78,7 @@
         rainbow-delimiters
         rainbow-mode
         reftex
+        shackle
         smart-mode-line
         smartparens
         undo-tree
