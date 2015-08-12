@@ -15,6 +15,9 @@
 
   (evil-set-initial-state 'term-mode 'emacs)
 
+  (define-key term-raw-map  (kbd "<escape>") 'term-send-raw)
+  (define-key term-mode-map (kbd "<escape>") 'term-send-raw)
+  (define-key term-raw-map (kbd "C-^") 'evil-buffer)
   (define-key term-raw-map (kbd "M-l") 'term-send-forward-word)
   (define-key term-raw-map (kbd "M-h") 'term-send-backward-word)
   (define-key term-raw-map (kbd "M-<backspace>") 'term-send-backward-kill-word)
