@@ -26,7 +26,7 @@ bindsym $mod+q kill
 bindsym $mod+shift+z exec --no-startup-id xkill
 
 # Rofi run and window switch dialogues
-bindsym $mod+Tab exec --no-startup-id rofi -show run
+bindsym $mod+Tab exec rofi -show run
 bindsym $mod+l exec --no-startup-id rofi -show window
 
 # screenshot
@@ -212,7 +212,7 @@ focus_follows_mouse no
 smart_borders on
 mouse_warping none
 force_display_urgency_hint 1000 ms
-new_window pixel 5
+new_window pixel 3
 new_float none
 gaps inner 10
 
