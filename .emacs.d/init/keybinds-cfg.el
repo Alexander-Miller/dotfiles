@@ -29,7 +29,7 @@
  (kbd "C-r") 'evil-search-backward
  (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
 (my/def-key-for-maps
- (kbd "C-f") 'evil-avy-goto-char
+ (kbd "M-p") 'evil-avy-goto-char
  (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
 
 ;; faster scrolling
@@ -54,6 +54,7 @@
 (my/def-key-for-maps
  (kbd "C-x x") 'eval-defun
  (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+(global-set-key (kbd "C-x C-e") '(lambda () (interactive) (my/eval-last-sexp 'eval-last-sexp)))
 
 ;; inserting newlines
 (my/def-key-for-maps
@@ -97,6 +98,9 @@
 (my/def-key-for-maps
  (kbd "gx") 'evil-exchange
  (list evil-normal-state-map evil-visual-state-map))
+
+;; redo
+(define-key evil-normal-state-map (kbd "U") 'undo-tree-redo)
 
 ;; company binds
 (my/def-key-for-maps
