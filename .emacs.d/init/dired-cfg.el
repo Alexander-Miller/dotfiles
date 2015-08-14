@@ -54,7 +54,7 @@
 
   (require 'dired-rainbow)
   (dired-rainbow-define audio      "#66aa66" ("mp3" "MP3" "ogg" "OGG" "flac" "FLAC" "wav" "WAV"))
-  (dired-rainbow-define video      "#c0c674" ("webm" "WEBM" "mkv" "MKV" "mpg" "MPG" "mp4" "MP4" "avi" "AVI" "mov" "MOV" "wmv" "m2v" "m4v" "mpeg" "MPEG" "flv" "FLV"))
+  (dired-rainbow-define video      "#f7ca88" ("webm" "WEBM" "mkv" "MKV" "mpg" "MPG" "mp4" "MP4" "avi" "AVI" "mov" "MOV" "wmv" "m2v" "m4v" "mpeg" "MPEG" "flv" "FLV"))
   (dired-rainbow-define image      "#c97449" ("jpg" "JPG" "bmp" "BMP" "png" "PNG"))
   (dired-rainbow-define archive    "#a374a8" ("zip" "ZIP" "tar" "TAR" "gz" "GZ" "rar" "RAR" "7z" "7Z"))
   (dired-rainbow-define executable "#cc6666" ("py" "PY" "el" "EL" "hs" "HS" "sh" "SH"))
