@@ -105,6 +105,15 @@
                      (candidates . dicts)
                      (action     . my/switch-dict)))))
 
+(defun my/eval-last-sexp (eval-func)
+  "Eval sexp with EVAL-FUNC compatible with evil normal state."
+  (if (evil-normal-state-p)
+      (progn
+        (evil-append 1)
+        (call-interactively eval-func)
+        (evil-normal-state))
+    (call-interactively eval-func)))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
 Will remove calls to redisplay that render ace modes unbearably slow.
