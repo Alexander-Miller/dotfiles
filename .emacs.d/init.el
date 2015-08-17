@@ -19,6 +19,5 @@
 (require 'projectile-cfg)
 (require 'smartparens-cfg)
 (require 'keybinds-cfg)
-(require 'bongo-cfg)
 (require 'diminish-cfg)
 (require 'local-cfg)
