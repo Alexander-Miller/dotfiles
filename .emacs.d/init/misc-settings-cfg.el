@@ -22,6 +22,7 @@
 (key-chord-mode               t)
 (menu-bar-mode                t)
 (semantic-mode                t)
+(shackle-mode                 t)
 (subword-mode                 t)
 (transient-mark-mode          t)
 (undo-tree-mode               t)
@@ -117,7 +118,9 @@
 
 (setq shackle-rules
       '((".*cider-repl.*"  :regexp t :ratio    0.33)
-        (".*cider-error.*" :regexp t :noselect t)))
+        (".*cider-error.*" :regexp t :noselect t)
+        (".*magit-diff.*"  :regexp t :noselect t)
+        ("*Help*"          :select t)))
 
 (setq shackle-default-rule '(:select t))
 

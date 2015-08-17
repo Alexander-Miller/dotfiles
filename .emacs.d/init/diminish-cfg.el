@@ -10,6 +10,7 @@
 (diminish 'undo-tree-mode    "")
 (diminish 'visual-line-mode  "")
 (diminish 'yas-minor-mode    "")
+(diminish 'shackle-mode      "")
 (diminish 'git-gutter-mode " ")
 (diminish 'company-mode   " ")
 (with-eval-after-load "elpy"
