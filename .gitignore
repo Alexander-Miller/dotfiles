@@ -13,3 +13,4 @@
 /.config/mpd/state
 /.ncmpcpp/error.log
 /.ncmpcpp/patterns.list
+/.emacs.d/init/local-cfg.el

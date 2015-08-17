@@ -21,3 +21,4 @@
 (require 'keybinds-cfg)
 (require 'bongo-cfg)
 (require 'diminish-cfg)
+(require 'local-cfg)
