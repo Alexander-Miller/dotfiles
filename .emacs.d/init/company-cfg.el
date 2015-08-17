@@ -11,7 +11,7 @@
  company-auto-complete               nil
  company-require-match               nil
  company-tooltip-flip-when-above     nil
- company-idle-delay                  1.5
+ company-idle-delay                  3
  company-minimum-prefix-length       1
  company-selection-wrap-around       t
  company-show-numbers                t
