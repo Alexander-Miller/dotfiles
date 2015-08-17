@@ -24,13 +24,13 @@
 ;; word and character searching
 (my/def-key-for-maps
  (kbd "C-s") 'evil-search-forward
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+ (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map evil-motion-state-map))
 (my/def-key-for-maps
  (kbd "C-r") 'evil-search-backward
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+ (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map evil-motion-state-map evil-motion-state-map))
 (my/def-key-for-maps
  (kbd "M-p") 'evil-avy-goto-char
- (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
+ (list evil-normal-state-map evil-visual-state-map evil-operator-state-map evil-motion-state-map))
 
 ;; faster scrolling
 (my/def-key-for-maps
