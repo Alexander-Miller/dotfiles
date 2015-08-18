@@ -17,6 +17,8 @@
 (with-eval-after-load "python"
 
   (elpy-enable)
+  (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
+  (setq elpy-modules (remove 'elpy-module-highlight-indentation elpy-modules))
 
   (defun elpy-doc-popup ()
   "Show documentation popup for the symbol at point."
@@ -45,9 +47,6 @@
       (error "No documentation found"))))
 
   (define-key python-mode-map (kbd "C-ä") 'elpy-doc-popup)
-
-  (setq elpy-modules (remove 'elpy-module-flymake elpy-modules))
-  (setq elpy-modules (remove 'elpy-module-highlight-indentation elpy-modules))
 
   (setq-default elpy-rpc-backend "jedi"))
 
