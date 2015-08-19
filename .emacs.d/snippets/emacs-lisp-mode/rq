@@ -1,7 +1,6 @@
-
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: require
 # key: rq
 # binding: direct-keybinding
 # --
-(require '$1)
+(require '${1:file})

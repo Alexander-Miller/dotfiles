@@ -127,7 +127,7 @@
 ;; yasnippet binds
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-c y") 'yas-expand)
+(define-key yas-minor-mode-map (kbd "C-ä") 'yas-expand)
 
 (evil-leader/set-key
   "f s" 'save-buffer

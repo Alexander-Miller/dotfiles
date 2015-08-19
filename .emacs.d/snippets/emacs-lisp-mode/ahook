@@ -3,4 +3,4 @@
 # key: ahook
 # binding: direct-keybinding
 # --
-(add-hook '$1 $2)
+(add-hook '${1:hook} ${2:function})
