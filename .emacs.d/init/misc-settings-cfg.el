@@ -76,8 +76,6 @@
 
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
 
-(add-to-list 'auto-mode-alist '("\\.fish\\'" . sh-mode))
-
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
 
