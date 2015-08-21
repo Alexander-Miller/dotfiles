@@ -79,6 +79,14 @@
     (helm-for-files)
     (setq-default helm-split-window-default-side 'original-value)))
 
+(defun my/helm-projectile-switch-to-buffer (&optional arg)
+  "Same as `helm-projectile-switch-to-buffer' (including ARG) but opens the window on the underside of the screen."
+  (interactive)
+  (let ((original-value 'helm-split-window-default-side))
+    (setq-default helm-split-window-default-side 'below)
+    (helm-projectile-switch-to-buffer arg)
+    (setq-default helm-split-window-default-side 'original-value)))
+
 (defun my/what-face (point)
   "Reveal face at POINT."
   (interactive "d")
