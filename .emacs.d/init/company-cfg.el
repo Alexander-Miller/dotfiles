@@ -9,9 +9,10 @@
  company-sort-by-occurrence          t
  company-abort-manual-when-too-short nil
  company-auto-complete               nil
+ company-async-timeout               10
  company-require-match               nil
  company-tooltip-flip-when-above     nil
- company-idle-delay                  3
+ company-idle-delay                  999
  company-minimum-prefix-length       1
  company-selection-wrap-around       t
  company-show-numbers                t
@@ -19,8 +20,8 @@
  company-tooltip-margin              2
  company-tooltip-minimum-width       70
  company-dabbrev-code-everywhere     t
- company-dabbrev-code-ignore-case    t
- company-etags-ignore-case           t
+ company-dabbrev-code-ignore-case    nil
+ company-etags-ignore-case           nil
  company-dabbrev-downcase            nil)
 
 (add-hook 'company-completion-started-hook '(lambda (arg) (diminish-undo 'company-mode)))
