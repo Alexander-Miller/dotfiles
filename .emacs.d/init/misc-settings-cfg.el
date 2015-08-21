@@ -40,6 +40,7 @@
  fill-column                     80
  frame-title-format              '(buffer-file-name "%f" ("%b"))
  fringe-mode                     '(1 . 0)
+ highlight-symbol-idle-delay     4
  indent-tabs-mode                nil
  inhibit-splash-screen           t
  ispell-dictionary               "en_GB"
