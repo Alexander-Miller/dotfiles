@@ -28,6 +28,8 @@
      magit-file-section-map
      magit-status-mode-map
      magit-hunk-section-map
+     magit-stash-section-map
+     magit-stashes-section-map
      magit-staged-section-map
      magit-unstaged-section-map))
 
