@@ -18,7 +18,7 @@
 (with-eval-after-load 'rainbow-mode
   (diminish 'rainbow-mode " 🌈"))
 (with-eval-after-load "magit"
-  (diminish 'magit-auto-revert-mode " "))
+  (diminish 'global-auto-revert-mode " "))
 (with-eval-after-load "aggressive-indent"
   (diminish 'aggressive-indent-mode " ➠"))
 (with-eval-after-load "flyspell"
