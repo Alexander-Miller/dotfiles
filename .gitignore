@@ -14,3 +14,4 @@
 /.ncmpcpp/error.log
 /.ncmpcpp/patterns.list
 /.emacs.d/init/local-cfg.el
+/.config/fish/local.fish
