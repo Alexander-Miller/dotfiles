@@ -11,6 +11,12 @@
 (global-evil-surround-mode 1)
 (global-evil-matchit-mode 1)
 
+(add-hook 'evil-emacs-state-entry-hook
+          (lambda () (setq-local cursor-type '(bar . 1))))
+
+(add-hook 'evil-operator-state-entry-hook
+          (lambda () (setq-local cursor-type '(hbar . 5))))
+
 (setq-default
  evil-default-state      'normal
  evil-auto-indent        0
