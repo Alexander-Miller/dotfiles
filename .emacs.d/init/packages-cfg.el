@@ -27,20 +27,18 @@
 (setq my:el-get-packages
       '(ace-window
         aggressive-indent-mode
-        auctex
-        bongo
+        ;; auctex
+        ;; bongo
         company
-        company-auctex
-        company-ghc
-        company-math
+        ;; company-auctex
+        ;; company-ghc
+        ;; company-math
         company-quickhelp
-        define-word
         diminish
         dired-hacks
         dired-plus
         dtrt-indent
         elpy
-        escreen
         evil
         evil-anzu
         evil-exchange
@@ -51,11 +49,11 @@
         evil-surround
         expand-region
         flycheck
-        ghc-mod
+        ;; ghc-mod
         git-gutter
         git-gutter-fringe
         golden-ratio
-        haskell-mode
+        ;; haskell-mode
         helm
         helm-ag
         helm-company
@@ -67,7 +65,6 @@
         morning-star-theme
         ;;mu4e
         multi-term
-        multiple-cursors
         neotree
         nlinum
         offlineimap
@@ -77,7 +74,7 @@
         projectile
         rainbow-delimiters
         rainbow-mode
-        reftex
+        ;; reftex
         shackle
         smart-mode-line
         smartparens
