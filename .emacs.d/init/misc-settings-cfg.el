@@ -103,17 +103,13 @@
   (remove-hook hook #'locally-turn-off-hl-line-mode)
   (add-hook    hook #'locally-turn-off-hl-line-mode))
 
-(defadvice quit-window
-    (after quit-window-golden-ratio-compatibility activate)
+(defadvice quit-window (after quit-window-golden-ratio-compatibility activate)
+  "Triggers golden ratio after every quit window event."
   (golden-ratio))
 
-(setq-default
- prettify-symbols-alist
- '(("lambda" . 955)
-   ("<=" . "⇐")
-   ("=>" . "⇒")
-   ("<-" . "←")
-   ("->" . "→")))
+(defadvice shackle-display-buffer (after shackle-gg activate)
+  "Triggers golden ratio after every buffer display event."
+  (golden-ratio))
 
 (setq shackle-rules
       '((".*cider-repl.*"  :regexp t :ratio    0.33)
@@ -123,7 +119,13 @@
 
 (setq shackle-default-rule '(:select t))
 
-(defadvice shackle-display-buffer (after shackle-gg activate) (golden-ratio))
+(setq-default
+ prettify-symbols-alist
+ '(("lambda" . 955)
+   ("<=" . "⇐")
+   ("=>" . "⇒")
+   ("<-" . "←")
+   ("->" . "→")))
 
 (provide 'misc-settings-cfg)
 ;;; misc-settings-cfg.el ends here
