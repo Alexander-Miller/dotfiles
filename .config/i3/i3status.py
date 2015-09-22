@@ -33,7 +33,7 @@ CMD_BATTERY = 'acpi'
 CMD_WIFI    = 'iwconfig wlp4s0 | ag -o "ESSID:\".*\"|Quality=[0-9]{1,3}"'
 CMD_RAM     = 'free -m | ag "Mem:"'
 CMD_CPU     = 'sar 1 1 -P ALL | ag "([0-9][0-9]:?){3}[[[:space:]]+[0-9][[:space:]]+[0-9]+[.,][0-9]+"'
-CMD_MUSIC   = 'mpc | head -1'
+CMD_MUSIC   = 'mpc current'
 
 
 def run(command):
@@ -105,7 +105,8 @@ def volume():
 
 def music():
     song = run(CMD_MUSIC)
-    if not song.startswith('volume'):
+    # if not song.startswith('volume'):
+    if song:
         block(ICON_MUSIC, song, COLOR_STD)
 
 
