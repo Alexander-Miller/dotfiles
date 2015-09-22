@@ -28,21 +28,24 @@
 (add-hook 'company-completion-finished-hook '(lambda (arg) (diminish 'company-mode " ")))
 (add-hook 'company-completion-cancelled-hook '(lambda (arg) (diminish 'company-mode " ")))
 
-(setq-default
- company-backends
- '(company-css company-clang company-semantic company-eclim company-nxml
-               (company-yasnippet
-                company-bbdb
-                company-xcode
-                company-cmake
-                company-capf
-                company-dabbrev-code
-                company-gtags
-                company-etags
-                company-keywords
-                company-oddmuse
-                company-files
-                company-dabbrev)))
+(setq-default company-backends
+ '((company-css
+    company-clang
+    company-semantic
+    company-eclim
+    company-nxml
+    company-yasnippet
+    company-bbdb
+    company-xcode
+    company-cmake
+    company-capf
+    company-dabbrev-code
+    company-gtags
+    company-etags
+    company-keywords
+    company-oddmuse
+    company-files
+    company-dabbrev)))
 
 (defconst backend-priorities
   '((company-anaconda . 0)
@@ -93,6 +96,8 @@ Duplicate candidates will be removed as well."
           (lambda () (setq-local company-backends
                             '((company-css company-yasnippet company-dabbrev-code company-files company-dabbrev)))))
 
+(add-hook 'conf-space-mode-hook
+          (lambda () (setq-local company-backends '((company-capf company-files company-dabbrev-code company-dabbrev)))))
 (defun company-off (arg)
   "Use default keys when company is not active.
 ARG is ignored."
