@@ -102,6 +102,9 @@
 ;; redo
 (define-key evil-normal-state-map (kbd "U") 'undo-tree-redo)
 
+;; tab indent in normal mode
+(define-key prog-mode-map (kbd "<tab>") 'indent-for-tab-command)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
