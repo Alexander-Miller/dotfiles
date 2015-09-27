@@ -11,8 +11,8 @@
 (diminish 'visual-line-mode  "")
 (diminish 'yas-minor-mode    "")
 (diminish 'shackle-mode      "")
-(diminish 'git-gutter-mode " ")
-(diminish 'company-mode   " ")
+(diminish 'git-gutter-mode   " ")
+(diminish 'company-mode      " ⓒ")
 (with-eval-after-load "elpy"
   (diminish 'elpy-mode " 🐍"))
 (with-eval-after-load 'rainbow-mode

@@ -25,8 +25,8 @@
  company-dabbrev-downcase            nil)
 
 (add-hook 'company-completion-started-hook '(lambda (arg) (diminish-undo 'company-mode)))
-(add-hook 'company-completion-finished-hook '(lambda (arg) (diminish 'company-mode " ")))
-(add-hook 'company-completion-cancelled-hook '(lambda (arg) (diminish 'company-mode " ")))
+(add-hook 'company-completion-finished-hook '(lambda (arg) (diminish 'company-mode " ⓒ")))
+(add-hook 'company-completion-cancelled-hook '(lambda (arg) (diminish 'company-mode " ⓒ")))
 
 (setq-default company-backends
  '((company-css
