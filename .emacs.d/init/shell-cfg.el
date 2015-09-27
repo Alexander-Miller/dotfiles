@@ -3,11 +3,14 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'term-mode-hook
-          '(lambda ()
-             (setq-local company-backends '())
-             (yas-minor-mode 0)
-             (setq-local scroll-margin 0)))
+(add-hook
+ 'term-mode-hook
+ '(lambda ()
+    (setq-local truncat-lines t)
+    (setq-local truncate-partial-width-windows nil)
+    (setq-local company-backends '())
+    (setq-local scroll-margin 0)
+    (yas-minor-mode 0)))
 
 (global-set-key [f1] 'multi-term-dedicated-toggle)
 
