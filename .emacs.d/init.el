@@ -13,6 +13,7 @@
 (require 'modeline-cfg)
 (require 'flycheck-cfg)
 (require 'dired-cfg)
+(require 'rust-cfg)
 (require 'python-cfg)
 (require 'projectile-cfg)
 (require 'smartparens-cfg)

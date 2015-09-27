@@ -1,3 +1,4 @@
+set -xU RUST_SRC_PATH $HOME/Documents/git/rust/src
 
 # remove ansi term prompt issues
 function fish_title;end

@@ -56,7 +56,7 @@
         helm
         helm-ag
         helm-company
-	helm-projectile
+        helm-projectile
         helm-swoop
         highlight-symbol
         key-chord
@@ -70,15 +70,18 @@
         offlineimap
         org-bullets
         org-mode
-	pos-tip
+        pos-tip
         powerline
         projectile
+        racer
         rainbow-delimiters
         rainbow-mode
+        rust-mode
         ;; reftex
         shackle
         smart-mode-line
         smartparens
+        toml-mode
         undo-tree
         volume
         vimrc-mode
