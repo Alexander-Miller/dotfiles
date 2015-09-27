@@ -1,0 +1,56 @@
+[options]
+allow_bold          = true
+audible_bell        = false
+browser             = firefox
+clickable_url       = true
+cursor_blink        = on
+cursor_shape        = ibeam
+dynamic_title       = true
+font                = Fantasque Sans Mono 12
+mouse_autohide      = false
+pseudo_transparency = false
+resize_grip         = false
+scrollback_lines    = 10000
+scroll_on_keystroke = true
+scroll_on_output    = true
+search_wrap         = true
+transparency        = 0.0
+urgent_on_bell      = true
+visible_bell        = false
+#word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+[colors]
+foreground_dim = #00ff00
+cursor         = #6699cc
+foreground     = #ccb18b
+cursorcolor    = #ccb18b
+colorbd        = #ccb18b
+colorul        = #ccb18b
+colorit        = #ccb18b
+background     = #2e2e33
+highlight      = #1a1a1a
+color0         = #1a1a1a
+color1         = #cc6666
+color2         = #66aa66
+color3         = #f0c674
+color4         = #446688
+color5         = #a374a8
+color6         = #339999
+color7         = #a3a3a3
+color8         = #5d5d5d
+color9         = #dd7777
+color10        = #77bb77
+color11        = #f2d785
+color12        = #557799
+color13        = #b485b9
+color14        = #2fa7a7
+color15        = #cccccc
+
+[hints]
+font = Fantasque Sans Mono 12
+foreground = #dcdccc
+background = #3f3f3f
+padding = 2
+border = #3f3f3f
+border_width = 0.5
+roundness = 2.0
