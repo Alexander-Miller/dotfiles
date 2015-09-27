@@ -68,6 +68,7 @@
                   (font-spec :size 16 :name "Symbola"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
+(toggle-indicate-empty-lines)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-save-hook  'executable-make-buffer-file-executable-if-script-p)
