@@ -39,6 +39,7 @@
         dired-plus
         dtrt-indent
         elpy
+        emacs-fish
         evil
         evil-anzu
         evil-exchange
@@ -57,6 +58,7 @@
         helm
         helm-ag
         helm-company
+	helm-projectile
         helm-swoop
         highlight-symbol
         key-chord
@@ -70,6 +72,7 @@
         offlineimap
         org-bullets
         org-mode
+	pos-tip
         powerline
         projectile
         rainbow-delimiters
