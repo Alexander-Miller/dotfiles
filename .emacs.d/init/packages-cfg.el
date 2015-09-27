@@ -46,8 +46,6 @@
         evil-leader
         evil-matchit
         evil-numbers
-        evil-smartparens
-        evil-surround
         expand-region
         flycheck
         ;; ghc-mod
@@ -85,7 +83,6 @@
         volume
         vimrc-mode
         visual-fill-column
-        writeroom-mode
         yasnippet
         ))
 

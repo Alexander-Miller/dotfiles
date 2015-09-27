@@ -5,8 +5,6 @@
 
 (require 'smartparens-config)
 
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
-
 (smartparens-global-strict-mode t)
 (show-smartparens-global-mode t)
 

@@ -8,7 +8,6 @@
 
 (global-evil-leader-mode 1)
 (evil-mode 1)
-(global-evil-surround-mode 1)
 (global-evil-matchit-mode 1)
 
 (add-hook 'evil-emacs-state-entry-hook
