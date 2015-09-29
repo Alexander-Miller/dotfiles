@@ -25,20 +25,15 @@
     (call-process-shell-command
      (concat "xdg-open " (shell-quote-argument (dired-get-filename)) " &")))
 
+  (evil-define-key 'normal dired-mode-map (kbd "RET") #'dired-xdg-open)
   (evil-define-key 'normal dired-mode-map (kbd "M-m") #'dired-mark-backward)
   (evil-define-key 'normal dired-mode-map (kbd "M-u") #'dired-unmark-backward)
   (evil-define-key 'normal dired-mode-map "l"         #'dired-find-alternate-file)
   (evil-define-key 'normal dired-mode-map "h"         #'diredp-up-directory-reuse-dir-buffer)
-  (evil-define-key 'normal dired-mode-map (kbd "RET") #'dired-xdg-open)
-
-  ;; TODO
-  ;; (evil-define-key 'normal dired-mode-map "o" 'dired-sort-toggle-or-edit)
-  ;; (evil-define-key 'normal dired-mode-map "v" 'dired-toggle-marks)
-  ;; (evil-define-key 'normal dired-mode-map "U" 'dired-unmark-all-marks)
-  ;; (evil-define-key 'normal dired-mode-map "c" 'dired-create-directory)
-  ;; (evil-define-key 'normal dired-mode-map "n" 'evil-search-next)
-  ;; (evil-define-key 'normal dired-mode-map "N" 'evil-search-previous)
-  ;; (evil-define-key 'normal dired-mode-map "q" 'kill-this-buffer)
+  (evil-define-key 'normal dired-mode-map "J"         #'my/quick-forward)
+  (evil-define-key 'normal dired-mode-map "K"         #'my/quick-backward)
+  (evil-define-key 'normal dired-mode-map "n"         #'evil-search-next)
+  (evil-define-key 'normal dired-mode-map "N"         #'evil-search-previous)
 
   (put 'dired-find-alternate-file 'disabled nil)
   (diredp-toggle-find-file-reuse-dir t)
