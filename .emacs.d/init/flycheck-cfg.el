@@ -7,13 +7,17 @@
 
 (with-eval-after-load "flycheck"
 
+  (defun my/flycheck-modeline-message ()
+    (s-replace "FlyC:" "✈:" (flycheck-mode-line-status-text)))
+
   (defun flycheck-pos-tip-error-messages (errors)
     "Display flycheck's ERRORS with pos-tip."
     (-when-let (messages (-keep #'flycheck-error-message errors))
       (pos-tip-show (mapconcat 'identity messages "\n\n") nil nil nil -1)))
 
-  (setq-default flycheck-keymap-prefix (kbd "C-c f"))
   (setq-default
+   flycheck-keymap-prefix (kbd "C-c f")
+   flycheck-mode-line                  '(:eval (my/flycheck-modeline-message))
    flycheck-idle-change-delay          4
    flycheck-display-errors-function    #'flycheck-pos-tip-error-messages
    flycheck-indication-mode            'right-fringe

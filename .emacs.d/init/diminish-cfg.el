@@ -22,7 +22,7 @@
 (with-eval-after-load "aggressive-indent"
   (diminish 'aggressive-indent-mode " ➠"))
 (with-eval-after-load "flyspell"
-  (diminish 'flyspell-mode " ✈"))
+  (diminish 'flyspell-mode ""))
 (with-eval-after-load "smartparens"
   (diminish 'smartparens-mode " ()"))
 (with-eval-after-load "evil-smartparens"
