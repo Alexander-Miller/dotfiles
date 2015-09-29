@@ -36,10 +36,11 @@
  ace-jump-mode-scope             'window
  backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
+ default-indicate-empty-lines    t
  dtrt-indent-verbosity           0
  fill-column                     80
  frame-title-format              '(buffer-file-name "%f" ("%b"))
- fringe-mode                     '(1 . 0)
+ fringe-mode                     '(8 . 0)
  highlight-symbol-idle-delay     4
  indent-tabs-mode                nil
  inhibit-splash-screen           t
@@ -64,19 +65,20 @@
 (unless (server-running-p) (server-start))
 
 (set-frame-font "Fantasque Sans Mono 12")
+(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
 (set-fontset-font "fontset-default" nil
                   (font-spec :size 16 :name "Symbola"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
-(toggle-indicate-empty-lines)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-save-hook  'executable-make-buffer-file-executable-if-script-p)
-(add-hook 'prog-mode-hook   '(lambda () (rainbow-delimiters-mode t)))
-(add-hook 'prog-mode-hook   '(lambda () (flyspell-prog-mode)))
-(add-hook 'prog-mode-hook   '(lambda () (highlight-symbol-mode)))
 
-(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
+(add-hook 'prog-mode-hook (lambda () (nlinum-mode t)))
+(add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode t)))
+(add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+(add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
+(add-hook 'text-mode-hook (lambda () nlinum-mode t))
 
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
