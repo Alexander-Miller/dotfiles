@@ -42,7 +42,22 @@
   (my/def-key-for-maps (kbd "C-k") 'magit-discard my/magit-key-maps)
 
   (my/def-key-for-maps (kbd "M-j") 'magit-goto-next-sibling-section my/magit-key-maps)
-  (my/def-key-for-maps (kbd "M-k") 'magit-goto-previous-sibling-section my/magit-key-maps))
+  (my/def-key-for-maps (kbd "M-k") 'magit-goto-previous-sibling-section my/magit-key-maps)
+
+  (evil-add-hjkl-bindings git-rebase-mode-map 'normal
+    (kbd "M-j") #'git-rebase-move-line-down
+    (kbd "M-k") #'git-rebase-move-line-up
+    "J" #'my/quick-forward
+    "K" #'my/quick-backward
+    "D" #'git-rebase-kill-line
+    "o" #'git-rebase-show-commit
+    "s" #'git-rebase-squash
+    "f" #'git-rebase-fixup
+    "p" #'git-rebase-pick
+    "e" #'git-rebase-edit
+    "r" #'git-rebase-reword)
+
+  )
 
 (provide 'magit-cfg)
 ;;; magit-cfg.el ends here
