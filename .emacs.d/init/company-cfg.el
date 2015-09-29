@@ -48,13 +48,13 @@
     company-dabbrev)))
 
 (defconst backend-priorities
-  '((company-anaconda . 0)
-    (company-capf . 6)
-    (company-yasnippet . 7)
-    (company-keywords . 8)
-    (company-files . 9)
+  '((company-anaconda     . 0)
+    (company-capf         . 6)
+    (company-yasnippet    . 7)
+    (company-keywords     . 8)
+    (company-files        . 9)
     (company-dabbrev-code . 10)
-    (company-dabbrev . 11))
+    (company-dabbrev      . 11))
   "Alist of backends' priorities.  Smaller number means higher priority.")
 
 (defun priority-of-backend (backend)
@@ -98,6 +98,7 @@ Duplicate candidates will be removed as well."
 
 (add-hook 'conf-space-mode-hook
           (lambda () (setq-local company-backends '((company-capf company-files company-dabbrev-code company-dabbrev)))))
+
 (defun company-off (arg)
   "Use default keys when company is not active.
 ARG is ignored."
