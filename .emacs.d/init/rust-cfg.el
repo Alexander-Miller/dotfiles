@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(with-eval-after-load "rust-mode"
+(with-eval-after-load "racer"
 
   (define-key racer-mode-map (kbd "M-,")     'racer-find-definition)
   (define-key racer-mode-map (kbd "C-c C-c") 'projectile-compile-project)
