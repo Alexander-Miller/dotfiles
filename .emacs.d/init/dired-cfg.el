@@ -28,12 +28,16 @@
   (evil-define-key 'normal dired-mode-map (kbd "RET") #'dired-xdg-open)
   (evil-define-key 'normal dired-mode-map (kbd "M-m") #'dired-mark-backward)
   (evil-define-key 'normal dired-mode-map (kbd "M-u") #'dired-unmark-backward)
+  (evil-define-key 'normal dired-mode-map "i"         #'dired-subtree-cycle)
   (evil-define-key 'normal dired-mode-map "l"         #'dired-find-alternate-file)
   (evil-define-key 'normal dired-mode-map "h"         #'diredp-up-directory-reuse-dir-buffer)
   (evil-define-key 'normal dired-mode-map "J"         #'my/quick-forward)
   (evil-define-key 'normal dired-mode-map "K"         #'my/quick-backward)
   (evil-define-key 'normal dired-mode-map "n"         #'evil-search-next)
   (evil-define-key 'normal dired-mode-map "N"         #'evil-search-previous)
+
+  (global-set-key            [f2] #'my/dedicated-dired)
+  (define-key dired-mode-map [f2] #'evil-buffer)
 
   (put 'dired-find-alternate-file 'disabled nil)
   (diredp-toggle-find-file-reuse-dir t)

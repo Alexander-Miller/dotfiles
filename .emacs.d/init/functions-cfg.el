@@ -122,6 +122,20 @@
         (evil-normal-state))
     (call-interactively eval-func)))
 
+(defun my/dedicated-dired ()
+  "Switch to or create dedicated dired buffer."
+  (interactive)
+  (let ((dired-buffer
+         (cl-find-if
+          (lambda (e)
+            (string=
+             "dired-mode"
+             (buffer-local-value 'major-mode (get-buffer e))))
+          (helm-buffer-list))))
+    (if dired-buffer
+        (switch-to-buffer dired-buffer)
+      (dired ""))))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
 Will remove calls to redisplay that render ace modes unbearably slow.
