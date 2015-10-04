@@ -12,6 +12,12 @@
 
 (with-eval-after-load "org"
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python     . t)
+     (sh         . t)))
+
   (setq-default
    org-catch-invisible-edits      'show
    org-fontify-whole-heading-line t
