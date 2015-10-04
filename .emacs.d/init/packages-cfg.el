@@ -71,7 +71,6 @@
         org-bullets
         org-mode
         pos-tip
-        powerline
         projectile
         racer
         rainbow-delimiters
@@ -79,8 +78,8 @@
         rust-mode
         ;; reftex
         shackle
-        smart-mode-line
         smartparens
+        spaceline
         toml-mode
         undo-tree
         volume
