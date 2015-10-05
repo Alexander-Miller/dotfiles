@@ -78,7 +78,9 @@
 (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode t)))
 (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
 (add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
-(add-hook 'text-mode-hook (lambda () nlinum-mode t))
+(add-hook 'text-mode-hook (lambda () (nlinum-mode t)))
+
+(add-hook 'emacs-lisp-mode-hook (lambda () (run-with-timer 2 nil (lambda () (flycheck-mode -1)))))
 
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
