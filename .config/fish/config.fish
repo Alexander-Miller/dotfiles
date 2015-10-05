@@ -1,10 +1,14 @@
-alias ew='emacsclient -nw -a=""'
 
-set -xU RUST_SRC_PATH $HOME/Documents/git/rust/src
-set -xg fish_color_search_match --background=black --foreground=blue
-set -xg fish_color_command blue
+set -x RUST_SRC_PATH $HOME/Documents/git/rust/src
+set -x __fish_git_prompt_show_informative_status 1
+set -x fish_color_search_match --background=black --foreground=blue
+set -x fish_color_command blue
 
 function fish_title;end
+
+function emc
+    emacsclient --no-wait --alternate-editor="" $argv
+end
 
 function yt
     youtube-dl $argv
