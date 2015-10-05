@@ -6,6 +6,7 @@
 (with-eval-after-load 'magit
 
   (setq-default
+   git-commit-summary-max-length       100
    magit-highlight-trailing-whitespace t
    magit-diff-show-lines-boundary      t
    magit-key-mode-show-usage           t
