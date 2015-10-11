@@ -5,7 +5,7 @@
 
 (defun my/org-mode-hook ()
   "Org-mode hook."
-  (setq-local company-backends '((company-dabbrev)))
+  (setq-local company-backends '((company-dabbrev company-files company-yasnippet)))
   (org-bullets-mode t))
 
 (add-hook 'org-mode-hook #'my/org-mode-hook)
