@@ -37,11 +37,14 @@
  helm-kill-ring-max-lines-number        5
  helm-default-external-file-browser     "urxvt -e ranger"
  helm-ff-transformer-show-only-basename t
- helm-ff-auto-update-initial-value      nil)
-
-;; (defadvice helm-display-mode-line (after undisplay-header activate)
-  ;; "Will remove unnecessary helm header."
-  ;; (setq header-line-format nil))
+ helm-ff-auto-update-initial-value      nil
+ helm-for-files-preferred-list          '(helm-source-buffers-list
+                                          helm-source-recentf
+                                          helm-source-bookmarks
+                                          helm-source-file-cache
+                                          helm-source-files-in-current-dir
+                                          helm-source-locate
+                                          helm-source-buffer-not-found))
 
 (defun helm-hide-minibuffer-maybe ()
   (when (with-helm-buffer helm-echo-input-in-header-line)
@@ -52,6 +55,36 @@
       (setq-local cursor-type nil))))
 
 (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+
+;; flx for helm
+;; https://github.com/PythonNut/emacs-config/blob/f1df3ac16410bfa72d88855325bd6c2de56f587b/modules/config-helm.el#L33#L89
+
+;; this is a bit hackish, ATM, redefining functions I don't own
+(defvar helm-flx-cache (flx-make-string-cache #'flx-get-heatmap-str))
+
+(defun helm-score-candidate-for-pattern (candidate pattern)
+    (or (car (flx-score candidate pattern helm-flx-cache)) 0))
+
+(defun helm-fuzzy-default-highlight-match (candidate)
+    (let* ((pair (and (consp candidate) candidate))
+           (display (if pair (car pair) candidate))
+            (real (cdr pair)))
+      (with-temp-buffer
+        (insert display)
+        (goto-char (point-min))
+        (if (string-match-p " " helm-pattern)
+            (cl-loop with pattern = (split-string helm-pattern)
+            for p in pattern
+            do (when (search-forward p nil t)
+                 (add-text-properties
+                  (match-beginning 0) (match-end 0) '(face helm-match))))
+          (cl-loop with pattern = (cdr (flx-score display
+                                                  helm-pattern helm-flx-cache))
+                   for index in pattern
+            do (add-text-properties
+                (1+ index) (+ 2 index) '(face helm-match))))
+        (setq display (buffer-string)))
+      (if real (cons display real) display)))
 
 (provide 'helm-cfg)
 ;;; helm-cfg.el ends here

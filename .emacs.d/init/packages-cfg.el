@@ -47,6 +47,7 @@
         evil-matchit
         evil-numbers
         expand-region
+        flx
         flycheck
         ;; ghc-mod
         git-gutter
