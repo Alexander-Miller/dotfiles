@@ -20,7 +20,7 @@ URxvt.letterSpace:     -2
 *color1:      #cc6666
 *color2:      #66aa66
 *color3:      #f0c674
-*color4:      #446688
+*color4:      #557799
 *color5:      #a374a8
 *color6:      #339999
 *color7:      #a3a3a3
@@ -28,7 +28,7 @@ URxvt.letterSpace:     -2
 *color9:      #dd7777
 *color10:     #77bb77
 *color11:     #f2d785
-*color12:     #557799
+*color12:     #6688aa
 *color13:     #b485b9
 *color14:     #2fa7a7
 *color15:     #cccccc
