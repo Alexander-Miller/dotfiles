@@ -29,3 +29,7 @@ end
 function sp
     systemctl suspend
 end
+
+function cbr
+    cargo build --release
+end
