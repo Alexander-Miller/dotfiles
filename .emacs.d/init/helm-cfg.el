@@ -17,7 +17,7 @@
  helm-file-cache-fuzzy-match            t
  helm-projectile-fuzzy-match            t
  helm-semantic-fuzzy-match              t
- helm-locate-fuzzy-match                t
+ helm-locate-fuzzy-match                nil
  helm-recentf-fuzzy-match               t
  helm-candidate-number-limit            100
  helm-move-to-line-cycle-in-source      t
@@ -59,6 +59,7 @@
 ;; flx for helm
 ;; https://github.com/PythonNut/emacs-config/blob/f1df3ac16410bfa72d88855325bd6c2de56f587b/modules/config-helm.el#L33#L89
 
+(require 'flx)
 ;; this is a bit hackish, ATM, redefining functions I don't own
 (defvar helm-flx-cache (flx-make-string-cache #'flx-get-heatmap-str))
 
