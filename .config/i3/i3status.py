@@ -105,7 +105,6 @@ def volume():
 
 def music():
     song = run(CMD_MUSIC)
-    # if not song.startswith('volume'):
     if song:
         block(ICON_MUSIC, song, COLOR_STD)
 
