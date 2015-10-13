@@ -31,9 +31,6 @@
 (tool-bar-mode                0)
 
 (setq-default
- ace-jump-mode-case-fold         nil
- ace-jump-mode-move-keys         '(?a ?s ?d ?f ?q ?w ?e ?x ?c ?h ?j ?k ?l ?n ?m ?i)
- ace-jump-mode-scope             'window
  backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
  default-indicate-empty-lines    t
