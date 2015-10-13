@@ -65,6 +65,7 @@
 (my/def-key-for-maps
  (kbd "C-7") 'comment-line
  (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+(define-key evil-visual-state-map (kbd "C-7") 'comment-dwim)
 
 ;; escape quits everything
 (my/def-key-for-maps
