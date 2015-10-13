@@ -3,4 +3,4 @@
 # key: p1
 # binding: direct-keybinding
 # --
-println!("{}", ${1:obj});
+println!("${1:}{}", ${2:o1});
