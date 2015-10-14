@@ -164,6 +164,11 @@
   "R"   'anzu-query-replace-at-cursor
   "+"   'set-mark-command
   "j"   'avy-goto-line
+  "q f" 'vimish-fold
+  "q d" 'vimish-fold-delete
+  "q q" 'vimish-fold-toggle
+  "q a" 'vimish-fold-avy
+  "q r" 'vimish-refold
   "e i" 'el-get-install
   "e I" 'el-get-reinstall
   "e r" 'el-get-remove

@@ -84,6 +84,7 @@
         toml-mode
         undo-tree
         volume
+        vimish-fold
         vimrc-mode
         visual-fill-column
         yasnippet
