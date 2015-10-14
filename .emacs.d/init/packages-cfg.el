@@ -26,7 +26,6 @@
 
 (setq my:el-get-packages
       '(ace-window
-        aggressive-indent-mode
         ;; auctex
         ;; bongo
         company
