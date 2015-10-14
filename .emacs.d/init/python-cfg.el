@@ -5,6 +5,7 @@
 
 (defun my/python-mode-hook ()
   "Python mode hook."
+  (flycheck-mode t)
   (setq-local company-backends '((elpy-company-backend company-yasnippet company-files company-dabbrev-code))))
 
 (defun my/inferior-python-mode-hook ()

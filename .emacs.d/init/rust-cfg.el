@@ -11,7 +11,7 @@
   (defun rust-hook ()
     "Rust mode hook."
     (racer-mode t)
-    (prettify-symbols-mode t))
+    (flycheck-mode t))
 
   (add-hook 'rust-mode-hook #'rust-hook)
 
