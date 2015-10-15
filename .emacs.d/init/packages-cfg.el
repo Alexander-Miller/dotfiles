@@ -46,6 +46,7 @@
         evil-matchit
         evil-numbers
         expand-region
+        eyebrowse
         flx
         flycheck
         ;; ghc-mod

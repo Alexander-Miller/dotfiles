@@ -18,6 +18,7 @@
 (company-quickhelp-mode       t)
 (desktop-save-mode            t)
 (dtrt-indent-mode             t)
+(eyebrowse-mode               t)
 (golden-ratio-mode            t)
 (key-chord-mode               t)
 (menu-bar-mode                t)

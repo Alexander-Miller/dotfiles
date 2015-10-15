@@ -12,6 +12,7 @@
 (diminish 'yas-minor-mode    "")
 (diminish 'shackle-mode      "")
 (diminish 'git-gutter-mode   "")
+(diminish 'eyebrowse-mode    "")
 (diminish 'company-mode      " ⓒ")
 (with-eval-after-load "racer"
   (diminish 'racer-mode " R"))
