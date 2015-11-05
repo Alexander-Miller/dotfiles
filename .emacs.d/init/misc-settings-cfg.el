@@ -61,10 +61,10 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-(set-frame-font "Fantasque Sans Mono 13")
-(add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 13"))
+(set-frame-font "Hermit 11")
+(add-to-list 'default-frame-alist '(font . "Hermit 11"))
 (set-fontset-font "fontset-default" nil
-                  (font-spec :size 16 :name "Symbola"))
+                  (font-spec :size 13 :name "Symbola"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
