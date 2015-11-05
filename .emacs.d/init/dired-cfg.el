@@ -56,7 +56,7 @@
   (dired-rainbow-define video      "#f7ca88" ("webm" "WEBM" "mkv" "MKV" "mpg" "MPG" "mp4" "MP4" "avi" "AVI" "mov" "MOV" "wmv" "m2v" "m4v" "mpeg" "MPEG" "flv" "FLV"))
   (dired-rainbow-define image      "#c97449" ("jpg" "JPG" "bmp" "BMP" "png" "PNG"))
   (dired-rainbow-define archive    "#a374a8" ("zip" "ZIP" "tar" "TAR" "gz" "GZ" "rar" "RAR" "7z" "7Z"))
-  (dired-rainbow-define executable "#cc6666" ("py" "PY" "el" "EL" "hs" "HS" "sh" "SH"))
+  (dired-rainbow-define executable "#cc6666" ("py" "PY" "el" "EL" "hs" "HS" "sh" "SH" "js" "JS"))
   (dired-rainbow-define-chmod executable-unix "#cc6666" "-.*x.*"))
 
 (with-eval-after-load 'tar-mode
