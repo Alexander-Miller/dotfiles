@@ -1,26 +1,21 @@
-#
-mpd_host = "127.0.0.1"
-#
-mpd_port = "6600"
-#
-mpd_music_dir = "~/Music"
-#
-mpd_connection_timeout = "5"
-
-audio_output {
-    type                    "fifo"
-    name                    "my_fifo"
-    #path                    "/tmp/mpd.fifo"
-    #format                  "44100:16:2"
-}
-
+mpd_host                              = "127.0.0.1"
+mpd_port                              = "6600"
+mpd_music_dir                         = "~/Music"
+mpd_connection_timeout                = "5"
+visualizer_fifo_path                  = "/tmp/mpd.fifo"
+visualizer_output_name                = "my_fifo"
+visualizer_sync_interval              = "200"
+visualizer_in_stereo                  = "yes"
+visualizer_type                       = "spectrum" (spectrum/wave)
+visualizer_color                      = "magenta"
+visualizer_look                       = "●●"
 playlist_disable_highlight_delay      = "3"
 message_delay_time                    = "8"
 song_list_format                      = "{$2%a$2} {$3%b$3} {$5%t$5} $R $6({$6%l})"
 song_status_format                    = "{$2%a$2} {$3%b$3} {$5%t$5}"
 song_library_format                   = "%t"
 song_window_title_format              = "{%a-%t}"
-song_columns_list_format              = "(25)[red]{a} (20)[green]{b} (25)[blue]{t} $R(25)[magenta]{l}"
+song_columns_list_format              = "(32)[red]{a} (32)[green]{b} (32)[blue]{t} $R(4)[magenta]{l}"
 playlist_display_mode                 = "classic"
 browser_display_mode                  = "classic"
 titles_visibility                     = "no"
@@ -54,3 +49,4 @@ active_column_color                   = "red"
 window_border_color                   = "red"
 active_window_border                  = "red"
 follow_now_playing_lyrics             = "yes"
+clock_display_seconds                 = "yes"
