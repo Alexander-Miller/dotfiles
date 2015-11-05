@@ -106,6 +106,10 @@
 ;; tab indent in normal mode
 (define-key prog-mode-map (kbd "<tab>") 'indent-for-tab-command)
 
+;; basic jump to definition
+(define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
+(define-key evil-normal-state-map (kbd "M-,") #'xref-pop-marker-stack)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
