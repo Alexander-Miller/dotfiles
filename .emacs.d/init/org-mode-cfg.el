@@ -12,6 +12,9 @@
 
 (with-eval-after-load "org"
 
+  (require 'ox-md nil t)
+  (require 'ox-confluence nil t)
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
