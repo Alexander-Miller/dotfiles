@@ -14,7 +14,8 @@
  anzu-cons-mode-line-p           nil
  spaceline-highlight-face-func   'spaceline-highlight-face-evil-state
  spaceline-minor-modes-separator " "
- powerline-default-separator    'wave
+ powerline-height                24
+ powerline-default-separator     'wave
  powerline-buffer-size-suffix    t)
 
 (provide 'modeline-cfg)
