@@ -80,6 +80,7 @@
         ;; reftex
         shackle
         smartparens
+        smooth-scroll
         spaceline
         toml-mode
         undo-tree

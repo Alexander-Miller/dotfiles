@@ -3,16 +3,16 @@
 ;;; Commentary:
 ;;; Code:
 
-(diminish 'helm-mode         "")
-(diminish 'golden-ratio-mode "")
-(diminish 'subword-mode      "")
-(diminish 'anzu-mode         "")
-(diminish 'undo-tree-mode    "")
-(diminish 'visual-line-mode  "")
-(diminish 'yas-minor-mode    "")
-(diminish 'shackle-mode      "")
-(diminish 'git-gutter-mode   "")
-(diminish 'eyebrowse-mode    "")
+(diminish 'helm-mode          "")
+(diminish 'subword-mode       "")
+(diminish 'anzu-mode          "")
+(diminish 'undo-tree-mode     "")
+(diminish 'visual-line-mode   "")
+(diminish 'yas-minor-mode     "")
+(diminish 'shackle-mode       "")
+(diminish 'git-gutter-mode    "")
+(diminish 'eyebrowse-mode     "")
+(diminish 'smooth-scroll-mode "")
 (diminish 'company-mode      " ⓒ")
 (with-eval-after-load "racer"
   (diminish 'racer-mode " R"))

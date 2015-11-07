@@ -24,6 +24,7 @@
 (menu-bar-mode                t)
 (semantic-mode                t)
 (shackle-mode                 t)
+(smooth-scroll-mode           t)
 (subword-mode                 t)
 (transient-mark-mode          t)
 (undo-tree-mode               t)
