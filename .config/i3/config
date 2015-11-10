@@ -64,11 +64,11 @@ bindsym $mod+Shift+s move down
 bindsym $mod+Shift+w move up
 bindsym $mod+Shift+d move right
 
-# Alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# Move workspace
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Down move workspace to output down
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Right move workspace to output right
 
 # Change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
