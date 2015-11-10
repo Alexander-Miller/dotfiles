@@ -196,11 +196,11 @@ bar {
 }
 
 exec --no-startup-id dropbox start
-exec --no-startup-id setxkbmap -layout de
-exec --no-startup-id setxkbmap -option ctrl:nocaps
-exec --no-startup-id xrdb ~/.Xdefaults
 exec --no-startup-id compton -b
 exec --no-startup-id unclutter -idle 1
+exec_always xrdb ~/.Xdefaults
+exec_always setxkbmap -layout de
+exec_always setxkbmap -option ctrl:nocaps
 
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
