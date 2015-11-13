@@ -52,6 +52,7 @@
  scroll-preserve-screen-position nil
  show-paren-delay                0
  tab-width                       4
+ truncate-lines                  t
  undo-outer-limit                42000000
  whitespace-line-column          120
  x-select-enable-clipboard       t)
@@ -85,6 +86,8 @@
 
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
 
 (setq shackle-rules
       '((".*cider-repl.*"  :regexp t :ratio    0.33)
