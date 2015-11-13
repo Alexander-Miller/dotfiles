@@ -14,7 +14,7 @@ function ytmp3
 end
 
 function fishconf
-    fish "$HOME/.config/fish/config.fish"
+    source "$HOME/.config/fish/config.fish"
 end
 
 function setbg
@@ -27,4 +27,8 @@ end
 
 function cbr
     cargo build --release
+end
+
+function t2
+    tmux -2
 end
