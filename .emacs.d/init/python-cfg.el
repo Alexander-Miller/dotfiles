@@ -6,14 +6,15 @@
 (defun my/python-mode-hook ()
   "Python mode hook."
   (flycheck-mode t)
+  (setq-local company-idle-delay 4)
   (setq-local company-backends '((elpy-company-backend company-yasnippet company-files company-dabbrev-code))))
 
 (defun my/inferior-python-mode-hook ()
   "Inferior Python mode hook."
   (setq-local company-backends '((company-capf))))
 
-(add-hook 'python-mode-hook          #'my/python-mode-hook)
-(add-hook 'inferior-python-mode-hook #'my/inferior-python-mode-hook)
+(add-hook 'python-mode-hook          #'my/python-mode-hook t)
+(add-hook 'inferior-python-mode-hook #'my/inferior-python-mode-hook t)
 
 (with-eval-after-load "python"
 
