@@ -19,7 +19,6 @@
 (desktop-save-mode            t)
 (dtrt-indent-mode             t)
 (eyebrowse-mode               t)
-(golden-ratio-mode            t)
 (key-chord-mode               t)
 (menu-bar-mode                t)
 (semantic-mode                t)
@@ -88,17 +87,6 @@
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
 
-(add-to-list 'golden-ratio-extra-commands 'ace-window)
-(add-to-list 'golden-ratio-extra-commands 'switch-window)
-
-(add-to-list 'golden-ratio-exclude-modes "neotree-mode")
-(add-to-list 'golden-ratio-exclude-modes "haskell-interactive-mode")
-(add-to-list 'golden-ratio-exclude-modes "term-mode")
-(add-to-list 'golden-ratio-exclude-modes "reftex-toc-mode")
-(add-to-list 'golden-ratio-exclude-modes "flycheck-error-list-mode")
-(add-to-list 'golden-ratio-inhibit-functions
-             '(lambda () (if (boundp 'helm-alive-p) (symbol-value 'helm-alive-p))))
-
 (defconst hl-line-exclude-mode-hooks
   '(magit-status-mode-hook magit-log-mode-hook org-mode-hook term-mode-hook undo-tree-visualizer-mode-hook)
   "Major modes where hl-line mode will be locally turned off.")
@@ -110,14 +98,6 @@
 (dolist (hook hl-line-exclude-mode-hooks)
   (remove-hook hook #'locally-turn-off-hl-line-mode)
   (add-hook    hook #'locally-turn-off-hl-line-mode))
-
-(defadvice quit-window (after quit-window-golden-ratio-compatibility activate)
-  "Triggers golden ratio after every quit window event."
-  (golden-ratio))
-
-(defadvice shackle-display-buffer (after shackle-gg activate)
-  "Triggers golden ratio after every buffer display event."
-  (golden-ratio))
 
 (setq shackle-rules
       '((".*cider-repl.*"  :regexp t :ratio    0.33)
