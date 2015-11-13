@@ -9,7 +9,6 @@
 (global-auto-revert-mode      t)
 (global-eldoc-mode            t)
 (global-git-gutter-mode       t)
-(global-hl-line-mode          t)
 (global-prettify-symbols-mode t)
 (global-subword-mode          t)
 (global-visual-line-mode      t)
@@ -86,18 +85,6 @@
 
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-
-(defconst hl-line-exclude-mode-hooks
-  '(magit-status-mode-hook magit-log-mode-hook org-mode-hook term-mode-hook undo-tree-visualizer-mode-hook)
-  "Major modes where hl-line mode will be locally turned off.")
-
-(defun locally-turn-off-hl-line-mode ()
-  "Locally turn off 'hl-line-mode'."
-  (setq-local global-hl-line-mode nil))
-
-(dolist (hook hl-line-exclude-mode-hooks)
-  (remove-hook hook #'locally-turn-off-hl-line-mode)
-  (add-hook    hook #'locally-turn-off-hl-line-mode))
 
 (setq shackle-rules
       '((".*cider-repl.*"  :regexp t :ratio    0.33)
