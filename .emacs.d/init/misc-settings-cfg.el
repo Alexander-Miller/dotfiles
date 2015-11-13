@@ -74,10 +74,14 @@
 (add-hook 'after-save-hook  'executable-make-buffer-file-executable-if-script-p)
 
 (add-hook 'prog-mode-hook (lambda () (nlinum-mode t)))
+(add-hook 'prog-mode-hook (lambda () (rainbow-mode t)))
 (add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode t)))
 (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
 (add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
 (add-hook 'text-mode-hook (lambda () (nlinum-mode t)))
+(add-hook 'conf-mode-hook (lambda () (rainbow-mode t)))
+(add-hook 'fish-mode-hook (lambda () (rainbow-mode t)))
+(add-hook 'sh-mode-hook   (lambda () (rainbow-mode t)))
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (lambda () (flycheck-mode -1))) t)
 
