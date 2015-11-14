@@ -3,6 +3,7 @@
 set tmpfile (mktemp --tmpdir i3lock-wrapper-XXXXXXXXXX.png)
 set outfile (mktemp --tmpdir i3lock-wrapper-XXXXXXXXXX.png)
 scrot $tmpfile
-convert $tmpfile -scale 20% -scale 500% $outfile
-i3lock -i $outfile
+mogrify -resize 50% -resize 200% -blur 0x4 $tmpfile
+convert -gravity center -composite $tmpfile $XDG_CONFIG_HOME/i3/i3lock.png $outfile
+i3lock -u -i $outfile
 rm $tmpfile $outfile
