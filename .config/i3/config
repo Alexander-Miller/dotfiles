@@ -13,9 +13,6 @@ bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -inc 10
 
 # Start common applications
 bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+F1 exec --no-startup-id firefox
-bindsym $mod+F2 exec --no-startup-id thunderbird
-bindsym $mod+F3 exec --no-startup-id i3-sensible-terminal -e ranger
 
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -196,11 +193,11 @@ bar {
 }
 
 exec --no-startup-id dropbox start
-exec --no-startup-id compton -b
-exec --no-startup-id unclutter -idle 1
-exec_always xrdb ~/.Xdefaults
-exec_always setxkbmap -layout de
+exec --no-startup-id unclutter --timeout 1
+exec --no-startup-id compton
 exec_always setxkbmap -option ctrl:nocaps
+exec_always setxkbmap -layout de
+exec_always xrdb ~/.Xdefaults
 
 for_window [class="Wicd"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
@@ -217,6 +214,8 @@ new_float none
 gaps inner 10
 
 assign [class="Firefox"] → 2
+assign [class="Emacs"] → 3
+assign [class="Thunderbird"] → 4
 
 # Font for window titles.
 font pango: Fantasque Sans Mono 12
