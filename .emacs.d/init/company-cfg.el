@@ -22,6 +22,7 @@
  company-dabbrev-code-everywhere     t
  company-dabbrev-code-ignore-case    nil
  company-etags-ignore-case           nil
+ company-dabbrev-ignore-case         nil
  company-dabbrev-downcase            nil)
 
 (add-hook 'company-completion-started-hook '(lambda (arg) (diminish-undo 'company-mode)))
