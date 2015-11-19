@@ -186,10 +186,10 @@ bar {
             statusline         #00ffff
             separator          #33D04E
             ################## border  bground text
-            focused_workspace  #6699cc #6699cc #000000
-            active_workspace   #888888 #888888 #000000
-            inactive_workspace #888888 #888888 #000000
-            urgent_workspace   #900000 #900000 #ffffff
+            focused_workspace  #4d4d4d #3d3d3d #6699cc
+            active_workspace   #4d4d4d #3d3d3d #888888
+            inactive_workspace #4d4d4d #3d3d3d #888888
+            urgent_workspace   #4d4d4d #3d3d3d #cc6666
         }
 }
 
