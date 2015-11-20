@@ -17,6 +17,7 @@
 (require 'python-cfg)
 (require 'projectile-cfg)
 (require 'smartparens-cfg)
+(require 'fish-cfg)
 (require 'keybinds-cfg)
 (require 'diminish-cfg)
 (require 'local-cfg)

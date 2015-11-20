@@ -61,6 +61,7 @@
         helm-swoop
         highlight-symbol
         key-chord
+        list-utils
         magit
         markdown-mode
         morning-star-theme
