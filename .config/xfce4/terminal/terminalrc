@@ -32,5 +32,5 @@ Encoding                 = UTF-8
 ShortcutsNoMnemonics     = TRUE
 ShortcutsNoMenukey       = TRUE
 TitleMode                = TERMINAL_TITLE_HIDE
-TitleInitial             =
+TitleInitial             = Term
 CommandLoginShell        = TRUE
