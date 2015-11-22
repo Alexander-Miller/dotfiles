@@ -29,5 +29,22 @@
  evil-repeat-move-cursor    0
  evil-find-skip-newlines    t)
 
+(evil-define-state resize
+  "Evil Resize State"
+  :tag "Resize"
+  :suppress-keymap t)
+
+(define-key evil-normal-state-map (kbd "M-r") #'evil-resize-state)
+(define-key evil-resize-state-map (kbd "ESC") #'evil-normal-state)
+(define-key evil-resize-state-map (kbd "C-g") #'evil-normal-state)
+(define-key evil-resize-state-map (kbd "j")   #'shrink-window)
+(define-key evil-resize-state-map (kbd "k")   #'enlarge-window)
+(define-key evil-resize-state-map (kbd "l")   #'shrink-window-horizontally)
+(define-key evil-resize-state-map (kbd "h")   #'enlarge-window-horizontally)
+(define-key evil-resize-state-map (kbd "J")   #'(lambda () (interactive) (shrink-window 5)))
+(define-key evil-resize-state-map (kbd "K")   #'(lambda () (interactive) (enlarge-window 5)))
+(define-key evil-resize-state-map (kbd "L")   #'(lambda () (interactive) (shrink-window-horizontally 5)))
+(define-key evil-resize-state-map (kbd "H")   #'(lambda () (interactive) (enlarge-window-horizontally 5)))
+
 (provide 'evil-cfg)
 ;;; evil-cfg.el ends here
