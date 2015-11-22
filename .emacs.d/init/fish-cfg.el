@@ -35,7 +35,7 @@
         (fetch-shell-functions)))))
 
   (defun fish-hook ()
-    (setq-local company-backends '((company-shell-functions-backend company-dabbrev-code company-files) company-dabbrev)))
+    (setq-local company-backends '((company-shell-functions company-dabbrev-code company-files) company-dabbrev)))
 
   (add-hook 'fish-mode-hook #'fish-hook)
 
