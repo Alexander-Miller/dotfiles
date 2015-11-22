@@ -30,5 +30,10 @@ function cbr
 end
 
 function t2
-    tmux -2
+    tmux -2 $argv
+end
+
+function mkcd -a dir_name
+    mkdir $dir_name
+    cd $dir_name
 end
