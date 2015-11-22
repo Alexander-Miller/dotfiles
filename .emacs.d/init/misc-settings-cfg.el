@@ -12,6 +12,7 @@
 (global-prettify-symbols-mode t)
 (global-subword-mode          t)
 (global-visual-line-mode      t)
+(vimish-fold-global-mode      t)
 (yas-global-mode              t)
 (column-number-mode           t)
 (company-quickhelp-mode       t)
