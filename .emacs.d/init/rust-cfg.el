@@ -5,7 +5,7 @@
 
 (with-eval-after-load "racer"
 
-  (define-key racer-mode-map (kbd "M-,")     'racer-find-definition)
+  (evil-define-key 'normal racer-mode-map (kbd "M-.") 'racer-find-definition)
   (define-key racer-mode-map (kbd "C-c C-c") 'projectile-compile-project)
 
   (defun rust-hook ()
