@@ -1,26 +1,28 @@
 
 function fish_prompt --description 'Write out the prompt'
 
-    set -l last_status $status
-    set -l prompt_color_user yellow
-    set -l prompt_color_pwd magenta
-    set -l prompt_color_line green
-    test $last_status -eq 0; and set -l prompt_color_status green; or set -l prompt_color_status red
-    test $USER = root;       and set -l prompt_color_at     red;   or set -l prompt_color_at     yellow
+    set last_status       $status
+    set prompt_color_user yellow
+    set prompt_color_pwd  magenta
+    set prompt_color_line green
+
+    test $last_status -eq 0; and set prompt_color_status green; or set prompt_color_status red
+    test $USER = root;       and set prompt_color_at     red;   or set prompt_color_at     yellow
 
     # Just calculate this once, to save a few cycles when displaying the prompt
     if not set -q __fish_prompt_hostname
         set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
     end
 
-    echo -n -s (set_color $prompt_color_line) '[' (set_color $prompt_color_user) $USER
+    echo -n -s (set_color $prompt_color_line) '-[' (set_color $prompt_color_user) $USER
     echo -n -s (set_color $prompt_color_at) @ (set_color $promt_color_user) $__fish_prompt_hostname (set_color $prompt_color_line) ']'
-    echo -s -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (__fish_git_prompt)
+    echo -n -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (__fish_git_prompt)
 
-    if test $last_status -eq 0
-        echo -n -s (set_color red) ❯ (set_color yellow) ❯ (set_color green) ❯ ' '
+    if [ $last_status -eq 0 ]
+        echo -n -s \n (set_color red) ❯ (set_color yellow) ❯ (set_color green) ❯ ' '
     else
-        echo -n -s (set_color red) ❯ (set_color red) ❯ (set_color red) ❯ ' '
+        echo -s (set_color $prompt_color_line) '-[' (set_color red) $last_status (set_color $prompt_color_line) ']'
+        echo -s (set_color red) ❯ (set_color red) ❯ (set_color red) ❯ ' '
     end
 
 end
