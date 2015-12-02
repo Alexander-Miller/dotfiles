@@ -14,7 +14,7 @@ function fish_prompt --description 'Write out the prompt'
         set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
     end
 
-    echo -n -s (set_color $prompt_color_line) '-[' (set_color $prompt_color_user) $USER
+    echo -n -s (set_color $prompt_color_line) '[' (set_color $prompt_color_user) $USER
     echo -n -s (set_color $prompt_color_at) @ (set_color $promt_color_user) $__fish_prompt_hostname (set_color $prompt_color_line) ']'
     echo -n -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (__fish_git_prompt)
 
@@ -22,7 +22,7 @@ function fish_prompt --description 'Write out the prompt'
         echo -n -s \n (set_color red) ❯ (set_color yellow) ❯ (set_color green) ❯ ' '
     else
         echo -s (set_color $prompt_color_line) '-[' (set_color red) $last_status (set_color $prompt_color_line) ']'
-        echo -s (set_color red) ❯ (set_color red) ❯ (set_color red) ❯ ' '
+        echo -s (set_color red) ❯❯❯ ' '
     end
 
 end
