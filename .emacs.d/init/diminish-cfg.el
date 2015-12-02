@@ -13,8 +13,8 @@
 (diminish 'git-gutter-mode    "")
 (diminish 'eyebrowse-mode     "")
 (diminish 'smooth-scroll-mode "")
-(diminish 'dired-omit-mode    "")
 (diminish 'company-mode      " ⓒ")
+
 (with-eval-after-load "racer"
   (diminish 'racer-mode " R"))
 (with-eval-after-load "flycheck"
