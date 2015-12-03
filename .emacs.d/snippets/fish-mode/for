@@ -1,8 +1,8 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: if
-# key: if
+# name: for
+# key: for
 # binding: direct-keybinding
 # --
-if ${1:predicate}
-         ${2:body}
+for ${1:var} in ${2:list}
+    ${3:body}
 end
