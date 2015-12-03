@@ -28,11 +28,12 @@
       '(ace-window
         ;; auctex
         ;; bongo
-        company
+        company-mode
         ;; company-auctex
         ;; company-ghc
         ;; company-math
         company-quickhelp
+        company-shell
         diminish
         dired-hacks
         dired-plus
