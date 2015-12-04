@@ -75,6 +75,9 @@ def_key "o"
 def_key "s"
   stop
 
+def_key "S"
+ save_playlist
+
 def_key "p"
   pause
 
@@ -117,7 +120,7 @@ def_key "7"
 def_key "8"
  show_visualizer
 
-def_key "="
+def_key "0"
  show_clock
 
 def_key "@"
@@ -132,40 +135,80 @@ def_key ")"
 def_key "("
  seek_backward
 
-# def_key "tab"
-#  next_screen
-#
-# def_key "shift_tab"
-#  previous_screen
-# def_key ">"
-#  next
-#
-# def_key "<"
-#  previous
-#
+def_key "/"
+ find
+
+def_key "/"
+ find_item_forward
+
+def_key "?"
+ find
+
+def_key "?"
+ find_item_backward
+
+def_key "n"
+ next_found_item
+
+def_key "N"
+ previous_found_item
+
+def_key "t"
+ toggle_space_mode
+
+def_key "="
+ sort_playlist
+
+def_key "backspace"
+ jump_to_parent_directory
+
+def_key "backspace"
+ replay_song
+
+def_key "u"
+ update_database
+
+def_key "e"
+ edit_song
+
+def_key "e"
+ edit_library_tag
+
+def_key "e"
+ edit_library_album
+
+def_key "e"
+ edit_directory_name
+
+def_key "e"
+ edit_playlist_name
+
+def_key "e"
+ edit_lyrics
+
+def_key "i"
+ show_song_info
+
+def_key "I"
+ show_artist_info
+
+def_key "c"
+ clear_playlist
+
+def_key "ctrl_l"
+ toggle_screen_lock
+
+def_key "tab"
+ next_screen
+
+def_key "shift_tab"
+ previous_screen
+
+def_key "a"
+ add_selected_items
+
 # def_key "ctrl_h"
-#  jump_to_parent_directory
-#
-# def_key "ctrl_h"
 #  replay_song
-#
-# def_key "backspace"
-#  jump_to_parent_directory
-#
-# def_key "backspace"
-#  replay_song
-#
-# def_key "backspace_2"
-#  jump_to_parent_directory
-#
-# def_key "backspace_2"
-#  replay_song
-#
-# def_key "f"
-#  seek_forward
-#
-# def_key "b"
-#  seek_backward
 #
 # def_key "r"
 #  toggle_repeat
@@ -188,9 +231,6 @@ def_key "("
 # def_key "Y"
 #  toggle_replay_gain_mode
 #
-# def_key "t"
-#  toggle_space_mode
-#
 # def_key "T"
 #  toggle_add_mode
 #
@@ -209,66 +249,17 @@ def_key "("
 # def_key "X"
 #  set_crossfade
 #
-# def_key "u"
-#  update_database
-#
-# def_key "ctrl_v"
-#  sort_playlist
-#
 # def_key "ctrl_r"
 #  reverse_playlist
 #
 # def_key "ctrl_f"
 #  apply_filter
 #
-# def_key "/"
-#  find
-#
-# def_key "/"
-#  find_item_forward
-#
-# def_key "?"
-#  find
-#
-# def_key "?"
-#  find_item_backward
-#
-# def_key "."
-#  next_found_item
-#
-# def_key ","
-#  previous_found_item
-#
 # def_key "w"
 #  toggle_find_mode
 #
-# def_key "e"
-#  edit_song
-#
-# def_key "e"
-#  edit_library_tag
-#
-# def_key "e"
-#  edit_library_album
-#
-# def_key "e"
-#  edit_directory_name
-#
-# def_key "e"
-#  edit_playlist_name
-#
-# def_key "e"
-#  edit_lyrics
-#
-# def_key "i"
-#  show_song_info
-#
-# def_key "I"
-#  show_artist_info
-#
 # def_key "g"
 #  jump_to_position_in_song
-#
 #
 # def_key "v"
 #  reverse_selection
@@ -278,12 +269,6 @@ def_key "("
 #
 # def_key "B"
 #  select_album
-#
-# def_key "a"
-#  add_selected_items
-#
-# def_key "c"
-#  clear_playlist
 #
 # def_key "c"
 #  clear_main_playlist
@@ -318,8 +303,6 @@ def_key "("
 # def_key "A"
 #  add
 #
-# def_key "S"
-#  save_playlist
 #
 # def_key "o"
 #  jump_to_playing_song
@@ -353,9 +336,6 @@ def_key "("
 #
 # def_key "F"
 #  toggle_fetching_lyrics_in_background
-#
-# def_key "ctrl_l"
-#  toggle_screen_lock
 #
 # def_key "`"
 #  toggle_browser_sort_mode
