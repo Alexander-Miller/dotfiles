@@ -4,7 +4,7 @@ function i3lock_wrapper --description "Sets a blurred screenshot of the current 
 
     set tmpfile (mktemp --tmpdir i3lock-wrapper-XXXXXXXXXX.png)
     scrot $tmpfile
-    mogrify -resize 50% -resize 200% -blur 0x4 $tmpfile
+    mogrify -resize 10% -resize 1000% $tmpfile
 
     if [ -f $HOME/.config/i3/i3lock.png ]
 
@@ -41,7 +41,7 @@ function i3lock_wrapper --description "Sets a blurred screenshot of the current 
         end
     end
 
-    i3lock -n -u -i $tmpfile
+    i3lock -u -i $tmpfile
     rm $tmpfile
 
 end
