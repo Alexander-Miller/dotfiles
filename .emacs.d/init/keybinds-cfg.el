@@ -112,6 +112,8 @@
 (evil-define-key 'normal emacs-lisp-mode-map (kbd "M-.") #'xref-find-definitions)
 (define-key evil-normal-state-map (kbd "M-,") #'xref-pop-marker-stack)
 
+(eyebrowse-setup-opinionated-keys)
+
 ;; company binds
 (my/def-key-for-maps
  (kbd "C-<SPC>") 'company-complete
