@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: impl
+# key: impl
+# binding: direct-keybinding
+# --
+impl ${1:Struct} {
+     ${2:}
+}
