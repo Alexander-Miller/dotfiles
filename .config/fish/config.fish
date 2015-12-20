@@ -2,12 +2,14 @@
 
 fish_vi_mode
 
+set -g fish_key_bindings fish_user_key_bindings
 set -x RUST_SRC_PATH $HOME/Documents/git/rust/src
 set -x fish_color_search_match --background=black --foreground=blue
 set -x fish_color_command blue
 set -x fish_color_operator magenta
 set -x XDG_CONFIG_HOME $HOME/.config
 
+abbr -a e     'exit'
 abbr -a yt    'youtube-dl'
 abbr -a ytmp3 'yt --extract-audio --audio-format mp3'
 abbr -a sp    'systemctl suspend'
