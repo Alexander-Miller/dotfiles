@@ -16,7 +16,7 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n -s (set_color $prompt_color_line) '[' (set_color $prompt_color_user) $USER
     echo -n -s (set_color $prompt_color_at) @ (set_color $promt_color_user) $__fish_prompt_hostname (set_color $prompt_color_line) ']'
-    echo -n -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (__fish_git_prompt)
+    echo -n -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (fish_git_prompt)
 
     if [ $last_status -eq 0 ]
         echo -n -s \n (set_color red) ❯ (set_color yellow) ❯ (set_color green) ❯ ' '
@@ -27,6 +27,29 @@ function fish_prompt --description 'Write out the prompt'
 
 end
 
+function fish_git_prompt
+
+	set git_color cyan
+    set prompt_color_line blue
+	set git_status (git status ^ /dev/null)
+
+	if test -n "$git_status"
+		set git_branch   (echo $git_status | ag -o "On branch .*" | cut -d ' ' -f 3)
+		set git_detached (echo $git_status | ag -o "HEAD detached at ([[:alnum:]]|[[:punct:]])*")
+		set out
+
+		if test -n "$git_branch"
+			set out $git_branch
+		else if test -n "$git_detached"
+			set out $git_detached
+		end
+
+		if set -q out
+			echo -n -s (set_color $prompt_color_line) '-[' (set_color $git_color) ' ' $out (set_color $prompt_color_line) ']'
+		end
+	end
+
+end
 # function fish_prompt_old --description 'Write out the prompt'
 #     set -l last_status $status
 
