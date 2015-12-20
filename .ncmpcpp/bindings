@@ -28,7 +28,16 @@ def_key "l"
   next_column
 
 def_key "l"
-  press_enter
+ enter_directory
+
+def_key "l"
+ toggle_output
+
+def_key "l"
+ run_action
+
+def_key "l"
+ play_item
 
 def_key "h"
   previous_column
@@ -46,10 +55,13 @@ def_key "d"
   delete_stored_playlist
 
 def_key "space"
- press_space
+ add_item_to_playlist
 
-def_key "enter"
- press_enter
+def_key "space"
+ toggle_lyrics_update_on_song_change
+
+def_key "space"
+ toggle_visualization_type
 
 def_key "right"
  volume_up
@@ -153,9 +165,6 @@ def_key "n"
 def_key "N"
  previous_found_item
 
-def_key "t"
- toggle_space_mode
-
 def_key "="
  sort_playlist
 
@@ -195,13 +204,13 @@ def_key "I"
 def_key "c"
  clear_playlist
 
-def_key "ctrl_l"
+def_key "ctrl-l"
  toggle_screen_lock
 
 def_key "tab"
  next_screen
 
-def_key "shift_tab"
+def_key "shift-tab"
  previous_screen
 
 def_key "a"
@@ -264,10 +273,10 @@ def_key "L"
 # def_key "Z"
 #  shuffle
 #
-# def_key "ctrl_r"
+# def_key "ctrl-r"
 #  reverse_playlist
 #
-# def_key "ctrl_f"
+# def_key "ctrl-f"
 #  apply_filter
 #
 # def_key "w"
@@ -343,7 +352,7 @@ def_key "L"
 # def_key "`"
 #  add_random_items
 #
-# def_key "ctrl_p"
+# def_key "ctrl-p"
 #  set_selected_items_priority
 #
 
