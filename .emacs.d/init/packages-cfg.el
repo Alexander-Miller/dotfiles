@@ -58,7 +58,6 @@
         ;; haskell-mode
         helm
         helm-ag
-        helm-company
         helm-projectile
         helm-swoop
         highlight-symbol
