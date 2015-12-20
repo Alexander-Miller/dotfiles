@@ -15,7 +15,6 @@
 (vimish-fold-global-mode      t)
 (yas-global-mode              t)
 (column-number-mode           t)
-(company-quickhelp-mode       t)
 (desktop-save-mode            t)
 (dtrt-indent-mode             t)
 (eyebrowse-mode               t)

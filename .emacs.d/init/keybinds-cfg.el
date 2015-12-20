@@ -123,6 +123,7 @@
  (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
 (define-key company-active-map (kbd "C-j")   'company-select-next)
 (define-key company-active-map (kbd "C-k")   'company-select-previous)
+(define-key company-active-map (kbd "C-l")   'company-quickhelp-manual-begin)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
 (define-key company-active-map (kbd "C-o")   'company-other-backend)
 
