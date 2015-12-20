@@ -4,7 +4,7 @@ function fish_prompt --description 'Write out the prompt'
     set last_status       $status
     set prompt_color_user yellow
     set prompt_color_pwd  magenta
-    set prompt_color_line green
+    set prompt_color_line blue
 
     test $last_status -eq 0; and set prompt_color_status green; or set prompt_color_status red
     test $USER = root;       and set prompt_color_at     red;   or set prompt_color_at     yellow

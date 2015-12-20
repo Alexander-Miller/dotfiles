@@ -1,5 +1,7 @@
 #!/usr/bin/fish
 
+fish_vi_mode
+
 set -x RUST_SRC_PATH $HOME/Documents/git/rust/src
 set -x fish_color_search_match --background=black --foreground=blue
 set -x fish_color_command blue
