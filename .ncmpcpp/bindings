@@ -207,26 +207,50 @@ def_key "shift_tab"
 def_key "a"
  add_selected_items
 
-# def_key "ctrl_h"
-#  replay_song
-#
-# def_key "r"
-#  toggle_repeat
-#
-# def_key "z"
-#  toggle_random
-#
+def_key "c"
+ clear_main_playlist
+
+def_key "r"
+ toggle_repeat
+
+def_key "z"
+ toggle_random
+
+def_key "y"
+ toggle_single
+
+def_key "R"
+ toggle_consume
+
+def_key "#"
+ toggle_bitrate_visibility
+
+def_key "x"
+ toggle_crossfade
+
+def_key "X"
+ set_crossfade
+
+def_key "g"
+ jump_to_position_in_song
+
+def_key "G"
+ jump_to_playing_song
+
+def_key "b"
+ jump_to_playlist_editor
+
+def_key "!"
+ toggle_separators_between_albums
+
+def_key "L"
+ toggle_lyrics_fetcher
+
 # def_key "y"
 #  save_tag_changes
 #
 # def_key "y"
 #  start_searching
-#
-# def_key "y"
-#  toggle_single
-#
-# def_key "R"
-#  toggle_consume
 #
 # def_key "Y"
 #  toggle_replay_gain_mode
@@ -237,17 +261,8 @@ def_key "a"
 # def_key "|"
 #  toggle_mouse
 #
-# def_key "#"
-#  toggle_bitrate_visibility
-#
 # def_key "Z"
 #  shuffle
-#
-# def_key "x"
-#  toggle_crossfade
-#
-# def_key "X"
-#  set_crossfade
 #
 # def_key "ctrl_r"
 #  reverse_playlist
@@ -258,9 +273,6 @@ def_key "a"
 # def_key "w"
 #  toggle_find_mode
 #
-# def_key "g"
-#  jump_to_position_in_song
-#
 # def_key "v"
 #  reverse_selection
 #
@@ -269,9 +281,6 @@ def_key "a"
 #
 # def_key "B"
 #  select_album
-#
-# def_key "c"
-#  clear_main_playlist
 #
 # def_key "C"
 #  crop_playlist
@@ -303,16 +312,6 @@ def_key "a"
 # def_key "A"
 #  add
 #
-#
-# def_key "o"
-#  jump_to_playing_song
-#
-# def_key "G"
-#  jump_to_browser
-#
-# def_key "G"
-#  jump_to_playlist_editor
-#
 # def_key "~"
 #  jump_to_media_library
 #
@@ -328,11 +327,6 @@ def_key "a"
 # def_key "\\"
 #  toggle_interface
 #
-# def_key "!"
-#  toggle_separators_between_albums
-#
-# def_key "L"
-#  toggle_lyrics_fetcher
 #
 # def_key "F"
 #  toggle_fetching_lyrics_in_background
