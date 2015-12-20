@@ -1,0 +1,6 @@
+# -*- mode: conf -*-
+
+map [normal] J scroll half-down
+map [normal] K scroll half-up
+map [fullscreen] J scroll half-down
+map [fullscreen] K scroll half-up
