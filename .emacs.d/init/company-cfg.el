@@ -4,12 +4,14 @@
 ;;; Code:
 
 (global-company-mode t)
+(company-flx-mode t)
 
 (setq-default
  company-sort-by-occurrence          t
  company-abort-manual-when-too-short nil
  company-auto-complete               nil
  company-async-timeout               10
+ company-flx-limit                   400
  company-require-match               nil
  company-tooltip-flip-when-above     nil
  company-idle-delay                  999

@@ -29,6 +29,7 @@
         ;; auctex
         ;; bongo
         company-mode
+        company-flx
         ;; company-auctex
         ;; company-ghc
         ;; company-math
