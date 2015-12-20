@@ -46,6 +46,7 @@
   (define-key org-mode-map (kbd "M-m") 'org-mark-element)
 
   (evil-leader/set-key-for-mode 'org-mode
+    "h i"       'helm-org-in-buffer-headings
     "<tab> o"   'org-todo
     "<tab> C-o" 'org-insert-todo-heading-respect-content
     "<tab> c"   'org-toggle-checkbox
