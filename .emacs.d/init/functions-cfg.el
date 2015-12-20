@@ -123,18 +123,16 @@
     (call-interactively eval-func)))
 
 (defun my/dedicated-dired ()
-  "Switch to or create dedicated dired buffer."
+  "Switch to or create dedicated dired buffer. Open dired in current buffer's location if prefix arg is provided."
   (interactive)
-  (let ((dired-buffer
-         (cl-find-if
-          (lambda (e)
-            (string=
-             "dired-mode"
-             (buffer-local-value 'major-mode (get-buffer e))))
-          (helm-buffer-list))))
-    (if dired-buffer
-        (switch-to-buffer dired-buffer)
-      (dired ""))))
+  (if current-prefix-arg (dired (file-name-directory (buffer-file-name)))
+    (let ((dired-buffer
+           (cl-find-if
+            (lambda (e) (string= "dired-mode" (buffer-local-value 'major-mode (get-buffer e))))
+            (helm-buffer-list))))
+      (if dired-buffer
+          (switch-to-buffer dired-buffer)
+        (dired "")))))
 
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
