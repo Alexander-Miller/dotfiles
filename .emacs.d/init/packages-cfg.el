@@ -59,6 +59,7 @@
         ;; haskell-mode
         helm
         helm-ag
+        helm-flx-git
         helm-projectile
         helm-swoop
         highlight-symbol
