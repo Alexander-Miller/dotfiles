@@ -4,7 +4,8 @@ fish_vi_mode
 
 set -g fish_key_bindings fish_user_key_bindings
 set -x RUST_SRC_PATH $HOME/Documents/git/rust/src
-set -x fish_color_search_match --background=black --foreground=blue
+set -x fish_color_search_match --background=black
+set -x fish_color_selection --background=black
 set -x fish_color_command blue
 set -x fish_color_operator magenta
 set -x XDG_CONFIG_HOME $HOME/.config
