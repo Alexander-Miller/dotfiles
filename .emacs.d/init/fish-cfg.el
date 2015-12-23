@@ -4,7 +4,17 @@
 ;;; Code:
 
 (defun fish-hook ()
-  (setq-local company-backends '((company-shell company-dabbrev-code company-files company-yasnippet))))
+  (setq-local company-backends '((company-shell company-dabbrev-code company-files company-yasnippet)))
+  (setq-local imenu-generic-expression fish-mode-imenu-expr))
+
+(defconst fish-mode-imenu-expr
+  (list
+   (list
+    "Function"
+    (rx
+     (group-n 1 (seq bol "function" (1+ space)))
+     (group-n 2 (1+ (or alnum (syntax symbol)))) symbol-end)
+    2)))
 
 (add-hook 'fish-mode-hook #'fish-hook)
 
