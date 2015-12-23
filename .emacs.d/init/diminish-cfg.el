@@ -18,7 +18,7 @@
 (with-eval-after-load "racer"
   (diminish 'racer-mode " R"))
 (with-eval-after-load "flycheck"
-  (diminish 'flycheck-mode ""))
+  (diminish 'flycheck-mode " Ⓕ"))
 (with-eval-after-load "elpy"
   (diminish 'elpy-mode " 🐍"))
 (with-eval-after-load 'rainbow-mode
