@@ -62,14 +62,12 @@
 (defun my/quick-backward ()
   "Quicker backward scrolling."
   (interactive)
-  (setq current-prefix-arg 5)
-  (call-interactively 'evil-previous-visual-line))
+  (evil-previous-visual-line 5))
 
 (defun my/quick-forward ()
   "Quicker forward scrolling."
   (interactive)
-  (setq current-prefix-arg 5)
-  (call-interactively 'evil-next-visual-line))
+  (evil-next-visual-line 5))
 
 (defun my/helm-mini-below ()
   "Open helm-mini on the underside of the screen reguardless of current helm-split-window-default-side value."
