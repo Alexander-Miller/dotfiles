@@ -5,7 +5,6 @@
 
 (defun my/python-mode-hook ()
   "Python mode hook."
-  (flycheck-mode t)
   (setq-local company-idle-delay 4)
   (setq-local company-backends '((elpy-company-backend company-yasnippet company-files company-dabbrev-code))))
 

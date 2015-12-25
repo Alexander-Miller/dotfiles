@@ -3,9 +3,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook 'sh-mode-hook (flycheck-mode t))
-
-(add-hook 'flycheck-mode-hook (lambda () (flycheck-pos-tip-mode)))
+(defun flycheck-activate () (flycheck-mode t))
+(defconst flycheck-activation-hooks '(sh-mode-hook python-mode-hook c++-mode-hook rust-mode-hook))
+(dolist (mode-hook flycheck-activation-hooks) (add-hook mode-hook #'flycheck-activate))
 
 (with-eval-after-load "flycheck"
 
