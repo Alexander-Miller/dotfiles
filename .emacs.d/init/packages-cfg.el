@@ -70,7 +70,6 @@
         morning-star-theme
         ;;mu4e
         multi-term
-        neotree
         nlinum
         offlineimap
         org-bullets
