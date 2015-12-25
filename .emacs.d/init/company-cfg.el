@@ -5,6 +5,7 @@
 
 (global-company-mode t)
 (company-flx-mode t)
+(require 'company-quickhelp)
 
 (setq-default
  company-sort-by-occurrence          t
