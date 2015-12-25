@@ -44,7 +44,7 @@
  ispell-dictionary               "en_GB"
  ispell-program-name             "hunspell"
  next-line-add-newlines          t
- nlinum-format                   " %d"
+ nlinum-format                   " %d "
  pos-tip-background-color        "#444444"
  require-final-newline           t
  scroll-conservatively           1000
