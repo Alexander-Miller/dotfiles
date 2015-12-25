@@ -9,14 +9,34 @@
 
 (with-eval-after-load "flycheck"
 
-  (setq-default
-   flycheck-keymap-prefix (kbd "C-c f")
-   flycheck-idle-change-delay          4
-   flycheck-indication-mode            'left-fringe
-   flycheck-check-syntax-automatically '(mode-enabled save idle-change))
+  (add-hook 'flycheck-mode-hook (lambda () (flycheck-pos-tip-mode)))
 
-  (define-key flycheck-mode-map flycheck-keymap-prefix nil)
-  (define-key flycheck-mode-map flycheck-keymap-prefix flycheck-command-map))
+  (setq-default
+   flycheck-check-syntax-automatically '(mode-enabled save idle-change)
+   flycheck-checker-error-threshold    10
+   flycheck-display-errors-delay       1
+   flycheck-idle-change-delay          5
+   flycheck-indication-mode            'left-fringe)
+
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "q")     #'quit-window)
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "f")     #'flycheck-error-list-set-filter)
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "F")     #'flycheck-error-list-reset-filter)
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "g")     #'flycheck-error-list-refresh)
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "s")     #'tabulated-list-sort)
+  (evil-define-key 'normal flycheck-error-list-mode-map (kbd "<tab>") #'flycheck-error-list-goto-error)
+
+  (evil-leader/set-key
+    "y y" #'flycheck-buffer
+    "y Y" #'flycheck-copy-errors-as-kill
+    "y s" #'flycheck-select-checker
+    "y d" #'flycheck-describe-checker
+    "y x" #'flycheck-disable-checker
+    "y e" #'flycheck-set-checker-executable
+    "y l" #'flycheck-list-errors
+    "y j" #'flycheck-next-error
+    "y 0" #'flycheck-first-error
+    "y k" #'flycheck-previous-error
+    "y v" #'flycheck-verify-setup))
 
 (provide 'flycheck-cfg)
 ;;; flycheck-cfg.el ends here
