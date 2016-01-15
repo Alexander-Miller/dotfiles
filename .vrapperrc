@@ -1,0 +1,31 @@
+
+set ignorecase
+set smartcase
+set smartindent
+set hlsearch
+set smartcase
+set number
+set cursorline
+set autochdir
+set wrapscan
+set scrolloff=5
+set clipboard=unnamed,autoselect
+
+set contentassistmode
+set globalregisters
+set atomicinsert
+set noregexsearch
+set exitlinkmode
+
+nnoremap ,<C-j> J
+nnoremap <C-s> /
+nnoremap <C-r> ?
+nnoremap U <C-r>
+nnoremap H :noh<CR>
+
+noremap J 5j
+noremap K 5k
+noremap <C-a> ^
+noremap <C-e> $
+
+inoremap jk <Esc>
