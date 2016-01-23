@@ -13,7 +13,7 @@
 
   (setq-default
    flycheck-check-syntax-automatically '(mode-enabled save idle-change)
-   flycheck-checker-error-threshold    10
+   flycheck-checker-error-threshold    200
    flycheck-display-errors-delay       1
    flycheck-idle-change-delay          5
    flycheck-indication-mode            'left-fringe)
@@ -24,6 +24,10 @@
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "g")     #'flycheck-error-list-refresh)
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "s")     #'tabulated-list-sort)
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "<tab>") #'flycheck-error-list-goto-error)
+
+  (add-to-list
+   'shackle-rules
+   '(".*Flycheck errors.*" :regexp t :noselect t :align 'below :size 0.33))
 
   (evil-leader/set-key
     "y y" #'flycheck-buffer
