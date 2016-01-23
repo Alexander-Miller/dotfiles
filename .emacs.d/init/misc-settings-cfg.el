@@ -82,8 +82,6 @@
 (add-hook 'fish-mode-hook (lambda () (rainbow-mode t)))
 (add-hook 'sh-mode-hook   (lambda () (rainbow-mode t)))
 
-(add-hook 'emacs-lisp-mode-hook (lambda () (lambda () (flycheck-mode -1))) t)
-
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
@@ -94,8 +92,6 @@
         (".*cider-error.*" :regexp t :noselect t)
         (".*magit-diff.*"  :regexp t :noselect t)
         ("*Help*"          :select t)))
-
-(setq shackle-default-rule '(:select t))
 
 (setq-default
  prettify-symbols-alist
