@@ -28,10 +28,10 @@
    multi-term-buffer-name                           "Fish"
    multi-term-dedicated-buffer-name                 "Dedicated Fish"
    multi-term-dedicated-close-back-to-open-buffer-p t
-   multi-term-dedicated-max-window-height           14
+   multi-term-dedicated-max-window-height           18
    multi-term-dedicated-select-after-open-p         t
    multi-term-dedicated-skip-other-window-p         nil
-   multi-term-dedicated-window-height               14
+   multi-term-dedicated-window-height               18
    multi-term-default-dir                           "~/"
    multi-term-program                               (first (split-string (shell-command-to-string "which fish") "\n"))
    multi-term-scroll-to-bottom-on-output            t
