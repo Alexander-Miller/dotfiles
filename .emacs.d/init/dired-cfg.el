@@ -40,6 +40,7 @@
   (evil-define-key 'normal dired-mode-map "K"         #'my/quick-backward)
   (evil-define-key 'normal dired-mode-map "n"         #'evil-search-next)
   (evil-define-key 'normal dired-mode-map "N"         #'evil-search-previous)
+  (evil-define-key 'normal dired-mode-map "Q"         #'kill-this-buffer)
 
   (global-set-key            [f2] #'my/dedicated-dired)
   (define-key dired-mode-map [f2] #'evil-buffer)
