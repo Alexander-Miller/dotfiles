@@ -9,7 +9,6 @@
 (diminish 'undo-tree-mode     "")
 (diminish 'visual-line-mode   "")
 (diminish 'yas-minor-mode     "")
-(diminish 'shackle-mode       "")
 (diminish 'git-gutter-mode    "")
 (diminish 'eyebrowse-mode     "")
 (diminish 'smooth-scroll-mode "")
@@ -24,7 +23,8 @@
 (with-eval-after-load 'rainbow-mode
   (diminish 'rainbow-mode " 🌈"))
 (with-eval-after-load "magit"
-  (diminish 'global-auto-revert-mode " "))
+  (diminish 'global-auto-revert-mode " ")
+  (diminish 'auto-revert-mode ""))
 (with-eval-after-load "aggressive-indent"
   (diminish 'aggressive-indent-mode " ➠"))
 (with-eval-after-load "flyspell"
