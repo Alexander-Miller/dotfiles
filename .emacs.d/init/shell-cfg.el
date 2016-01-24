@@ -11,7 +11,12 @@
 
 (add-hook 'term-mode-hook #'term-hook t)
 
-(global-set-key [f1] (lambda () (interactive) (multi-term-dedicated-toggle) (setq truncate-lines t)))
+(defun shell-toggle ()
+  (interactive)
+  (multi-term-dedicated-toggle)
+  (setq truncate-lines t))
+
+(global-set-key [f1] #'shell-toggle)
 
 (with-eval-after-load "term"
 

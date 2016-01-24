@@ -43,6 +43,7 @@
 
   (global-set-key            [f2] #'my/dedicated-dired)
   (define-key dired-mode-map [f2] #'evil-buffer)
+  (define-key dired-mode-map [f1] #'shell-toggle)
 
   (put 'dired-find-alternate-file 'disabled nil)
   (diredp-toggle-find-file-reuse-dir t)
