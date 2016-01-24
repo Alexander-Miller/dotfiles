@@ -45,6 +45,7 @@
         evil-anzu
         evil-exchange
         evil-leader
+        evil-magit
         evil-matchit
         evil-numbers
         expand-region

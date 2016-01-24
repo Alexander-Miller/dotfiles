@@ -1,0 +1,6 @@
+(:name evil-magit
+       :description "Evil key binds for magit."
+       :website "https://github.com/justbur/evil-magit"
+       :type github
+       :pkgname "/justbur/evil-magit"
+       :depends (evil magit))
