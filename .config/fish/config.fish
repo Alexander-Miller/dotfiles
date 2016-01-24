@@ -5,6 +5,7 @@ fish_vi_mode
 set -g fish_key_bindings fish_user_key_bindings
 set -x RUST_SRC_PATH     $HOME/Documents/git/rust/src
 set -x XDG_CONFIG_HOME   $HOME/.config
+set -e fish_greeting
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
@@ -33,7 +34,7 @@ set -x fish_pager_color_progress    202020 --background=green
 
 abbr -a e     'exit'
 abbr -a yt    'youtube-dl'
-abbr -a ytmp3 'yt --extract-audio --audio-format mp3'
+abbr -a ytmp3 'youtube-dl --extract-audio --audio-format mp3'
 abbr -a sp    'systemctl suspend'
 abbr -a cbr   'cargo build --release'
 abbr -a t2    'tmux -2'
