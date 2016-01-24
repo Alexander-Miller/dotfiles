@@ -25,6 +25,11 @@
     (call-process-shell-command
      (concat "xdg-open " (shell-quote-argument (dired-get-filename)) " &")))
 
+  (defun dired-hook ()
+    (hl-line-mode t))
+
+  (add-hook 'dired-mode-hook #'dired-hook)
+
   (evil-define-key 'normal dired-mode-map (kbd "RET") #'dired-xdg-open)
   (evil-define-key 'normal dired-mode-map (kbd "M-m") #'dired-mark-backward)
   (evil-define-key 'normal dired-mode-map (kbd "M-u") #'dired-unmark-backward)
@@ -47,7 +52,6 @@
    dired-omit-mode                    t
    dired-dwim-target                  t
    dired-recursive-copies             t
-   dired-dwim-target                  t
    diredp-wrap-around-flag            t
    diredp-hide-details-initially-flag nil)
 
