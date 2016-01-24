@@ -123,7 +123,7 @@
 (defun my/dedicated-dired ()
   "Switch to or create dedicated dired buffer. Open dired in current buffer's location if prefix arg is provided."
   (interactive)
-  (if current-prefix-arg (dired (file-name-directory (buffer-file-name)))
+  (if current-prefix-arg (dired-jump)
     (let ((dired-buffer
            (cl-find-if
             (lambda (e) (string= "dired-mode" (buffer-local-value 'major-mode (get-buffer e))))
