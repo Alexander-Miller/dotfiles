@@ -36,7 +36,6 @@
  helm-completion-window-scroll-margin   5
  helm-split-window-default-side         'right
  helm-kill-ring-max-lines-number        5
- helm-default-external-file-browser     "urxvt -e ranger"
  helm-ff-transformer-show-only-basename t
  helm-ff-auto-update-initial-value      nil
  helm-for-files-preferred-list          '(helm-source-buffers-list
