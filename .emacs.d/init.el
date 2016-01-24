@@ -1,6 +1,6 @@
 ;;(package-initialize)
 (add-to-list 'load-path "~/.emacs.d/init")
-(setq-default gc-cons-threshold 10000000)
+(require 'preload-cfg)
 (require 'packages-cfg)
 (require 'functions-cfg)
 (require 'shell-cfg)
