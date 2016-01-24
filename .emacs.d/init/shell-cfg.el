@@ -3,17 +3,15 @@
 ;;; Commentary:
 ;;; Code:
 
-(add-hook
- 'term-mode-hook
- '(lambda ()
+(defun term-hook ()
     (setq-local truncate-lines t)
-    (setq-local truncate-partial-width-windows nil)
     (setq-local company-backends '())
     (setq-local scroll-margin 0)
     (yas-minor-mode 0))
- t)
 
-(global-set-key [f1] 'multi-term-dedicated-toggle)
+(add-hook 'term-mode-hook #'term-hook t)
+
+(global-set-key [f1] (lambda () (interactive) (multi-term-dedicated-toggle) (setq truncate-lines t)))
 
 (with-eval-after-load "term"
 
