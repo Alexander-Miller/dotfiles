@@ -30,8 +30,8 @@
    org-startup-folded             t
    org-startup-indented           t)
 
-  (global-set-key (kbd "C-c a" ) 'org-agenda)
-  (global-set-key (kbd "C-c c" ) 'org-capture)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
 
   (define-key org-mode-map (kbd "M-j") 'org-metadown)
   (define-key org-mode-map (kbd "M-k") 'org-metaup)
@@ -46,23 +46,29 @@
   (define-key org-mode-map (kbd "M-m") 'org-mark-element)
 
   (evil-leader/set-key-for-mode 'org-mode
-    "h i"       'helm-org-in-buffer-headings
-    "<tab> o"   'org-todo
-    "<tab> C-o" 'org-insert-todo-heading-respect-content
-    "<tab> c"   'org-toggle-checkbox
-    "<tab> -"   'org-ctrl-c-minus
-    "<tab> u"   'outline-up-heading
-    "<tab> j"   'org-forward-heading-same-level
-    "<tab> k"   'org-backward-heading-same-level
-    "<tab> w"   'org-refile
-    "<tab> ="   'org-sort
-    "<tab> s m" 'org-mark-subtree
-    "<tab> s d" 'org-cut-subtree
-    "<tab> s y" 'org-copy-subtree
-    "<tab> s p" 'org-paste-subtree
-    "<tab> t r" 'org-table-recalculate-buffer-tables
-    "<tab> t R" 'org-table-recalculate
-    "<tab> t c" 'org-table-create-or-convert-from-region))
+    "h i"       #'helm-org-in-buffer-headings
+    "<tab> o"   #'org-todo
+    "<tab> C-o" #'org-insert-todo-heading-respect-content
+    "<tab> c"   #'org-toggle-checkbox
+    "<tab> -"   #'org-ctrl-c-minus
+    "<tab> u"   #'outline-up-heading
+    "<tab> j"   #'org-forward-heading-same-level
+    "<tab> k"   #'org-backward-heading-same-level
+    "<tab> w"   #'org-refile
+    "<tab> ="   #'org-sort
+    "<tab> p s" #'org-set-property
+    "<tab> n n" #'narrow-to-region
+    "<tab> n b" #'org-narrow-to-block
+    "<tab> n e" #'org-narrow-to-element
+    "<tab> n s" #'org-narrow-to-subtree
+    "<tab> n w" #'widen
+    "<tab> s m" #'org-mark-subtree
+    "<tab> s d" #'org-cut-subtree
+    "<tab> s y" #'org-copy-subtree
+    "<tab> s p" #'org-paste-subtree
+    "<tab> t r" #'org-table-recalculate-buffer-tables
+    "<tab> t R" #'org-table-recalculate
+    "<tab> t c" #'org-table-create-or-convert-from-region))
 
 (provide 'org-mode-cfg)
 ;;; org-mode-cfg.el ends here
