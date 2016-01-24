@@ -65,17 +65,21 @@
 
 (with-eval-after-load 'tar-mode
 
-  (define-key tar-mode-map (kbd "j") #'tar-next-line)
-  (define-key tar-mode-map (kbd "k") #'tar-previous-line)
-  (define-key tar-mode-map (kbd "J") #'my/quick-forward)
-  (define-key tar-mode-map (kbd "K") #'my/quick-backward))
+  (evil-set-initial-state 'tar-mode 'motion)
+  (evil-add-hjkl-bindings tar-mode-map 'motion
+    "q" #'quit-window
+    "k" #'tar-previous-line
+    "J" #'my/quick-forward
+    "K" #'my/quick-backward))
 
 (with-eval-after-load 'archive-mode
 
-  (define-key archive-mode-map (kbd "j") #'archive-next-line)
-  (define-key archive-mode-map (kbd "k") #'archive-previous-line)
-  (define-key archive-mode-map (kbd "J") #'my/quick-forward)
-  (define-key archive-mode-map (kbd "K") #'my/quick-backward))
+  (evil-set-initial-state 'archive-mode 'motion)
+  (evil-add-hjkl-bindings archive-mode-map 'motion
+    "q" #'quit-window
+    "k" #'archive-previous-line
+    "J" #'my/quick-forward
+    "K" #'my/quick-backward))
 
 (provide 'dired-cfg)
 ;;; dired-cfg.el ends here
