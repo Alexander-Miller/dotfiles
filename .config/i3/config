@@ -1,34 +1,35 @@
+# -*- mode: i3-config -*-
+
 set $mod Mod4
 
 # Lock Screen
-bindsym $mod+shift+x exec --no-startup-id fish -c i3lock_wrapper
+bindsym $mod+shift+x exec --no-startup-id "fish -c i3lock_wrapper"
 
 # Volume up and down
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master 5%+"
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master 5%-"
 
 # screen brightness up and down
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -dec 10
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -inc 10
+bindsym XF86MonBrightnessUp   exec --no-startup-id "xbacklight -dec 10"
+bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -inc 10"
 
 # Start common applications
-bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
 
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # kill
-bindsym $mod+q kill
-bindsym $mod+shift+z exec --no-startup-id xkill
+bindsym $mod+q "kill"
 
 # Rofi run and window switch dialogues
-bindsym $mod+Tab exec rofi -show run
-bindsym $mod+l exec --no-startup-id rofi -show window
+bindsym $mod+Tab exec "rofi -show run"
+bindsym $mod+l   exec "rofi -show window"
 
 # screenshot
-bindsym --release Print exec --no-startup-id scrot -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
-bindsym --release Shift+Print exec --no-startup-id scrot -d 3 -s ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym --release Print       exec --no-startup-id "scrot -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+bindsym --release Shift+Print exec --no-startup-id "scrot -d 3 -s ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -50,9 +51,9 @@ bindsym $mod+d focus right
 bindsym $mod+u [urgent=latest] focus
 
 # Alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
 
 # Move focused window
@@ -62,9 +63,9 @@ bindsym $mod+Shift+w move up
 bindsym $mod+Shift+d move right
 
 # Move workspace
-bindsym $mod+Shift+Left move workspace to output left
-bindsym $mod+Shift+Down move workspace to output down
-bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Left  move workspace to output left
+bindsym $mod+Shift+Down  move workspace to output down
+bindsym $mod+Shift+Up    move workspace to output up
 bindsym $mod+Shift+Right move workspace to output right
 
 # Change container layout (stacked, tabbed, toggle split)
@@ -128,10 +129,10 @@ mode "resize" {
         bindsym h resize grow   width  5 px or 5 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left  resize shrink width  10 px or 10 ppt
+        bindsym Down  resize grow   height 10 px or 10 ppt
+        bindsym Up    resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow   width  10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -151,25 +152,27 @@ mode "$mode_gaps" {
 }
 
 mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner all plus 1
+        bindsym plus  gaps inner all plus  1
         bindsym minus gaps inner all minus 1
-        bindsym 0     gaps inner all set 0
+        bindsym 0     gaps inner all set   0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer all plus 1
+        bindsym plus  gaps outer all plus  1
         bindsym minus gaps outer all minus 1
-        bindsym 0     gaps outer all set 0
+        bindsym 0     gaps outer all set   0
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 
 bar {
-        status_command python ~/.config/i3/i3status.py 0.5
-        font pango: terminus 9
+        # status_command python ~/.config/i3/i3status.py 0.5
+        # status_command "~/.config/i3/rust3bar"
+        status_command "~/Dropbox/Rust/Projects/rust3bar2/target/release/rust3bar2"
+        # status_command python3 ~/Dropbox/Python/Scripts/test.py
         font pango: Terminus (TTF) 9
         position top
         mode dock
@@ -189,16 +192,16 @@ bar {
         }
 }
 
-exec --no-startup-id dropbox start
-exec --no-startup-id unclutter --timeout 1
-exec --no-startup-id compton
-exec_always setxkbmap -option ctrl:nocaps
-exec_always setxkbmap -layout de
-exec_always xrdb ~/.Xdefaults
+exec --no-startup-id "dropbox start"
+exec --no-startup-id "unclutter --timeout 1"
+exec --no-startup-id "compton"
+exec_always "setxkbmap -option ctrl:nocaps"
+exec_always "setxkbmap -layout de"
+exec_always "xrdb ~/.Xdefaults"
 
-for_window [class="Wicd"] floating enable
-for_window [class="Xfce4-notifyd"] floating enable
-for_window [window_role="pop-up"] floating enable
+for_window [class="Wicd"]              floating enable
+for_window [class="Xfce4-notifyd"]     floating enable
+for_window [window_role="pop-up"]      floating enable
 for_window [window_role="task_dialog"] floating enable
 
 workspace_auto_back_and_forth yes

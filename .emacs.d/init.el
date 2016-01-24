@@ -19,6 +19,7 @@
 (require 'projectile-cfg)
 (require 'smartparens-cfg)
 (require 'fish-cfg)
+(require 'i3-conf-mode-cfg)
 (require 'keybinds-cfg)
 (require 'diminish-cfg)
 (require 'local-cfg)
