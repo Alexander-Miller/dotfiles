@@ -124,6 +124,13 @@
           (switch-to-buffer dired-buffer)
         (dired "")))))
 
+(defun my/add-all-if-not-contains (list &rest items)
+  "Adds all `ITEMS' to `LIST' which it does not already contain."
+  (dolist (item items)
+    (if (not (-contains? list item))
+        (progn (message "111111")
+               (add-to-list list item)))))
+
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
 Will remove calls to redisplay that render ace modes unbearably slow.

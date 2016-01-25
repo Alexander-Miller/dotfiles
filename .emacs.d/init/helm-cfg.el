@@ -17,6 +17,7 @@
  helm-candidate-number-limit            100
  helm-completion-in-region-fuzzy-match  t
  helm-completion-window-scroll-margin   5
+ helm-display-header-line               nil
  helm-display-source-at-screen-top      nil
  helm-echo-input-in-header-line         t
  helm-ff-auto-update-initial-value      nil
@@ -45,10 +46,10 @@
                                           helm-source-locate
                                           helm-source-buffer-not-found))
 
-(add-to-list
-   'shackle-rules
-   '("*helm for files*"  :select t :align 'below :size 0.45)
-   '("*Helm Find Files*" :select t :align 'below :size 0.30))
+(my/add-all-if-not-contains
+ 'shackle-rules
+ '("*helm for files*"  :select t :align 'below :size 0.45)
+ '("*Helm Find Files*" :select t :align 'below :size 0.30))
 
 (defun helm-hide-minibuffer-maybe ()
   (when (with-helm-buffer helm-echo-input-in-header-line)
