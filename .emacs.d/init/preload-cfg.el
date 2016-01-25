@@ -4,7 +4,7 @@
 ;;; Code:
 
 (setq-default
- gc-cons-threshold             10000000
+ gc-cons-threshold             104857600
  diredp-ignore-compressed-flag nil)
 
 (provide 'preload-cfg)
