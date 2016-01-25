@@ -45,6 +45,11 @@
                                           helm-source-locate
                                           helm-source-buffer-not-found))
 
+(add-to-list
+   'shackle-rules
+   '("*helm for files*"  :select t :align 'below :size 0.45)
+   '("*Helm Find Files*" :select t :align 'below :size 0.30))
+
 (defun helm-hide-minibuffer-maybe ()
   (when (with-helm-buffer helm-echo-input-in-header-line)
     (let ((ov (make-overlay (point-min) (point-max) nil nil t)))

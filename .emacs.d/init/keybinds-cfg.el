@@ -137,7 +137,7 @@
 (define-key helm-find-files-map (kbd "C-d")   'helm-ff-persistent-delete)
 (define-key helm-buffer-map     (kbd "C-d")   'helm-buffer-run-kill-persistent)
 (global-set-key                 (kbd "M-x")   'helm-M-x)
-(global-set-key                 (kbd "C-x b") 'my/helm-mini-below)
+(global-set-key                 (kbd "C-x b") 'helm-for-files)
 
 ;; yasnippet binds
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -162,7 +162,7 @@
   "h a" 'helm-ag
   "h A" 'helm-do-ag
   "h r" 'helm-resume
-  "l"   'my/helm-mini-below
+  "l"   'helm-for-files
   "M"   'helm-man-woman
   "C-j" 'evil-join
   "o"   'ace-window

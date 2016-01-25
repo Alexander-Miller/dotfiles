@@ -69,14 +69,6 @@
   (interactive)
   (evil-next-visual-line 5))
 
-(defun my/helm-mini-below ()
-  "Open helm-mini on the underside of the screen reguardless of current helm-split-window-default-side value."
-  (interactive)
-  (let ((original-value 'helm-split-window-default-side))
-    (setq-default helm-split-window-default-side 'below)
-    (helm-for-files)
-    (setq-default helm-split-window-default-side 'original-value)))
-
 (defun my/helm-projectile-switch-to-buffer (&optional arg)
   "Same as `helm-projectile-switch-to-buffer' (including ARG) but opens the window on the underside of the screen."
   (interactive)
