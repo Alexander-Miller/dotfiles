@@ -1,55 +1,132 @@
 
+set fish_prompt_color_paren blue
+set fish_prompt_color_host  yellow
+set fish_prompt_color_pwd   magenta
+set fish_prompt_color_git   cyan
+
+
 function fish_prompt --description 'Write out the prompt'
+    set -g last_status $status
+    fish_prompt_init
+    fish_prompt_host
+    fish_prompt_pwd
+    fish_prompt_git
+    fish_prompt_status
+    fish_prompt_finish
+end
 
-    set last_status       $status
-    set prompt_color_user yellow
-    set prompt_color_pwd  magenta
-    set prompt_color_line blue
 
-    test $last_status -eq 0; and set prompt_color_status green; or set prompt_color_status red
-    test $USER = root;       and set prompt_color_at     red;   or set prompt_color_at     yellow
+function fish_prompt_init
 
-    # Just calculate this once, to save a few cycles when displaying the prompt
+    # Hack; fish_config only copies the fish_prompt function (see #736)
+    if not set -q -g __fish_classic_git_functions_defined
+
+        # init git prompt while we're at it
+	    set -g __fish_git_prompt_char_dirtystate        '+'
+	    set -g __fish_git_prompt_char_cleanstate        '✔'
+	    set -g __fish_git_prompt_char_stagedstate       'S'
+	    set -g __fish_git_prompt_char_upstream_ahead    '↑'
+	    set -g __fish_git_prompt_char_upstream_behind   '↓'
+	    set -g __fish_git_prompt_char_stashstate        '$'
+	    set -g __fish_git_prompt_char_stateseparator    '|'
+	    set -g __fish_git_prompt_char_untrackedfiles    '…'
+	    set -g __fish_git_prompt_char_upstream_equal    '='
+
+	    # set -g __fish_git_prompt_char_invalidstate      '#' '✖'
+	    # set -g __fish_git_prompt_char_stagedstate       '+' '●'
+	    # set -g __fish_git_prompt_char_upstream_diverged '<>'
+	    # set -g __fish_git_prompt_char_upstream_prefix   ''
+
+        set -g __fish_classic_git_functions_defined
+
+        function __fish_repaint_user --on-variable fish_color_user --description "Event handler, repaint when fish_color_user changes"
+            if status --is-interactive
+                commandline -f repaint ^ /dev/null
+            end
+        end
+
+        function __fish_repaint_host --on-variable fish_color_host --description "Event handler, repaint when fish_color_host changes"
+            if status --is-interactive
+                commandline -f repaint ^ /dev/null
+            end
+        end
+
+        function __fish_repaint_status --on-variable fish_color_status --description "Event handler; repaint when fish_color_status changes"
+            if status --is-interactive
+                commandline -f repaint ^ /dev/null
+            end
+        end
+
+        function __fish_repaint_bind_mode --on-variable fish_key_bindings --description "Event handler; repaint when fish_key_bindings changes"
+            if status --is-interactive
+                commandline -f repaint ^ /dev/null
+            end
+        end
+
+        # initialize our new variables
+        if not set -q __fish_classic_git_prompt_initialized
+            set -qU fish_color_user
+            or set -U fish_color_user -o green
+            set -qU fish_color_host
+            or set -U fish_color_host -o cyan
+            set -qU fish_color_status
+            or set -U fish_color_status red
+            set -U __fish_classic_git_prompt_initialized
+        end
+    end
+end
+
+
+function fish_prompt_block -a color
+    set_color $fish_prompt_color_paren
+    echo -n -s '-['
+    set_color $color
+    echo -n -s $argv[2..-1]
+    set_color $fish_prompt_color_paren
+    echo -n -s ']'
+end
+
+
+function fish_prompt_host
     if not set -q __fish_prompt_hostname
         set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
     end
+    fish_prompt_block $fish_prompt_color_host $USER '@' $__fish_prompt_hostname
+end
 
-    echo -n -s (set_color $prompt_color_line) '[' (set_color $prompt_color_user) $USER
-    echo -n -s (set_color $prompt_color_at) @ (set_color $promt_color_user) $__fish_prompt_hostname (set_color $prompt_color_line) ']'
-    echo -n -s '-[' (set_color $prompt_color_pwd) (pwd) (set_color $prompt_color_line) ']' (fish_git_prompt)
 
+function fish_prompt_pwd
+    fish_prompt_block $fish_prompt_color_pwd (pwd)
+end
+
+
+function fish_prompt_git
+    set git_stat (__fish_git_prompt)
+    if [ -n "$git_stat" ]
+        set len      (string length $git_stat)
+        set git_stat (string sub -s 3 -l (math "$len - 3") $git_stat)
+        fish_prompt_block $fish_prompt_color_git $git_stat
+    end
+end
+
+
+function fish_prompt_status
+    if [ $last_status -ne 0 ]
+        fish_prompt_block red $last_status
+    end
+end
+
+
+function fish_prompt_finish
     if [ $last_status -eq 0 ]
         echo -n -s \n (set_color red) ❯ (set_color yellow) ❯ (set_color green) ❯ ' '
     else
-        echo -s (set_color $prompt_color_line) '-[' (set_color red) $last_status (set_color $prompt_color_line) ']'
-        echo -s (set_color red) ❯❯❯ ' '
+        set_color red
+        echo -s \n ❯❯❯ ' '
     end
-
 end
 
-function fish_git_prompt
 
-	set git_color cyan
-    set prompt_color_line blue
-	set git_status (git status ^ /dev/null)
-
-	if test -n "$git_status"
-		set git_branch   (echo $git_status | ag -o "On branch .*" | cut -d ' ' -f 3)
-		set git_detached (echo $git_status | ag -o "HEAD detached at ([[:alnum:]]|[[:punct:]])*")
-		set out
-
-		if test -n "$git_branch"
-			set out $git_branch
-		else if test -n "$git_detached"
-			set out $git_detached
-		end
-
-		if set -q out
-			echo -n -s (set_color $prompt_color_line) '-[' (set_color $git_color) ' ' $out (set_color $prompt_color_line) ']'
-		end
-	end
-
-end
 # function fish_prompt_old --description 'Write out the prompt'
 #     set -l last_status $status
 
@@ -60,45 +137,6 @@ end
 
 #     set -l normal (set_color normal)
 
-#     # Hack; fish_config only copies the fish_prompt function (see #736)
-#     if not set -q -g __fish_classic_git_functions_defined
-#         set -g __fish_classic_git_functions_defined
-
-#         function __fish_repaint_user --on-variable fish_color_user --description "Event handler, repaint when fish_color_user changes"
-#             if status --is-interactive
-#                 commandline -f repaint ^ /dev/null
-#             end
-#         end
-
-#         function __fish_repaint_host --on-variable fish_color_host --description "Event handler, repaint when fish_color_host changes"
-#             if status --is-interactive
-#                 commandline -f repaint ^ /dev/null
-#             end
-#         end
-
-#         function __fish_repaint_status --on-variable fish_color_status --description "Event handler; repaint when fish_color_status changes"
-#             if status --is-interactive
-#                 commandline -f repaint ^ /dev/null
-#             end
-#         end
-
-#         function __fish_repaint_bind_mode --on-variable fish_key_bindings --description "Event handler; repaint when fish_key_bindings changes"
-#             if status --is-interactive
-#                 commandline -f repaint ^ /dev/null
-#             end
-#         end
-
-#         # initialize our new variables
-#         if not set -q __fish_classic_git_prompt_initialized
-#             set -qU fish_color_user
-#             or set -U fish_color_user -o green
-#             set -qU fish_color_host
-#             or set -U fish_color_host -o cyan
-#             set -qU fish_color_status
-#             or set -U fish_color_status red
-#             set -U __fish_classic_git_prompt_initialized
-#         end
-#     end
 
 #     set -l color_cwd
 #     set -l prefix

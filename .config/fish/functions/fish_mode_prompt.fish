@@ -21,7 +21,7 @@ function fish_mode_prompt --description "Displays the current mode"
 
         set_color normal
         set_color blue
-        echo -n -s ']-'
+        echo -n -s ']'
 
     end
 end
