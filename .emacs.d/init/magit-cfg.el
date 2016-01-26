@@ -10,7 +10,7 @@
   (setq-default
    git-commit-summary-max-length       100
    magit-highlight-trailing-whitespace t
-   magit-diff-show-lines-boundary      t
+   magit-diff-show-lines-boundary      nil
    magit-key-mode-show-usage           t
    magit-revert-backup                 t
    magit-revert-item-confirm           t
