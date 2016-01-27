@@ -31,9 +31,11 @@
 (tool-bar-mode                0)
 
 (setq-default
+ async-bytecomp-package-mode     t
  backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
  default-indicate-empty-lines    t
+ dired-async-mode                t
  dtrt-indent-verbosity           0
  fill-column                     80
  frame-title-format              '(buffer-file-name "%f" ("%b"))

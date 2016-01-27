@@ -26,6 +26,7 @@
 
 (setq my:el-get-packages
       '(ace-window
+        async
         ;; auctex
         ;; bongo
         company-mode
