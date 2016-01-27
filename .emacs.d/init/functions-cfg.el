@@ -128,8 +128,7 @@
   "Adds all `ITEMS' to `LIST' which it does not already contain."
   (dolist (item items)
     (if (not (-contains? list item))
-        (progn (message "111111")
-               (add-to-list list item)))))
+        (add-to-list list item))))
 
 (defun evil-half-cursor ()
   "Rewrite of evil's own function.
