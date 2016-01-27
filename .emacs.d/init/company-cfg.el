@@ -9,7 +9,7 @@
 
 (setq-default
  company-sort-by-occurrence          t
- company-abort-manual-when-too-short nil
+ company-abort-manual-when-too-short t
  company-auto-complete               nil
  company-async-timeout               10
  company-flx-limit                   400
@@ -48,8 +48,8 @@
     company-etags
     company-keywords
     company-oddmuse
-    company-files
-    company-dabbrev)))
+    company-files)
+   company-dabbrev))
 
 (defconst backend-priorities
   '((company-anaconda     . 0)
