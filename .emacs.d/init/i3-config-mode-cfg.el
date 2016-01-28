@@ -16,7 +16,7 @@
      ;; Constants
      ( ,(rx (or
              digit
-             (seq bow (or "yes" "top" "dock" "no" "none" "on") eow (not (any "-")))
+             (seq bow (or "yes" "top" "bottom" "dock" "no" "none" "on") eow (not (any "-")))
              (seq line-start (or "bar" "colors" "mode") eow)
              (seq "$" (1+ (or "_" alnum)))))
        0
