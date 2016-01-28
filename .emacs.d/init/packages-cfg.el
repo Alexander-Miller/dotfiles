@@ -93,6 +93,7 @@
         vimish-fold
         vimrc-mode
         visual-fill-column
+        which-key
         yasnippet
         ))
 

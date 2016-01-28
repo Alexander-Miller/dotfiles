@@ -12,6 +12,7 @@
 (diminish 'git-gutter-mode    "")
 (diminish 'eyebrowse-mode     "")
 (diminish 'smooth-scroll-mode "")
+(diminish 'which-key-mode     "")
 (diminish 'company-mode      " ⓒ")
 
 (with-eval-after-load "racer"
