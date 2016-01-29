@@ -30,6 +30,8 @@
  evil-emacs-state-cursor    '("#339999" bar)
  evil-resize-state-cursor   '("#ffdb1a" box))
 
+(evil-set-initial-state 'special-mode 'motion)
+
 (evil-define-state resize
   "Evil Resize State"
   :tag "Resize"
