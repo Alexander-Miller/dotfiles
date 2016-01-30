@@ -25,9 +25,10 @@
  helm-ff-search-library-in-sexp         t
  helm-ff-transformer-show-only-basename t
  helm-file-cache-fuzzy-match            t
- helm-idle-delay                        0.1
+ helm-flx-limit                         100
+ helm-idle-delay                        0.05
  helm-imenu-fuzzy-match                 t
- helm-input-idle-delay                  0.1
+ helm-input-idle-delay                  0.05
  helm-kill-ring-max-lines-number        5
  helm-locate-fuzzy-match                nil
  helm-M-x-fuzzy-match                   t
