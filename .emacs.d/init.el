@@ -21,6 +21,7 @@
 (require 'fish-cfg)
 (require 'i3-config-mode-cfg)
 (require 'keybinds-cfg)
+(require 'shackle-cfg)
 (require 'diminish-cfg)
 (require 'local-cfg)
 

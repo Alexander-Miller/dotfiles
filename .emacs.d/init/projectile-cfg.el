@@ -17,7 +17,7 @@
   "p a"   'helm-projectile-ag
   "p d"   'projectile-dired
   "p C-D" 'helm-projectile-find-dir
-  "p l"   'my/helm-projectile-switch-to-buffer
+  "p l"   'helm-projectile-switch-to-buffer
   "p p"   'helm-projectile-switch-project
   "p g"   'projectile-vc
   "p C-C" 'projectile-compile-project

@@ -21,7 +21,6 @@
 (key-chord-mode               t)
 (menu-bar-mode                t)
 (semantic-mode                t)
-(shackle-mode                 t)
 (smooth-scroll-mode           t)
 (subword-mode                 t)
 (transient-mark-mode          t)
@@ -90,11 +89,6 @@
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
 
-(setq shackle-rules
-      '((".*cider-repl.*"  :regexp t :ratio    0.33)
-        (".*cider-error.*" :regexp t :noselect t)
-        (".*magit-diff.*"  :regexp t :noselect t)
-        ("*Help*"          :select t)))
 
 (setq-default
  prettify-symbols-alist

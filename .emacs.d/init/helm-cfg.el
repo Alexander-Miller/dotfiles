@@ -10,7 +10,7 @@
  helm-adaptive-mode                     t
  helm-ag-base-command                   "ag -f --hidden --nocolor --nogroup --depth 999999"
  helm-apropos-fuzzy-match               t
- helm-autoresize-mode                   t
+ helm-autoresize-mode                   nil
  helm-autoresize-max-height             50
  helm-autoresize-min-height             50
  helm-buffers-fuzzy-matching            t
@@ -37,7 +37,8 @@
  helm-recentf-fuzzy-match               t
  helm-scroll-amount                     5
  helm-semantic-fuzzy-match              t
- helm-split-window-default-side         'right
+ helm-split-window-default-side         'below
+ helm-split-window-in-side-p            t
  helm-for-files-preferred-list          '(helm-source-buffers-list
                                           helm-source-recentf
                                           helm-source-bookmarks
@@ -45,11 +46,6 @@
                                           helm-source-files-in-current-dir
                                           helm-source-locate
                                           helm-source-buffer-not-found))
-
-(my/add-all-if-not-contains
- 'shackle-rules
- '("*helm for files*"  :select t :align 'below :size 0.45)
- '("*Helm Find Files*" :select t :align 'below :size 0.30))
 
 (defun helm-hide-minibuffer-maybe ()
   (when (with-helm-buffer helm-echo-input-in-header-line)

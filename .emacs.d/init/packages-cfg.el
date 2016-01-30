@@ -55,8 +55,8 @@
         flycheck
         flycheck-pos-tip
         ;; ghc-mod
-        git-gutter
-        git-gutter-fringe
+        git-gutter+
+        git-gutter-fringe+
         golden-ratio
         ;; haskell-mode
         helm

@@ -25,10 +25,6 @@
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "s")     #'tabulated-list-sort)
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "<tab>") #'flycheck-error-list-goto-error)
 
-  (add-to-list
-   'shackle-rules
-   '(".*Flycheck errors.*" :regexp t :noselect t :align 'below :size 0.33))
-
   (evil-leader/set-key
     "y y" #'flycheck-buffer
     "y Y" #'flycheck-copy-errors-as-kill
