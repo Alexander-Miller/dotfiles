@@ -1,0 +1,51 @@
+# -*- mode: conf -*-
+
+[global]
+    font                = "Fantasque Sans Mono 10"
+    allow_markup        = yes
+    format              = "<b>%s</b>\n%b"
+    sort                = yes
+    indicate_hidden     = yes
+    alignment           = center
+    bounce_freq         = 0
+    show_age_threshold  = 60
+    show_indicators     = no
+    word_wrap           = yes
+    ignore_newline      = no
+    geometry            = "300x5-30+20"
+    transparency        = 0
+    idle_threshold      = 12
+    monitor             = 0
+    follow              = mouse
+    sticky_history      = yes
+    line_height         = 0
+    separator_height    = 2
+    padding             = 8
+    horizontal_padding  = 8
+    separator_color     = frame
+    startup_notification = false
+
+[frame]
+    width               = 1
+    color               = "#464B50"
+
+[shortcuts]
+    close               = ctrl+space
+    close_all           = ctrl+shift+space
+    # history = ctrl+grave
+    context             = ctrl+shift+period
+
+[urgency_low]
+    background          = "#323537"
+    foreground          = "#8F9D6A"
+    timeout             = 10
+
+[urgency_normal]
+    background          = "#323537"
+    foreground          = "#AFC4DB"
+    timeout             = 10
+
+[urgency_critical]
+    background          = "#323537"
+    foreground          = "#CF6A4C"
+    timeout             = 15
