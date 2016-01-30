@@ -11,7 +11,6 @@
 (global-git-gutter-mode       t)
 (global-prettify-symbols-mode t)
 (global-subword-mode          t)
-(global-visual-line-mode      t)
 (vimish-fold-global-mode      t)
 (yas-global-mode              t)
 (column-number-mode           t)
@@ -26,6 +25,7 @@
 (transient-mark-mode          t)
 (undo-tree-mode               t)
 (which-key-mode               t)
+(global-visual-line-mode      0)
 (horizontal-scroll-bar-mode   0)
 (scroll-bar-mode              0)
 (tool-bar-mode                0)
@@ -54,7 +54,7 @@
  scroll-preserve-screen-position nil
  show-paren-delay                0
  tab-width                       4
- truncate-lines                  t
+ truncate-lines                  nil
  undo-outer-limit                42000000
  whitespace-line-column          120
  x-select-enable-clipboard       t)
