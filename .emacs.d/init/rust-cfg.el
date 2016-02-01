@@ -3,17 +3,17 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun rust-hook ()
+  "Rust mode hook."
+  (racer-mode t)
+  (flycheck-mode t))
+
+(add-hook 'rust-mode-hook #'rust-hook)
+
 (with-eval-after-load "racer"
 
   (evil-define-key 'normal racer-mode-map (kbd "M-.") 'racer-find-definition)
   (define-key racer-mode-map (kbd "C-c C-c") 'projectile-compile-project)
-
-  (defun rust-hook ()
-    "Rust mode hook."
-    (racer-mode t)
-    (flycheck-mode t))
-
-  (add-hook 'rust-mode-hook #'rust-hook)
 
   (setq-default
    racer-cmd           "~/Documents/git/racer/target/release/racer"
