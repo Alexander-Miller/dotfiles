@@ -8,45 +8,6 @@
   "Set KEY to invoke CMD for all keymaps in MAPS."
   (mapcar (lambda (map) (define-key map key cmd)) maps))
 
-(defun my/aggressive-indent-if ()
-  "Activate aggressive indent mode unless the current major mode prevents it."
-  (unless
-      (member
-       (buffer-local-value 'major-mode (current-buffer))
-       '(bibtex-mode
-         cider-repl-mode
-         coffee-mode
-         comint-mode
-         conf-mode
-         Custom-mode
-         diff-mode
-         dired-mode
-         doc-view-mode
-         dos-mode
-         erc-mode
-         jabber-chat-mode
-         haml-mode
-         haskell-mode
-         image-mode
-         makefile-mode
-         makefile-gmake-mode
-         minibuffer-inactive-mode
-         netcmd-mode
-         python-mode
-         sass-mode
-         slim-mode
-         special-mode
-         shell-mode
-         snippet-mode
-         eshell-mode
-         tabulated-list-mode
-         term-mode
-         TeX-output-mode
-         text-mode
-         org-mode
-         yaml-mode))
-    (aggressive-indent-mode 1)))
-
 (defun my/newline-and-indent ()
   "Will insert a new line in insert and normal states, with the position adjusted in the latter case."
   (interactive)
