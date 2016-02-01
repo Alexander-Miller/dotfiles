@@ -33,21 +33,58 @@ URxvt.letterSpace:     -2
 *color14:     #2fa7a7
 *color15:     #cccccc
 
-rofi.width:           75
-rofi.lines:           10
-rofi.columns:         1
-rofi.font:            Fantasque Sans Mono 14
-rofi.fg:              #ccb18b
-rofi.bg:              #2d2d31
-rofi.hlfg:            #000000
-rofi.hlbg:            #557799
-rofi.bc:              #2d2d31
-rofi.bw:              1
-rofi.loc:             0
-rofi.padding:         20
-rofi.yoffset:         0
-rofi.xoffset:         0
-rofi.fixed-num-lines: false
-rofi.hmode:           false
-rofi.terminal:        rxvt-unicode
-rofi.ssh-set-title:   true
+rofi.width:             100
+rofi.lines:             8
+rofi.columns:           4
+rofi.font:              Fantasque Sans Mono 13
+rofi.fg:                #ccb18b
+rofi.bg:                #2d2d31
+rofi.hlfg:              #000000
+rofi.hlbg:              #557799
+rofi.fg-active:         #a374a8
+rofi.bg-active:         #2d2d31
+rofi.fg-urgent:         #cc6666
+rofi.bg-urgent:         #2d2d31
+rofi.hlfg-active:       #000000
+rofi.hlbg-active:       #a374a8
+rofi.hlfg-urgent:       #000000
+rofi.hlbg-urgent:       #DC322F
+rofi.bc:                #2d2d31
+rofi.yoffset:           0
+rofi.xoffset:           0
+rofi.hmode:             false
+rofi.terminal:          xfce4-terminal
+rofi.ssh-set-title:     true
+rofi.separator-style:   none
+rofi.modi:              window,run,ssh
+rofi.opacity:           100
+rofi.bw:                2
+rofi.location:          7
+rofi.padding:           20
+rofi.fixed-num-lines:   true
+rofi.ssh-client:        ssh
+rofi.ssh-command:       {terminal} -e {ssh-client} {host}
+rofi.run-command:       {cmd}
+rofi.run-list-command:
+rofi.run-shell-command: {terminal} -e {cmd}
+rofi.disable-history:   false
+rofi.levenshtein-sort:  false
+rofi.case-sensitive:    false
+rofi.sidebar-mode:      true
+rofi.lazy-filter-limit: 15000
+rofi.eh:                1
+rofi.auto-select:       false
+rofi.parse-hosts:       false
+rofi.parse-known-hosts: true
+rofi.combi-modi:        window,run
+rofi.fuzzy:             false
+rofi.glob:              false
+rofi.tokenize:          true
+rofi.m:                 -1
+rofi.line-margin:       2
+rofi.filter:
+rofi.hide-scrollbar:    true
+rofi.markup-rows:       true
+rofi.fullscreen:        false
+rofi.fake-transparency: false
+rofi.dpi:               -1
