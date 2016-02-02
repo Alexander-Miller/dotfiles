@@ -6,7 +6,7 @@
 (defun rust-hook ()
   "Rust mode hook."
   (racer-mode t)
-  (flycheck-mode t))
+  (flycheck-rust-setup))
 
 (add-hook 'rust-mode-hook #'rust-hook)
 
