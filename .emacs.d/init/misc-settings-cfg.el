@@ -54,7 +54,7 @@
  scroll-preserve-screen-position nil
  show-paren-delay                0
  tab-width                       4
- truncate-lines                  nil
+ truncate-lines                  t
  undo-outer-limit                42000000
  whitespace-line-column          120
  x-select-enable-clipboard       t)
