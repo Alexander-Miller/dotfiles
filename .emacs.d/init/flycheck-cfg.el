@@ -26,6 +26,7 @@
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "<tab>") #'flycheck-error-list-goto-error)
 
   (evil-leader/set-key
+    "C-y" (lambda () (interactive) (call-interactively 'flycheck-mode))
     "y y" #'flycheck-buffer
     "y Y" #'flycheck-copy-errors-as-kill
     "y s" #'flycheck-select-checker
