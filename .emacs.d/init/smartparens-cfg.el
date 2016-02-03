@@ -6,7 +6,7 @@
 (require 'smartparens-config)
 
 (smartparens-global-strict-mode t)
-(show-smartparens-global-mode t)
+(show-paren-mode t)
 
 (setq-default
  sp-autodelete-pair         t
@@ -16,8 +16,14 @@
  sp-autoinsert-pair         t
  sp-autowrap-region         t
  sp-show-pair-from-inside   t
- sp-show-pair-delay         0.1
+ sp-show-pair-delay         0.2
  sp-use-subword             t)
+
+(defconst show-sp-hooks '(nxml-mode-hook html-mode-hook ruby-mode-hook fish-mode-hook))
+(defun show-sp-activate ()
+  (setq-local show-paren-mode nil)
+  (show-smartparens-mode t))
+(dolist (mode-hook show-sp-hooks) (add-hook mode-hook #'show-sp-activate))
 
 (define-key smartparens-strict-mode-map [remap sp-delete-char] 'delete-char)
 
