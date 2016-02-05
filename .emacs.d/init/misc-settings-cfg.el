@@ -3,12 +3,12 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'git-gutter-fringe)
+(require 'git-gutter-fringe+)
 
 (global-anzu-mode             t)
 (global-auto-revert-mode      t)
 (global-eldoc-mode            t)
-(global-git-gutter-mode       t)
+(global-git-gutter+-mode      t)
 (global-prettify-symbols-mode t)
 (global-subword-mode          t)
 (vimish-fold-global-mode      t)

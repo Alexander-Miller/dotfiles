@@ -9,7 +9,7 @@
 (diminish 'undo-tree-mode     "")
 (diminish 'visual-line-mode   "")
 (diminish 'yas-minor-mode     "")
-(diminish 'git-gutter-mode    "")
+(diminish 'git-gutter+-mode   "")
 (diminish 'eyebrowse-mode     "")
 (diminish 'smooth-scroll-mode "")
 (diminish 'which-key-mode     "")
