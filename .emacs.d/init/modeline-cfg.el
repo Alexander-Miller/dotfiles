@@ -23,6 +23,11 @@
   "     "
   :when (not (and active (bound-and-true-p anzu--state))))
 
+(spaceline-define-segment selection-placeholder
+  "Empty space for when selection info is off."
+  "       "
+  :when (not (evil-visual-state-p)))
+
 (spaceline-install
 
    '(((workspace-number window-number)
@@ -46,6 +51,7 @@
 
    `((battery :when active)
      selection-info
+     selection-placeholder
      ((buffer-encoding-abbrev
        point-position
        line-column)
