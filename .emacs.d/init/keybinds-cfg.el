@@ -8,12 +8,10 @@
 ;; beginning and end of line
 (my/def-key-for-maps
  (kbd "C-a") 'evil-beginning-of-visual-line
- (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map))
+ (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-motion-state-map))
 (my/def-key-for-maps
  (kbd "C-e") 'evil-end-of-visual-line
- (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map))
-
-(define-key evil-visual-state-map (kbd "C-e") '(lambda () (interactive) (evil-end-of-visual-line)))
+ (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-motion-state-map))
 
 ;; next and previous line -> visual
 (my/def-key-for-maps
