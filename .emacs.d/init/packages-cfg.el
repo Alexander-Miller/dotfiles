@@ -36,6 +36,7 @@
         ;; company-math
         company-quickhelp
         company-shell
+        dash
         diminish
         dired-hacks
         dired-plus
@@ -71,6 +72,7 @@
         markdown-mode
         morning-star-theme
         ;;mu4e
+        multi-compile
         multi-term
         nlinum
         offlineimap
