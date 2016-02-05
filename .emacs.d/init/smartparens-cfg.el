@@ -5,7 +5,7 @@
 
 (require 'smartparens-config)
 
-(smartparens-global-strict-mode t)
+(smartparens-global-mode t)
 (show-paren-mode t)
 
 (setq-default
