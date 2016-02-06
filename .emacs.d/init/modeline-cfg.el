@@ -8,6 +8,7 @@
 (spaceline-toggle-evil-state-on)
 (spaceline-toggle-buffer-modified-on)
 (spaceline-toggle-selection-info-on)
+(spaceline-helm-mode)
 
 (setq-default
  anzu-cons-mode-line-p               nil
