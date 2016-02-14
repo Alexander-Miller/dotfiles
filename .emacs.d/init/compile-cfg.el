@@ -15,9 +15,12 @@
    (python-mode ("run2"                . "python2 %file-name")
                 ("run3"                . "python3 %file-name"))
 
+   (fish-mode   ("fish run"            . "fish %file-name"))
+
    (c++-mode    ("simple run"          . "g++ %file-name -o out -std=c++14; and ./out"))))
 
-(define-key evil-motion-state-map (kbd "j") #'evil-next-visual-line)
+(with-eval-after-load "fish-mode"
+  (define-key fish-mode-map (kbd "C-c C-c") #'multi-compile-run))
 (with-eval-after-load "racer"
   (define-key racer-mode-map (kbd "C-c C-c") #'multi-compile-run))
 (with-eval-after-load "python"
