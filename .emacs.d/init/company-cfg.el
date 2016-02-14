@@ -18,6 +18,7 @@
  company-idle-delay                  999
  company-minimum-prefix-length       1
  company-selection-wrap-around       t
+ company-shell-use-help-arg          t
  company-show-numbers                t
  company-tooltip-align-annotations   t
  company-tooltip-margin              2
