@@ -90,11 +90,11 @@ end
 
 function fish_prompt_block -a color
     set_color $fish_prompt_color_paren
-    echo -n -s '-['
+    echo -n -s '-('
     set_color $color
     echo -n -s $argv[2..-1]
     set_color $fish_prompt_color_paren
-    echo -n -s ']'
+    echo -n -s ')'
 end
 
 
