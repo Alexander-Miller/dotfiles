@@ -40,6 +40,7 @@
  helm-semantic-fuzzy-match              t
  helm-split-window-default-side         'below
  helm-split-window-in-side-p            t
+ helm-yas-display-key-on-candidate      t
  helm-for-files-preferred-list          '(helm-source-buffers-list
                                           helm-source-recentf
                                           helm-source-bookmarks

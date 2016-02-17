@@ -62,6 +62,7 @@
         ;; haskell-mode
         helm
         helm-ag
+        helm-c-yasnippet
         helm-flx-git
         helm-projectile
         helm-swoop

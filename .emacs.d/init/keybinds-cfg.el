@@ -154,6 +154,7 @@
   "t v" 'volume
   "H H" 'helm-apropos
   "g s" 'magit-status
+  "h y" '(lambda () (interactive) (helm-c-yas-complete) (evil-insert-state))
   "h i" 'helm-semantic-or-imenu
   "h s" 'helm-swoop
   "h S" 'helm-multi-swoop
