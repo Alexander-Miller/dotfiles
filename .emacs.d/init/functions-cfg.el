@@ -134,6 +134,12 @@ See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-j
       (error (let* ((beg (evil-sp--new-beginning beg end :shrink))
                     (end (evil-sp--new-ending beg end)))
                (evil-change beg end type register yank-handler))))))
+(defun my/vimish-fold-dwim ()
+  "Toggle fold, or create on if it does not exist."
+  (interactive)
+  (or (vimish-fold-toggle)
+      (call-interactively 'vimish-fold)))
+
 
 
 (provide 'functions-cfg)

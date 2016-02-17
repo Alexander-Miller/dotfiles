@@ -176,9 +176,12 @@
   "j"   'avy-goto-line
   "q f" 'vimish-fold
   "q d" 'vimish-fold-delete
-  "q q" 'vimish-fold-toggle
+  "q q" 'my/vimish-fold-dwim
   "q a" 'vimish-fold-avy
   "q r" 'vimish-refold
+  "q A" 'vimish-fold-unfold-all
+  "q D" 'vimish-fold-delete-all
+  "q R" 'vimish-fold-refold-all
   "e i" 'el-get-install
   "e I" 'el-get-reinstall
   "e r" 'el-get-remove
