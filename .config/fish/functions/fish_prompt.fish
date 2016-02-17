@@ -6,15 +6,26 @@ set fish_prompt_color_git   cyan
 
 
 function fish_prompt --description 'Write out the prompt'
-    set -g last_status $status
-    fish_prompt_init
-    fish_prompt_host
-    fish_prompt_pwd
-    fish_prompt_git
-    fish_prompt_status
-    fish_prompt_finish
+    switch $TERM
+        case eterm-color dumb
+            fish_prompt_simple
+        case '*'
+            set -g last_status $status
+            fish_prompt_init
+            fish_prompt_host
+            fish_prompt_pwd
+            fish_prompt_git
+            fish_prompt_status
+            fish_prompt_finish
+    end
 end
 
+function fish_prompt_simple
+    set_color green
+    echo -n -s ' ' (string split '/' (pwd))[-1]
+    set_color cyan --bold
+    echo -n -s ' → '
+end
 
 function fish_prompt_init
 
