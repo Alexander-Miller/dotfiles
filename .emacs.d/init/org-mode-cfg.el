@@ -23,8 +23,10 @@
 
   (setq-default
    org-catch-invisible-edits      'show
-   org-fontify-whole-heading-line t
+   org-fontify-whole-heading-line nil
    org-list-indent-offset         40
+   org-special-ctrl-a             nil
+   org-special-ctrl-k             nil
    org-src-fontify-natively       t
    org-startup-align-all-tables   t
    org-startup-folded             t
@@ -46,6 +48,7 @@
   (define-key org-mode-map (kbd "M-m") 'org-mark-element)
 
   (evil-leader/set-key-for-mode 'org-mode
+    "SPC"       #'org-ctrl-c-ctrl-c
     "h i"       #'helm-org-in-buffer-headings
     "<tab> o"   #'org-todo
     "<tab> C-o" #'org-insert-todo-heading-respect-content
@@ -66,6 +69,7 @@
     "<tab> s d" #'org-cut-subtree
     "<tab> s y" #'org-copy-subtree
     "<tab> s p" #'org-paste-subtree
+    "<tab> t t" #'org-ctrl-c-star
     "<tab> t r" #'org-table-recalculate-buffer-tables
     "<tab> t R" #'org-table-recalculate
     "<tab> t c" #'org-table-create-or-convert-from-region))
