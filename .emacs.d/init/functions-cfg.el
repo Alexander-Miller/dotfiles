@@ -77,69 +77,63 @@
           (switch-to-buffer dired-buffer)
         (dired "")))))
 
-(defun my/add-all-if-not-contains (list &rest items)
-  "Adds all `ITEMS' to `LIST' which it does not already contain."
-  (dolist (item items)
-    (if (not (-contains? list item))
-        (add-to-list list item))))
-
-(defun evil-half-cursor ()
-  "Rewrite of evil's own function.
-Will remove calls to redisplay that render ace modes unbearably slow.
-See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode"
-  (let (height)
-    ;; make `window-line-height' reliable
-    (setq height (window-line-height))
-    (setq height (+ (nth 0 height) (nth 3 height)))
-    ;; cut cursor height in half
-    (setq height (/ height 2))
-    (setq cursor-type (cons 'hbar height))
-    ;; ensure the cursor is redisplayed
-    (force-window-update (selected-window))))
-
-(evil-define-operator evil-sp-delete (beg end type register yank-handler)
-  "Call `evil-delete' with a balanced region. Redone without the final call to `indent-according-to-mode'."
-  (interactive "<R><x><y>")
-  (if (or (evil-sp--override)
-          (= beg end)
-          (and (eq type 'block)
-               (evil-sp--block-is-balanced beg end)))
-      (evil-delete beg end type register yank-handler)
-    (condition-case nil
-        (let ((new-beg (evil-sp--new-beginning beg end))
-              (new-end (evil-sp--new-ending beg end)))
-          (if (and (= new-end end)
-                   (= new-beg beg))
-              (evil-delete beg end type register yank-handler)
-            (evil-delete new-beg new-end 'inclusive register yank-handler)))
-      (error (let* ((beg (evil-sp--new-beginning beg end :shrink))
-                    (end (evil-sp--new-ending beg end)))
-               (evil-delete beg end type register yank-handler))))))
-
-(evil-define-operator evil-sp-change (beg end type register yank-handler)
-  "Call `evil-change' with a balanced region. Redone without the final call to `indent-according-to-mode'."
-  (interactive "<R><x><y>")
-  (if (or (evil-sp--override)
-          (= beg end)
-          (and (eq type 'block)
-               (evil-sp--block-is-balanced beg end)))
-      (evil-change beg end type register yank-handler)
-    (condition-case nil
-        (let ((new-beg (evil-sp--new-beginning beg end))
-              (new-end (evil-sp--new-ending beg end)))
-          (if (and (= new-end end)
-                   (= new-beg beg))
-              (evil-change beg end type register yank-handler)
-            (evil-change new-beg new-end 'inclusive register yank-handler)))
-      (error (let* ((beg (evil-sp--new-beginning beg end :shrink))
-                    (end (evil-sp--new-ending beg end)))
-               (evil-change beg end type register yank-handler))))))
 (defun my/vimish-fold-dwim ()
   "Toggle fold, or create on if it does not exist."
   (interactive)
   (or (vimish-fold-toggle)
       (call-interactively 'vimish-fold)))
 
+;; (defun evil-half-cursor ()
+;;   "Rewrite of evil's own function.
+;; Will remove calls to redisplay that render ace modes unbearably slow.
+;; See: https://bitbucket.org/lyro/evil/issue/472/evil-half-cursor-makes-evil-ace-jump-mode"
+;;   (let (height)
+;;     ;; make `window-line-height' reliable
+;;     (setq height (window-line-height))
+;;     (setq height (+ (nth 0 height) (nth 3 height)))
+;;     ;; cut cursor height in half
+;;     (setq height (/ height 2))
+;;     (setq cursor-type (cons 'hbar height))
+;;     ;; ensure the cursor is redisplayed
+;;     (force-window-update (selected-window))))
+
+;; (evil-define-operator evil-sp-delete (beg end type register yank-handler)
+;;   "Call `evil-delete' with a balanced region. Redone without the final call to `indent-according-to-mode'."
+;;   (interactive "<R><x><y>")
+;;   (if (or (evil-sp--override)
+;;           (= beg end)
+;;           (and (eq type 'block)
+;;                (evil-sp--block-is-balanced beg end)))
+;;       (evil-delete beg end type register yank-handler)
+;;     (condition-case nil
+;;         (let ((new-beg (evil-sp--new-beginning beg end))
+;;               (new-end (evil-sp--new-ending beg end)))
+;;           (if (and (= new-end end)
+;;                    (= new-beg beg))
+;;               (evil-delete beg end type register yank-handler)
+;;             (evil-delete new-beg new-end 'inclusive register yank-handler)))
+;;       (error (let* ((beg (evil-sp--new-beginning beg end :shrink))
+;;                     (end (evil-sp--new-ending beg end)))
+;;                (evil-delete beg end type register yank-handler))))))
+
+;; (evil-define-operator evil-sp-change (beg end type register yank-handler)
+;;   "Call `evil-change' with a balanced region. Redone without the final call to `indent-according-to-mode'."
+;;   (interactive "<R><x><y>")
+;;   (if (or (evil-sp--override)
+;;           (= beg end)
+;;           (and (eq type 'block)
+;;                (evil-sp--block-is-balanced beg end)))
+;;       (evil-change beg end type register yank-handler)
+;;     (condition-case nil
+;;         (let ((new-beg (evil-sp--new-beginning beg end))
+;;               (new-end (evil-sp--new-ending beg end)))
+;;           (if (and (= new-end end)
+;;                    (= new-beg beg))
+;;               (evil-change beg end type register yank-handler)
+;;             (evil-change new-beg new-end 'inclusive register yank-handler)))
+;;       (error (let* ((beg (evil-sp--new-beginning beg end :shrink))
+;;                     (end (evil-sp--new-ending beg end)))
+;;                (evil-change beg end type register yank-handler))))))
 
 
 (provide 'functions-cfg)
