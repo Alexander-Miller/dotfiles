@@ -25,6 +25,8 @@
   (define-key racer-mode-map (kbd "C-c C-c") #'multi-compile-run))
 (with-eval-after-load "python"
   (define-key python-mode-map (kbd "C-c C-c") #'multi-compile-run))
+(with-eval-after-load "elpy"
+ (define-key elpy-mode-map (kbd "C-c C-c") #'multi-compile-run))
 (with-eval-after-load "cc-mode"
   (define-key c++-mode-map (kbd "C-c C-c") #'multi-compile-run))
 
