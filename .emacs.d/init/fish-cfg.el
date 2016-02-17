@@ -33,6 +33,7 @@
   (evil-leader/set-key-for-mode 'fish-mode
     "<tab> I" #'fish_indent
     "<tab> i" (lambda () (interactive) (fish-snippet "if"))
+    "<tab> e" (lambda () (interactive) (fish-snippet "elseif"))
     "<tab> f" (lambda () (interactive) (fish-snippet "func"))
     "<tab> o" (lambda () (interactive) (fish-snippet "for"))))
 

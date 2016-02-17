@@ -5,4 +5,4 @@
 # --
 function ${1:name}
          ${2:body}
-end
+end$0

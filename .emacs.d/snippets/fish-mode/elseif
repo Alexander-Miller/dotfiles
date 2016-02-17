@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: elseif
+# key: elif
+# binding: direct-keybinding
+# --
+`(indent-for-tab-command)`else if ${1:predicate}
+   ${2:`(or yas-selected-text "body")`}$0

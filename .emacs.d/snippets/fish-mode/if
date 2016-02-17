@@ -4,5 +4,5 @@
 # binding: direct-keybinding
 # --
 if ${1:predicate}
-         ${2:body}
-end
+   ${2:`(or yas-selected-text "body")`}
+end$0
