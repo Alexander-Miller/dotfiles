@@ -8,6 +8,7 @@
 ;; Order matters - first more specific, then more general rules
 (setq-default shackle-rules
               '((help-mode                  :select   t :align right :size 0.5)
+                (special-mode               :select   t :align right :size 0.5)
                 (compilation-mode           :select   t :align right :size 0.5)
                 (Man-mode                   :select   t :align right :size 0.5)
                 (flycheck-error-list-mode   :noselect t :align below :size 0.33)
