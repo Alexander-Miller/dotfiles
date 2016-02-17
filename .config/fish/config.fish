@@ -12,7 +12,7 @@ set -x fish_color_command           blue
 set -x fish_color_comment           888888
 set -x fish_color_cwd               000
 set -x fish_color_cwd_root          000
-set -x fish_color_error             red --bold --underline
+set -x fish_color_error             red --bold
 set -x fish_color_escape            magenta
 set -x fish_color_history_current   000
 set -x fish_color_host              000
