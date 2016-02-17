@@ -12,7 +12,7 @@ URxvt.letterSpace:     -2
 
 *.foreground: #ccb18b
 *.cursorcolor:#ccb18b
-*.colorbd:    #ccb18b
+*.colorbd:    #6699cc
 *.colorul:    #ccb18b
 *.colorit:    #ccb18b
 *background:  #2d2d31
@@ -24,11 +24,11 @@ URxvt.letterSpace:     -2
 *color5:      #a374a8
 *color6:      #339999
 *color7:      #a3a3a3
-*color8:      #5d5d5d
+*color8:      #4d4d4d
 *color9:      #dd7777
 *color10:     #77bb77
 *color11:     #f2d785
-*color12:     #6688aa
+*color12:     #5588bb
 *color13:     #b485b9
 *color14:     #2fa7a7
 *color15:     #cccccc
