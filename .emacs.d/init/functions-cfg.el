@@ -80,8 +80,8 @@
 (defun my/vimish-fold-dwim ()
   "Toggle fold, or create on if it does not exist."
   (interactive)
-  (or (vimish-fold-toggle)
-      (call-interactively 'vimish-fold)))
+  (ignore-errors (or (vimish-fold-toggle)
+                     (call-interactively 'vimish-fold))))
 
 ;; (defun evil-half-cursor ()
 ;;   "Rewrite of evil's own function.
