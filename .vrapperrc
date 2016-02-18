@@ -23,6 +23,7 @@ nnoremap <C-s> /
 nnoremap <C-r> ?
 nnoremap U <C-r>
 nnoremap H :noh<CR>
+nnoremap <Tab> ==
 
 noremap J 5j
 noremap K 5k
@@ -30,3 +31,5 @@ noremap <C-a> ^
 noremap <C-e> $
 
 inoremap jk <Esc>
+
+vnoremap <Tab> :fm<CR>
