@@ -1,15 +1,16 @@
+" -*- mode: vimrc -*-
 
 set ignorecase
 set smartcase
 set smartindent
-set hlsearch
+set nohlsearch
 set smartcase
 set number
 set cursorline
 set autochdir
 set wrapscan
 set scrolloff=5
-set clipboard=unnamed,autoselect
+set clipboard=unnamed
 
 set contentassistmode
 set globalregisters
