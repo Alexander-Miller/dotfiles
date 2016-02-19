@@ -22,11 +22,12 @@
  evil-normal-state-cursor   '("#ab3737" box)
  evil-insert-state-cursor   '("#33aa33" bar)
  evil-motion-state-cursor   '("#c97449" box)
- evil-operator-state-cursor '("#cc0000" (hbar . 5))
+ evil-operator-state-cursor '("#00688b" (hbar . 5))
  evil-emacs-state-cursor    '("#339999" bar)
  evil-resize-state-cursor   '("#ffdb1a" box))
 
 (evil-set-initial-state 'special-mode 'motion)
+(evil-set-initial-state 'messages-buffer-mode 'motion)
 
 (evil-define-state resize
   "Evil Resize State"
