@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: define key
+# key: defkey
+# binding: direct-keybinding
+# --
+(define-key ${1:KEYMAP} ${2: (kbd "${3:KEY}")} ${4:FUNCTION})$0
