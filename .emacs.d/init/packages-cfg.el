@@ -73,6 +73,7 @@
         ;; offlineimap
         org-bullets
         org-mode
+        pdf-tools
         pos-tip
         projectile
         rainbow-delimiters
