@@ -54,5 +54,19 @@
 (define-key evil-resize-state-map (kbd "L")   #'(lambda () (interactive) (shrink-window-horizontally 5)))
 (define-key evil-resize-state-map (kbd "H")   #'(lambda () (interactive) (enlarge-window-horizontally 5)))
 
+(evil-define-state volume
+  "Evil Volume State"
+  :tag "<Vol>"
+  :cursor ("#446677" hollow)
+  :suppress-keymap t)
+
+(define-key evil-normal-state-map (kbd "M-v") #'evil-volume-state)
+(define-key evil-volume-state-map (kbd "ESC") #'evil-normal-state)
+(define-key evil-volume-state-map (kbd "C-g") #'evil-normal-state)
+(define-key evil-volume-state-map (kbd "j")   #'volume-lower)
+(define-key evil-volume-state-map (kbd "k")   #'volume-raise)
+(define-key evil-volume-state-map (kbd "J")   #'volume-lower-10)
+(define-key evil-volume-state-map (kbd "K")   #'volume-raise-10)
+
 (provide 'evil-cfg)
 ;;; evil-cfg.el ends here

@@ -42,6 +42,12 @@
   "       "
   :when (not (evil-visual-state-p)))
 
+(defface spaceline-evil-volume
+  `((t (:foreground "#000000" :background "#446677" :inherit mode-line)))
+  "Spaceline's face for evil volume state.")
+
+(add-to-list 'spaceline-evil-state-faces '(volume . spaceline-evil-volume))
+
 (spaceline-install
 
    '(((workspace-number window-number)
