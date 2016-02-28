@@ -24,6 +24,19 @@
   "     "
   :when (not (and active (bound-and-true-p anzu--state))))
 
+(spaceline-define-segment m-modes
+  "Minor modes segment."
+  (-non-nil
+   (list
+    (when (bound-and-true-p elpy-mode)          "🐍")
+    (when (bound-and-true-p projectile-mode)    (format "P[%s]" (projectile-project-name)))
+    (when (bound-and-true-p rainbow-mode)       "🌈")
+    (when (bound-and-true-p auto-revert-mode)   "")
+    (when (bound-and-true-p flycheck-mode)      "Ⓕ")
+    (when (bound-and-true-p smartparens-mode)   "()")
+    (when (bound-and-true-p flyspell-mode)      "Sp")
+    (when (bound-and-true-p company-candidates) company-lighter))))
+
 (spaceline-define-segment selection-placeholder
   "Empty space for when selection info is off."
   "       "
@@ -41,9 +54,7 @@
      major-mode
      ((flycheck-error flycheck-warning flycheck-info)
       :when active)
-     (((minor-modes :separator spaceline-minor-modes-separator)
-       process)
-      :when active)
+     m-modes
      (erc-track :when active)
      (version-control :when active)
      (org-pomodoro :when active)
