@@ -7,8 +7,7 @@
 (company-flx-mode t)
 (require 'company-quickhelp)
 
-(setq-default
- company-sort-by-occurrence          t
+(setq
  company-abort-manual-when-too-short t
  company-auto-complete               nil
  company-async-timeout               10
@@ -16,7 +15,7 @@
  company-require-match               nil
  company-tooltip-flip-when-above     nil
  company-idle-delay                  999
- company-minimum-prefix-length       1
+ company-minimum-prefix-length       2
  company-selection-wrap-around       t
  company-shell-use-help-arg          t
  company-show-numbers                t
@@ -28,10 +27,6 @@
  company-etags-ignore-case           nil
  company-dabbrev-ignore-case         nil
  company-dabbrev-downcase            nil)
-
-(add-hook 'company-completion-started-hook '(lambda (arg) (diminish-undo 'company-mode)))
-(add-hook 'company-completion-finished-hook '(lambda (arg) (diminish 'company-mode " ⓒ")))
-(add-hook 'company-completion-cancelled-hook '(lambda (arg) (diminish 'company-mode " ⓒ")))
 
 (setq-default company-backends
  '((company-css
@@ -52,7 +47,7 @@
     company-files)
    company-dabbrev))
 
-(defconst backend-priorities
+(defconst a/backend-priorities
   '((company-anaconda     . 0)
     (company-capf         . 6)
     (company-yasnippet    . 7)
@@ -62,72 +57,68 @@
     (company-dabbrev      . 11))
   "Alist of backends' priorities.  Smaller number means higher priority.")
 
-(defun priority-of-backend (backend)
+(defun a/priority-of-backend (backend)
   "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
 Hence only the less important backends neet to be explicitly marked."
-  (let ((pr (cdr (assoc backend backend-priorities))))
+  (let ((pr (cdr (assoc backend a/backend-priorities))))
     (if (null pr) -1 pr)))
 
-(defun equal-priotity-sort-function (c1 c2)
-  ;; "Will lexicographically sort C1 and C2 if their backends are of equal priority."
-  ;; (string-lessp c1 c2))
+(defun a/equal-priotity-sort-function (c1 c2)
   "Try to keep same order because C1 and C2 are already sorted by sort-by-occurence."
   nil)
 
-(defun company-sort-by-backend-priority (candidates)
+(defun a/company-sort-by-backend-priority (candidates)
   "Will sort completion CANDIDATES according to their priorities.
 In case of equal priorities lexicographical ordering is used.
 Duplicate candidates will be removed as well."
-  (sort (delete-dups candidates)
+  ;; (sort (delete-dups candidates)
+  (sort candidates
         (lambda (c1 c2)
           (let* ((b1 (get-text-property 0 'company-backend c1))
                  (b2 (get-text-property 0 'company-backend c2))
-                 (diff (- (priority-of-backend b1) (priority-of-backend b2))))
+                 (diff (- (a/priority-of-backend b1) (a/priority-of-backend b2))))
             (if (= diff 0)
-                (equal-priotity-sort-function c1 c2)
+                (a/equal-priotity-sort-function c1 c2)
               (if (< 0 diff) nil t))))))
 
-(setq-default company-transformers '(company-sort-by-occurrence company-sort-by-backend-priority))
+(setq-default company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority))
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
+                             '((company-capf company-yasnippet company-dabbrev-code company-files)))))
 
 (add-hook 'lisp-interaction-mode-hook
           '(lambda () (setq-local company-backends
-                             '((company-capf company-yasnippet company-keywords company-dabbrev-code company-files)))))
+                             '((company-capf company-yasnippet company-dabbrev-code company-files)))))
 
 (add-hook 'css-mode-hook
           (lambda () (setq-local company-backends
                             '((company-css company-yasnippet company-dabbrev-code company-files company-dabbrev)))))
 
-(add-hook 'conf-space-mode-hook
+(add-hook 'conf-mode-hook
           (lambda () (setq-local company-backends '((company-capf company-files company-dabbrev-code company-dabbrev)))))
 
-(defun company-off (arg)
-  "Use default keys when company is not active.
-ARG is ignored."
-  (my/def-key-for-maps
-   (kbd "C-j") 'my/newline-and-indent
-   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
-  (my/def-key-for-maps
-   (kbd "C-k") 'kill-line
-   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map)))
+(defun a/company-off (arg)
+  "Use default keys when company is not active. ARG is ignored."
+  (a/def-key-for-maps (kbd "C-j") #'newline-and-indent default-mode-maps)
+  (a/def-key-for-maps (kbd "C-k") #'kill-line          default-mode-maps))
 
-(defun company-on (arg)
+(defun a/company-on (arg)
   "Use company's keys when company is active.
 Necessary due to company-quickhelp using global key maps.
 ARG is ignored."
-  (my/def-key-for-maps
-   (kbd "C-j") 'company-select-next
-   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
-  (my/def-key-for-maps
-   (kbd "C-k") 'company-select-previous
-   (list evil-normal-state-map evil-insert-state-map evil-normal-state-map)))
+  (a/def-key-for-maps (kbd "C-j") 'company-select-next     default-mode-maps)
+  (a/def-key-for-maps (kbd "C-k") 'company-select-previous default-mode-maps))
 
-(add-hook 'company-completion-started-hook   #'company-on)
-(add-hook 'company-completion-finished-hook  #'company-off)
-(add-hook 'company-completion-cancelled-hook #'company-off)
+(add-hook 'company-completion-started-hook   #'a/company-on)
+(add-hook 'company-completion-finished-hook  #'a/company-off)
+(add-hook 'company-completion-cancelled-hook #'a/company-off)
+
+(define-key evil-insert-state-map (kbd "C-<SPC>") #'company-complete)
+(define-key company-active-map    [escape]        #'company-abort)
+(define-key company-active-map    (kbd "C-l")     #'company-quickhelp-manual-begin)
+(define-key company-active-map    (kbd "<tab>")   #'company-complete-common-or-cycle)
+(define-key company-active-map    (kbd "C-o")     #'company-other-backend)
 
 (provide 'company-cfg)
 ;;; company-cfg.el ends here

@@ -5,9 +5,9 @@
 
 (helm-mode t)
 (helm-flx-mode t)
+(helm-adaptive-mode)
 
-(setq-default
- helm-adaptive-mode                     t
+(setq
  helm-ag-base-command                   "ag -f --hidden --nocolor --nogroup --depth 999999"
  helm-apropos-fuzzy-match               t
  helm-autoresize-mode                   nil
@@ -18,7 +18,7 @@
  helm-completion-in-region-fuzzy-match  t
  helm-completion-window-scroll-margin   5
  helm-display-header-line               nil
- helm-display-source-at-screen-top      nil
+ helm-display-source-at-screen-top      t
  helm-echo-input-in-header-line         t
  helm-ff-auto-update-initial-value      nil
  helm-ff-file-name-history-use-recentf  t
@@ -33,7 +33,6 @@
  helm-locate-fuzzy-match                nil
  helm-M-x-fuzzy-match                   t
  helm-move-to-line-cycle-in-source      t
- helm-projectile-fuzzy-match            t
  helm-quick-update                      t
  helm-recentf-fuzzy-match               t
  helm-scroll-amount                     5
@@ -41,6 +40,7 @@
  helm-split-window-default-side         'below
  helm-split-window-in-side-p            t
  helm-yas-display-key-on-candidate      t
+ helm-yas-not-display-dups              nil
  helm-for-files-preferred-list          '(helm-source-buffers-list
                                           helm-source-recentf
                                           helm-source-bookmarks
@@ -49,15 +49,34 @@
                                           helm-source-locate
                                           helm-source-buffer-not-found))
 
-(defun helm-hide-minibuffer-maybe ()
-  (when (with-helm-buffer helm-echo-input-in-header-line)
-    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-      (overlay-put ov 'window (selected-window))
-      (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
-                              `(:background ,bg-color :foreground ,bg-color)))
-      (setq-local cursor-type nil))))
+(evil-leader/set-key
+  "f f" 'helm-find-files
+  "h y" '(lambda () (interactive) (helm-c-yas-complete) (evil-insert-state))
+  "h h" 'helm-apropos
+  "h i" 'helm-semantic-or-imenu
+  "h s" 'helm-swoop
+  "h S" 'helm-multi-swoop
+  "h a" 'helm-ag
+  "h A" 'helm-do-ag
+  "h r" 'helm-resume
+  "l"   'helm-for-files
+  "M"   'helm-man-woman
+  "f r" 'helm-recentf)
 
-(add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+(define-key helm-map            (kbd "<tab>") #'helm-execute-persistent-action)
+(define-key helm-map            (kbd "C-,")   #'helm-select-action)
+(define-key helm-map            (kbd "C-j")   #'helm-next-line)
+(define-key helm-map            (kbd "C-k")   #'helm-previous-line)
+(define-key helm-map            (kbd "M-j")   #'helm-next-source)
+(define-key helm-map            (kbd "M-k")   #'helm-previous-source)
+(define-key helm-find-files-map (kbd "C-d")   #'helm-ff-persistent-delete)
+(define-key helm-buffer-map     (kbd "C-d")   #'helm-buffer-run-kill-persistent)
+(global-set-key                 (kbd "M-x")   #'helm-M-x)
+(global-set-key                 (kbd "C-x b") #'helm-for-files)
+
+(define-key helm-map [escape] #'helm-keyboard-quit)
+
+(a/def-key-for-maps (kbd "C-p") #'helm-show-kill-ring default-mode-maps)
 
 (provide 'helm-cfg)
 ;; helm-cfg.el ends here

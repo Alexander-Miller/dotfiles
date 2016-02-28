@@ -10,7 +10,7 @@
 (spaceline-toggle-selection-info-on)
 (spaceline-helm-mode)
 
-(setq-default
+(setq
  anzu-cons-mode-line-p               nil
  spaceline-highlight-face-func       'spaceline-highlight-face-evil-state
  spaceline-minor-modes-separator     " "

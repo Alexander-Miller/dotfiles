@@ -7,9 +7,10 @@
 
 (helm-projectile-on)
 
-(setq-default
+(setq
+ helm-projectile-fuzzy-match  t
  projectile-completion-system 'helm
- projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+ projectile-mode-line         '(:eval (format " P[%s]" (projectile-project-name))))
 
 (evil-leader/set-key
   "p f"   'helm-projectile-find-file

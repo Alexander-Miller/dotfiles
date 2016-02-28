@@ -3,192 +3,105 @@
 ;;; Commentary:
 ;;; Code:
 
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(evil-leader/set-key
+  "f s"   #'save-buffer
+  "f S"   #'save-some-buffers
+  "f e"   #'eval-buffer
+  "f w"   #'ace-swap-window
+  "f k"   #'a/kill-delete-buffer
+  "f K"   #'kill-buffer
+  "f C-k" #'ace-delete-window
+  "t h"   #'highlight-symbol
+  "t s"   #'flyspell-mode
+  "t S"   #'flyspell-buffer
+  "t d"   #'a/choose-dict
+  "t R"   #'a/reload-config
+  "C-j"   #'evil-join
+  "o"     #'ace-window
+  "O"     #'other-frame
+  "0"     #'delete-window
+  "1"     #'delete-other-windows
+  "2"     #'split-window-vertically
+  "3"     #'split-window-horizontally
+  "r"     #'anzu-query-replace-regexp
+  "R"     #'anzu-query-replace-at-cursor
+  "q f"   #'vimish-fold
+  "q d"   #'vimish-fold-delete
+  "q q"   #'a/vimish-fold-dwim
+  "q a"   #'vimish-fold-avy
+  "q r"   #'vimish-refold
+  "q A"   #'vimish-fold-unfold-all
+  "q D"   #'vimish-fold-delete-all
+  "q R"   #'vimish-fold-refold-all
+  "e i"   #'el-get-install
+  "e I"   #'el-get-reinstall
+  "e r"   #'el-get-remove
+  "e u"   #'el-get-update
+  "e U"   #'el-get-self-update
+  "e a"   #'el-get-update-all
+  "e d"   #'el-get-describe)
 
-;; beginning and end of line
-(my/def-key-for-maps
- (kbd "C-a") 'evil-beginning-of-visual-line
- (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-motion-state-map))
-(my/def-key-for-maps
- (kbd "C-e") 'evil-end-of-visual-line
- (list evil-visual-state-map evil-normal-state-map evil-insert-state-map evil-operator-state-map evil-motion-state-map))
+(a/def-key-for-maps
+ (kbd "j") #'evil-next-visual-line (remove evil-insert-state-map default-mode-maps))
+(a/def-key-for-maps
+ (kbd "k") #'evil-previous-visual-line (remove evil-insert-state-map default-mode-maps))
 
-;; next and previous line -> visual
-(my/def-key-for-maps
- (kbd "j") 'evil-next-visual-line
- (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
-(my/def-key-for-maps
- (kbd "k") 'evil-previous-visual-line
- (list evil-normal-state-map evil-visual-state-map evil-operator-state-map))
+(a/def-key-for-maps
+ (kbd "J") #'a/quick-forward
+ (remove evil-insert-state-map default-mode-maps))
+(a/def-key-for-maps
+ (kbd "K") #'a/quick-backward
+ (remove evil-insert-state-map default-mode-maps))
 
-;; word and character searching
-(my/def-key-for-maps
- (kbd "C-s") 'evil-search-forward
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map evil-motion-state-map))
-(my/def-key-for-maps
- (kbd "C-r") 'evil-search-backward
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map evil-motion-state-map evil-motion-state-map))
-(my/def-key-for-maps
- (kbd "M-p") 'evil-avy-goto-char
- (list evil-normal-state-map evil-visual-state-map evil-operator-state-map evil-motion-state-map))
-(my/def-key-for-maps
- (kbd "ü") 'evil-avy-goto-char
- (list evil-normal-state-map evil-operator-state-map evil-visual-state-map evil-motion-state-map))
+(a/def-key-for-maps
+ (kbd "C-a") #'evil-beginning-of-visual-line default-mode-maps)
+(a/def-key-for-maps
+ (kbd "C-e") #'evil-end-of-visual-line default-mode-maps)
+(define-key evil-visual-state-map (kbd "C-e")
+ (lambda () (interactive) (evil-end-of-visual-line)))
 
-;; faster scrolling
-(my/def-key-for-maps
- (kbd "J") 'my/quick-forward
- (list evil-normal-state-map evil-motion-state-map evil-operator-state-map evil-visual-state-map))
-(my/def-key-for-maps
- (kbd "K") 'my/quick-backward
- (list evil-normal-state-map evil-motion-state-map evil-operator-state-map evil-visual-state-map))
+(a/def-key-for-maps
+ (kbd "C-s") #'evil-search-forward default-mode-maps)
+(a/def-key-for-maps
+ (kbd "C-r") #'evil-search-backward default-mode-maps)
 
-;; jump paren pairs with ,
-(my/def-key-for-maps
- (kbd ",") 'evilmi-jump-items
- (list evil-normal-state-map evil-visual-state-map evil-operator-state-map evil-motion-state-map))
+(global-set-key (kbd "C-x C-e") '(lambda () (interactive) (a/eval-last-sexp 'eval-last-sexp)))
 
-;; screen recenter
-(my/def-key-for-maps
- (kbd "C-x l") 'recenter-top-bottom
- (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map evil-emacs-state-map))
+(a/def-key-for-maps
+ (kbd "C-x x") 'eval-defun default-mode-maps)
 
-;; evaluate definition at point
-(my/def-key-for-maps
- (kbd "C-x x") 'eval-defun
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
-(global-set-key (kbd "C-x C-e") '(lambda () (interactive) (my/eval-last-sexp 'eval-last-sexp)))
-
-;; inserting newlines
-(my/def-key-for-maps
- (kbd "C-j") 'my/newline-and-indent
- (list evil-normal-state-map evil-insert-state-map))
-
-;; adding/removing comments
-(my/def-key-for-maps
- (kbd "C-7") 'comment-line
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
+(a/def-key-for-maps
+ (kbd "C-7") 'comment-line default-mode-maps)
 (define-key evil-visual-state-map (kbd "C-7") 'comment-dwim)
 
-;; escape quits everything
-(my/def-key-for-maps
- [escape] 'keyboard-quit
- (list evil-normal-state-map evil-operator-state-map evil-visual-state-map evil-emacs-state-map))
-(define-key helm-map           [escape] 'helm-keyboard-quit)
-(define-key company-active-map [escape] 'company-abort)
+(a/def-key-for-maps
+ (kbd "C-x C-x") 'evil-goto-mark default-mode-maps)
 
-;; better pasting
-(my/def-key-for-maps
- (kbd "C-p") 'helm-show-kill-ring
- (list evil-normal-state-map evil-insert-state-map evil-normal-state-map))
+(a/def-key-for-maps
+ (kbd ",") 'evilmi-jump-items default-mode-maps)
 
-;; goto mark
-(my/def-key-for-maps
- (kbd "C-x C-x") 'evil-goto-mark
- (list evil-normal-state-map evil-insert-state-map evil-operator-state-map))
-
-;; expand region
-(define-key evil-normal-state-map (kbd "C-w") 'er/expand-region)
-
-;; for convenience
-(global-set-key (kbd "C-c ö") 'my/what-face)
 (global-set-key (kbd "C-^") 'evil-buffer)
 
-;; evil numbers
-(global-set-key (kbd "C-c C-+") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C-c C--") 'evil-numbers/dec-at-pt)
+(global-set-key (kbd "C-c ö") 'a/what-face)
 
-;; evil exchange
-(my/def-key-for-maps
- (kbd "gx") 'evil-exchange
- (list evil-normal-state-map evil-visual-state-map))
-
-;; redo
 (define-key evil-normal-state-map (kbd "U") 'undo-tree-redo)
 
-;; tab indent in normal mode
-(define-key prog-mode-map (kbd "<tab>") 'indent-for-tab-command)
-
-;; basic jump to definition
 (evil-define-key 'normal emacs-lisp-mode-map (kbd "M-.") #'xref-find-definitions)
 (define-key evil-normal-state-map (kbd "M-,") #'xref-pop-marker-stack)
 
 (eyebrowse-setup-opinionated-keys)
 
-;; company binds
-(my/def-key-for-maps
- (kbd "C-<SPC>") 'company-complete
- (list evil-normal-state-map evil-insert-state-map evil-emacs-state-map))
-(define-key company-active-map (kbd "C-j")   'company-select-next)
-(define-key company-active-map (kbd "C-k")   'company-select-previous)
-(define-key company-active-map (kbd "C-l")   'company-quickhelp-manual-begin)
-(define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-(define-key company-active-map (kbd "C-o")   'company-other-backend)
+(define-key evil-normal-state-map (kbd "C-w") #'er/expand-region)
 
-;; helm binds
-(define-key helm-map            (kbd "<tab>") 'helm-execute-persistent-action)
-(define-key helm-map            (kbd "C-,")   'helm-select-action)
-(define-key helm-map            (kbd "C-j")   'helm-next-line)
-(define-key helm-map            (kbd "C-k")   'helm-previous-line)
-(define-key helm-map            (kbd "M-j")   'helm-next-source)
-(define-key helm-map            (kbd "M-k")   'helm-previous-source)
-(define-key helm-find-files-map (kbd "C-d")   'helm-ff-persistent-delete)
-(define-key helm-buffer-map     (kbd "C-d")   'helm-buffer-run-kill-persistent)
-(global-set-key                 (kbd "M-x")   'helm-M-x)
-(global-set-key                 (kbd "C-x b") 'helm-for-files)
+(global-set-key (kbd "C-c C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c C--") 'evil-numbers/dec-at-pt)
 
-;; yasnippet binds
+(define-key evil-visual-state-map (kbd "gx") #'evil-exchange)
+
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-ä") 'yas-expand)
-
-(evil-leader/set-key
-  "f s" 'save-buffer
-  "f f" 'helm-find-files
-  "f S" 'save-some-buffers
-  "f e" 'eval-buffer
-  "f k" 'kill-this-buffer
-  "f K" 'kill-buffer
-  "f r" 'helm-recentf
-  "t h" 'highlight-symbol
-  "t v" 'volume
-  "H H" 'helm-apropos
-  "g s" 'magit-status
-  "h y" '(lambda () (interactive) (helm-c-yas-complete) (evil-insert-state))
-  "h i" 'helm-semantic-or-imenu
-  "h s" 'helm-swoop
-  "h S" 'helm-multi-swoop
-  "h a" 'helm-ag
-  "h A" 'helm-do-ag
-  "h r" 'helm-resume
-  "l"   'helm-for-files
-  "M"   'helm-man-woman
-  "C-j" 'evil-join
-  "o"   'ace-window
-  "O"   'other-frame
-  "0"   'delete-window
-  "1"   'delete-other-windows
-  "2"   'split-window-vertically
-  "3"   'split-window-horizontally
-  "r"   'anzu-query-replace-regexp
-  "R"   'anzu-query-replace-at-cursor
-  "+"   'set-mark-command
-  "j"   'avy-goto-line
-  "q f" 'vimish-fold
-  "q d" 'vimish-fold-delete
-  "q q" 'my/vimish-fold-dwim
-  "q a" 'vimish-fold-avy
-  "q r" 'vimish-refold
-  "q A" 'vimish-fold-unfold-all
-  "q D" 'vimish-fold-delete-all
-  "q R" 'vimish-fold-refold-all
-  "e i" 'el-get-install
-  "e I" 'el-get-reinstall
-  "e r" 'el-get-remove
-  "e u" 'el-get-update
-  "e U" 'el-get-self-update
-  "e a" 'el-get-update-all
-  "e d" 'el-get-describe)
+(define-key yas-minor-mode-map (kbd "TAB")   nil)
+(define-key yas-minor-mode-map (kbd "C-ä")   #'yas-expand)
+(evil-define-key 'normal prog-mode-map (kbd "TAB") #'indent-for-tab-command)
 
 (provide 'keybinds-cfg)
 ;;; keybinds-cfg.el ends here

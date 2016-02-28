@@ -8,7 +8,9 @@
 (smartparens-global-mode t)
 (show-paren-mode t)
 
-(setq-default
+(setq
+ sp-autoskip-opening-pair   'always
+ sp-autoskip-closing-pair   'always
  sp-autodelete-pair         t
  sp-autodelete-wrap         t
  sp-autodelete-closing-pair t
@@ -25,10 +27,6 @@
   (show-smartparens-mode t))
 (dolist (mode-hook show-sp-hooks) (add-hook mode-hook #'show-sp-activate))
 
-(define-key smartparens-strict-mode-map [remap sp-delete-char] 'delete-char)
-
-(sp-pair "<" ">")
-
 (define-key evil-visual-state-map (kbd "(")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "(")))
 (define-key evil-visual-state-map (kbd "[")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "[")))
 (define-key evil-visual-state-map (kbd "{")  (lambda (&optional arg) (interactive "P") (sp-wrap-with-pair "{")))
@@ -43,28 +41,27 @@
   "s u" 'sp-unwrap-sexp
   "s r" 'sp-rewrap-sexp)
 
-
 ;; Fish-mode specifics
 
-(defun sp-fish-indent-handler (id action context)
+(defun a/sp-fish-indent-handler (id action context)
   (save-excursion
     (newline)
     (indent-for-tab-command)))
 
-(defvar fish-prefixes (list "function" "for" "if" "switch"))
+(defvar a/fish-prefixes (list "function" "for" "if" "switch"))
 
-(defun sp-fish-unless-handler (id action context)
+(defun a/sp-fish-unless-handler (id action context)
   (and (string-equal action "insert")
-       (not (-contains? fish-prefixes (s-trim (thing-at-point 'line t))))))
+       (not (-contains? a/fish-prefixes (s-trim (thing-at-point 'line t))))))
 
-(dolist (start fish-prefixes)
+(dolist (start a/fish-prefixes)
   (sp-local-pair 'fish-mode
                  start "end"
                  :suffix ""
                  :when '(("SPC" "RET" "<evil-ret>"))
-                 :unless '(sp-fish-unless-handler)
+                 :unless '(a/sp-fish-unless-handler)
                  :actions '(insert navigate)
-                 :post-handlers '(sp-fish-indent-handler)))
+                 :post-handlers '(a/sp-fish-indent-handler)))
 
 (provide 'smartparens-cfg)
 ;;; smartparens-cfg.el ends here

@@ -3,12 +3,12 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun my/org-mode-hook ()
+(defun a/org-mode-hook ()
   "Org-mode hook."
   (setq-local company-backends '((company-dabbrev company-files company-yasnippet)))
   (org-bullets-mode t))
 
-(add-hook 'org-mode-hook #'my/org-mode-hook)
+(add-hook 'org-mode-hook #'a/org-mode-hook)
 
 (with-eval-after-load "org"
 
@@ -21,10 +21,10 @@
      (python     . t)
      (sh         . t)))
 
-  (setq-default
+  (setq
    org-catch-invisible-edits      'show
    org-fontify-whole-heading-line nil
-   org-list-indent-offset         40
+   org-list-indent-offset         2
    org-special-ctrl-a             nil
    org-special-ctrl-k             nil
    org-src-fontify-natively       t

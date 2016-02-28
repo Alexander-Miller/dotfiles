@@ -3,13 +3,16 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun flycheck-activate () (flycheck-mode t))
-(defconst flycheck-activation-hooks '(sh-mode-hook python-mode-hook c++-mode-hook rust-mode-hook))
-(dolist (mode-hook flycheck-activation-hooks) (add-hook mode-hook #'flycheck-activate))
+(defun a/flycheck-activate () (flycheck-mode t))
+(defconst a/flycheck-activation-hooks '(sh-mode-hook python-mode-hook c++-mode-hook rust-mode-hook))
+(dolist (mode-hook a/flycheck-activation-hooks) (add-hook mode-hook #'a/flycheck-activate))
+
+(evil-leader/set-key
+  (kbd "C-y") (lambda () (interactive) (call-interactively 'flycheck-mode)))
 
 (with-eval-after-load "flycheck"
 
-  (define-fringe-bitmap 'my-flycheck-fringe-indicator
+  (define-fringe-bitmap 'a/flycheck-fringe-indicator
     (vector #b00000000
             #b00000000
             #b00000000
@@ -30,22 +33,22 @@
 
   (flycheck-define-error-level 'error
     :overlay-category 'flycheck-error-overlay
-    :fringe-bitmap 'my-flycheck-fringe-indicator
+    :fringe-bitmap 'a/flycheck-fringe-indicator
     :fringe-face 'flycheck-fringe-error)
 
   (flycheck-define-error-level 'warning
     :overlay-category 'flycheck-warning-overlay
-    :fringe-bitmap 'my-flycheck-fringe-indicator
+    :fringe-bitmap 'a/flycheck-fringe-indicator
     :fringe-face 'flycheck-fringe-warning)
 
   (flycheck-define-error-level 'info
     :overlay-category 'flycheck-info-overlay
-    :fringe-bitmap 'my-flycheck-fringe-indicator
+    :fringe-bitmap 'a/flycheck-fringe-indicator
     :fringe-face 'flycheck-fringe-info)
 
   (add-hook 'flycheck-mode-hook (lambda () (flycheck-pos-tip-mode)))
 
-  (setq-default
+  (setq
    flycheck-check-syntax-automatically '(mode-enabled save idle-change)
    flycheck-checker-error-threshold    200
    flycheck-display-errors-delay       1
@@ -60,7 +63,6 @@
   (evil-define-key 'normal flycheck-error-list-mode-map (kbd "<tab>") #'flycheck-error-list-goto-error)
 
   (evil-leader/set-key
-    "C-y" (lambda () (interactive) (call-interactively 'flycheck-mode))
     "y y" #'flycheck-buffer
     "y Y" #'flycheck-copy-errors-as-kill
     "y s" #'flycheck-select-checker

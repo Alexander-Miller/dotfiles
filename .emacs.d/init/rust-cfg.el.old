@@ -3,12 +3,12 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun rust-hook ()
+(defun a/rust-hook ()
   "Rust mode hook."
   (racer-mode t)
   (flycheck-rust-setup))
 
-(add-hook 'rust-mode-hook #'rust-hook)
+(add-hook 'rust-mode-hook #'a/rust-hook)
 
 (with-eval-after-load "racer"
 

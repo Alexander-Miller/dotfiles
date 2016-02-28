@@ -3,17 +3,17 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun my/python-mode-hook ()
+(defun a/python-mode-hook ()
   "Python mode hook."
   (setq-local company-idle-delay 4)
   (setq-local company-backends '((elpy-company-backend company-yasnippet company-files company-dabbrev-code))))
 
-(defun my/inferior-python-mode-hook ()
+(defun a/inferior-python-mode-hook ()
   "Inferior Python mode hook."
   (setq-local company-backends '((company-capf))))
 
-(add-hook 'python-mode-hook          #'my/python-mode-hook t)
-(add-hook 'inferior-python-mode-hook #'my/inferior-python-mode-hook t)
+(add-hook 'python-mode-hook          #'a/python-mode-hook t)
+(add-hook 'inferior-python-mode-hook #'a/inferior-python-mode-hook t)
 
 (with-eval-after-load "python"
 
@@ -47,7 +47,7 @@
     (if doc (pos-tip-show doc nil nil nil -1)
       (error "No documentation found"))))
 
-  (define-key python-mode-map (kbd "C-ä") 'elpy-doc-popup)
+  (define-key python-mode-map (kbd "M-h") 'elpy-doc-popup)
 
   (setq-default elpy-rpc-backend "jedi"))
 

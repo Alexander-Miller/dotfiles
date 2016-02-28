@@ -9,11 +9,14 @@ set -e fish_greeting
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
+set -x fish_color_end               red
 set -x fish_color_comment           888888
 set -x fish_color_cwd               000
+set -x fish_color_prefix            000
 set -x fish_color_cwd_root          000
 set -x fish_color_error             red --bold
 set -x fish_color_escape            magenta
+set -x fish_color_completion        000
 set -x fish_color_history_current   000
 set -x fish_color_host              000
 set -x fish_color_match             000

@@ -10,17 +10,23 @@
 (evil-mode 1)
 (global-evil-matchit-mode 1)
 
+(defvar default-mode-maps
+  (list evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-operator-state-map evil-motion-state-map)
+  "List of evil's default keymaps that are relevant for remapping.")
+
 (setq-default
- evil-auto-indent           0
+ evil-auto-indent t)
+
+(setq
  evil-default-state         'normal
- evil-find-skip-newlines    t
  evil-move-cursor-back      t
  evil-move-beyond-eol       t
- evil-repeat-move-cursor    0
+ evil-repeat-move-cursor    t
  evil-shift-width           4
- evil-want-fine-undo        t
+ evil-want-fine-undo        'fine
  evil-normal-state-cursor   '("#ab3737" box)
  evil-insert-state-cursor   '("#33aa33" bar)
+ evil-visual-state-cursor   '("#a374a8" box)
  evil-motion-state-cursor   '("#c97449" box)
  evil-operator-state-cursor '("#00688b" (hbar . 5))
  evil-emacs-state-cursor    '("#339999" bar)
@@ -29,9 +35,11 @@
 (evil-set-initial-state 'special-mode 'motion)
 (evil-set-initial-state 'messages-buffer-mode 'motion)
 
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+
 (evil-define-state resize
   "Evil Resize State"
-  :tag "Resize"
+  :tag "<R>"
   :suppress-keymap t)
 
 (define-key evil-normal-state-map (kbd "M-r") #'evil-resize-state)

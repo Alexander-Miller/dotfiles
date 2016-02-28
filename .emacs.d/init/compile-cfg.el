@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq-default
+(setq
  multi-compile-completion-system 'helm
  multi-compile-alist
  '((rust-mode   ("cargo run"           . "cargo run")

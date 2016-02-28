@@ -3,61 +3,62 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'git-gutter-fringe+)
+(require 'git-gutter-fringe)
 
 (global-anzu-mode             t)
 (global-auto-revert-mode      t)
 (global-eldoc-mode            t)
-(global-git-gutter+-mode      t)
+(global-git-gutter-mode       t)
 (global-prettify-symbols-mode t)
 (global-subword-mode          t)
 (vimish-fold-global-mode      t)
 (yas-global-mode              t)
+(async-bytecomp-package-mode  t)
 (column-number-mode           t)
 (desktop-save-mode            t)
+(dired-async-mode             t)
 (dtrt-indent-mode             t)
 (eyebrowse-mode               t)
 (key-chord-mode               t)
 (menu-bar-mode                t)
 (semantic-mode                t)
-(smooth-scroll-mode           t)
 (subword-mode                 t)
 (transient-mark-mode          t)
 (undo-tree-mode               t)
 (which-key-mode               t)
-(global-visual-line-mode      0)
 (horizontal-scroll-bar-mode   0)
 (scroll-bar-mode              0)
 (tool-bar-mode                0)
+(blink-cursor-mode            0)
 
 (setq-default
- async-bytecomp-package-mode     t
+ indent-tabs-mode    nil
+ ispell-dictionary   "en_GB"
+ ispell-program-name "hunspell"
+ fill-column         80
+ truncate-lines      t)
+
+(setq
  backup-directory-alist          '((".*" . "~/.emacs.d/backups"))
  blink-cursor-blinks             0
- default-indicate-empty-lines    t
- dired-async-mode                t
- dtrt-indent-verbosity           0
- fill-column                     80
+ dtrt-indent-verbosity           1
  frame-title-format              '(buffer-file-name "%f" ("%b"))
- fringe-mode                     '(8 . 0)
+ fringe-mode                     8
  highlight-symbol-idle-delay     4
  indent-tabs-mode                nil
  inhibit-splash-screen           t
- ispell-dictionary               "en_GB"
- ispell-program-name             "hunspell"
  next-line-add-newlines          t
  nlinum-format                   " %d "
  pos-tip-background-color        "#444444"
  require-final-newline           t
- scroll-conservatively           1000
+ scroll-conservatively           50
  scroll-margin                   15
- scroll-preserve-screen-position nil
- show-paren-delay                0
+ scroll-preserve-screen-position t
+ show-paren-delay                0.2
  tab-width                       4
- truncate-lines                  t
  undo-outer-limit                42000000
  whitespace-line-column          120
- x-select-enable-clipboard       t)
+ select-enable-clipboard         t)
 
 (load-theme 'morning-star t)
 
@@ -66,8 +67,7 @@
 
 (set-frame-font "Fantasque Sans Mono 12")
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
-(set-fontset-font "fontset-default" nil
-                  (font-spec :size 13 :name "Symbola"))
+(set-fontset-font "fontset-default" nil (font-spec :size 13 :name "Symbola"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -88,7 +88,6 @@
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-
 
 (setq-default
  prettify-symbols-alist

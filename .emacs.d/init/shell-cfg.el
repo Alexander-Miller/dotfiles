@@ -3,20 +3,18 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun term-hook ()
-    (setq-local truncate-lines t)
-    (setq-local company-backends '())
-    (setq-local scroll-margin 0)
-    (yas-minor-mode 0))
+(defun a/term-hook ()
+  (setq-local scroll-margin 0)
+  (yas-minor-mode 0))
 
-(add-hook 'term-mode-hook #'term-hook t)
+(add-hook 'term-mode-hook #'a/term-hook t)
 
-(defun shell-toggle ()
+(defun a/shell-toggle ()
   (interactive)
   (multi-term-dedicated-toggle)
   (setq truncate-lines t))
 
-(global-set-key [f1] #'shell-toggle)
+(global-set-key [f1] #'a/shell-toggle)
 
 (with-eval-after-load "term"
 
@@ -29,7 +27,7 @@
   (define-key term-raw-map (kbd "M-h") 'term-send-backward-word)
   (define-key term-raw-map (kbd "M-<backspace>") 'term-send-backward-kill-word)
 
-  (setq-default
+  (setq
    multi-term-buffer-name                           "Fish"
    multi-term-dedicated-buffer-name                 "Dedicated Fish"
    multi-term-dedicated-close-back-to-open-buffer-p t
