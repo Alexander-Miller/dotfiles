@@ -26,6 +26,7 @@
 	anzu
         avy
 	cl-lib
+        comment-dwim-2
         company-mode
         company-flx
         company-quickhelp

@@ -72,8 +72,8 @@
  (kbd "C-x x") 'eval-defun default-mode-maps)
 
 (a/def-key-for-maps
- (kbd "C-7") 'comment-line default-mode-maps)
-(define-key evil-visual-state-map (kbd "C-7") 'comment-dwim)
+ (kbd "C-7") 'comment-dwim-2 default-mode-maps)
+(define-key evil-visual-state-map (kbd "C-7") 'comment-dwim-2)
 
 (a/def-key-for-maps
  (kbd "C-x C-x") 'evil-goto-mark default-mode-maps)
