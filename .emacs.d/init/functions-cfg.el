@@ -75,8 +75,21 @@
 (defun a/reload-config ()
   "Force reload of every single config file."
   (interactive)
-  (dolist (f (directory-files "~/.emacs.d/init" t ".*el$"))
+  (dolist (f (directory-files "~/.emacs.d/init" t ".el$"))
     (load-file f)))
+
+(defun a/reload-config-file ()
+  "Force reload a single config file."
+  (interactive)
+  (helm :prompt "-> "
+        :buffer "*helm reload cfg file*"
+        :sources (helm-build-sync-source "Helm Reload Cfg File Source"
+                   :candidates (-map
+                                (lambda (f) (cons (file-name-base f)  f))
+                                (directory-files "~/.emacs.d/init/" t ".el$"))
+                   :action (lambda (f) (load-file f))
+                   :persistent-action 'ignore
+                   :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
 
 (provide 'functions-cfg)
 ;;; functions-cfg.el ends here

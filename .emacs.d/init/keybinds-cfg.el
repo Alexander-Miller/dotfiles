@@ -16,6 +16,7 @@
   "t S"   #'flyspell-buffer
   "t d"   #'a/choose-dict
   "t R"   #'a/reload-config
+  "t r"   #'a/reload-config-file
   "C-j"   #'evil-join
   "o"     #'ace-window
   "O"     #'other-frame
