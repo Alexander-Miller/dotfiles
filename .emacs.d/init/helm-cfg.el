@@ -31,6 +31,7 @@
  helm-input-idle-delay                  0.05
  helm-kill-ring-max-lines-number        5
  helm-locate-fuzzy-match                nil
+ helm-mode-fuzzy-match                  t
  helm-M-x-fuzzy-match                   t
  helm-move-to-line-cycle-in-source      t
  helm-quick-update                      t
