@@ -15,14 +15,6 @@
   (kill-this-buffer)
   (ignore-errors (delete-window)))
 
-(defun a/newline-and-indent ()
-  "Will insert a new line in insert and normal states, with the position adjusted in the latter case."
-  (interactive)
-  ;; (when (and (not (eq (point) (point-at-eol)))
-             ;; (evil-normal-state-p))
-    ;; (evil-forward-char))
-  (newline-and-indent))
-
 (defun a/quick-forward ()
   (interactive) (evil-next-visual-line 5))
 
