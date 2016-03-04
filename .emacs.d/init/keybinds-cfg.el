@@ -79,7 +79,7 @@
  (kbd "C-x C-x") 'evil-goto-mark default-mode-maps)
 
 (a/def-key-for-maps
- (kbd ",") 'evilmi-jump-items default-mode-maps)
+ (kbd ",") 'evilmi-jump-items (remove evil-insert-state-map default-mode-maps))
 
 (global-set-key (kbd "C-^") 'evil-buffer)
 
