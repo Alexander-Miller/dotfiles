@@ -11,6 +11,7 @@
   "f k"   #'a/kill-delete-buffer
   "f K"   #'kill-buffer
   "f C-k" #'ace-delete-window
+  "t G"   #'garbage-collect
   "t h"   #'highlight-symbol
   "t s"   #'flyspell-mode
   "t S"   #'flyspell-buffer
@@ -101,7 +102,7 @@
 
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
 (define-key yas-minor-mode-map (kbd "TAB")   nil)
-(define-key yas-minor-mode-map (kbd "C-ä")   #'yas-expand)
+(define-key yas-minor-mode-map (kbd "C-l")   #'yas-expand)
 (evil-define-key 'normal prog-mode-map (kbd "TAB") #'indent-for-tab-command)
 
 (provide 'keybinds-cfg)
