@@ -55,7 +55,7 @@
 
   (evil-set-initial-state 'pdf-outline-buffer-mode 'pdf-outline)
 
-  (advice-add #'delete-other-windows :after #'pdf-outline-follow-link-and-quit)
+  (advice-add #'pdf-outline-follow-link-and-quit :after #'delete-other-windows)
 
   (evil-define-key 'pdf-outline pdf-outline-buffer-mode-map
     [escape]      #'keyboard-quit
