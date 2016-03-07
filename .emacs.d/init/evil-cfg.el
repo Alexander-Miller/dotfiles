@@ -54,6 +54,7 @@
 (define-key evil-resize-state-map (kbd "L")   #'(lambda () (interactive) (shrink-window-horizontally 5)))
 (define-key evil-resize-state-map (kbd "H")   #'(lambda () (interactive) (enlarge-window-horizontally 5)))
 
+(require 'volume)
 (evil-define-state volume
   "Evil Volume State"
   :tag "<Vol>"
