@@ -21,6 +21,7 @@
 (eyebrowse-mode               t)
 (key-chord-mode               t)
 (menu-bar-mode                t)
+(mouse-avoidance-mode         t)
 (semantic-mode                t)
 (subword-mode                 t)
 (transient-mark-mode          t)
