@@ -24,7 +24,7 @@
   (setq
    org-catch-invisible-edits      'show
    org-fontify-whole-heading-line nil
-   org-list-indent-offset         2
+   org-list-indent-offset         1
    org-special-ctrl-a             nil
    org-special-ctrl-k             nil
    org-src-fontify-natively       t
