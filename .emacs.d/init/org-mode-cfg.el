@@ -24,13 +24,17 @@
   (setq
    org-catch-invisible-edits      'show
    org-fontify-whole-heading-line nil
+   org-list-allow-alphabetical    t
    org-list-indent-offset         1
    org-special-ctrl-a             nil
    org-special-ctrl-k             nil
    org-src-fontify-natively       t
    org-startup-align-all-tables   t
    org-startup-folded             t
-   org-startup-indented           t)
+   org-startup-indented           t
+   org-yank-adjusted-subtrees     t
+   org-yank-folded-subtrees       nil)
+  (org-element-update-syntax)
 
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
@@ -53,6 +57,7 @@
     "<tab> o"   #'org-todo
     "<tab> C-o" #'org-insert-todo-heading-respect-content
     "<tab> c"   #'org-toggle-checkbox
+    "<tab> *"   #'org-toggle-heading
     "<tab> -"   #'org-ctrl-c-minus
     "<tab> u"   #'outline-up-heading
     "<tab> j"   #'org-forward-heading-same-level
@@ -65,10 +70,13 @@
     "<tab> n e" #'org-narrow-to-element
     "<tab> n s" #'org-narrow-to-subtree
     "<tab> n w" #'widen
+    "<tab> 7"   #'org-sparse-tree
     "<tab> s m" #'org-mark-subtree
     "<tab> s d" #'org-cut-subtree
     "<tab> s y" #'org-copy-subtree
     "<tab> s p" #'org-paste-subtree
+    "<tab> s s" #'org-clone-subtree-with-time-shift
+    "<tab> t i" #'org-tree-to-indirect-buffer
     "<tab> t t" #'org-ctrl-c-star
     "<tab> t r" #'org-table-recalculate-buffer-tables
     "<tab> t R" #'org-table-recalculate
