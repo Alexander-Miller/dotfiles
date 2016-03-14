@@ -12,6 +12,7 @@
   "f K"   #'kill-buffer
   "f C-k" #'ace-delete-window
   "t G"   #'garbage-collect
+  "t f"   #'a/set-font-size
   "t h"   #'highlight-symbol
   "t s"   #'flyspell-mode
   "t S"   #'flyspell-buffer

@@ -83,5 +83,14 @@
                    :persistent-action 'ignore
                    :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
 
+(defun a/set-font-size ()
+  "Interactively set font size. Reset to default with prefix arg."
+  (interactive)
+  (if current-prefix-arg
+      (set-frame-font (format "%s %s" a/font a/font-size))
+    (progn
+      (let ((size (read-from-minibuffer "New Font Size: ")))
+        (set-frame-font (format "%s %s" a/font size))))))
+
 (provide 'functions-cfg)
 ;;; functions-cfg.el ends here

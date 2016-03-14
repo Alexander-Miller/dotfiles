@@ -66,7 +66,9 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-(set-frame-font "Fantasque Sans Mono 12")
+(setq-default a/font "Fantasque Sans Mono")
+(setq-default a/font-size 12)
+(set-frame-font (format "%s %s" a/font a/font-size))
 (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono 12"))
 (set-fontset-font "fontset-default" nil (font-spec :size 13 :name "Symbola"))
 
