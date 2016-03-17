@@ -42,9 +42,9 @@
   :tag "<R>"
   :suppress-keymap t)
 
-(define-key evil-normal-state-map (kbd "M-r") #'evil-resize-state)
-(define-key evil-resize-state-map (kbd "ESC") #'evil-normal-state)
-(define-key evil-resize-state-map (kbd "C-g") #'evil-normal-state)
+(global-set-key (kbd "M-r") #'evil-resize-state)
+(define-key evil-resize-state-map (kbd "ESC") #'evil-change-to-previous-state)
+(define-key evil-resize-state-map (kbd "C-g") #'evil-change-to-previous-state)
 (define-key evil-resize-state-map (kbd "j")   #'shrink-window)
 (define-key evil-resize-state-map (kbd "k")   #'enlarge-window)
 (define-key evil-resize-state-map (kbd "l")   #'shrink-window-horizontally)
@@ -61,9 +61,9 @@
   :cursor ("#446677" hollow)
   :suppress-keymap t)
 
-(define-key evil-normal-state-map (kbd "M-v") #'evil-volume-state)
-(define-key evil-volume-state-map (kbd "ESC") #'evil-normal-state)
-(define-key evil-volume-state-map (kbd "C-g") #'evil-normal-state)
+(global-set-key (kbd "M-v") #'evil-volume-state)
+(define-key evil-volume-state-map (kbd "ESC") #'evil-change-to-previous-state)
+(define-key evil-volume-state-map (kbd "C-g") #'evil-change-to-previous-state)
 (define-key evil-volume-state-map (kbd "j")   #'volume-lower)
 (define-key evil-volume-state-map (kbd "k")   #'volume-raise)
 (define-key evil-volume-state-map (kbd "J")   #'volume-lower-10)
