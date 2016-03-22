@@ -38,8 +38,9 @@
         dired-rainbow
         dtrt-indent
         elpy
-        emacs-fish
         emacs-async
+        emacs-fish
+        emacs-neotree
         evil
         evil-anzu
         evil-exchange
