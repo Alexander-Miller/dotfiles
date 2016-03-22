@@ -8,6 +8,7 @@
 ;; Order matters - first more specific, then more general rules
 (setq shackle-rules
       '(("*helm-ag*"                :select   t :align right :size 0.5)
+        ("*helm-mode-dired*"        :select   t :align below :size 0.3)
         ("*helm semantic/imenu*"    :select   t :align right :size 0.4)
         ("*Helm Find Files*"        :select   t :align below :size 0.3)
         ("*helm reload cfg file*"   :select   t :align below :size 0.3)
