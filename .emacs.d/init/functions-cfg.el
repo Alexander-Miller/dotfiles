@@ -67,7 +67,7 @@
 (defun a/reload-config ()
   "Force reload of every single config file."
   (interactive)
-  (dolist (f (directory-files "~/.emacs.d/init" t ".el$"))
+  (dolist (f (directory-files "~/.emacs.d/init" t "\.el$"))
     (load-file f)))
 
 (defun a/reload-config-file ()
@@ -78,9 +78,9 @@
         :sources (helm-build-sync-source "Helm Reload Cfg File Source"
                    :candidates (-map
                                 (lambda (f) (cons (file-name-base f)  f))
-                                (directory-files "~/.emacs.d/init/" t ".el$"))
-                   :action (lambda (f) (load-file f))
-                   :persistent-action 'ignore
+                                (directory-files "~/.emacs.d/init/" t "\.el$"))
+                   :action #'load-file
+                   :persistent-action #'ignore
                    :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
 
 (defun a/set-font-size ()
