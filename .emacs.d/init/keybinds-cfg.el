@@ -4,6 +4,7 @@
 ;;; Code:
 
 (evil-leader/set-key
+  "SPC"   #'helm-M-x
   "f s"   #'save-buffer
   "f S"   #'save-some-buffers
   "f e"   #'eval-buffer
