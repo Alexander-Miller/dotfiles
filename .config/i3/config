@@ -169,11 +169,8 @@ mode "$mode_gaps_outer" {
 }
 
 bar {
-        # status_command python ~/.config/i3/i3status.py 0.5
-        # status_command "~/.config/i3/rust3bar"
-        status_command "~/Dropbox/Rust/Projects/rust3bar2/target/release/rust3bar2"
-        # status_command python3 ~/Dropbox/Python/Scripts/test.py
-        font pango: Terminus (TTF) 9
+        status_command "~/.config/i3/i3bar++"
+        Font pango: Terminus (TTF) 9
         position top
         mode dock
         workspace_buttons yes

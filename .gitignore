@@ -16,3 +16,4 @@
 /.emacs.d/init/local-cfg.el
 /.config/fish/local.fish
 build
+/.config/i3/i3bar++
