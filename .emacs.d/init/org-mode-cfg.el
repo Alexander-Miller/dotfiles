@@ -21,9 +21,15 @@
      (python     . t)
      (shell      . t)))
 
+  (font-lock-add-keywords
+   'org-mode
+   '(("^ +\\([-*]\\) "
+      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
   (setq
    org-catch-invisible-edits      'show
    org-fontify-whole-heading-line nil
+   org-hide-emphasis-markers      t
    org-list-allow-alphabetical    t
    org-list-indent-offset         1
    org-special-ctrl-a             nil
@@ -34,6 +40,7 @@
    org-startup-indented           t
    org-yank-adjusted-subtrees     t
    org-yank-folded-subtrees       nil)
+
   (org-element-update-syntax)
 
   (global-set-key (kbd "C-c a") 'org-agenda)
