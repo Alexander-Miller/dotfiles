@@ -20,16 +20,17 @@ void ChargeBlock::update() {
     switch (res.state) {
         // {Status, Percentage, Time Left}
         case ParseResult::State::Multi: {
-            const std::string charging = "Charging";
+            const std::string status = res.content_multi()[0];
+            const bool is_full = status == "Full," ;
             const std::string symbol
-                = (Util::is_prefix(res.content_multi()[0], charging))
+                = is_full || status == "Charging,"
                 ? SYM_PLUG
                 : SYM_CHARGE;
             const std::string color
-                = std::stoi(res.content_multi()[1].substr(0, res.content_multi().size()-1)) > 30
+                = is_full || std::stoi(res.content_multi()[1].substr(0, res.content_multi().size()-1)) > 30
                 ? COLOR_TXT
                 : COLOR_ERR;
-            const Format::cell_content c {color, res.content_multi()[2]};
+            const Format::cell_content c {color, is_full ? "Full" : res.content_multi()[2]};
             this->cache = Format::format_block_i3(symbol, {c});
             break;
         }
@@ -44,7 +45,13 @@ ParseResult ChargeBlock::parse() {
     const std::string acpi_stdout = Util::read_stdout("acpi", 64);
     std::string waste, status, time, percent;
     std::stringstream tokenizer {acpi_stdout};
-    tokenizer >> waste >> waste >> status >> percent >> time;
+    tokenizer >> waste
+              >> waste
+              >> status;
+    if (status != "Full,") {
+        tokenizer >> percent
+                  >> time;
+    }
     std::vector<std::string> ret {status, percent, time};
     return ParseResult::multi(std::make_unique<std::vector<std::string>>(ret));
 }
