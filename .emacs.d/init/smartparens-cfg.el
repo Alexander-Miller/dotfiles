@@ -48,7 +48,7 @@
     (newline)
     (indent-for-tab-command)))
 
-(defvar a/fish-prefixes (list "function" "for" "if" "switch"))
+(defvar a/fish-prefixes (list "function" "for" "if" "switch" "while"))
 
 (defun a/sp-fish-unless-handler (id action context)
   (and (string-equal action "insert")
