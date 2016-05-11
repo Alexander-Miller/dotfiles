@@ -4,6 +4,7 @@
 ;;; Code:
 
 (defun fish-hook ()
+  (setq tab-width 4)
   (setq-local company-backends '((company-fish-shell company-shell company-dabbrev-code company-files company-yasnippet)))
   (setq-local imenu-generic-expression fish-mode-imenu-expr))
 
