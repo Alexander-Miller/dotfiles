@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: uptr
+# key: up
+# binding: direct-keybinding
+# --
+std::unique_ptr<${1:type}>$0

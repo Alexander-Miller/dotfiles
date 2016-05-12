@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: shptr
+# key: sp
+# binding: direct-keybinding
+# --
+std::shared_ptr<${1:type}>$0

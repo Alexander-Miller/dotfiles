@@ -23,10 +23,11 @@
 
 (setq a/el-get-packages
       '(ace-window
-	anzu
+        anzu
         avy
-	cl-lib
+        cl-lib
         comment-dwim-2
+        company-irony
         company-mode
         company-flx
         company-quickhelp
@@ -50,9 +51,10 @@
         evil-numbers
         expand-region
         eyebrowse
-	f
+        f
         flx
         flycheck
+        flycheck-irony
         flycheck-pos-tip
         git-gutter
         git-gutter-fringe
@@ -63,6 +65,7 @@
         helm-projectile
         helm-swoop
         highlight-symbol
+        irony
         key-chord
         list-utils
         magit
@@ -80,7 +83,7 @@
         projectile
         rainbow-delimiters
         rainbow-mode
-	s
+        s
         shackle
         smartparens
         spaceline
