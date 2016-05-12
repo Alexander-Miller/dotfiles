@@ -11,9 +11,8 @@
 #include "Globals.hpp"
 
 #define VOL_CMD "amixer get Master"
-#define VOL_FREQ 2
 
-VolumeBlock::VolumeBlock() : Block(VOL_FREQ) {
+VolumeBlock::VolumeBlock() : Block(-1) {
     this->update();
 }
 
