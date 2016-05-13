@@ -13,7 +13,7 @@ void Block::update_maybe() {
     }
 }
 
-const bool Block::should_print() const {
+bool Block::should_print() const {
     return this->is_cache_valid;
 }
 

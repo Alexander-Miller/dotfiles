@@ -10,7 +10,7 @@ public:
     Block(const int);
     void update_maybe();
     const std::string& get_cache() const;
-    const bool should_print() const;
+    bool should_print() const;
 protected:
     std::string cache;
     const int freq;

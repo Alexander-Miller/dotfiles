@@ -55,21 +55,19 @@ FILE* open_stream() {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main() {
     std::cout.sync_with_stdio(false);
 
     VolumeBlock volume;
-    TimeBlock time;
-    DateBlock date;
+    TimeBlock   time;
+    DateBlock   date;
     ChargeBlock charge;
-    MemBlock memory;
-    CpuBlock cpu;
-    MusicBlock music;
+    MemBlock    memory;
+    CpuBlock    cpu;
+    MusicBlock  music;
 
     std::vector<Block*> all_blocks {&music, &cpu, &memory, &charge, &date, &time, &volume};
     std::vector<Block*> no_event_blocks {&cpu, &memory, &charge, &date, &time};
-    // std::vector<Block*> all_blocks {&cpu, &volume};
-    // std::vector<Block*> no_event_blocks {&cpu};
 
     std::cout << "{\"click_events\": true, \"version\": 1}[[],";
 
