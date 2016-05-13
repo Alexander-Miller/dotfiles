@@ -15,6 +15,7 @@
 (require 'flycheck-cfg)
 (require 'dired-cfg)
 (require 'python-cfg)
+(require 'cpp-cfg)
 (require 'pdf-cfg)
 (require 'projectile-cfg)
 (require 'smartparens-cfg)
