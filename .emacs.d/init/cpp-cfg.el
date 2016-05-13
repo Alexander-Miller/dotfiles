@@ -9,7 +9,7 @@
   (flycheck-select-checker 'irony)
   (rainbow-mode -1)
   (push '(case-label . 4) c-offsets-alist)
-  (setq-local company-backends '((company-irony company-yasnippet company-files)))
+  (setq-local company-backends '(company-files (company-irony company-yasnippet)))
   (setq-local flycheck-check-syntax-automatically '(mode-enabled save)))
 
 (add-hook 'c++-mode-hook #'cpp-hook t)
@@ -45,6 +45,7 @@
   (evil-set-initial-state 'rtags-mode 'motion)
 
   (evil-define-key 'motion rtags-mode-map
+    (kbd "q")     #'quit-window
     (kbd "<tab>") #'rtags-select-other-window
     (kbd "RET")   #'rtags-select-and-remove-rtags-buffer))
 
