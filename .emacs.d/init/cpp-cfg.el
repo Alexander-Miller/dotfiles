@@ -4,6 +4,7 @@
 ;;; Code:
 
 (defun cpp-hook ()
+  (cpp-custom-font-locking)
   (irony-mode)
   (flycheck-irony-setup)
   (flycheck-select-checker 'irony)
@@ -14,6 +15,20 @@
 
 (add-hook 'c++-mode-hook #'cpp-hook t)
 (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options)
+
+(defface a/cpp-op-face
+  `((t (:foreground "#339999")))
+  "Face for special c++ operators.")
+
+(defun cpp-custom-font-locking ()
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("->" . 'a/cpp-op-face)
+     (">>" . 'a/cpp-op-face)
+     ("<<" . 'a/cpp-op-face)
+     ("*"  . 'a/cpp-op-face)
+     ("&"  . 'a/cpp-op-face))))
 
 (with-eval-after-load "cc-mode"
 
