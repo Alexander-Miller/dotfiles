@@ -11,12 +11,6 @@ void format_cell_i3(const std::string& txt, const std::string& color, std::strin
 }
 
 std::string Format::format_block_i3(const std::string& symbol, const std::vector<cell_content>& content) {
-    // if (content.size() > 1) {
-    //     std::cout << "FORMAT >1 ELEMS:" << "\n";
-    //     for (auto c : content) {
-    //         std::cout << "TXT=" << c.text << "\n";
-    //     }
-    // }
     std::stringstream ret_stream;
     format_cell_i3(SYM_SEP, COLOR_SEP, ret_stream);
     ret_stream << ",";
