@@ -9,26 +9,31 @@
 #include "MemBlock.hpp"
 #include "MusicBlock.hpp"
 #include "CpuBlock.hpp"
+#include "WifiBlock.hpp"
 #include "Utils.hpp"
 
 enum class Signal {
     Volume,
     Music,
     Sleep,
+    Wifi,
     NoMatch,
 };
 
 Signal match_signal(const std::string& str) {
-    const std::string prefix_volume = "Event 'change' on sink #0";
-    const std::string prefix_music  = "player";
-    const std::string prefix_update = "update";
+    const std::string ident_vol    = "Event 'change' on sink #0";
+    const std::string ident_music  = "player";
+    const std::string ident_update = "update";
+    const std::string ident_wifi   = "New Access Point/Cell";
 
-    if (Util::is_prefix(str, prefix_volume)) {
+    if (Util::is_prefix(str, ident_vol)) {
         return Signal::Volume;
-    } else if (Util::is_prefix(str, prefix_music)) {
+    } else if (Util::is_prefix(str, ident_music)) {
         return Signal::Music;
-    } else if (Util::is_prefix(str, prefix_update)) {
+    } else if (Util::is_prefix(str, ident_update)) {
         return Signal::Sleep;
+    } else if (str.find(ident_wifi)) {
+        return Signal::Wifi;
     } else {
         return Signal::NoMatch;
     }
@@ -46,8 +51,14 @@ void print_all(std::vector<Block*>& all_blocks) {
 }
 
 FILE* open_stream() {
-    const char* worker_cmd = "echo \"pactl subscribe &; mpc idleloop player &; while true; echo \"update\"; sleep 1; end\" | fish";
-    FILE* stream = popen(worker_cmd, "r");
+    std::stringstream worker_cmd;
+    worker_cmd << "fish -c \""
+               << "pactl subscribe &;"
+               << "mpc idleloop &;"
+               << "iwevent &;"
+               << "while true; sleep 1; echo update; end\"";
+
+    FILE* stream = popen(worker_cmd.str().c_str(), "r");
     if (stream) {
         return stream;
     } else {
@@ -62,11 +73,12 @@ int main() {
     TimeBlock   time;
     DateBlock   date;
     ChargeBlock charge;
+    WifiBlock   wifi;
     MemBlock    memory;
     CpuBlock    cpu;
     MusicBlock  music;
 
-    std::vector<Block*> all_blocks {&music, &cpu, &memory, &charge, &date, &time, &volume};
+    std::vector<Block*> all_blocks {&music, &cpu, &memory, &charge, &wifi, &date, &time, &volume};
     std::vector<Block*> no_event_blocks {&cpu, &memory, &charge, &date, &time};
 
     std::cout << "{\"click_events\": true, \"version\": 1}[[],";
@@ -85,10 +97,15 @@ int main() {
             case Signal::Music:
                 music.update_maybe();
                 break;
+            case Signal::Wifi:
+                wifi.update_maybe();
+                break;
             case Signal::Sleep:
                 for (auto block : no_event_blocks) block->update_maybe();
                 break;
-            case Signal::NoMatch: { ; }
+            case Signal::NoMatch: {
+                break;
+            }
         }
         if (s != Signal::NoMatch) {
             print_all(all_blocks);
