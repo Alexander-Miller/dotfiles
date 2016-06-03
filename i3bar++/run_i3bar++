@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+fifo=/tmp/i3bar_fifo
+
+if [ -e $fifo ]; then
+    rm $fifo
+fi
+
+mkfifo $fifo
+
+pactl subscribe > $fifo &
+mpc idleloop player > $fifo &
+iwevent > $fifo &
+
+while [ true ]; do
+    sleep 1
+    echo update
+done > $fifo &
+
+~/Documents/git/dotfiles/i3bar++/build/i3bar++ < $fifo

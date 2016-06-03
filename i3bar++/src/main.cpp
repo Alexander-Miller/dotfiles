@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include "ParseResult.hpp"
 #include "Block.hpp"
 #include "VolumeBlock.hpp"
@@ -50,22 +49,6 @@ void print_all(std::vector<Block*>& all_blocks) {
     std::cout.flush();
 }
 
-FILE* open_stream() {
-    std::stringstream worker_cmd;
-    worker_cmd << "fish -c \""
-               << "pactl subscribe &;"
-               << "mpc idleloop &;"
-               << "iwevent &;"
-               << "while true; sleep 1; echo update; end\"";
-
-    FILE* stream = popen(worker_cmd.str().c_str(), "r");
-    if (stream) {
-        return stream;
-    } else {
-        exit(1);
-    }
-}
-
 int main() {
     std::cout.sync_with_stdio(false);
 
@@ -85,12 +68,12 @@ int main() {
 
     print_all(all_blocks);
 
-    FILE* stream = open_stream();
+    std::string stdin_buffer;
+
     while (true) {
-        char buffer[128];
-        fgets(buffer, 128, stream);
-        Signal s = match_signal(buffer);
-        switch (s) {
+        std::getline(std::cin, stdin_buffer);
+        Signal signal = match_signal(stdin_buffer);
+        switch (signal) {
             case Signal::Volume:
                 volume.update_maybe();
                 break;
@@ -107,7 +90,7 @@ int main() {
                 break;
             }
         }
-        if (s != Signal::NoMatch) {
+        if (signal != Signal::NoMatch) {
             print_all(all_blocks);
         }
     }
