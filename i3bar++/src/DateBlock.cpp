@@ -27,7 +27,7 @@ void DateBlock::update() {
 }
 
 ParseResult DateBlock::parse() {
-    const std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now() - std::chrono::hours(24));
+    const std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::stringstream ss;
     ss << std::put_time(std::localtime(&now), "%a %e %b");
     return ParseResult::single(std::make_unique<std::string>(ss.str()));
