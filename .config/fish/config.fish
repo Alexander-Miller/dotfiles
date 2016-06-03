@@ -9,7 +9,7 @@ set -e fish_greeting
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
-set -x fish_color_end               red
+set -x fish_color_end               yellow
 set -x fish_color_comment           888888
 set -x fish_color_cwd               000
 set -x fish_color_prefix            000
@@ -24,7 +24,7 @@ set -x fish_color_normal            ccb18b
 set -x fish_color_operator          magenta
 set -x fish_color_param             cyan
 set -x fish_color_quote             green
-set -x fish_color_redirection       red
+set -x fish_color_redirection       yellow
 set -x fish_color_search_match      --background=1f1f1f
 set -x fish_color_selection         000
 set -x fish_color_status            000
