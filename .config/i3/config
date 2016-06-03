@@ -169,7 +169,7 @@ mode "$mode_gaps_outer" {
 }
 
 bar {
-        status_command "~/.config/i3/i3bar++"
+        status_command "~/Documents/git/dotfiles/i3bar++/run_i3bar++"
         Font pango: Terminus (TTF) 9
         position top
         mode dock
