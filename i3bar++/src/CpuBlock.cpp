@@ -9,6 +9,7 @@
 #include <functional>
 #include <fstream>
 #include <sstream>
+#include <cmath>
 #include "CpuBlock.hpp"
 #include "ParseResult.hpp"
 #include "Format.hpp"
@@ -61,6 +62,7 @@ ParseResult CpuBlock::parse() {
         double idle_new   = new_measure[i].idle;
         double idle_prev  = this->previous_measure[i].idle;
         double load_f     = ((total_new - total_prev)-(idle_new - idle_prev)) / (total_new - total_prev) * 100.0;
+        if (std::isnan(load_f)) load_f = 100.0;
         std::stringstream loadstream;
         loadstream << std::fixed
                    << std::setprecision(0)
