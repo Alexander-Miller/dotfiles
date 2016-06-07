@@ -3,7 +3,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(evil-leader/set-key "gs" #'magit-status)
+(evil-leader/set-key
+  "gs" #'magit-status
+  "fg" #'magit-log-buffer-file)
 
 (with-eval-after-load 'magit
 
