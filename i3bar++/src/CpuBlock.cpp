@@ -61,7 +61,7 @@ ParseResult CpuBlock::parse() {
         double total_prev = this->previous_measure[i].total;
         double idle_new   = new_measure[i].idle;
         double idle_prev  = this->previous_measure[i].idle;
-        double load_f     = ((total_new - total_prev)-(idle_new - idle_prev)) / (total_new - total_prev) * 100.0;
+        double load_f     = std::abs( ((total_new - total_prev)-(idle_new - idle_prev)) / (total_new - total_prev) * 100.0 );
         if (std::isnan(load_f)) load_f = 100.0;
         std::stringstream loadstream;
         loadstream << std::fixed
