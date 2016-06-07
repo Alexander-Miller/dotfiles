@@ -1,4 +1,7 @@
 #include <iostream>
+#include <iomanip>
+#include <vector>
+#include <string>
 #include "ParseResult.hpp"
 #include "Block.hpp"
 #include "VolumeBlock.hpp"
@@ -20,7 +23,7 @@ enum class Signal {
 };
 
 Signal match_signal(const std::string& str) {
-    const std::string ident_vol    = "Event 'change' on sink #0";
+    const std::string ident_vol    = "Event 'change'";
     const std::string ident_music  = "player";
     const std::string ident_update = "update";
     const std::string ident_wifi   = "New Access Point/Cell";

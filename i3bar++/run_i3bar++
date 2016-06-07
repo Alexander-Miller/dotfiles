@@ -8,7 +8,7 @@ fi
 
 mkfifo $fifo
 
-pactl subscribe > $fifo &
+pactl subscribe | grep --line-buffered --fixed-strings "Event 'change' on sink" > $fifo &
 mpc idleloop player > $fifo &
 iwevent > $fifo &
 
