@@ -21,7 +21,6 @@
 (require 'smartparens-cfg)
 (require 'fish-cfg)
 (require 'i3-config-mode-cfg)
-(require 'neotree-cfg)
 (require 'compile-cfg)
 (require 'keybinds-cfg)
 (require 'shackle-cfg)

@@ -50,7 +50,7 @@
     (push-button)
     (search-forward current-line)))
 
-(global-set-key [f8] #'neotree-projectile-toggle)
+(global-set-key [f8] #'a/neotree-projectile-toggle)
 
 (evil-leader/set-key
   "n n" #'neotree-toggle)
@@ -62,6 +62,7 @@
 (define-key evil-neo-state-map (kbd "+")   #'neotree-create-node)
 (define-key evil-neo-state-map (kbd "d")   #'neotree-delete-node)
 (define-key evil-neo-state-map (kbd "RET") #'neotree-change-root)
+(define-key evil-neo-state-map (kbd "gr")  #'neotree-refresh)
 (define-key evil-neo-state-map (kbd "O")   #'ace-window)
 
 (provide 'neotree-cfg)

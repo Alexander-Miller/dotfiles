@@ -41,7 +41,6 @@
         elpy
         emacs-async
         emacs-fish
-        emacs-neotree
         evil
         evil-anzu
         evil-exchange
