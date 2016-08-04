@@ -31,7 +31,6 @@
   "R"     #'anzu-query-replace-at-cursor
   "q f"   #'vimish-fold
   "q d"   #'vimish-fold-delete
-  "q q"   #'a/vimish-fold-dwim
   "q a"   #'vimish-fold-avy
   "q r"   #'vimish-refold
   "q A"   #'vimish-fold-unfold-all
@@ -44,6 +43,9 @@
   "e U"   #'el-get-self-update
   "e a"   #'el-get-update-all
   "e d"   #'el-get-describe)
+
+(define-key evil-normal-state-map (kbd "SPC q q") #'vimish-fold-toggle)
+(define-key evil-visual-state-map (kbd "SPC q q") #'vimish-fold)
 
 (a/def-key-for-maps
  (kbd "j") #'evil-next-visual-line (remove evil-insert-state-map default-mode-maps))

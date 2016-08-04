@@ -58,12 +58,6 @@
         (evil-normal-state))
     (call-interactively eval-func)))
 
-(defun a/vimish-fold-dwim ()
-  "Toggle fold, or create on if it does not exist."
-  (interactive)
-  (ignore-errors (or (vimish-fold-toggle)
-                     (call-interactively 'vimish-fold))))
-
 (defun a/reload-config ()
   "Force reload of every single config file."
   (interactive)
