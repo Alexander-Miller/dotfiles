@@ -21,6 +21,7 @@
         (pdf-outline-buffer-mode    :select   t :align right :size 0.33)
         (flycheck-error-list-mode   :noselect t :align below :size 0.33)
         (Man-mode                   :select   t :align right :size 0.5)
+        (magit-status-mode          :same     t)
         (magit-diff-mode            :noselect t :align right :size 0.5)
         (compilation-mode           :select   t :align right :size 0.5)
         (help-mode                  :select   t :align right :size 0.5)
