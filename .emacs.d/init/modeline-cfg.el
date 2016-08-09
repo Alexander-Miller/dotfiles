@@ -54,6 +54,7 @@
 
 (spaceline-install
 
+(spaceline-install "a"
    '(((workspace-number window-number)
       :fallback evil-state
       :separator "|"
@@ -82,6 +83,9 @@
      ;; ,@additional-segments
      buffer-position
      hud))
+
+(setq-default mode-line-format
+              '("%e" (:eval (spaceline-ml-a))))
 
 (provide 'modeline-cfg)
 ;;; modeline-cfg.el ends here
