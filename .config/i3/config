@@ -203,7 +203,6 @@ for_window [window_role="task_dialog"] floating enable
 
 workspace_auto_back_and_forth yes
 focus_follows_mouse no
-smart_borders on
 mouse_warping none
 force_display_urgency_hint 1000 ms
 new_window pixel 3
