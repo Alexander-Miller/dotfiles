@@ -16,7 +16,7 @@
      ;; Constants
      ( ,(rx (or
              digit
-             (seq bow (or "yes" "top" "bottom" "dock" "no" "none" "on") eow (not (any "-")))
+             (seq bow (or "yes" "top" "bottom" "dock" "no" "none" "on" "primary") eow (not (any "-")))
              (seq line-start (or "bar" "colors" "mode") eow)
              (seq "$" (1+ (or "_" alnum)))))
        0
@@ -51,6 +51,7 @@
               "pango"
               "status_command"
               "position"
+              "tray_output"
               "workspace_buttons"
               "strip_workspace_numbers"
               "binding_mode_indicator"
