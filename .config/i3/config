@@ -13,8 +13,11 @@ bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master 5
 bindsym XF86MonBrightnessUp   exec --no-startup-id "xbacklight -dec 10"
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -inc 10"
 
-# Start common applications
+# Open terminal
 bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
+
+# Change wallpaper
+bindsym $mod+Shift+p exec --no-startup-id "fish -c change-wallpaper"
 
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
