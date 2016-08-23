@@ -173,6 +173,7 @@ bar {
         Font pango: Terminus (TTF) 9
         position top
         mode dock
+        tray_output primary
         workspace_buttons yes
         strip_workspace_numbers yes
         binding_mode_indicator yes
