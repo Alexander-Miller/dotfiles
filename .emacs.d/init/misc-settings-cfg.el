@@ -20,7 +20,6 @@
 (dtrt-indent-mode             t)
 (eyebrowse-mode               t)
 (key-chord-mode               t)
-(menu-bar-mode                t)
 (mouse-avoidance-mode         t)
 (semantic-mode                t)
 (subword-mode                 t)
@@ -30,6 +29,7 @@
 (horizontal-scroll-bar-mode   0)
 (scroll-bar-mode              0)
 (tool-bar-mode                0)
+(menu-bar-mode                0)
 (blink-cursor-mode            0)
 
 (setq-default
