@@ -16,6 +16,9 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -inc 10"
 # Open terminal
 bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
 
+# Settings
+bindsym $mod+p exec --no-startup-id "xfce4-settings-manager"
+
 # Change wallpaper
 bindsym $mod+Shift+p exec --no-startup-id "fish -c change-wallpaper"
 
