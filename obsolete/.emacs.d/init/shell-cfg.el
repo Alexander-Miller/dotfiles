@@ -27,6 +27,13 @@
   (define-key term-raw-map (kbd "M-h") 'term-send-backward-word)
   (define-key term-raw-map (kbd "M-<backspace>") 'term-send-backward-kill-word)
 
+;; -  (evil-set-initial-state 'term-mode 'emacs)
+;; +  (evil-define-key 'insert term-raw-map  [remap evil-end-of-visual-line]       'term-send-end)
+;; +  (evil-define-key 'insert term-raw-map  [remap evil-beginning-of-visual-line] 'term-send-home)
+;; +  (evil-define-key 'normal term-raw-map  [remap evil-ret]                      'term-send-return)
+;; +  (evil-define-key 'insert term-raw-map  [remap evil-ret]                      'term-send-return)
+;; +
+;; +  (evil-set-initial-state 'term-mode 'insert)
   (setq
    multi-term-buffer-name                           "Fish"
    multi-term-dedicated-buffer-name                 "Dedicated Fish"

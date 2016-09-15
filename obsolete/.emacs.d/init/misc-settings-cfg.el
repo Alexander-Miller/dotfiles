@@ -52,9 +52,9 @@
  nlinum-format                   " %d "
  pos-tip-background-color        "#444444"
  require-final-newline           t
- scroll-conservatively           50
+ scroll-conservatively           10
  scroll-margin                   15
- scroll-preserve-screen-position t
+ ;; scroll-preserve-screen-position t
  show-paren-delay                0.2
  tab-width                       4
  undo-outer-limit                42000000

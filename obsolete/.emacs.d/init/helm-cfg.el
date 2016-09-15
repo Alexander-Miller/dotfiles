@@ -79,5 +79,6 @@
 
 (a/def-key-for-maps (kbd "C-p") #'helm-show-kill-ring default-mode-maps)
 
+(global-set-key  (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
 (provide 'helm-cfg)
 ;; helm-cfg.el ends here

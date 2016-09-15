@@ -45,14 +45,13 @@
 (defface spaceline-evil-volume
   `((t (:foreground "#000000" :background "#446677" :inherit mode-line)))
   "Spaceline's face for evil volume state.")
-(defface spaceline-evil-neotree
+(defface spaceline-evil-treemacs
+  ;; `((t (:foreground "#00ff00" :background "#ff0000" :inherit mode-line)))
   `((t (:foreground "#000000" :background "#446677" :inherit mode-line)))
-  "Spaceline's face for neotree state.")
+  "Spaceline's face for treemacs state.")
 
-(add-to-list 'spaceline-evil-state-faces '(volume . spaceline-evil-volume))
-(add-to-list 'spaceline-evil-state-faces '(neo    . spaceline-evil-neotree))
-
-(spaceline-install
+(add-to-list 'spaceline-evil-state-faces '(volume   . spaceline-evil-volume))
+(add-to-list 'spaceline-evil-state-faces '(treemacs . avy-lead-face-0))
 
 (spaceline-install "a"
    '(((workspace-number window-number)

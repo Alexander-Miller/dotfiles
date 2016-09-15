@@ -27,6 +27,7 @@
   (let ((face (or (get-char-property (point) 'read-face-name)
                   (get-char-property (point) 'face))))
     (if face (message "Face: %s" face) (message "No face at %d" point))))
+;; (global-set-key (kbd ""))
 
 (defun a/what-major-mode ()
   "Provides the exact name of the current major mode."

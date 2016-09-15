@@ -1,0 +1,203 @@
+* Layer configurations
+** Evil
+*** kj key-chord
+
+#+BEGIN_SRC emacs-lisp
+(setq-default evil-escape-key-sequence "kj")
+#+END_SRC
+
+** Auto Completion
+*** Global Activation
+
+#+BEGIN_SRC emacs-lisp
+  (global-company-mode t)
+#+END_SRC
+
+*** Settings
+**** Layer Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   auto-completion-return-key-behavior        'complete
+   auto-completion-tab-key-behavior           'cycle
+   auto-completion-complete-with-key-sequence nil
+   auto-completion-private-snippets-directory nil
+   auto-completion-enable-help-tooltip        nil
+   auto-completion-enable-snippets-in-popup   t)
+#+END_SRC
+
+**** Company Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   company-abort-manual-when-too-short t
+   company-auto-complete               nil
+   company-async-timeout               10
+   company-dabbrev-code-ignore-case    nil
+   company-dabbrev-downcase            nil
+   company-dabbrev-ignore-case         nil
+   company-etags-ignore-case           nil
+   company-idle-delay                  10
+   company-minimum-prefix-length       2
+   company-require-match               nil
+   company-selection-wrap-around       t
+   company-show-numbers                t
+   company-tooltip-flip-when-above     nil)
+#+END_SRC
+
+**** Tooltip
+
+The tooltip will look vastly better if we set a minimum width and properly align annotations.
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   company-tooltip-minimum-width              70
+   company-tooltip-align-annotations          t
+   company-tooltip-margin                     2)
+#+END_SRC
+
+*** Bindings
+
+Manual auto complete invokation
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-SPC") #'company-complete)
+#+END_SRC
+
+*** TODO Additional Packages (shell)
+**** Company Flx
+
+#+BEGIN_SRC emacs-lisp
+  (company-flx-mode t)
+  (setq company-flx-limit 400)
+#+END_SRC
+
+*** TODO Quickhelp Workaround
+** Org
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+   (setq
+    org-catch-invisible-edits      'show
+    org-fontify-whole-heading-line nil
+    ;; org-hide-block-overlays
+    org-hide-emphasis-markers      t
+    org-list-indent-offset         1
+    org-list-allow-alphabetical    nil
+    org-special-ctrl-a/e           nil
+    org-special-ctrl-k             nil
+    org-src-fontify-natively       t
+    org-startup-folded             t
+
+   )
+#+END_SRC
+
+*** Prettier list bullets
+
+#+BEGIN_SRC emacs-lisp
+  (font-lock-add-keywords
+     'org-mode
+     '(("^ +\\([-*]\\) "
+        (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+#+END_SRC
+
+** Eyebrowse
+*** keybinds
+
+Window numbering mode needs to be turned off or its M-* binds will take precedence
+
+#+BEGIN_SRC emacs-lisp
+  (window-numbering-mode -1)
+  (eyebrowse-setup-opinionated-keys)
+#+END_SRC
+
+* Single package configurations
+** dired+
+
+dired+ needs to be explicitly required for whatever reason
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired+)
+#+END_SRC
+
+* Utility functions
+** a/what-face
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/what-face (point)
+    "Reveal face at POINT."
+    (interactive "d")
+    (let ((face (or (get-char-property (point) 'read-face-name)
+                    (get-char-property (point) 'face))))
+      (if face (message "Face: %s" face) (message "No face at %d" point))))
+  (global-set-key (kbd "C-x ö") #'a/what-face)
+#+END_SRC
+
+* Misc. Settings
+** Navigation
+*** Better line jumping
+
+Define a means to jump over 5 lines at once
+
+#+BEGIN_SRC emacs-lisp
+(defun a/quick-forward ()
+  (interactive) (evil-next-visual-line 5))
+
+(defun a/quick-backward ()
+  (interactive) (evil-previous-visual-line 5))
+#+END_SRC
+
+and use these functions wherever they are needed
+
+#+BEGIN_SRC emacs-lisp
+  (dolist (map (list evil-normal-state-map evil-visual-state-map))
+    (define-key map (kbd "J") #'a/quick-forward))
+
+  (dolist (map (list evil-normal-state-map evil-visual-state-map))
+    (define-key map (kbd "K") #'a/quick-backward))
+  (global-set-key (kbd "J") #'a/quick-forward)
+  (global-set-key (kbd "K") #'a/quick-backward)
+#+END_SRC
+
+*** Emacs style line jump
+#+BEGIN_SRC emacs-lisp
+  (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
+    (define-key map (kbd "C-e") #'evil-end-of-visual-line))
+
+  (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
+    (define-key map (kbd "C-a") #'evil-beginning-of-visual-line))
+#+END_SRC
+
+*** Evil search on emacs' buttons
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-s") #'evil-search-forward)
+  (global-set-key (kbd "C-r") #'evil-search-backward)
+#+END_SRC
+
+** Smooth Scrolling
+Since smooth-scrolling-mode causes display errors we need to fix it up manually
+
+#+BEGIN_SRC emacs-lisp
+(setq
+  scroll-conservatively           20
+  scroll-margin                   20
+  scroll-preserve-screen-position t)
+#+END_SRC
+
+** Minor modes
+Minor modes that need turning on/off
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'text-mode-hook #'rainbow-delimiters-mode-enable)
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable)
+  (global-hl-line-mode -1)
+#+END_SRC
+
+** Single Settings
+*** Better line number format
+#+BEGIN_SRC emacs-lisp
+  (setq linum-format " %d ")
+#+END_SRC
+
+This final text prevents that the END_SRC face bleeds into the collapsed heading.
