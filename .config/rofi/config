@@ -18,7 +18,7 @@ rofi.fixed-num-lines:   true
 rofi.terminal:          xfce4-terminal
 rofi.ssh-client:        ssh
 rofi.ssh-command:       {terminal} -e {ssh-client} {host}
-rofi.run-command:       {cmd}
+rofi.run-command:       fish -c '{cmd}'
 rofi.run-list-command:
 rofi.run-shell-command: {terminal} -e {cmd}
 rofi.window-command:    xkill -id {window}
