@@ -1,9 +1,32 @@
+#+STARTUP: overview
+#+STARTUP: hideblocks
+
 * Layer configurations
 ** Evil
-*** kj key-chord
+*** Fitting cursor state colors
 
 #+BEGIN_SRC emacs-lisp
+  (setq
+   evil-normal-state-cursor   '("#ab3737" box)
+   evil-insert-state-cursor   '("#33aa33" bar)
+   evil-visual-state-cursor   '("#a374a8" box)
+   evil-motion-state-cursor   '("#c97449" box)
+   evil-operator-state-cursor '("#00688b" (hbar . 5))
+   evil-emacs-state-cursor    '("#339999" bar)
+   evil-resize-state-cursor   '("#ffdb1a" box))
+#+END_SRC
+
+*** kj key-chord
+
+#+BEGIN_SRC emacs-lisp :exports none
 (setq-default evil-escape-key-sequence "kj")
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq evil-move-beyond-eol t
+        evil-want-fine-undo  t)
 #+END_SRC
 
 ** Auto Completion
@@ -48,7 +71,6 @@
 **** Tooltip
 
 The tooltip will look vastly better if we set a minimum width and properly align annotations.
-
 #+BEGIN_SRC emacs-lisp
   (setq
    company-tooltip-minimum-width              70
@@ -56,44 +78,31 @@ The tooltip will look vastly better if we set a minimum width and properly align
    company-tooltip-margin                     2)
 #+END_SRC
 
-*** Bindings
-
-Manual auto complete invokation
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-SPC") #'company-complete)
-#+END_SRC
-
-*** TODO Additional Packages (shell)
-**** Company Flx
+*** Company Flx
 
 #+BEGIN_SRC emacs-lisp
   (company-flx-mode t)
   (setq company-flx-limit 400)
 #+END_SRC
 
-*** TODO Quickhelp Workaround
-** Org
-*** Settings
+*** Bindings
 
 #+BEGIN_SRC emacs-lisp
-   (setq
-    org-catch-invisible-edits      'show
-    org-fontify-whole-heading-line nil
-    ;; org-hide-block-overlays
-    org-hide-emphasis-markers      t
-    org-list-indent-offset         1
-    org-list-allow-alphabetical    nil
-    org-special-ctrl-a/e           nil
-    org-special-ctrl-k             nil
-    org-src-fontify-natively       t
-    org-startup-folded             t
-
-   )
+  (global-set-key (kbd "C-SPC") #'company-complete)
+  (define-key company-mode-map (kbd "M-j") #'company-quickhelp-manual-begin)
 #+END_SRC
 
-*** Prettier list bullets
+*** TODO [#A] Quickhelp Workaround
+DEADLINE: <2016-09-30 Fri>
+** Org
+*** List Bulltets
 
+Use only one bullet for headings (original = "◉" "○" "✸" "✿")
+ #+BEGIN_SRC emacs-lisp
+ (setq-default org-bullets-bullet-list '("◉"))
+ #+END_SRC
+
+Also use ascii bullets for simple lists
 #+BEGIN_SRC emacs-lisp
   (font-lock-add-keywords
      'org-mode
@@ -101,19 +110,234 @@ Manual auto complete invokation
         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 #+END_SRC
 
+*** Settings
+
+No `special` behaviour.
+#+BEGIN_SRC emacs-lisp
+  (setq
+   org-special-ctrl-a         nil
+   org-special-ctrl-k         nil
+   org-special-ctrl-o         nil
+   org-special-ctrl-a/e       nil
+   org-ctrl-k-protect-subtree nil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   org-startup-align-all-tables   t
+   org-startup-indented           t
+   org-startup-folded             t
+   org-table-use-standard-references nil
+   org-cycle-emulate-tab          t
+   org-cycle-global-at-bob        nil
+   org-M-RET-may-split-line       nil
+   org-fontify-whole-heading-line nil
+   org-catch-invisible-edits      'error
+   org-footnote-auto-adjust       t)
+  ;;  org-catch-invisible-edits      'show
+  ;;  org-fontify-whole-heading-line nil
+  ;;  ;; org-hide-block-overlays
+  ;;  org-hide-emphasis-markers      t
+  ;;  org-list-indent-offset         1
+  ;;  org-list-allow-alphabetical    nil
+  ;;  org-src-fontify-natively       t
+  ;;  org-startup-folded             t
+#+END_SRC
+
+*** Babel Languages
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (python     . t)
+       (shell      . t)))
+#+END_SRC
+
+*** Keybinds
+**** Showing content
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "rr" #'org-reveal
+    "rb" #'outline-show-branches
+    "rc" #'outline-show-children
+    "ra" #'outline-show-all)
+#+END_SRC
+
+***** TODO Global cycling defun + bind
+**** Headline Navigation
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "u"   #'outline-up-heading
+    "M-u" #'helm-org-parent-headings
+    "j"   #'outline-next-visible-heading
+    "k"   #'outline-previous-visible-heading
+    "C-j" #'org-forward-heading-same-level
+    "C-k" #'org-backward-heading-same-level)
+#+END_SRC
+
+**** (Sub)Tree
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "wi" #'org-tree-to-indirect-buffer
+    "wm" #'org-mark-subtree
+    "wd" #'org-cut-subtree
+    "wy" #'org-copy-subtree
+    "wY" #'org-clone-subtree-with-time-shift
+    "wp" #'org-paste-subtree
+    "wr" #'org-refile)
+#+END_SRC
+
+**** Structure Editing
+
+#+BEGIN_SRC emacs-lisp
+  (evil-define-key 'normal org-mode-map
+    (kbd "M-h") #'org-metaleft
+    (kbd "M-l") #'org-metaright
+    (kbd "M-j") #'org-metadown
+    (kbd "M-k") #'org-metaup
+    (kbd "M-H") #'org-shiftmetaleft
+    (kbd "M-L") #'org-shiftmetaright
+    (kbd "M-J") #'org-shiftmetadown
+    (kbd "M-K") #'org-shiftmetaup
+    (kbd "M-t") #'org-insert-todo-heading-respect-content)
+
+#+END_SRC
+
+**** Sparse Trees
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "7"   #'org-sparse-tree
+    "8"   #'org-occur
+    "M-j" #'next-error
+    "M-k" #'previous-error)
+#+END_SRC
+
+***** TODO error handling
+should next/prev-error be global w.r.t. flycheck?
+
+**** Narrowing
+
+Spacemancs default *,n* needs to be removed first
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "nb" #'org-narrow-to-block
+    "ne" #'org-narrow-to-element
+    "ns" #'org-narrow-to-subtree
+    "nw" #'widen)
+#+END_SRC
+
+**** Insert Commands
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "if" #'org-footnote-new
+    "il" #'org-insert-link
+    "id" #'org-insert-drawer
+    "iD" #'org-insert-property-drawer)
+#+END_SRC
+
+**** Tables
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/org-table-recalc ()
+    (interactive)
+    (error "TODO!"))
+
+  ;; TODO: rebind clock
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
+
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "qt" #'org-table-create-or-convert-from-region
+    "qb" #'org-table-blank-field
+    "qd" #'org-table-delete-column
+    "qc" #'org-table-insert-column
+    "qr" #'org-table-insert-row
+    "q-" #'org-table-insert-hline
+    "q0" #'org-table-sort-lines
+    "qy" #'org-table-copy-region
+    "qx" #'org-table-cut-region
+    "qp" #'org-table-paste-rectangle
+    "qo" #'org-table-toggle-coordinate-overlays
+    "qf" #'org-table-recalculate
+    "q#" #'org-table-rotate-recalc-marks
+    "qg" #'org-plot/gnuplot)
+
+  (evil-leader/set-key-for-mode 'org-mode
+    "+" #'org-table-sum
+    "?" #'org-table-field-info)
+#+END_SRC
+
+
+***** TODO org table evil ops
+**** Other
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "0"   #'org-sort
+    "*"   #'org-toggle-heading
+    "C-y" #'org-copy-visible
+    "C-d" #'org-insert-drawer
+    "C-p" #'org-set-property
+    "C-l" #'org-add-note
+    "C-f" #'org-footnote-action
+    "C-o" #'org-open-at-point
+    "C-e" #'org-edit-special)
+
+  (evil-leader/set-key-for-mode
+    'org-mode "hi" #'helm-org-in-buffer-headings)
+
+  (evil-define-key 'normal org-mode-map
+    "-" #'org-cycle-list-bullet
+    (kbd "RET")     #'org-return)
+
+  (define-key org-src-mode-map
+    (kbd "C-c C-c") #'org-edit-src-exit)
+#+END_SRC
+
+***** TODO helm-org-in-buffer-heading
+to be redirected from helm-semantic-or-imenu @ SPC h i
 ** Eyebrowse
-*** keybinds
 
 Window numbering mode needs to be turned off or its M-* binds will take precedence
-
 #+BEGIN_SRC emacs-lisp
   (window-numbering-mode -1)
   (eyebrowse-setup-opinionated-keys)
 #+END_SRC
 
+** Shell Scripts
+
+Use *company-shell* for shell script modes (until it is incuded in spacemacs)
+
+First its settings
+#+BEGIN_SRC emacs-lisp
+  (setq
+   company-shell-delete-duplicates nil
+   company-shell-modes             nil
+   company-fish-shell-modes        nil
+   company-shell-use-help-arg      t)
+#+END_SRC
+
+Then an activation hook
+#+BEGIN_SRC emacs-lisp
+  (defun a/enable-company-shell ()
+    (setq-local company-backends
+      '((company-shell :with company-fish-shell company-yasnippet))))
+
+  (add-hook 'fish-mode-hook #'a/enable-company-shell)
+  (add-hook 'sh-mode-hook #'a/enable-company-shell)
+#+END_SRC
+
 * Single package configurations
 ** dired+
-
 dired+ needs to be explicitly required for whatever reason
 
 #+BEGIN_SRC emacs-lisp
@@ -133,8 +357,32 @@ dired+ needs to be explicitly required for whatever reason
   (global-set-key (kbd "C-x ö") #'a/what-face)
 #+END_SRC
 
+** a/edit-org-user-config
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/edit-org-user-config ()
+    "Edit the org user config file, in the current window."
+    (interactive)
+    (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
+
+  (evil-leader/set-key
+    "feo" #'a/edit-org-user-config)
+#+END_SRC
+
+* Modeline
+
+Turn off minor modes since this segment often leads to bad performance
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/toggle-mode-line-minor-modes-off)
+#+END_SRC
+
+Don't use Spacemacs' evil state highlighter
+#+BEGIN_SRC emacs-lisp
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+#+END_SRC
+
 * Misc. Settings
-** Navigation
+** General Key Binds
 *** Better line jumping
 
 Define a means to jump over 5 lines at once
@@ -150,16 +398,14 @@ Define a means to jump over 5 lines at once
 and use these functions wherever they are needed
 
 #+BEGIN_SRC emacs-lisp
-  (dolist (map (list evil-normal-state-map evil-visual-state-map))
+  (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
     (define-key map (kbd "J") #'a/quick-forward))
 
-  (dolist (map (list evil-normal-state-map evil-visual-state-map))
+  (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
     (define-key map (kbd "K") #'a/quick-backward))
-  (global-set-key (kbd "J") #'a/quick-forward)
-  (global-set-key (kbd "K") #'a/quick-backward)
 #+END_SRC
 
-*** Emacs style line jump
+*** Emacs style line start/end jump
 #+BEGIN_SRC emacs-lisp
   (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
     (define-key map (kbd "C-e") #'evil-end-of-visual-line))
@@ -173,6 +419,13 @@ and use these functions wherever they are needed
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-s") #'evil-search-forward)
   (global-set-key (kbd "C-r") #'evil-search-backward)
+#+END_SRC
+
+*** Splitting and joining lines
+
+#+BEGIN_SRC emacs-lisp
+  (define-key evil-normal-state-map (kbd "C-j") #'electric-newline-and-maybe-indent)
+  (evil-leader/set-key "C-j" #'evil-join)
 #+END_SRC
 
 ** Smooth Scrolling
