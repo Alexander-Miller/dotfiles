@@ -1,5 +1,6 @@
-# -*- mode: conf -*-
+" -*- mode: vimrc -*-
 
+set show-recent 0
 map [normal] J scroll half-down
 map [normal] K scroll half-up
 map [fullscreen] J scroll half-down
