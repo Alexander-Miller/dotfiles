@@ -499,11 +499,11 @@ Since smooth-scrolling-mode causes display errors we need to fix it up manually
 #+END_SRC
 
 ** Minor modes
-Minor modes that need turning on/off
 
+Minor modes that need turning on/off
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook #'rainbow-delimiters-mode-enable)
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable)
+  (global-subword-mode t)
   (global-hl-line-mode -1)
 #+END_SRC
 
