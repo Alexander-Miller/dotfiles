@@ -249,8 +249,12 @@ Spacemancs default *,n* needs to be removed first
 
 #+BEGIN_SRC emacs-lisp
   (defun a/org-table-recalc ()
+    "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
+  by default the entire table is recalculated, while with a prefix arg recalculates
+  only the current cell."
     (interactive)
-    (error "TODO!"))
+    (setq current-prefix-arg (not current-prefix-arg))
+    (call-interactively #'org-table-recalculate))
 
   ;; TODO: rebind clock
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
@@ -267,7 +271,7 @@ Spacemancs default *,n* needs to be removed first
     "qx" #'org-table-cut-region
     "qp" #'org-table-paste-rectangle
     "qo" #'org-table-toggle-coordinate-overlays
-    "qf" #'org-table-recalculate
+    "qf" #'a/org-table-recalc
     "q#" #'org-table-rotate-recalc-marks
     "qg" #'org-plot/gnuplot)
 
