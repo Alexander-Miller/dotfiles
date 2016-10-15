@@ -97,17 +97,16 @@ DEADLINE: <2016-09-30 Fri>
 ** Org
 *** List Bulltets
 
-Use only one bullet for headings (original = "◉" "○" "✸" "✿")
+ Use only one bullet for headings (original = "◉" "○" "✸" "✿")
  #+BEGIN_SRC emacs-lisp
- (setq-default org-bullets-bullet-list '("◉"))
+   (setq-default org-bullets-bullet-list '("◉"))
  #+END_SRC
 
 Also use ascii bullets for simple lists
 #+BEGIN_SRC emacs-lisp
   (font-lock-add-keywords
-     'org-mode
-     '(("^ +\\([-*]\\) "
-        (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+   'org-mode
+   '(("^ +\\([-*]\\) " (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 #+END_SRC
 
 *** Settings
@@ -346,6 +345,34 @@ dired+ needs to be explicitly required for whatever reason
 #+END_SRC
 
 * Utility functions
+** Shackle
+
+Replace popwin
+#+BEGIN_SRC emacs-lisp
+  (shackle-mode t)
+
+  ;; Order matters - first more specific, then more general rules
+  (setq shackle-rules
+        '(("*helm-ag*"                :select   t :align right :size 0.5)
+          ("*helm-mode-dired*"        :select   t :align below :size 0.3)
+          ("*helm semantic/imenu*"    :select   t :align right :size 0.4)
+          ("*Helm Find Files*"        :select   t :align below :size 0.3)
+          ("*helm reload cfg file*"   :select   t :align below :size 0.3)
+          ("*Helm man woman*"         :select   t :align below :size 0.3)
+          ("*helm-mode-magit-status*" :select   t :align below :size 0.3)
+          ("*Helm Completions*"       :select   t :align below :size 0.3)
+          ("*Helm file completions*"  :select   t :align below :size 0.3)
+          (".*helm.*"                 :regexp   t :align below :size 0.5)
+          (rtags-mode                 :select   t :align below :size 0.5)
+          (pdf-outline-buffer-mode    :select   t :align right :size 0.33)
+          (flycheck-error-list-mode   :noselect t :align below :size 0.33)
+          (Man-mode                   :select   t :align right :size 0.5)
+          (magit-status-mode          :same     t)
+          (magit-diff-mode            :noselect t :align right :size 0.5)
+          (compilation-mode           :select   t :align right :size 0.5)
+          (help-mode                  :select   t :align below :size 0.5)
+          (special-mode               :select   t :align right :size 0.5)))
+#+END_SRC
 ** a/what-face
 
 #+BEGIN_SRC emacs-lisp
