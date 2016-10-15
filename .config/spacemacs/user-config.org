@@ -289,34 +289,29 @@ Spacemancs default *,n* needs to be removed first
     "0"   #'org-sort
     "*"   #'org-toggle-heading
     "C-y" #'org-copy-visible
-    "C-d" #'org-insert-drawer
     "C-p" #'org-set-property
     "C-l" #'org-add-note
+    "M-l" #'org-toggle-link-display
     "C-f" #'org-footnote-action
     "C-o" #'org-open-at-point
     "C-e" #'org-edit-special)
 
-  (evil-leader/set-key-for-mode
-    'org-mode "hi" #'helm-org-in-buffer-headings)
+  (evil-leader/set-key-for-mode 'org-mode
+    "hi" #'helm-org-in-buffer-headings)
 
   (evil-define-key 'normal org-mode-map
-    "-" #'org-cycle-list-bullet
+    "-"             #'org-cycle-list-bullet
     (kbd "RET")     #'org-return)
 
   (define-key org-src-mode-map
     (kbd "C-c C-c") #'org-edit-src-exit)
+
+  ;; No newlines in normal state
+  (evil-define-key 'normal org-mode-map (kbd "<return>") #'evil-ret)
 #+END_SRC
 
 ***** TODO helm-org-in-buffer-heading
 to be redirected from helm-semantic-or-imenu @ SPC h i
-** Eyebrowse
-
-Window numbering mode needs to be turned off or its M-* binds will take precedence
-#+BEGIN_SRC emacs-lisp
-  (window-numbering-mode -1)
-  (eyebrowse-setup-opinionated-keys)
-#+END_SRC
-
 ** Shell Scripts
 
 Use *company-shell* for shell script modes (until it is incuded in spacemacs)
@@ -348,7 +343,17 @@ dired+ needs to be explicitly required for whatever reason
 (require 'dired+)
 #+END_SRC
 
-* Utility functions
+** Eyebrowse
+
+Switch desktops via SPC + num
+#+BEGIN_SRC emacs-lisp
+  (eyebrowse-mode t)
+  (dolist (num (number-sequence 0 9))
+    (let ((key  (kbd (concat "SPC " (number-to-string num))))
+          (func (intern (concat "eyebrowse-switch-to-window-config-" (number-to-string num)))))
+      (evil-leader/set-key key func)))
+#+END_SRC
+
 ** Shackle
 
 Replace popwin
@@ -377,6 +382,8 @@ Replace popwin
           (help-mode                  :select   t :align below :size 0.5)
           (special-mode               :select   t :align right :size 0.5)))
 #+END_SRC
+
+* Utility Functions
 ** a/what-face
 
 #+BEGIN_SRC emacs-lisp
