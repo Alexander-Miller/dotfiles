@@ -314,9 +314,7 @@ Spacemancs default *,n* needs to be removed first
 to be redirected from helm-semantic-or-imenu @ SPC h i
 ** Shell Scripts
 
-Use *company-shell* for shell script modes (until it is incuded in spacemacs)
-
-First its settings
+Company-shell settings
 #+BEGIN_SRC emacs-lisp
   (setq
    company-shell-delete-duplicates nil
@@ -325,20 +323,24 @@ First its settings
    company-shell-use-help-arg      t)
 #+END_SRC
 
-Then an activation hook
+** Helm
+*** Keybinds
+
 #+BEGIN_SRC emacs-lisp
-  (defun a/enable-company-shell ()
-    (setq-local company-backends
-      '((company-shell :with company-fish-shell company-yasnippet))))
+  (evil-leader/set-key "hi" #'helm-semantic-or-imenu)
+#+END_SRC
+
 
   (add-hook 'fish-mode-hook #'a/enable-company-shell)
   (add-hook 'sh-mode-hook #'a/enable-company-shell)
 #+END_SRC
 
 * Single package configurations
-** dired+
-dired+ needs to be explicitly required for whatever reason
 
+* Single Package Configurations
+** dired+
+
+dired+ needs to be explicitly required for whatever reason
 #+BEGIN_SRC emacs-lisp
 (require 'dired+)
 #+END_SRC
