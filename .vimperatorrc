@@ -104,9 +104,16 @@ set! image.mem.max_decoded_image_kb=512000
 set! http.network.pipelining=true
 set! http.network.pipelining.maxrequests=128
 
+" smart completion workaround "
+js services.services.autoCompleteSearch.class_="@mozilla.org/autocomplete/search;1?name=unifiedcomplete"
 
 """""""""""
 """ CSS """
 """""""""""
-hi CmdLine background: #282828; color: #6699cc; transition: all 0.25s;
-hi Hint font-family: Fantasque Sans Mono; font-size: 18px !important; text-transform: uppercase; color: #eeeeee; background-color: #1155a9;
+
+hi! Bell border: none; background-color: #00ffff;
+hi! Hint font-family: Fantasque Sans Mono; font-size: 14px; color: #ffdb1a; background-color: #ab3737; border-radius: 5px; border: 2px solid #1d1d1d; margin: -0.5em 0 0 -2.0em; padding: 0px 5px;
+hi! Hint::after content: attr(number);
+hi! HintElem background-color: rgba(240, 198, 116, 0.8); color: #1a1a1a;
+hi! HintActive background-color: rgba( 204, 102, 102, 0.8); color: #00ffff; hi HintImage opacity: .5;
+hi! HintActive background-color: rgba( 204, 102, 102, 0.8); color: #1a1a1a; hi HintImage opacity: .5;
