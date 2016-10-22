@@ -1,106 +1,111 @@
 """"""""""""""""
 """ Settings """
 """"""""""""""""
-" more convenient hint chars
+
+" more convenient hint chars "
 set hintchars=asdfqwejkln
 
-" use emacs as external browser
+" more convenient hint chars "
+set hintchars=asdfqwejkln
+
+" use emacs as external browser "
 set editor="emacsclient"
 
-" show tabs' numbers
+" show tabs' numbers "
 set tabnumbers=true
 
-" bigger history
+" bigger history "
 set history=5000
 
-" show destination links in command line
+" show destination links in command line "
 set showstatuslinks=2
 
-" all commands open a new tab
+" all commands open a new tab "
 set newtab=all
 
 """"""""""""""""""""
 """ Key Bindings """
 """"""""""""""""""""
-" faster scrolling
+
+" faster scrolling "
 nnoremap j 6j
 nnoremap k 6k
 
-" even faster scrolling
+" even faster scrolling "
 nnoremap J 16j
 nnoremap K 16k
 
-" hinting
+" hinting "
 nmap d ;b
 nmap D ;o
 nmap <C-d> ;F
 
-" h and l for tab navigation, ., for left and right
+" h and l for tab navigation, ., for left and right "
 nnoremap h :tabprevious<CR>
 nnoremap l :tabnext<CR>
 nnoremap , h<CR>
 nnoremap . l<CR>
 
-" showing buffers
+" showing buffers "
 nmap a :buffer!<SPACE>
 
-" Use C-h i to start help
+" Use C-h i to start help "
 noremap <C-x> i :help<CR>
 
-" q to close tabs
+" q to close tabs "
 nmap q :quit<CR>
 
-" Remove search highlight
+" Remove search highlight "
 nmap <C-f> :nohlsearch<CR>
 
-" Emacs style command line bind
+" Emacs style command line bind "
 noremap <A-x> :
 
-" C-s and C-r for searching
+" C-s and C-r for searching "
 noremap <C-s> /
 noremap <C-r> ?
 
-" C-x C-c to exit and save session
+" C-x C-c to exit and save session "
 noremap <C-x><C-c> ZZ
 
-" Sidebar selection with s, close with S
+" Sidebar selection with s, close with S "
 map s :sidebar<SPACE>
 map S :sbclose<CR>
 
-" Dialog selection with x
+" Dialog selection with x "
 map x :dialog<SPACE>
 
-" Focus last used input field with C-c i
+" Focus last used input field with C-c i "
 map <C-c>i gi
 
-" Tab moving helpers
+" Tab moving helpers "
 map <A-m> :tabmove<SPACE>
 map <A-Left> :tabmove! -1<CR>
 map <A-Right> :tabmove! +1<CR>
 
-"quick google
+"quick google "
 map <C-x>g :tabopen www.google.de<CR>
 
 """"""""""""""""""""""""
 """ Firefox Settings """
 """"""""""""""""""""""""
-" don't hide menus in fullscreen
+" don't hide menus in fullscreen "
 set! browser.fullscreen.autohide=false
-" prevent q on the last tab from closing the window
+" prevent q on the last tab from closing the window "
 set! browser.tabs.closeWindowWithLastTab=false
-" download dir
+" download dir "
 set! browser.download.dir=~/downloads
-" fix choppy scrolling
+" fix choppy scrolling "
 set! layout.frame_rate.precise=true
-" faster load times
+" faster load times "
 set! privacy.trackingprotection.enabled=true
-" Sooner javascript garbage collection
+" Sooner javascript garbage collection "
 set! javascript.options.mem.high_water_mark=30
-" Fewer forward/backward history entries
+" Fewer forward/backward history entries "
 set! browser.sessionhistory.max_entries=10
-" Greater image cache
+" Greater image cache "
 set! image.mem.max_decoded_image_kb=512000
-" pipelining
+" pipelining "
 set! http.network.pipelining=true
 set! http.network.pipelining.maxrequests=128
 
