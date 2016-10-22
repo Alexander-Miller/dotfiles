@@ -6,7 +6,9 @@
    dotspacemacs-distribution 'spacemacs
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
-   '(auto-completion
+   '(vimscript
+     html
+     auto-completion
      better-defaults
      emacs-lisp
      git
@@ -18,16 +20,18 @@
      syntax-checking
      shell-scripts
      version-control)
-   dotspacemacs-additional-packages '(dired+
-                                      shackle
-                                      rainbow-mode
-                                      flycheck-package
-                                      flx
-                                      company-flx
-                                      git-gutter-fringe
-                                      helm-systemd
-                                      vimrc-mode
-                                      evil-adjust)
+   dotspacemacs-additional-packages
+   '(dired+
+     shackle
+     rainbow-mode
+     flycheck-package
+     (evil-adjust       :location (recipe :fetcher github :repo "troyp/evil-adjust"))
+     (company-quickhelp :location (recipe :fetcher github :repo "expez/company-quickhelp"))
+     flx
+     vimish-fold
+     company-flx
+     dash
+     helm-systemd)
    dotspacemacs-excluded-packages '(evil-org popwin)
    dotspacemacs-delete-orphan-packages t))
 
@@ -78,14 +82,14 @@
    dotspacemacs-persistent-server                  nil
    dotspacemacs-search-tools                       '("ag" "pt" "ack" "grep")
    dotspacemacs-default-package-repository         nil
-   dotspacemacs-whitespace-cleanup                 'all
-   ))
+   dotspacemacs-whitespace-cleanup                 'all))
 
 (defun dotspacemacs/user-init ()
   (ignore))
 
 (defun dotspacemacs/user-config ()
-  (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org")))
+  (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org"))
+)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
