@@ -616,4 +616,11 @@ Better line numbers
   (setq linum-format " %d ")
 #+END_SRC
 
+Pos Tip colors
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "pos-tip"
+    (setq pos-tip-background-color "#2d2d2d"
+          pos-tip-foreground-color "#ccb18b"))
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
