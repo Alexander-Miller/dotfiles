@@ -123,7 +123,6 @@ The tooltip will look vastly better if we set a minimum width and properly align
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-SPC") #'company-complete)
-  (define-key company-mode-map (kbd "M-j") #'company-quickhelp-manual-begin)
 #+END_SRC
 
 *** TODO [#A] Quickhelp Workaround
@@ -454,21 +453,15 @@ Don't use Spacemacs' evil state highlighter
 
 * Misc. Settings
 ** General Key Binds
-*** Better line jumping
 
-Define a means to jump over 5 lines at once
-
+Quick line jumping
 #+BEGIN_SRC emacs-lisp
-(defun a/quick-forward ()
-  (interactive) (evil-next-visual-line 5))
+  (defun a/quick-forward ()
+    (interactive) (evil-next-visual-line 5))
 
-(defun a/quick-backward ()
-  (interactive) (evil-previous-visual-line 5))
-#+END_SRC
+  (defun a/quick-backward ()
+    (interactive) (evil-previous-visual-line 5))
 
-and use these functions wherever they are needed
-
-#+BEGIN_SRC emacs-lisp
   (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
     (define-key map (kbd "J") #'a/quick-forward))
 
@@ -476,7 +469,7 @@ and use these functions wherever they are needed
     (define-key map (kbd "K") #'a/quick-backward))
 #+END_SRC
 
-*** Emacs style line start/end jump
+Emacs style line start/end jump
 #+BEGIN_SRC emacs-lisp
   (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
     (define-key map (kbd "C-e") #'evil-end-of-visual-line))
@@ -485,18 +478,38 @@ and use these functions wherever they are needed
     (define-key map (kbd "C-a") #'evil-beginning-of-visual-line))
 #+END_SRC
 
-*** Evil search on emacs' buttons
-
+Evil search on emacs' buttons
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-s") #'evil-search-forward)
   (global-set-key (kbd "C-r") #'evil-search-backward)
 #+END_SRC
 
-*** Splitting and joining lines
-
+Splitting and joining lines
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "C-j") #'electric-newline-and-maybe-indent)
   (evil-leader/set-key "C-j" #'evil-join)
+#+END_SRC
+
+Dumb Refactoring
+#+BEGIN_SRC emacs-lisp
+  (defun a/defun-query-replace ()
+    (interactive)
+    (mark-defun)
+    (call-interactively 'anzu-query-replace))
+
+  (evil-leader/set-key
+    "üü" #'anzu-query-replace
+    "üd" #'a/defun-query-replace)
+#+END_SRC
+
+Evil smart doc lookup
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x ß") #'spacemacs/evil-smart-doc-lookup)
+#+END_SRC
+
+Find definition
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-.") #'xref-find-definitions)
 #+END_SRC
 
 ** Smooth Scrolling
@@ -510,16 +523,29 @@ Since smooth-scrolling-mode causes display errors we need to fix it up manually
 #+END_SRC
 
 ** Minor modes
+*** On/Off Switches
 
-Minor modes that need turning on/off
+On
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable)
   (global-subword-mode t)
+#+END_SRC
+
+Off
+#+BEGIN_SRC emacs-lisp
+  (ido-mode -1)
   (global-hl-line-mode -1)
 #+END_SRC
 
+*** Hooks
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook  #'rainbow-delimiters-mode-enable)
+  (add-hook 'emacs-lisp-mode #'rainbow-mode)
+#+END_SRC
+
 ** Single Settings
-*** Better line number format
+
+Better line numbers
 #+BEGIN_SRC emacs-lisp
   (setq linum-format " %d ")
 #+END_SRC
