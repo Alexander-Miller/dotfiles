@@ -126,7 +126,7 @@ hi! HintImage   opacity: .5;
 hi! Normal     color: #dddddd; background: #2f2f33; font-size: 18px;
 hi! Filter     color: #ffdb1a; background-color: #ab3737;
 hi! Preview    color: #8a8a8a; font-size: 18px;
-hi! URL        color: #66aa66; font-size: 18px;
+hi! URL        color: #99cc99; font-size: 18px;
 hi! URL:hover  text-decoration: underline; cursor: pointer;
 hi! NonText    color: #449999; padding-left: 2px; font-size: 18px;
 hi! Prompt     background: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat; padding-right: 5px;
@@ -134,18 +134,25 @@ hi! PromptText color: #000000; background: #5577aa; font-size: 18px; border: 1px
 
 hi! ModeMsg    color: #1a1a1a; background: #66aa66; -moz-transition: all 0.5s; font-weight: bold; font-size: 18px;
 hi! ErrorMsg   color: #000000; background: #ff0000; font-size: 18px;
-hi! InfoMsg    color: #66aa66; font-size: 18px;
+hi! InfoMsg    color: #99cc99; font-size: 18px;
 hi! MoreMsg    color: #000000; background: #0000ff; font-size: 18px;
 hi! WarningMsg color: #c98459; font-size: 18px;
 hi! Message    white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block; font-size: 33px;
 
 hi! CmdOutput        background: red; foreground: green; margin-top: 20px;
-hi! CmdLine          font-size: 18px; background: #333337; color: #a374a8; -moz-transition: all 0.5s; border-top: 1px solid black;
+hi! CmdLine          font-size: 18px; background: #333337; color: #cc99cc; -moz-transition: all 0.5s; border-top: 1px solid black;
 hi! ContentSeparator border: 1px solid #333337;
 hi! StatusLine       color: #6699cc; font-size: 18px;
 
 hi! CompTitle          font-size: 20px; font-weight: bold; background: -moz-linear-gradient(19% 75% 90deg, #2c2c2f, #2a2a2f, #2f2f2f 100%);
-hi! CompTitle>*        color: #81a2be; border-bottom: 1px solid #3c3c3f; text-shadow: 1px 1px 0px #0c0c0c; padding: 3px 0 3px 6px; border-top: 1px solid #5577aa; border-bottom: 1px solid #5577aa;
+hi! CompTitle>*        color: #81a2be; border-bottom: 1px solid #3c3c3f; text-shadow: 1px 1px 0px #0c0c0c; padding: 3px 0 3px 6px; border-top: 2px solid #5577aa; border-bottom: 2px solid #5577aa;
 hi! CompItem           font-size: 18px;
 hi! CompItem[selected] color: #dddddd; background: #3c3c3f;
-hi! CompDesc           color: #66aa66;
+hi! CompDesc           color: #99cc99;
+
+hi! Title     color: #000000; background: #ab3737; font-size: 18px; border: 1px solid black; padding-left: 2px; padding-right: 2px;
+hi! Indicator color: #ff0000;
+hi! String    color: #00ff00;
+hi! Number    color: #0000ff;
+hi! Object    color: #ffff00;
+hi! Function  color: #ff00ff;
