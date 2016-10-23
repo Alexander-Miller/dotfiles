@@ -1,6 +1,40 @@
 #+STARTUP: overview
 #+STARTUP: hideblocks
 
+* Utility Functions
+** a/what-face
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/what-face (point)
+    "Reveal face at POINT."
+    (interactive "d")
+    (let ((face (or (get-char-property (point) 'read-face-name)
+                    (get-char-property (point) 'face))))
+      (if face (message "Face: %s" face) (message "No face at %d" point))))
+  (global-set-key (kbd "C-x ö") #'a/what-face)
+#+END_SRC
+
+** a/edit-org-user-config
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/edit-org-user-config ()
+    "Edit the org user config file, in the current window."
+    (interactive)
+    (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
+
+  (evil-leader/set-key
+    "feo" #'a/edit-org-user-config)
+#+END_SRC
+
+** a/def-key-for-maps
+
+#+BEGIN_SRC emacs-lisp
+(defun a/def-key-for-maps (key cmd keymaps)
+  "Bind KEY to CMD for all keymaps in MAPS."
+  (dolist (keymap keymaps)
+    (define-key keymap key cmd)))
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
@@ -404,29 +438,6 @@ Replace popwin
           (special-mode               :select   t :align right :size 0.5)))
 #+END_SRC
 
-* Utility Functions
-** a/what-face
-
-#+BEGIN_SRC emacs-lisp
-  (defun a/what-face (point)
-    "Reveal face at POINT."
-    (interactive "d")
-    (let ((face (or (get-char-property (point) 'read-face-name)
-                    (get-char-property (point) 'face))))
-      (if face (message "Face: %s" face) (message "No face at %d" point))))
-  (global-set-key (kbd "C-x ö") #'a/what-face)
-#+END_SRC
-
-** a/edit-org-user-config
-
-#+BEGIN_SRC emacs-lisp
-  (defun a/edit-org-user-config ()
-    "Edit the org user config file, in the current window."
-    (interactive)
-    (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
-
-  (evil-leader/set-key
-    "feo" #'a/edit-org-user-config)
 #+END_SRC
 
 * Modeline
