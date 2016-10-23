@@ -457,13 +457,15 @@ Rebuild tags
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load "racer"
-    (evil-define-key 'normal racer-mode-map (kbd "M-.") #'racer-find-definition)
-    (evil-define-key 'insert racer-mode-map (kbd "M-.") #'racer-find-definition)
+    (evil-define-key 'normal racer-mode-map      (kbd "M-.") #'racer-find-definition)
+    (evil-define-key 'insert racer-mode-map      (kbd "M-.") #'racer-find-definition)
+    (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'quit-window)
 
     (spacemacs/set-leader-keys-for-major-mode 'rust-mode
       "f"   #'rust-format-buffer
       "a"   #'rust-beginning-of-defun
       "e"   #'rust-end-of-defun
+      "d"   #'racer-describe
       "C-t" #'a/rusty-rebuild-tags))
 #+END_SRC
 
@@ -504,6 +506,7 @@ Replace popwin
           ("*Helm Completions*"       :select   t :align below :size 0.3)
           ("*Helm file completions*"  :select   t :align below :size 0.3)
           (".*helm.*"                 :regexp   t :align below :size 0.5)
+          ("*Racer Help*"             :select   t :align below :size 0.4)
           (rtags-mode                 :select   t :align below :size 0.5)
           (pdf-outline-buffer-mode    :select   t :align right :size 0.33)
           (flycheck-error-list-mode   :noselect t :align below :size 0.33)
@@ -513,8 +516,6 @@ Replace popwin
           (compilation-mode           :select   t :align right :size 0.5)
           (help-mode                  :select   t :align below :size 0.5)
           (special-mode               :select   t :align right :size 0.5)))
-#+END_SRC
-
 #+END_SRC
 
 * Modeline
