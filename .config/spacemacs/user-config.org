@@ -149,6 +149,37 @@ interspersing semantic completion candidates with dumb code-dabbrevs
   (setq-default company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority))
 #+END_SRC
 
+*** Quickhelp
+
+Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keymap while company is active
+#+BEGIN_SRC emacs-lisp
+  (defun a/company-off (arg)
+    "Use default keys when company is not active. ARG is ignored."
+    (a/def-key-for-maps
+     (kbd "C-j") #'electric-newline-and-maybe-indent
+     (list evil-normal-state-map evil-insert-state-map))
+    (a/def-key-for-maps
+     (kbd "C-k") #'kill-line
+     (list evil-normal-state-map evil-insert-state-map)))
+
+  (defun a/company-on (arg)
+    "Use company's keys when company is active.
+  Necessary due to company-quickhelp using global key maps.
+  ARG is ignored."
+    (a/def-key-for-maps
+     (kbd "C-j") #'company-select-next
+     (list evil-normal-state-map evil-insert-state-map))
+    (a/def-key-for-maps
+     (kbd "C-k") #'company-select-previous
+     (list evil-normal-state-map evil-insert-state-map)))
+
+  (add-hook 'company-completion-started-hook   #'a/company-on)
+  (add-hook 'company-completion-finished-hook  #'a/company-off)
+  (add-hook 'company-completion-cancelled-hook #'a/company-off)
+
+  (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin)
+#+END_SRC
+
 *** Company Flx
 
 #+BEGIN_SRC emacs-lisp
@@ -162,8 +193,6 @@ interspersing semantic completion candidates with dumb code-dabbrevs
   (global-set-key (kbd "C-SPC") #'company-complete)
 #+END_SRC
 
-*** TODO [#A] Quickhelp Workaround
-DEADLINE: <2016-09-30 Fri>
 ** Org
 *** List Bulltets
 
