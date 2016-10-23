@@ -112,6 +112,43 @@ The tooltip will look vastly better if we set a minimum width and properly align
    company-tooltip-margin                     2)
 #+END_SRC
 
+*** Backend Priority
+
+The completions provided by combined backends should be sorted, so as to avoid
+interspersing semantic completion candidates with dumb code-dabbrevs
+#+BEGIN_SRC emacs-lisp
+  (defconst a/backend-priorities
+    '((company-anaconda     . 0)
+      (company-capf         . 6)
+      (company-yasnippet    . 7)
+      (company-keywords     . 8)
+      (company-files        . 9)
+      (company-dabbrev-code . 10)
+      (company-dabbrev      . 11))
+    "Alist of backends' priorities.  Smaller number means higher priority.")
+
+  (defun a/priority-of-backend (backend)
+    "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
+  Hence only the less important backends neet to be explicitly marked."
+    (let ((pr (cdr (assoc backend a/backend-priorities))))
+      (if (null pr) -1 pr)))
+
+  (defun a/company-sort-by-backend-priority (candidates)
+    "Will sort completion CANDIDATES according to their priorities.
+  In case of equal priorities lexicographical ordering is used.
+  Duplicate candidates will be removed as well."
+    (sort candidates
+          (lambda (c1 c2)
+            (let* ((b1 (get-text-property 0 'company-backend c1))
+                   (b2 (get-text-property 0 'company-backend c2))
+                   (diff (- (a/priority-of-backend b1) (a/priority-of-backend b2))))
+              (if (= diff 0)
+                  nil
+                (if (< 0 diff) nil t))))))
+
+  (setq-default company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority))
+#+END_SRC
+
 *** Company Flx
 
 #+BEGIN_SRC emacs-lisp
