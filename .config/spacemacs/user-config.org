@@ -442,6 +442,17 @@ Add *company-dabbrev-code* to front row of completion backends.
             (company-dabbrev :with company-yasnippet))))
 #+END_SRC
 
+*** Functions
+
+Rebuild tags
+#+BEGIN_SRC emacs-lisp
+  (defun a/rusty-rebuild-tags ()
+    (interactive)
+    (let ((default-directory (-> (current-buffer) (buffer-file-name) (f-parent))))
+      (call-process-shell-command "rusty-tags emacs &")
+      (message "Rusty tags rebuilt.")))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -450,9 +461,10 @@ Add *company-dabbrev-code* to front row of completion backends.
     (evil-define-key 'insert racer-mode-map (kbd "M-.") #'racer-find-definition)
 
     (spacemacs/set-leader-keys-for-major-mode 'rust-mode
-      "f" #'rust-format-buffer
-      "a" #'rust-beginning-of-defun
-      "e" #'rust-end-of-defun))
+      "f"   #'rust-format-buffer
+      "a"   #'rust-beginning-of-defun
+      "e"   #'rust-end-of-defun
+      "C-t" #'a/rusty-rebuild-tags))
 #+END_SRC
 
 * Single Package Configurations
