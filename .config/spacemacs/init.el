@@ -25,7 +25,6 @@
      shackle
      rainbow-mode
      flycheck-package
-     (evil-adjust       :location (recipe :fetcher github :repo "troyp/evil-adjust"))
      (company-quickhelp :location (recipe :fetcher github :repo "expez/company-quickhelp"))
      flx
      vimish-fold
