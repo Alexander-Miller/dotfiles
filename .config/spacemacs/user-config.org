@@ -544,6 +544,14 @@ Replace popwin
           (special-mode               :select   t :align right :size 0.5)))
 #+END_SRC
 
+** Yasnippet
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "yasnippet"
+    (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
+#+END_SRC
+
 * Modeline
 
 Turn off minor modes since this segment often leads to bad performance
