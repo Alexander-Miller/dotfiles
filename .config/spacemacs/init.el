@@ -25,7 +25,7 @@
      shackle
      rainbow-mode
      flycheck-package
-     (company-quickhelp :location (recipe :fetcher github :repo "expez/company-quickhelp"))
+     company-quickhelp
      flx
      vimish-fold
      company-flx
@@ -89,28 +89,3 @@
 (defun dotspacemacs/user-config ()
   (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org"))
 )
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(evil-want-fine-undo t)
- '(hl-sexp-background-color "#efebe9")
- '(org-agenda-files
-   (quote
-    ("~/Documents/git/dotfiles/.config/spacemacs/user-config.org" "~/Dropbox/notes.org")))
- '(package-selected-packages
-   (quote
-    (shackle powerline spinner org hydra parent-mode projectile seq pkg-info epl smartparens iedit anzu evil goto-chg undo-tree highlight diminish flx bind-map bind-key packed dash s helm avy helm-core async popup package-build yapfify py-isort live-py-mode company-shell zenburn-theme vimrc-mode fish-mode pyvenv pytest pyenv-mode py-yapf pip-requirements hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-systemd morning-star-theme company-flx wgrep smex ivy-hydra counsel-projectile counsel swiper ivy uuidgen org-projectile org-download mwim link-hint git-link evil-visual-mark-mode evil-unimpaired evil-ediff dumb-jump column-enforce-mode cargo nil-theme i3wm-config-mode eyebrowse flycheck-package rainbow-mode toml-mode racer f rust-mode flycheck-rust company-racer deferred dired+ ranger orgit magit-gitflow helm-company git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ flycheck-pos-tip evil-magit magit magit-popup git-commit company-statistics company-quickhelp pos-tip ac-ispell toc-org smeargle org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets mmm-mode markdown-toc markdown-mode htmlize helm-gitignore request helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-gutter gh-md flycheck with-editor diff-hl company auto-yasnippet yasnippet auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe use-package spacemacs-theme spaceline smooth-scrolling restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
- '(paradox-github-token t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
