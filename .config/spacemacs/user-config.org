@@ -469,6 +469,14 @@ Rebuild tags
       "C-t" #'a/rusty-rebuild-tags))
 #+END_SRC
 
+** Projectile
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "p s a" #'helm-projectile-ag)
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
