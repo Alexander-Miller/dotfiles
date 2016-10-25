@@ -487,6 +487,14 @@ Rebuild tags
       "e C-e" #'flycheck-mode))
 #+END_SRC
 
+** Helm
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq helm-move-to-line-cycle-in-source t)
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
