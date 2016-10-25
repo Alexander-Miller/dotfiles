@@ -477,6 +477,16 @@ Rebuild tags
     "p s a" #'helm-projectile-ag)
 #+END_SRC
 
+** Flycheck
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "flycheck"
+    (evil-leader/set-key
+      "ee"    #'flycheck-buffer
+      "e C-e" #'flycheck-mode))
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
