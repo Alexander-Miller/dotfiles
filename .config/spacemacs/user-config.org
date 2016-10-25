@@ -505,6 +505,12 @@ Rebuild tags
 #+BEGIN_SRC emacs-lisp
   (setq helm-move-to-line-cycle-in-source t)
 #+END_SRC
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (define-key helm-map (kbd "M-j") #'helm-next-source)
+  (define-key helm-map (kbd "M-k") #'helm-previous-source)
+#+END_SRC
 
 * Single Package Configurations
 ** dired+
