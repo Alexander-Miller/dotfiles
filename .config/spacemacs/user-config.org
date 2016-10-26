@@ -52,8 +52,8 @@
 
 *** kj key-chord
 
-#+BEGIN_SRC emacs-lisp :exports none
-(setq-default evil-escape-key-sequence "kj")
+#+BEGIN_SRC emacs-lisp
+  (setq-default evil-escape-key-sequence "kj")
 #+END_SRC
 
 *** Settings
