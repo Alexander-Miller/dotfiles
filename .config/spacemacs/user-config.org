@@ -503,8 +503,11 @@ Rebuild tags
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq helm-move-to-line-cycle-in-source t)
+   (setq
+    helm-ag-base-command              "ag -f --hidden --nocolor --nogroup --depth 999999 --smart-case --recurse"
+    helm-move-to-line-cycle-in-source t)
 #+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
