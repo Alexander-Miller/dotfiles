@@ -446,7 +446,7 @@ Company-shell settings
 
 Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "rust"
+  (with-eval-after-load "rust-mode"
     (setq company-backends-rust-mode
           '((company-capf :with company-dabbrev-code company-yasnippet)
             (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
