@@ -143,7 +143,7 @@ interspersing semantic completion candidates with dumb code-dabbrevs
     "Will sort completion CANDIDATES according to their priorities.
   In case of equal priorities lexicographical ordering is used.
   Duplicate candidates will be removed as well."
-    (sort candidates
+    (sort (delete-dups candidates)
           (lambda (c1 c2)
             (let* ((b1 (get-text-property 0 'company-backend c1))
                    (b2 (get-text-property 0 'company-backend c2))
@@ -151,8 +151,15 @@ interspersing semantic completion candidates with dumb code-dabbrevs
               (if (= diff 0)
                   nil
                 (if (< 0 diff) nil t))))))
+#+END_SRC
 
-  (setq-default company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority))
+The priority sorting is only used in major modes which use combined backends
+#+BEGIN_SRC emacs-lisp
+  (defun a/use-completions-priority-sorting ()
+    (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority)))
+
+  (add-hook 'rust-mode-hook #'a/use-completions-priority-sorting)
+
 #+END_SRC
 
 *** Quickhelp
