@@ -567,7 +567,7 @@ Replace popwin
           (magit-status-mode          :same     t)
           (magit-diff-mode            :noselect t :align right :size 0.5)
           (compilation-mode           :select   t :align right :size 0.5)
-          (help-mode                  :select   t :align below :size 0.5)
+          ;; (help-mode                  :select   t :align right :size 0.5)
           (special-mode               :select   t :align right :size 0.5)))
 #+END_SRC
 
