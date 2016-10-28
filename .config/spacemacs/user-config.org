@@ -159,7 +159,6 @@ The priority sorting is only used in major modes which use combined backends
     (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority)))
 
   (add-hook 'rust-mode-hook #'a/use-completions-priority-sorting)
-
 #+END_SRC
 
 *** Quickhelp
@@ -697,6 +696,11 @@ Pos Tip colors
   (with-eval-after-load "pos-tip"
     (setq pos-tip-background-color "#2d2d2d"
           pos-tip-foreground-color "#ccb18b"))
+#+END_SRC
+
+Pack the custom settings away from the actual config to somewhere they can be easily gitignored.
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el"))
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
