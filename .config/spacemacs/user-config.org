@@ -517,8 +517,15 @@ Rebuild tags
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (define-key helm-map (kbd "M-j") #'helm-next-source)
-  (define-key helm-map (kbd "M-k") #'helm-previous-source)
+  (with-eval-after-load "helm"
+
+    (evil-leader/set-key
+      "saa" #'helm-do-ag-this-file)
+
+    (define-key helm-map (kbd "M-j") #'helm-next-source)
+    (define-key helm-map (kbd "M-k") #'helm-previous-source))
+#+END_SRC
+
 #+END_SRC
 
 * Single Package Configurations
