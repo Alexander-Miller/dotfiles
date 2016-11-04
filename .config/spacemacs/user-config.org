@@ -501,9 +501,13 @@ Rebuild tags
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load "flycheck"
+
     (evil-leader/set-key
       "ee"    #'flycheck-buffer
-      "e C-e" #'flycheck-mode))
+      "e C-e" #'flycheck-mode)
+
+    (define-key evil-normal-state-map (kbd "C-.") #'spacemacs/next-error)
+    (define-key evil-normal-state-map (kbd "C-,") #'spacemacs/previous-error))
 #+END_SRC
 
 ** Helm
