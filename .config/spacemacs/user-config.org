@@ -249,6 +249,7 @@ No `special` behaviour.
    org-M-RET-may-split-line       nil
    org-fontify-whole-heading-line nil
    org-catch-invisible-edits      'error
+   org-refile-targets '((nil . (:maxlevel . 10)))
    org-footnote-auto-adjust       t)
   ;;  org-catch-invisible-edits      'show
   ;;  org-fontify-whole-heading-line nil
