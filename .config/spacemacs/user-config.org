@@ -605,6 +605,16 @@ Don't use Spacemacs' evil state highlighter
 * Misc. Settings
 ** General Key Binds
 
+Use visual lines
+#+BEGIN_SRC emacs-lisp
+  (a/def-key-for-maps
+   (kbd "j") #'evil-next-visual-line
+   (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
+  (a/def-key-for-maps
+   (kbd "k") #'evil-previous-visual-line
+   (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
+#+END_SRC
+
 Quick line jumping
 #+BEGIN_SRC emacs-lisp
   (defun a/quick-forward ()
