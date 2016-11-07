@@ -16,7 +16,7 @@
 #include "Globals.hpp"
 #include "Utils.hpp"
 
-#define CPU_FREQ 2
+#define CPU_FREQ 1
 #define PROC_STAT "/proc/stat"
 
 CpuBlock::CpuBlock()

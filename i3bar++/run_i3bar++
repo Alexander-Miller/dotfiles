@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+killall i3bar++
+
 fifo=/tmp/i3bar_fifo
 
 if [ -e $fifo ]; then
