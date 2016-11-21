@@ -8,7 +8,14 @@
    dotspacemacs-configuration-layers
    '(vimscript
      html
-     auto-completion
+     (auto-completion
+      :variables
+      auto-completion-return-key-behavior        'complete
+      auto-completion-tab-key-behavior           'cycle
+      auto-completion-complete-with-key-sequence nil
+      auto-completion-private-snippets-directory nil
+      auto-completion-enable-help-tooltip        t
+      auto-completion-enable-snippets-in-popup   t)
      better-defaults
      emacs-lisp
      git

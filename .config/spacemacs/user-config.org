@@ -71,24 +71,6 @@
 #+END_SRC
 
 *** Settings
-**** Layer Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq
-   auto-completion-return-key-behavior        'complete
-   auto-completion-tab-key-behavior           'cycle
-   auto-completion-complete-with-key-sequence nil
-   auto-completion-private-snippets-directory nil
-   auto-completion-enable-help-tooltip        t
-   auto-completion-enable-snippets-in-popup   t)
-#+END_SRC
-
-Turn off quickhelp mode off afterwards since it should be manual, but the only way to
-keep it installed as of now is to activate it permanently in the layer settings
-#+BEGIN_SRC emacs-lisp
-  (company-quickhelp-mode -1)
-#+END_SRC
-
 **** Company Settings
 
 #+BEGIN_SRC emacs-lisp
