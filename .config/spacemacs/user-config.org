@@ -198,7 +198,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 
  Use only one bullet for headings (original = "◉" "○" "✸" "✿")
  #+BEGIN_SRC emacs-lisp
-   (setq-default org-bullets-bullet-list '("◉"))
+   (setq-default org-bullets-bullet-list '("✸"))
  #+END_SRC
 
 Also use ascii bullets for simple lists
