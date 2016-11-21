@@ -515,6 +515,48 @@ Rebuild tags
 
 #+END_SRC
 
+** Version Control
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "magit"
+    (setq
+     git-commit-summary-max-length 120
+     magit-diff-highlight-hunk-region-functions
+     '(magit-diff-highlight-hunk-region-dim-outside)))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "magit"
+    (defvar a/magit-key-maps
+      (list
+       magit-mode-map
+       magit-status-mode-map
+       magit-log-mode-map
+       magit-diff-mode-map
+       magit-branch-section-map
+       magit-untracked-section-map
+       magit-file-section-map
+       magit-status-mode-map
+       magit-hunk-section-map
+       magit-stash-section-map
+       magit-stashes-section-map
+       magit-staged-section-map
+       magit-unstaged-section-map))
+
+    (a/def-key-for-maps (kbd "J")   #'a/quick-forward                 a/magit-key-maps)
+    (a/def-key-for-maps (kbd "K")   #'a/quick-backward                a/magit-key-maps)
+    (a/def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   a/magit-key-maps)
+    (a/def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  a/magit-key-maps)
+    (a/def-key-for-maps (kbd ",u")  #'magit-section-up                a/magit-key-maps)
+    (a/def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  a/magit-key-maps)
+    (a/def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  a/magit-key-maps)
+    (a/def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  a/magit-key-maps)
+    (a/def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  a/magit-key-maps))
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
