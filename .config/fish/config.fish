@@ -1,7 +1,4 @@
 #!/usr/bin/fish
-
-fish_vi_mode
-
 set -g fish_user_paths   ~/.cargo/bin
 set -g fish_key_bindings fish_user_key_bindings
 set -x RUST_SRC_PATH     $HOME/Documents/git/rust/src
@@ -45,8 +42,9 @@ abbr -a sp    'systemctl suspend'
 abbr -a cbr   'cargo build --release'
 abbr -a t2    'tmux -2'
 abbr -a setbg 'feh --bg-scale'
-abbr -a emc   'emacsclient --no-wait --alternate-editor=""'
+abbr -a emc   'emacsclient -n -c --alternate-editor=""'
 abbr -a fishc 'source $HOME/.config/fish/config.fish'
 abbr -a gis   'git status'
 abbr -a gfa   'git fetch --all'
 abbr -a gp    'git pull'
+abbr -a gro   'git rebase origin/master'
