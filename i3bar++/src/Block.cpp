@@ -7,9 +7,13 @@ Block::Block(const int f)
 { ; }
 
 void Block::update_maybe() {
-    if (this->freq == -1 || ++(this->freq_count) == this->freq) {
+    if (this->freq == -1) {
+        this->update();
+    } else if (this->freq_count == this->freq) {
         this->freq_count = 0;
         this->update();
+    } else {
+        this->freq_count++;
     }
 }
 
