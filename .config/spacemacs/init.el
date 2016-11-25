@@ -6,19 +6,18 @@
    dotspacemacs-distribution 'spacemacs
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
-   '(vimscript
-     html
-     (auto-completion
+   '((auto-completion
       :variables
       auto-completion-return-key-behavior        'complete
       auto-completion-tab-key-behavior           'cycle
       auto-completion-complete-with-key-sequence nil
       auto-completion-private-snippets-directory nil
       auto-completion-enable-help-tooltip        t
-      auto-completion-enable-snippets-in-popup   t)
+      auto-completion-enable-snippets-in-popup   'manual)
      better-defaults
      emacs-lisp
      git
+     html
      markdown
      org
      python
@@ -26,7 +25,8 @@
      rust
      syntax-checking
      shell-scripts
-     version-control)
+     version-control
+     vimscript)
    dotspacemacs-additional-packages
    '(dired+
      shackle
