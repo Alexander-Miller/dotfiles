@@ -204,6 +204,7 @@ for_window [class="Xfce4.*settings"] border pixel 4
 for_window [class="Xfce4.*config"]   border pixel 4
 for_window [class="File-roller"]     border pixel 4
 for_window [class="Thunar"]          border pixel 4
+for_window [class="Evince"]          border pixel 4
 for_window [class="Firefox"]         border pixel 4
 
 workspace_auto_back_and_forth yes
