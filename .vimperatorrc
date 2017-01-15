@@ -123,16 +123,16 @@ hi! HintElem    background-color: rgba(240, 198, 116, 0.8); color: #1a1a1a;
 hi! HintActive  background-color: rgba(204, 102, 102, 0.8); color: #1a1a1a;
 hi! HintImage   opacity: .5;
 
-hi! Normal     color: #dddddd; background: #2f2f33; font-size: 18px;
+hi! Normal     color: #dddddd; background: #2f2f33; font-size: 18px; font-family: Fantasque Sans Mono;
 hi! Filter     color: #ffdb1a; background-color: #ab3737;
 hi! Preview    color: #8a8a8a; font-size: 18px;
 hi! URL        color: #99cc99; font-size: 18px;
 hi! URL:hover  text-decoration: underline; cursor: pointer;
 hi! NonText    color: #449999; padding-left: 2px; font-size: 18px;
 hi! Prompt     background: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat; padding-right: 5px;
-hi! PromptText color: #000000; background: #5577aa; font-size: 18px; border: 1px solid black; -moz-transition: all 0.5s; padding-top: 2px;
+hi! PromptText color: #000000; background: #5577aa; font-size: 18px; border: 1px solid black; -moz-transition: all 0.5s; padding-top: 2px; font-family: Fantasque Sans Mono;
 
-hi! ModeMsg    color: #1a1a1a; background: #66aa66; -moz-transition: all 0.5s; font-weight: bold; font-size: 18px;
+hi! ModeMsg    color: #1a1a1a; background: #66aa66; -moz-transition: all 0.5s; font-weight: bold; font-size: 18px; font-family: Fantasque Sans Mono;
 hi! ErrorMsg   color: #000000; background: #ff0000; font-size: 18px;
 hi! InfoMsg    color: #99cc99; font-size: 18px;
 hi! MoreMsg    color: #000000; background: #0000ff; font-size: 18px;
