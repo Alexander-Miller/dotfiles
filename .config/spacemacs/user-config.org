@@ -368,24 +368,48 @@ Spacemancs default *,n* needs to be removed first
     (setq current-prefix-arg (not current-prefix-arg))
     (call-interactively #'org-table-recalculate))
 
+  (defun a/org-table-switch-right ()
+    "Switch content of current table cell with the cell to the right."
+    (interactive)
+    (when (org-at-table-p)
+      (a/org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
+
+  (defun a/org-table-switch-left ()
+    "Switch content of current table cell with the cell to the left."
+    (interactive)
+    (when (org-at-table-p)
+      (a/org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
+
+  (defun a/org-table-switch (x2 y2)
+    (let* ((p  (point))
+    (x1 (org-table-current-line))
+           (y1 (org-table-current-column))
+           (t1 (org-table-get x1 y1))
+           (t2 (org-table-get x2 y2)))
+      (org-table-put x1 y1 t2)
+      (org-table-put x2 y2 t1 t)
+      (goto-char p)))
+
   ;; TODO: rebind clock
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
 
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "qt" #'org-table-create-or-convert-from-region
-    "qb" #'org-table-blank-field
-    "qd" #'org-table-delete-column
-    "qc" #'org-table-insert-column
-    "qr" #'org-table-insert-row
-    "q-" #'org-table-insert-hline
-    "q0" #'org-table-sort-lines
-    "qy" #'org-table-copy-region
-    "qx" #'org-table-cut-region
-    "qp" #'org-table-paste-rectangle
-    "qo" #'org-table-toggle-coordinate-overlays
-    "qf" #'a/org-table-recalc
-    "q#" #'org-table-rotate-recalc-marks
-    "qg" #'org-plot/gnuplot)
+    "qt"  #'org-table-create-or-convert-from-region
+    "qb"  #'org-table-blank-field
+    "qd"  #'org-table-delete-column
+    "qc"  #'org-table-insert-column
+    "qr"  #'org-table-insert-row
+    "q-"  #'org-table-insert-hline
+    "q0"  #'org-table-sort-lines
+    "qy"  #'org-table-copy-region
+    "qx"  #'org-table-cut-region
+    "qp"  #'org-table-paste-rectangle
+    "qo"  #'org-table-toggle-coordinate-overlays
+    "qf"  #'a/org-table-recalc
+    "q#"  #'org-table-rotate-recalc-marks
+    "qg"  #'org-plot/gnuplot
+    "qsl" #'a/org-table-switch-right
+    "qsh" #'a/org-table-switch-left)
 
   (evil-leader/set-key-for-mode 'org-mode
     "+" #'org-table-sum
