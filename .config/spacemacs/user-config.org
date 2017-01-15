@@ -210,6 +210,11 @@ Also use ascii bullets for simple lists
 
 *** Settings
 
+Default TODO keywords with stars to better look with colored backgrouds
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-todo-keywords '((sequence "*TODO*" "|" "*DONE*")))
+#+END_SRC
+
 No `special` behaviour.
 #+BEGIN_SRC emacs-lisp
   (setq
