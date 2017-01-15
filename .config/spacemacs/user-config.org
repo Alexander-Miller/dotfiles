@@ -232,8 +232,10 @@ Agenda
 
 #+BEGIN_SRC emacs-lisp
   (setq
+   org-log-done                   'time
    org-startup-align-all-tables   t
    org-startup-indented           t
+   org-log-into-drawer            t
    org-startup-folded             t
    org-table-use-standard-references nil
    org-cycle-emulate-tab          t
