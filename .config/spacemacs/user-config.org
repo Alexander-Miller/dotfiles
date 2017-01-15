@@ -487,9 +487,12 @@ Rebuild tags
 #+BEGIN_SRC emacs-lisp
   (defun a/rusty-rebuild-tags ()
     (interactive)
-    (let ((default-directory (-> (current-buffer) (buffer-file-name) (f-parent))))
-      (call-process-shell-command "rusty-tags emacs &")
-      (message "Rusty tags rebuilt.")))
+    (make-thread
+     #'(lambda ()
+         (let ((default-directory (projectile-project-root)))
+           (call-process-shell-command "rusty-tags emacs")
+           (call-process-shell-command "mv rusty-tags.emacs TAGS")
+           (message "Rusty tags rebuilt.")))))
 #+END_SRC
 
 *** Keybinds
