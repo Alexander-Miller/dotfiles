@@ -12,8 +12,8 @@
       auto-completion-tab-key-behavior           'cycle
       auto-completion-complete-with-key-sequence nil
       auto-completion-private-snippets-directory nil
-      auto-completion-enable-help-tooltip        t
-      auto-completion-enable-snippets-in-popup   'manual)
+      auto-completion-enable-help-tooltip        'manual
+      auto-completion-enable-snippets-in-popup   t)
      better-defaults
      emacs-lisp
      git
