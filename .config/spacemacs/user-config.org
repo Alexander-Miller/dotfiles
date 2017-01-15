@@ -225,6 +225,11 @@ No `special` behaviour.
    org-ctrl-k-protect-subtree nil)
 #+END_SRC
 
+Agenda
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-span 14)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (setq
    org-startup-align-all-tables   t
