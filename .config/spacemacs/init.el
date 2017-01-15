@@ -35,6 +35,7 @@
      company-quickhelp
      flx
      vimish-fold
+     org-plus-contrib
      company-flx
      dash
      helm-systemd)
