@@ -430,7 +430,9 @@ Spacemancs default *,n* needs to be removed first
     "M-l" #'org-toggle-link-display
     "C-f" #'org-footnote-action
     "C-o" #'org-open-at-point
-    "C-e" #'org-edit-special)
+    "C-e" #'org-edit-special
+    "C-t" #'org-todo
+    "P"   #'org-priority)
 
   (evil-leader/set-key-for-mode 'org-mode
     "hi" #'helm-org-in-buffer-headings)
