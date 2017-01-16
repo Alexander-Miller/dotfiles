@@ -6,7 +6,7 @@ rofi.lines:             4
 rofi.columns:           3
 rofi.font:              Fantasque Sans Mono 18
 rofi.color-normal:      #2d2d31,#ccb18b,#2d2d31,#2d2d31,#557799
-rofi.color-urgent:      #ff0000,#00ff00,#0000ff,#00ffff,#ff00ff
+rofi.color-urgent:      #2d2d31,#ccb18b,#0000ff,#00ffff,#ff00ff
 rofi.color-active:      #2d2d31,#a374a8,#0000ff,#a374a8,#000000
 rofi.color-window:      #2d2d31,#1e1e1e
 rofi.bw:                5
