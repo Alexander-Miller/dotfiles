@@ -191,6 +191,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-SPC") #'company-complete)
+  (global-set-key (kbd "C-@") #'company-complete)
 #+END_SRC
 
 ** Org
