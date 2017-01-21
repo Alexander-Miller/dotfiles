@@ -810,15 +810,16 @@ Evil smart doc lookup
 Find definition
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-.") #'xref-find-definitions)
+  (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
 #+END_SRC
 
 ** Smooth Scrolling
-Since smooth-scrolling-mode causes display errors we need to fix it up manually
 
+Since smooth-scrolling-mode causes display errors we need to fix it up manually
 #+BEGIN_SRC emacs-lisp
 (setq
-  scroll-conservatively           20
-  scroll-margin                   20
+  scroll-conservatively           1
+  scroll-margin                   10
   scroll-preserve-screen-position t)
 #+END_SRC
 
