@@ -730,9 +730,10 @@ Replace popwin
 
 * Modeline
 
-Turn off minor modes since this segment often leads to bad performance
+Turn off unwanted segments
 #+BEGIN_SRC emacs-lisp
   (spacemacs/toggle-mode-line-minor-modes-off)
+  (spaceline-toggle-purpose-off)
 #+END_SRC
 
 Don't use Spacemacs' evil state highlighter
