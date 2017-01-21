@@ -195,9 +195,55 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 #+END_SRC
 
 ** Org
-*** List Bulltets
+*** Settings
+**** Additional modules
 
- Use only one bullet for headings (original = "◉" "○" "✸" "✿")
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-modules 'org-habit)
+  (with-eval-after-load 'org
+    (require 'org-habit))
+#+END_SRC
+
+**** Default TODO keywords with stars to better look with colored backgrouds
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-todo-keywords '((sequence "*TODO*" "|" "*DONE*")))
+#+END_SRC
+
+**** No `special` behaviour.
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   org-special-ctrl-a         nil
+   org-special-ctrl-k         nil
+   org-special-ctrl-o         nil
+   org-special-ctrl-a/e       nil
+   org-ctrl-k-protect-subtree nil)
+#+END_SRC
+
+**** Agenda
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org-agenda
+
+    (pcase (system-name)
+      ("a-laptop"  (add-to-list 'org-agenda-files "~/Dropbox/Org/Privat.org"))
+      ("nt-laptop" (message "TODO")))
+
+    (setq org-agenda-span 14
+          org-agenda-window-frame-fractions '(0.7 . 0.7)))
+#+END_SRC
+
+**** Habits
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org-habit
+    (setq org-habit-graph-column 60
+          org-habit-show-habits-only-for-today nil))
+#+END_SRC
+
+**** Bullets
+Use only one bullet for headings (original = "◉" "○" "✸" "✿")
  #+BEGIN_SRC emacs-lisp
    (setq-default org-bullets-bullet-list '("✸"))
  #+END_SRC
@@ -209,30 +255,12 @@ Also use ascii bullets for simple lists
    '(("^ +\\([-*]\\) " (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 #+END_SRC
 
-*** Settings
-
-Default TODO keywords with stars to better look with colored backgrouds
-#+BEGIN_SRC emacs-lisp
-  (setq-default org-todo-keywords '((sequence "*TODO*" "|" "*DONE*")))
-#+END_SRC
-
-No `special` behaviour.
-#+BEGIN_SRC emacs-lisp
-  (setq
-   org-special-ctrl-a         nil
-   org-special-ctrl-k         nil
-   org-special-ctrl-o         nil
-   org-special-ctrl-a/e       nil
-   org-ctrl-k-protect-subtree nil)
-#+END_SRC
-
-Agenda
-#+BEGIN_SRC emacs-lisp
-  (setq org-agenda-span 14)
-#+END_SRC
+**** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
   (setq
+   calendar-date-style            'european
+   org-tags-column                85
    org-log-done                   'time
    org-startup-align-all-tables   t
    org-startup-indented           t
@@ -244,8 +272,15 @@ Agenda
    org-M-RET-may-split-line       nil
    org-fontify-whole-heading-line nil
    org-catch-invisible-edits      'error
-   org-refile-targets '((nil . (:maxlevel . 10)))
-   org-footnote-auto-adjust       t)
+   org-refile-targets             '((nil . (:maxlevel . 10)))
+   org-footnote-auto-adjust       t
+   ;; org-time-stamp-custom-formats '("<%a %d.%m.%Y>" . "<%a %d.%m.%Y %a %H:%M>")
+   )
+
+  (setq-default
+   org-display-custom-times nil
+   ;; org-time-stamp-formats   '("<%Y-%m-%d %a>" . "<%Y-%m-%d %a %H:%M>")
+   )
   ;;  org-catch-invisible-edits      'show
   ;;  org-fontify-whole-heading-line nil
   ;;  ;; org-hide-block-overlays
@@ -270,64 +305,68 @@ Agenda
 **** Showing content
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "rr" #'org-reveal
-    "rb" #'outline-show-branches
-    "rc" #'outline-show-children
-    "ra" #'outline-show-all)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "rr" #'org-reveal
+      "rb" #'outline-show-branches
+      "rc" #'outline-show-children
+      "ra" #'outline-show-all))
 #+END_SRC
 
 ***** TODO Global cycling defun + bind
 **** Headline Navigation
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "u"   #'outline-up-heading
-    "M-u" #'helm-org-parent-headings
-    "j"   #'outline-next-visible-heading
-    "k"   #'outline-previous-visible-heading
-    "C-j" #'org-forward-heading-same-level
-    "C-k" #'org-backward-heading-same-level)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "u"   #'outline-up-heading
+      "M-u" #'helm-org-parent-headings
+      "j"   #'outline-next-visible-heading
+      "k"   #'outline-previous-visible-heading
+      "C-j" #'org-forward-heading-same-level
+      "C-k" #'org-backward-heading-same-level))
 #+END_SRC
 
 **** (Sub)Tree
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "wi" #'org-tree-to-indirect-buffer
-    "wm" #'org-mark-subtree
-    "wd" #'org-cut-subtree
-    "wy" #'org-copy-subtree
-    "wY" #'org-clone-subtree-with-time-shift
-    "wp" #'org-paste-subtree
-    "wr" #'org-refile)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "wi" #'org-tree-to-indirect-buffer
+      "wm" #'org-mark-subtree
+      "wd" #'org-cut-subtree
+      "wy" #'org-copy-subtree
+      "wY" #'org-clone-subtree-with-time-shift
+      "wp" #'org-paste-subtree
+      "wr" #'org-refile))
 #+END_SRC
 
 **** Structure Editing
 
 #+BEGIN_SRC emacs-lisp
-  (dolist (mode '(normal insert))
-    (evil-define-key mode org-mode-map
-      (kbd "M-h") #'org-metaleft
-      (kbd "M-l") #'org-metaright
-      (kbd "M-j") #'org-metadown
-      (kbd "M-k") #'org-metaup
-      (kbd "M-H") #'org-shiftmetaleft
-      (kbd "M-L") #'org-shiftmetaright
-      (kbd "M-J") #'org-shiftmetadown
-      (kbd "M-K") #'org-shiftmetaup
-      (kbd "M-t") #'org-insert-todo-heading-respect-content))
-
+  (with-eval-after-load 'org
+    (dolist (mode '(normal insert))
+      (evil-define-key mode org-mode-map
+        (kbd "M-h") #'org-metaleft
+        (kbd "M-l") #'org-metaright
+        (kbd "M-j") #'org-metadown
+        (kbd "M-k") #'org-metaup
+        (kbd "M-H") #'org-shiftmetaleft
+        (kbd "M-L") #'org-shiftmetaright
+        (kbd "M-J") #'org-shiftmetadown
+        (kbd "M-K") #'org-shiftmetaup
+        (kbd "M-t") #'org-insert-todo-heading-respect-content)))
 #+END_SRC
 
 **** Sparse Trees
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "7"   #'org-sparse-tree
-    "8"   #'org-occur
-    "M-j" #'next-error
-    "M-k" #'previous-error)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "7"   #'org-sparse-tree
+      "8"   #'org-occur
+      "M-j" #'next-error
+      "M-k" #'previous-error))
 #+END_SRC
 
 ***** TODO error handling
@@ -335,118 +374,132 @@ should next/prev-error be global w.r.t. flycheck?
 
 **** Narrowing
 
-Spacemancs default *,n* needs to be removed first
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
-#+END_SRC
+  (with-eval-after-load 'org
+    ;;Spacemancs default *,n* needs to be removed first
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
 
-#+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "nb" #'org-narrow-to-block
-    "ne" #'org-narrow-to-element
-    "ns" #'org-narrow-to-subtree
-    "nw" #'widen)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "nb" #'org-narrow-to-block
+      "ne" #'org-narrow-to-element
+      "ns" #'org-narrow-to-subtree
+      "nw" #'widen))
 #+END_SRC
 
 **** Insert Commands
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "if" #'org-footnote-new
-    "il" #'org-insert-link
-    "id" #'org-insert-drawer
-    "iD" #'org-insert-property-drawer)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "if" #'org-footnote-new
+      "il" #'org-insert-link
+      "id" #'org-insert-drawer
+      "iD" #'org-insert-property-drawer))
 #+END_SRC
 
 **** Tables
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/org-table-recalc ()
-    "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
+  (with-eval-after-load 'org
+    (defun a/org-table-recalc ()
+      "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
   by default the entire table is recalculated, while with a prefix arg recalculates
   only the current cell."
-    (interactive)
-    (setq current-prefix-arg (not current-prefix-arg))
-    (call-interactively #'org-table-recalculate))
+      (interactive)
+      (setq current-prefix-arg (not current-prefix-arg))
+      (call-interactively #'org-table-recalculate))
 
-  (defun a/org-table-switch-right ()
-    "Switch content of current table cell with the cell to the right."
-    (interactive)
-    (when (org-at-table-p)
-      (a/org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
+    (defun a/org-table-switch-right ()
+      "Switch content of current table cell with the cell to the right."
+      (interactive)
+      (when (org-at-table-p)
+        (a/org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
 
-  (defun a/org-table-switch-left ()
-    "Switch content of current table cell with the cell to the left."
-    (interactive)
-    (when (org-at-table-p)
-      (a/org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
+    (defun a/org-table-switch-left ()
+      "Switch content of current table cell with the cell to the left."
+      (interactive)
+      (when (org-at-table-p)
+        (a/org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
 
-  (defun a/org-table-switch (x2 y2)
-    (let* ((p  (point))
-    (x1 (org-table-current-line))
-           (y1 (org-table-current-column))
-           (t1 (org-table-get x1 y1))
-           (t2 (org-table-get x2 y2)))
-      (org-table-put x1 y1 t2)
-      (org-table-put x2 y2 t1 t)
-      (goto-char p)))
+    (defun a/org-table-switch (x2 y2)
+      (let* ((p  (point))
+             (x1 (org-table-current-line))
+             (y1 (org-table-current-column))
+             (t1 (org-table-get x1 y1))
+             (t2 (org-table-get x2 y2)))
+        (org-table-put x1 y1 t2)
+        (org-table-put x2 y2 t1 t)
+        (goto-char p)))
 
-  ;; TODO: rebind clock
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
+    ;; TODO: rebind clock
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
 
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "qt"  #'org-table-create-or-convert-from-region
-    "qb"  #'org-table-blank-field
-    "qd"  #'org-table-delete-column
-    "qc"  #'org-table-insert-column
-    "qr"  #'org-table-insert-row
-    "q-"  #'org-table-insert-hline
-    "q0"  #'org-table-sort-lines
-    "qy"  #'org-table-copy-region
-    "qx"  #'org-table-cut-region
-    "qp"  #'org-table-paste-rectangle
-    "qo"  #'org-table-toggle-coordinate-overlays
-    "qf"  #'a/org-table-recalc
-    "q#"  #'org-table-rotate-recalc-marks
-    "qg"  #'org-plot/gnuplot
-    "qsl" #'a/org-table-switch-right
-    "qsh" #'a/org-table-switch-left)
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "qt"  #'org-table-create-or-convert-from-region
+      "qb"  #'org-table-blank-field
+      "qd"  #'org-table-delete-column
+      "qc"  #'org-table-insert-column
+      "qr"  #'org-table-insert-row
+      "q-"  #'org-table-insert-hline
+      "q0"  #'org-table-sort-lines
+      "qy"  #'org-table-copy-region
+      "qx"  #'org-table-cut-region
+      "qp"  #'org-table-paste-rectangle
+      "qo"  #'org-table-toggle-coordinate-overlays
+      "qf"  #'a/org-table-recalc
+      "q#"  #'org-table-rotate-recalc-marks
+      "qg"  #'org-plot/gnuplot
+      "qsl" #'a/org-table-switch-right
+      "qsh" #'a/org-table-switch-left)
 
-  (evil-leader/set-key-for-mode 'org-mode
-    "+" #'org-table-sum
-    "?" #'org-table-field-info)
+    (evil-leader/set-key-for-mode 'org-mode
+      "+" #'org-table-sum
+      "?" #'org-table-field-info))
 #+END_SRC
 
-
 ***** TODO org table evil ops
+**** Toggles
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "zh" #'org-toggle-heading
+      "zl" #'org-toggle-link-display
+      "zx" #'org-toggle-checkbox
+      "zc" #'org-toggle-comment
+      "zt" #'org-toggle-tag
+      "zi" #'org-toggle-item
+      "zo" #'org-toggle-ordered-property))
+#+END_SRC
+
 **** Other
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "0"   #'org-sort
-    "*"   #'org-toggle-heading
-    "C-y" #'org-copy-visible
-    "C-p" #'org-set-property
-    "C-l" #'org-add-note
-    "M-l" #'org-toggle-link-display
-    "C-f" #'org-footnote-action
-    "C-o" #'org-open-at-point
-    "C-e" #'org-edit-special
-    "C-t" #'org-todo
-    "P"   #'org-priority)
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "0"   #'org-sort
+      "#"   #'org-update-statistics-cookies
+      "C-y" #'org-copy-visible
+      "C-p" #'org-set-property
+      "C-l" #'org-add-note
+      "C-f" #'org-footnote-action
+      "C-o" #'org-open-at-point
+      "C-e" #'org-edit-special
+      "C-t" #'org-todo
+      "P"   #'org-priority)
 
-  (evil-leader/set-key-for-mode 'org-mode
-    "hi" #'helm-org-in-buffer-headings)
+    (evil-leader/set-key-for-mode 'org-mode
+      "hi" #'helm-org-in-buffer-headings)
 
-  (evil-define-key 'normal org-mode-map
-    "-"             #'org-cycle-list-bullet
-    (kbd "RET")     #'org-return)
+    (evil-define-key 'normal org-mode-map
+      "-"             #'org-cycle-list-bullet
+      (kbd "RET")     #'org-return)
 
-  (define-key org-src-mode-map
-    (kbd "C-c C-c") #'org-edit-src-exit)
+    (define-key org-src-mode-map
+      (kbd "C-c C-c") #'org-edit-src-exit)
 
-  ;; No newlines in normal state
-  (evil-define-key 'normal org-mode-map (kbd "<return>") #'evil-ret)
+    ;; No newlines in normal state
+    (evil-define-key 'normal org-mode-map (kbd "<return>") #'evil-ret))
 #+END_SRC
 
 ***** TODO helm-org-in-buffer-heading
