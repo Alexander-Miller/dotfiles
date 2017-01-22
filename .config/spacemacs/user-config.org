@@ -819,7 +819,7 @@ Find definition
 Since smooth-scrolling-mode causes display errors we need to fix it up manually
 #+BEGIN_SRC emacs-lisp
 (setq
-  scroll-conservatively           1
+  scroll-conservatively           99
   scroll-margin                   10
   scroll-preserve-screen-position t)
 #+END_SRC
@@ -871,6 +871,10 @@ Simple newlines
   (setq next-line-add-newlines t)
 #+END_SRC
 
+No more ugly line splitting
+#+BEGIN_SRC emacs-lisp
+  (setq-default truncate-lines t)
+#+END_SRC
 
 Quitting with *q*
 #+BEGIN_SRC emacs-lisp
