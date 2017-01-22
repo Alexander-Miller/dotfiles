@@ -92,8 +92,14 @@
    dotspacemacs-whitespace-cleanup                 'all))
 
 (defun dotspacemacs/user-init ()
-  (ignore))
+  (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org"))
+  (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org")))
+
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
 )
