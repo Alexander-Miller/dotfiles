@@ -838,6 +838,7 @@ On
 #+BEGIN_SRC emacs-lisp
   (global-subword-mode t)
   (blink-cursor-mode t)
+  (mouse-avoidance-mode 'banish)
 #+END_SRC
 
 Off
