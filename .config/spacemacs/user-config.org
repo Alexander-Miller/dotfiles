@@ -565,7 +565,7 @@ Rebuild tags
   (with-eval-after-load "racer"
     (evil-define-key 'normal racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'insert racer-mode-map      (kbd "M-.") #'racer-find-definition)
-    (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'quit-window)
+    (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'kill-buffer-and-window)
 
     (spacemacs/set-leader-keys-for-major-mode 'rust-mode
       "f"   #'rust-format-buffer
@@ -814,6 +814,13 @@ Find definition
   (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
 #+END_SRC
 
+Quitting with *q*
+#+BEGIN_SRC emacs-lisp
+  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
+  (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window)
+#+END_SRC
+
+
 ** Smooth Scrolling
 
 Since smooth-scrolling-mode causes display errors we need to fix it up manually
@@ -874,11 +881,6 @@ Simple newlines
 No more ugly line splitting
 #+BEGIN_SRC emacs-lisp
   (setq-default truncate-lines t)
-#+END_SRC
-
-Quitting with *q*
-#+BEGIN_SRC emacs-lisp
-  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
