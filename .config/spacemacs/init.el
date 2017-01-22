@@ -28,17 +28,17 @@
      version-control
      vimscript)
    dotspacemacs-additional-packages
-   '(dired+
-     shackle
-     rainbow-mode
-     flycheck-package
-     company-quickhelp
-     flx
-     vimish-fold
-     org-plus-contrib
-     company-flx
+   '(company-flx
      dash
-     helm-systemd)
+     dired+
+     flx
+     flycheck-package
+     helm-systemd
+     (i3wm-config-mode :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
+     org-plus-contrib
+     rainbow-mode
+     shackle
+     vimish-fold)
    dotspacemacs-excluded-packages '(evil-org popwin)
    dotspacemacs-delete-orphan-packages t))
 

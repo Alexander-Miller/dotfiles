@@ -1,4 +1,4 @@
-# -*- mode: i3-config -*-
+# -*- mode: i3wm-config -*-
 
 set $mod Mod4
 
