@@ -871,4 +871,10 @@ Simple newlines
   (setq next-line-add-newlines t)
 #+END_SRC
 
+
+Quitting with *q*
+#+BEGIN_SRC emacs-lisp
+  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
