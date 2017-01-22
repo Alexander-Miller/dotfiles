@@ -14,6 +14,16 @@
   (global-set-key (kbd "C-x ö") #'a/what-face)
 #+END_SRC
 
+** a/what-major-mode
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/what-major-mode ()
+    "Reveal current major mode."
+    (interactive)
+    (message "%s" major-mode))
+  (global-set-key (kbd "C-x ä") #'a/what-major-mode)
+#+END_SRC
+
 ** a/edit-org-user-config
 
 #+BEGIN_SRC emacs-lisp
