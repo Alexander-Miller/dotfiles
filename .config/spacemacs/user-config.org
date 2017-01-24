@@ -820,6 +820,10 @@ Quitting with *q*
   (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window)
 #+END_SRC
 
+Killing a buffer alongside its window
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys "b C-d" #'kill-buffer-and-window)
+#+END_SRC
 
 ** Smooth Scrolling
 
