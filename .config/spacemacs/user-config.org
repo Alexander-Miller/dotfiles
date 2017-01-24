@@ -817,7 +817,9 @@ Find definition
 Quitting with *q*
 #+BEGIN_SRC emacs-lisp
   (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
-  (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window)
+  (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window)
+  (with-eval-after-load 'Man-mode
+    (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
 #+END_SRC
 
 Killing a buffer alongside its window
