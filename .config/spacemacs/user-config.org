@@ -916,4 +916,9 @@ No more ugly line splitting
   (setq-default truncate-lines t)
 #+END_SRC
 
+I'll never want to keep my current tags when switching projects
+#+BEGIN_SRC emacs-lisp
+  (setq tags-add-tables nil)
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
