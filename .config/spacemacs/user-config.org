@@ -663,8 +663,6 @@ Rebuild tags
     (define-key helm-map (kbd "M-k") #'helm-previous-source))
 #+END_SRC
 
-#+END_SRC
-
 ** Version Control
 *** Settings
 
@@ -885,6 +883,19 @@ Off
   (add-hook 'prog-mode-hook    #'rainbow-delimiters-mode-enable)
   (add-hook 'emacs-lisp-mode   #'rainbow-mode)
   (add-hook 'snippet-mode-hook #'rainbow-delimiters-mode-disable)
+#+END_SRC
+
+*** Prettify Symbols
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default
+   prettify-symbols-alist
+   '(("lambda" . 955)
+     ("<=" . "⇐")
+     ("=>" . "⇒")
+     ("<-" . "←")
+     ("->" . "→")))
+  (add-hook 'prog-mode-hook #'prettify-symbols-mode)
 #+END_SRC
 
 ** Single Settings
