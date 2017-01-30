@@ -620,6 +620,15 @@ Rebuild tags
 #+END_SRC
 
 ** Flycheck
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   flycheck-check-syntax-automatically '(mode-enabled save idle-change)
+   flycheck-idle-change-delay          10
+   flycheck-pos-tip-timeout            999)
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
