@@ -45,6 +45,23 @@
     (define-key keymap key cmd)))
 #+END_SRC
 
+** a/eval-last-sexp
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/eval-last-sexp ()
+    (interactive)
+    (if (and (evil-normal-state-p)
+             (string= ")" (string (or (char-after) 0))))
+        (save-excursion
+          (forward-char)
+          (call-interactively 'eval-last-sexp))
+      (call-interactively 'eval-last-sexp)))
+
+  (global-set-key (kbd "C-x C-e") #'a/eval-last-sexp)
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+    "ee" #'a/eval-last-sexp)
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
