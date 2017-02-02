@@ -705,6 +705,55 @@ Rebuild tags
     (a/def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  a/magit-key-maps))
 #+END_SRC
 
+** Elm
+*** Functions
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/format-and-save-elm-buffer ()
+    "Format an elm buffer and then save it."
+    (interactive)
+    (elm-mode-format-buffer)
+    (save-buffer))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/elm-mode-hook ()
+    (setq-local company-backends
+                '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
+
+  (add-hook 'elm-mode-hook #'a/elm-mode-hook t)
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'elm-mode
+    (spacemacs/set-leader-keys-for-major-mode 'elm-mode
+      "R"   nil
+      "h"   nil
+      "="   nil
+      "em"  #'elm-preview-main
+      "eb"  #'elm-preview-buffer
+      "d"   #'elm-oracle-doc-at-point
+      "t"   #'elm-oracle-type-at-point
+      "=="  #'elm-mode-format-buffer
+      "C-t" #'elm-mode-generate-tags)
+
+    (which-key-add-major-mode-key-based-replacements 'elm-mode
+      ",e" "preview")
+
+    (spacemacs/set-leader-keys
+      "fs" #'a/format-and-save-elm-buffer)
+
+    (define-key elm-package-mode-map (kbd "J")       #'a/quick-forward)
+    (define-key elm-package-mode-map (kbd "K")       #'a/quick-backward)
+    (define-key elm-package-mode-map (kbd "q")       #'kill-buffer-and-window)
+    (define-key elm-mode-map         (kbd "C-x C-s") #'a/format-and-save-elm-buffer)
+    (define-key elm-mode-map         (kbd "M-.")     #'elm-mode-goto-tag-at-point))
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
@@ -721,7 +770,7 @@ Switch desktops via SPC + num
   (dolist (num (number-sequence 0 9))
     (let ((key  (kbd (concat "SPC " (number-to-string num))))
           (func (intern (concat "eyebrowse-switch-to-window-config-" (number-to-string num)))))
-      (evil-leader/set-key key func)))
+      (spacemacs/set-leader-keys key func)))
 #+END_SRC
 
 ** Shackle

@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: f3
+# key: f3
+# binding: direct-keybinding
+# --
+${1:func} : ${2:t1} -> ${3:t2} -> ${4:t3}
+$1 ${5:p1} ${6:p2} =
+   $0

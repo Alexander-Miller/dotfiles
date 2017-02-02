@@ -15,6 +15,7 @@
       auto-completion-enable-help-tooltip        'manual
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
+     (elm :variables elm-sort-imports-on-save t)
      emacs-lisp
      git
      html
@@ -33,6 +34,7 @@
      dired+
      flx
      flycheck-package
+     haskell-mode
      helm-systemd
      (i3wm-config-mode :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
      org-plus-contrib
