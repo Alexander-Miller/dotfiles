@@ -328,6 +328,28 @@ Also use ascii bullets for simple lists
        (shell      . t)))
 #+END_SRC
 
+*** Font Locking
+
+A small bit of custom font locking for '==>'
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+
+    (defface a/result-face
+      `((t (:foreground "#44aa44" :bold t)))
+      "Face for '==>'.")
+
+    (defun a/org-custom-font-lock ()
+      (interactive)
+      (font-lock-add-keywords
+       'org-mode
+       '(("==>" . 'a/result-face))))
+
+    (defun a/org-mode-hook ()
+      (a/org-custom-font-lock))
+
+    (add-hook 'org-mode-hook #'a/org-mode-hook))
+#+END_SRC
+
 *** Keybinds
 **** Showing content
 
