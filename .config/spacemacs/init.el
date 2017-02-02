@@ -27,7 +27,8 @@
      syntax-checking
      shell-scripts
      version-control
-     vimscript)
+     vimscript
+     yaml)
    dotspacemacs-additional-packages
    '(company-flx
      dash
