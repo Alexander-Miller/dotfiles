@@ -270,15 +270,20 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
       ("a-laptop"  (add-to-list 'org-agenda-files "~/Dropbox/Org/Privat.org"))
       ("nt-laptop" (message "TODO")))
 
-    (setq org-agenda-span 14
-          org-agenda-window-frame-fractions '(0.7 . 0.7)))
+    (setq
+     org-agenda-skip-scheduled-if-deadline-is-shown t
+     org-agenda-span                                14
+     org-agenda-window-frame-fractions              '(0.7 . 0.7)
+     org-deadline-warning-days                      10
+     org-extend-today-until                         2
+  ))
 #+END_SRC
 
 **** Habits
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org-habit
-    (setq org-habit-graph-column 60
+    (setq org-habit-graph-column 70
           org-habit-show-habits-only-for-today nil))
 #+END_SRC
 
