@@ -1006,10 +1006,12 @@ Off
   (setq-default
    prettify-symbols-alist
    '(("lambda" . 955)
-     ("<=" . "⇐")
-     ("=>" . "⇒")
-     ("<-" . "←")
-     ("->" . "→")))
+     ("!=" . "≠")
+     ("==" . "⩵")
+     ("<=" . "⇚")
+     ("=>" . "⇛")
+     ("<-" . "⭠")
+     ("->" . "⭢")))
   (add-hook 'prog-mode-hook #'prettify-symbols-mode)
 #+END_SRC
 
