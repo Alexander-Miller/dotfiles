@@ -968,7 +968,7 @@ Killing a buffer alongside its window
 
 ** Smooth Scrolling
 
-Since smooth-scrolling-mode causes display errors we need to fix it up manually
+No more jumpy recenter
 #+BEGIN_SRC emacs-lisp
 (setq
   scroll-conservatively           99
@@ -995,9 +995,10 @@ Off
 *** Hooks
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook    #'rainbow-delimiters-mode-enable)
-  (add-hook 'emacs-lisp-mode   #'rainbow-mode)
-  (add-hook 'snippet-mode-hook #'rainbow-delimiters-mode-disable)
+  (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
+  (add-hook 'conf-mode-hook       #'rainbow-mode)
+  (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
 #+END_SRC
 
 *** Prettify Symbols
