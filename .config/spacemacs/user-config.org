@@ -77,6 +77,18 @@
     "aof" #'a/org-files)
 #+END_SRC
 
+** a/evil-paste
+
+As shown in the spacemacs FAQ
+#+BEGIN_SRC emacs-lisp
+  (defun a/evil-paste ()
+    (interactive)
+    (let ((evil-this-register ?0))
+      (call-interactively 'evil-paste-after)))
+
+  (define-key evil-visual-state-map "p" #'a/evil-paste)
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
