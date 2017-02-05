@@ -375,7 +375,6 @@ A small bit of custom font locking for '==>'
       "ra" #'outline-show-all))
 #+END_SRC
 
-***** TODO Global cycling defun + bind
 **** Headline Navigation
 
 #+BEGIN_SRC emacs-lisp
@@ -430,9 +429,6 @@ A small bit of custom font locking for '==>'
       "M-j" #'next-error
       "M-k" #'previous-error))
 #+END_SRC
-
-***** TODO error handling
-should next/prev-error be global w.r.t. flycheck?
 
 **** Narrowing
 
@@ -519,7 +515,6 @@ should next/prev-error be global w.r.t. flycheck?
       "?" #'org-table-field-info))
 #+END_SRC
 
-***** TODO org table evil ops
 **** Toggles
 
 #+BEGIN_SRC emacs-lisp
