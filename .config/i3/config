@@ -211,6 +211,7 @@ for_window [class="Baobab"]          border pixel 4
 for_window [class="Redshift"]        border pixel 4
 
 smart_gaps on
+smart_borders on
 workspace_auto_back_and_forth yes
 focus_follows_mouse no
 mouse_warping none
