@@ -393,6 +393,17 @@ A small bit of custom font locking for '==>'
       "C-k" #'org-backward-heading-same-level))
 #+END_SRC
 
+**** Scheduling
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "s"  nil
+      "ss" #'org-schedule
+      "st" #'org-time-stamp
+      "sd" #'org-deadline))
+#+END_SRC
+
 **** (Sub)Tree
 
 #+BEGIN_SRC emacs-lisp
