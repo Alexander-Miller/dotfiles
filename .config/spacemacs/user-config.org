@@ -73,6 +73,8 @@
                      :candidates (--map (cons (f-filename it) it) (f-files "~/Dropbox/Org"))
                      :action #'find-file
                      :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
+  (spacemacs/set-leader-keys
+    "aof" #'a/org-files)
 #+END_SRC
 
 * Layer configurations
@@ -848,6 +850,12 @@ Replace popwin
     (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
 #+END_SRC
 
+** i3wm-config-mode
+
+#+BEGIN_SRC emacs-lisp
+  (require 'i3wm-config-mode)
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
@@ -944,12 +952,6 @@ Quitting with *q*
 Killing a buffer alongside its window
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys "b C-d" #'kill-buffer-and-window)
-#+END_SRC
-
-Quick org file selection
-#+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
-    "aof" #'a/org-files)
 #+END_SRC
 
 ** Smooth Scrolling

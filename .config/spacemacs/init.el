@@ -37,7 +37,8 @@
      flycheck-package
      haskell-mode
      helm-systemd
-     (i3wm-config-mode :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
+     (i3wm-config-mode   :location (recipe :fetcher github
+                                           :repo "Alexander-Miller/i3wm-config-mode"))
      org-plus-contrib
      rainbow-mode
      shackle
