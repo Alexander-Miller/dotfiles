@@ -62,6 +62,19 @@
     "ee" #'a/eval-last-sexp)
 #+END_SRC
 
+** a/org-files
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/org-files ()
+    (interactive)
+    (helm :prompt "Org File: "
+          :buffer "*helm org files*"
+          :sources (helm-build-sync-source "Org Files"
+                     :candidates (--map (cons (f-filename it) it) (f-files "~/Dropbox/Org"))
+                     :action #'find-file
+                     :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
@@ -920,6 +933,12 @@ Quitting with *q*
 Killing a buffer alongside its window
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys "b C-d" #'kill-buffer-and-window)
+#+END_SRC
+
+Quick org file selection
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys
+    "aof" #'a/org-files)
 #+END_SRC
 
 ** Smooth Scrolling
