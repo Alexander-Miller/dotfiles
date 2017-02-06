@@ -288,9 +288,9 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
      org-agenda-skip-scheduled-if-deadline-is-shown t
      org-agenda-span                                14
      org-agenda-window-frame-fractions              '(0.7 . 0.7)
+     org-agenda-window-setup                        'current-window
      org-deadline-warning-days                      10
-     org-extend-today-until                         2
-  ))
+     org-extend-today-until                         2))
 #+END_SRC
 
 **** Habits
