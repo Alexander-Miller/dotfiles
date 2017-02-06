@@ -653,30 +653,42 @@ Rebuild tags
 #+END_SRC
 
 ** Projectile
+*** Functions
+
+magit status in known projects
+#+BEGIN_SRC emacs-lisp
+  (defun a/projectile-magit-status (&optional arg)
+       "Use projectile with Helm for running `magit-status'
+
+    With a prefix ARG invalidates the cache first."
+       (interactive "P")
+       (if (projectile-project-p)
+           (projectile-maybe-invalidate-cache arg))
+       (let ((helm-ff-transformer-show-only-basename nil)
+             (helm-boring-file-regexp-list           nil))
+         (helm :prompt "Git status in project: "
+               :buffer "*helm projectile*"
+               :sources (helm-build-sync-source "Projectile Projects"
+                          :candidates projectile-known-projects
+                          :action #'magit-status
+                          :filtered-candidate-transformer 'helm-fuzzy-highlight-matches))))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (defun projectile-magit-status (&optional arg)
-     "Use projectile with Helm for running `magit-status'
+  (spacemacs/set-leader-keys
+    "pg"  nil
+    "pt"  #'projectile-find-tag
+    "psa" #'helm-projectile-ag
+    "pgs" #'a/projectile-magit-status)
+#+END_SRC
 
-  With a prefix ARG invalidates the cache first."
-     (interactive "P")
-     (if (projectile-project-p)
-         (projectile-maybe-invalidate-cache arg))
-     (let ((helm-ff-transformer-show-only-basename nil)
-           (helm-boring-file-regexp-list           nil))
-       (helm :prompt "Git status in project: "
-             :buffer "*helm projectile*"
-             :sources (helm-build-sync-source "Projectile Projects"
-                        :candidates projectile-known-projects
-                        :action #'magit-status
-                        :filtered-candidate-transformer 'helm-fuzzy-highlight-matches))))
+*** Settings
 
-  (evil-leader/set-key
-    "p g"   nil
-    "p t"   #'projectile-find-tag
-    "p s a" #'helm-projectile-ag
-    "p g s" #'projectile-magit-status)
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'projectile
+    (setq projectile-switch-project-action #'project-find-file))
 #+END_SRC
 
 ** Flycheck
