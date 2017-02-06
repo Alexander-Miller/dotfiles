@@ -868,6 +868,19 @@ Replace popwin
   (require 'i3wm-config-mode)
 #+END_SRC
 
+** Writeroom mode
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs|add-toggle writeroom
+    :mode writeroom-mode
+    :documentation "Disable visual distractions."
+    :evil-leader "TW")
+
+  (with-eval-after-load 'writeroom-mode
+    (setq writeroom-width              100
+          writeroom-extra-line-spacing 0))
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments

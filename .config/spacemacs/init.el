@@ -42,7 +42,8 @@
      org-plus-contrib
      rainbow-mode
      shackle
-     vimish-fold)
+     vimish-fold
+     writeroom-mode)
    dotspacemacs-excluded-packages '(evil-org popwin)
    dotspacemacs-delete-orphan-packages t))
 
