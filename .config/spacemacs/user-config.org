@@ -258,10 +258,10 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
     (require 'org-habit))
 #+END_SRC
 
-**** Default TODO keywords with stars to better look with colored backgrouds
+**** Better looking TODO keywords
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default org-todo-keywords '((sequence "*TODO*" "|" "*DONE*")))
+  (setq-default org-todo-keywords '((sequence "[TODO]" "|" "[DONE]")))
 #+END_SRC
 
 **** No `special` behaviour.
