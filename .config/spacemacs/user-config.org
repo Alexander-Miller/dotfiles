@@ -480,6 +480,7 @@ A small bit of custom font locking for '==>'
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "if" #'org-footnote-new
       "il" #'org-insert-link
+      "in" #'org-add-note
       "id" #'org-insert-drawer
       "iD" #'org-insert-property-drawer))
 #+END_SRC
@@ -567,25 +568,16 @@ A small bit of custom font locking for '==>'
       "#"   #'org-update-statistics-cookies
       "C-y" #'org-copy-visible
       "C-p" #'org-set-property
-      "C-l" #'org-add-note
       "C-f" #'org-footnote-action
       "C-o" #'org-open-at-point
       "C-e" #'org-edit-special
       "C-t" #'org-todo
       "P"   #'org-priority)
 
-    (evil-leader/set-key-for-mode 'org-mode
-      "hi" #'helm-org-in-buffer-headings)
+      (evil-define-key 'normal org-mode-map
+        "-" #'org-cycle-list-bullet)
 
-    (evil-define-key 'normal org-mode-map
-      "-"             #'org-cycle-list-bullet
-      (kbd "RET")     #'org-return)
-
-    (define-key org-src-mode-map
-      (kbd "C-c C-c") #'org-edit-src-exit)
-
-    ;; No newlines in normal state
-    (evil-define-key 'normal org-mode-map (kbd "<return>") #'evil-ret))
+      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
 #+END_SRC
 
 ***** TODO helm-org-in-buffer-heading
