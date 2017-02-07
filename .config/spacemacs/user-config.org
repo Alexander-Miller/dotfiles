@@ -320,6 +320,7 @@ Also use ascii bullets for simple lists
   (setq
    calendar-date-style            'european
    org-tags-column                85
+   org-src-window-setup           'other-window
    org-log-done                   'time
    org-startup-align-all-tables   t
    org-startup-indented           t
@@ -332,9 +333,7 @@ Also use ascii bullets for simple lists
    org-fontify-whole-heading-line nil
    org-catch-invisible-edits      'error
    org-refile-targets             '((nil . (:maxlevel . 10)))
-   org-footnote-auto-adjust       t
-   ;; org-time-stamp-custom-formats '("<%a %d.%m.%Y>" . "<%a %d.%m.%Y %a %H:%M>")
-   )
+   org-footnote-auto-adjust       t)
 
   (setq-default
    org-display-custom-times nil
@@ -863,7 +862,8 @@ Replace popwin
           (magit-diff-mode          :select nil :align right :size 0.5)
           (compilation-mode         :select t   :align right :size 0.5)
           ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
-          ("*helm.*"                :select t   :align below :size 0.33 :regexp t)))
+          ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
+          ("*Org Src.*"             :select t   :align below :size 0.5  :regexp t)))
 #+END_SRC
 
 ** Yasnippet
