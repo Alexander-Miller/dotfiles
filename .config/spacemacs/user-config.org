@@ -1052,7 +1052,7 @@ Off
 #+BEGIN_SRC emacs-lisp
   (setq-default
    prettify-symbols-alist
-   '(("lambda" . 955)
+   '(("lambda" . (propertize "λ" 'face '(:family "Monospace")))
      ("!=" . "≠")
      ("==" . "⩵")
      ("<=" . "⇚")
