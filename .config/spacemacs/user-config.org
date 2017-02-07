@@ -594,25 +594,42 @@ Company-shell settings
 #+END_SRC
 
 ** Helm
+*** Functions
+
+~a/org-helm-headings~
+#+BEGIN_SRC emacs-lisp
+  ;; needs to be loaded to make `helm-source-org-headings-for-files' available
+  (require 'helm-org)
+
+  (defun a/org-in-buffer-headings ()
+    "Slightly retooled ~helm-org-in-buffer-headings~ to have the candidates retain their fontification."
+    (interactive)
+    (helm :sources (helm-source-org-headings-for-files
+                    (list (current-buffer)))
+          :candidate-number-limit 99999
+          :preselect (helm-org-in-buffer-preselect)
+          :truncate-lines helm-org-truncate-lines
+          :buffer "*helm org inbuffer*"))
+#+END_SRC
+
+~a/helm-semantic-or-imenu~
+#+BEGIN_SRC emacs-lisp
+  (defun a/helm-semantic-or-imenu ()
+      "Same as `helm-semantic-or-imenu', but will call `a/org-helm-headings' in org-mode buffers."
+      (interactive)
+      (if (eq major-mode 'org-mode)
+          (a/org-in-buffer-headings)
+        (call-interactively #'helm-semantic-or-imenu)))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key "hi" #'helm-semantic-or-imenu)
+  (spacemacs/set-leader-keys
+    "hi" #'a/helm-semantic-or-imenu)
 #+END_SRC
 
 ** Rust
-*** Completion
-
-Add *company-dabbrev-code* to front row of completion backends.
-#+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "rust-mode"
-    (setq company-backends-rust-mode
-          '((company-capf :with company-dabbrev-code company-yasnippet)
-            (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
-            (company-files :with company-yasnippet)
-            (company-dabbrev :with company-yasnippet))))
-#+END_SRC
-
 *** Functions
 
 Rebuild tags
