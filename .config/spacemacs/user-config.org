@@ -660,13 +660,25 @@ Rebuild tags
       "C-t" #'a/rusty-rebuild-tags))
 #+END_SRC
 
+*** Settings
+
+Add *company-dabbrev-code* to front row of completion backends.
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "rust-mode"
+    (setq company-backends-rust-mode
+          '((company-capf :with company-dabbrev-code company-yasnippet)
+            (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
+            (company-files :with company-yasnippet)
+            (company-dabbrev :with company-yasnippet))))
+#+END_SRC
+
 ** Projectile
 *** Functions
 
-magit status in known projects
+~a/projectile-magit-status~
 #+BEGIN_SRC emacs-lisp
   (defun a/projectile-magit-status (&optional arg)
-       "Use projectile with Helm for running `magit-status'
+    "Use projectile with Helm for running `magit-status'
 
     With a prefix ARG invalidates the cache first."
        (interactive "P")
