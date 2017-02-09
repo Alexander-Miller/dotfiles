@@ -249,6 +249,18 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 #+END_SRC
 
 ** Org
+*** Functions
+
+Org thinks it's a good idea to disable ~display-buffer-alist~ when displaying its buffers. I don't.
+I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (defun org-switch-to-buffer-other-window (&rest args)
+      "Same as the original, but lacking the wrapping
+  call to `org-no-popups'"
+      (apply 'switch-to-buffer-other-window args)))
+#+END_SRC
+
 *** Settings
 **** Additional modules
 
@@ -884,6 +896,7 @@ Replace popwin
           (compilation-mode         :select t   :align right :size 0.5)
           ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
           ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
+          ("*Org todo*"             :select t   :align below :size 0.2)
           ("*Org Src.*"             :select t   :align below :size 0.5  :regexp t)))
 #+END_SRC
 
@@ -1045,6 +1058,7 @@ Off
   (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
   (add-hook 'conf-mode-hook       #'rainbow-mode)
   (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
+  (add-hook 'org-mode-hook        #'smartparens-mode)
 #+END_SRC
 
 *** Prettify Symbols
