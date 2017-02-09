@@ -70,7 +70,7 @@
     (helm :prompt "Org File: "
           :buffer "*helm org files*"
           :sources (helm-build-sync-source "Org Files"
-                     :candidates (--map (cons (f-filename it) it) (f-files "~/Dropbox/Org"))
+                     :candidates (--map (cons (f-filename it) it) (f-files org-directory))
                      :action #'find-file
                      :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
   (spacemacs/set-leader-keys
@@ -262,6 +262,14 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+END_SRC
 
 *** Settings
+**** Prerequisites
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (setq-default org-directory          "~/Dropbox/Org/"
+                  org-default-notes-file (concat org-directory "Capture.org")))
+#+END_SRC
+
 **** Additional modules
 
 #+BEGIN_SRC emacs-lisp
@@ -292,10 +300,10 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org-agenda
 
-    (add-to-list 'org-agenda-files "~/Dropbox/Org/NT.org")
+    (add-to-list 'org-agenda-files (concat org-directory "NT.org"))
 
     (pcase (system-name)
-      ("a-laptop"  (add-to-list 'org-agenda-files "~/Dropbox/Org/Privat.org"))
+      ("a-laptop"  (add-to-list 'org-agenda-files (concat org-directory "Privat.org")))
       ("nt-laptop" (message "TODO")))
 
     (setq
