@@ -184,14 +184,14 @@ bar {
         binding_mode_indicator  yes
 
         colors {
-            background         #3d3d3d
+            background         #2d2d31
             statusline         #00ffff
             separator          #33D04E
             ################## border  bground text
-            focused_workspace  #4d4d4d #3d3d3d #6699cc
-            active_workspace   #4d4d4d #3d3d3d #888888
-            inactive_workspace #4d4d4d #3d3d3d #888888
-            urgent_workspace   #4d4d4d #3d3d3d #cc6666
+            focused_workspace  #2d2d31 #2d2d31 #5588bb
+            active_workspace   #2d2d31 #2d2d31 #888888
+            inactive_workspace #2d2d31 #2d2d31 #888888
+            urgent_workspace   #2d2d31 #2d2d31 #cc6666
         }
 }
 
