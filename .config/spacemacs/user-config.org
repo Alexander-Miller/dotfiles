@@ -292,6 +292,8 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org-agenda
 
+    (add-to-list 'org-agenda-files "~/Dropbox/Org/NT.org")
+
     (pcase (system-name)
       ("a-laptop"  (add-to-list 'org-agenda-files "~/Dropbox/Org/Privat.org"))
       ("nt-laptop" (message "TODO")))
