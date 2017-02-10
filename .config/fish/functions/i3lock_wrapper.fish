@@ -13,7 +13,7 @@ function i3lock_wrapper --description "Sets a blurred screenshot of the current 
         set i3lock_size   (file ~/.config/i3/i3lock.png | ag -o '[0-9]* x [0-9]*')
         set i3lock_size_x (echo $i3lock_size | cut -d ' ' -f 1)
         set i3lock_size_y (echo $i3lock_size | cut -d ' ' -f 3)
-        set resolutions   (xrandr --query | grep ' connected' | cut -f 3 -d ' ')
+        set resolutions   (xrandr --query | ag ' connected' | ag -o "[0-9]+x[0-9]+\+[0-9]+\+[0-9]+")
 
         if [ $DEBUG = TRUE ]
             echo i3lock_size = $i3lock_size i3lock_x = $i3lock_size_x i3lock_y = $i3lock_size_y
@@ -21,11 +21,13 @@ function i3lock_wrapper --description "Sets a blurred screenshot of the current 
         end
 
         for resolution in $resolutions
-            set width  (echo $resolution | cut -d 'x' -f 1)
-            set height (echo $resolution | cut -d 'x' -f 2 | cut -d '+' -f 1)
+            set tokens (string split "+" $resolution)
+            set w_h    (string split "x" $tokens[1])
+            set width  $w_h[1]
+            set height $w_h[2]
 
-            set offset_x (echo $resolution | cut -d 'x' -f 2 | cut -d '+' -f 2)
-            set offset_y (echo $resolution | cut -d 'x' -f 2 | cut -d '+' -f 3)
+            set offset_x $tokens[2]
+            set offset_y $tokens[3]
 
             set center_x (math "$offset_x + $width/2 - $i3lock_size_x/2")
             set center_y (math "$offset_y + $height/2 - $i3lock_size_y/2")
