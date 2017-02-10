@@ -196,19 +196,28 @@ bar {
 }
 
 for_window [class="Wicd"]              floating enable
-for_window [class="Xfce4-notifyd"]     floating enable
 for_window [window_role="pop-up"]      floating enable
 for_window [window_role="task_dialog"] floating enable
+for_window [class="Xfce4-notifyd"]     floating enable
 
-for_window [class="Xfce4.*settings"] border pixel 4
-for_window [class="Xfce4.*config"]   border pixel 4
-for_window [class="File-roller"]     border pixel 4
-for_window [class="Nm-applet"]       border pixel 4
-for_window [class="Thunar"]          border pixel 4
-for_window [class="Evince"]          border pixel 4
-for_window [class="Firefox"]         border pixel 4
-for_window [class="Baobab"]          border pixel 4
-for_window [class="Redshift"]        border pixel 4
+for_window [class="VirtualBox"]               border pixel 0
+for_window [class="Xfce4.*"]                  border pixel 4
+for_window [class="Evince.*"]                 border pixel 4
+for_window [class="Firefox"]                  border pixel 4
+for_window [class="Dialog"]                   border pixel 4
+for_window [class="Eclipse"]                  border pixel 4
+for_window [class="ownCloud"]                 border pixel 4
+for_window [class="thunarCloud"]              border pixel 4
+for_window [class="Baobab"]                   border pixel 4
+for_window [class=".*Nm-connection-editor.*"] border pixel 4
+for_window [class="Xfce4.*settings"]          border pixel 4
+for_window [class="Xfce4.*config"]            border pixel 4
+for_window [class="File-roller"]              border pixel 4
+for_window [class="Nm-applet"]                border pixel 4
+for_window [class="Thunar"]                   border pixel 4
+for_window [class="Evince"]                   border pixel 4
+for_window [class="Firefox"]                  border pixel 4
+for_window [class="Redshift"]                 border pixel 4
 
 smart_gaps on
 smart_borders on
