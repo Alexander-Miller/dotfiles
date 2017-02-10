@@ -116,7 +116,9 @@ function fish_prompt_git
     if [ -n "$git_stat" ]
         set len      (string length $git_stat)
         set git_stat (string sub -s 3 -l (math "$len - 3") $git_stat)
-        fish_prompt_block $fish_prompt_color_git $git_stat
+        if [ -n "$git_stat" ]
+            fish_prompt_block $fish_prompt_color_git $git_stat
+        end
     end
 end
 
