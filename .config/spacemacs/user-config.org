@@ -251,14 +251,26 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 ** Org
 *** Functions
 
+~org-switch-to-buffer-other-window~
 Org thinks it's a good idea to disable ~display-buffer-alist~ when displaying its buffers. I don't.
-I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions
+I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions.
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
     (defun org-switch-to-buffer-other-window (&rest args)
       "Same as the original, but lacking the wrapping
   call to `org-no-popups'"
       (apply 'switch-to-buffer-other-window args)))
+#+END_SRC
+
+~a/org--capture-std-target~
+#+BEGIN_SRC  emacs-lisp
+  (with-eval-after-load 'org
+    (defun a/org-capture-std-target ()
+      `(file+headline
+        ,(concat org-directory "Capture.org")
+        ,(if (s-equals? (system-name) "a-laptop")
+             "Ideen"
+           "Postfach"))))
 #+END_SRC
 
 *** Settings
@@ -334,6 +346,16 @@ Also use ascii bullets for simple lists
   (font-lock-add-keywords
    'org-mode
    '(("^ +\\([-*]\\) " (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+#+END_SRC
+
+**** Capture
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (setq org-capture-templates
+          `(("t" "Idee/Todo" entry
+             ,(a/org-capture-std-target)
+             "** [TODO] %?\n %U"))))
 #+END_SRC
 
 **** Other/Sort later
@@ -904,9 +926,10 @@ Replace popwin
           (help-mode                :select t   :align right :size 0.5)
           (magit-diff-mode          :select nil :align right :size 0.5)
           (compilation-mode         :select t   :align right :size 0.5)
+          ("*Org Select*"           :select t   :align below :size 0.33)
+          (" *Org todo*"            :select t   :align below :size 0.2)
           ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
           ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
-          ("*Org todo*"             :select t   :align below :size 0.2)
           ("*Org Src.*"             :select t   :align below :size 0.5  :regexp t)))
 #+END_SRC
 
