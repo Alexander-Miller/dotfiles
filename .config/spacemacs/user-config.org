@@ -285,26 +285,28 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Additional modules
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-modules 'org-habit)
   (with-eval-after-load 'org
+    (add-to-list 'org-modules 'org-habit)
     (require 'org-habit))
 #+END_SRC
 
 **** Better looking TODO keywords
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default org-todo-keywords '((sequence "[TODO]" "|" "[DONE]")))
+  (with-eval-after-load 'org
+    (setq-default org-todo-keywords '((sequence "[TODO]" "|" "[DONE]"))))
 #+END_SRC
 
 **** No `special` behaviour.
 
 #+BEGIN_SRC emacs-lisp
-  (setq
-   org-special-ctrl-a         nil
-   org-special-ctrl-k         nil
-   org-special-ctrl-o         nil
-   org-special-ctrl-a/e       nil
-   org-ctrl-k-protect-subtree nil)
+  (with-eval-after-load 'org
+      (setq
+       org-special-ctrl-a         nil
+       org-special-ctrl-k         nil
+       org-special-ctrl-o         nil
+       org-special-ctrl-a/e       nil
+       org-ctrl-k-protect-subtree nil))
 #+END_SRC
 
 **** Agenda
@@ -336,9 +338,11 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+END_SRC
 
 **** Bullets
+
 Use only one bullet for headings (original = "◉" "○" "✸" "✿")
  #+BEGIN_SRC emacs-lisp
-   (setq-default org-bullets-bullet-list '("✸"))
+   (with-eval-after-load 'org
+     (setq-default org-bullets-bullet-list '("✸")))
  #+END_SRC
 
 Also use ascii bullets for simple lists
@@ -927,6 +931,7 @@ Replace popwin
           (magit-diff-mode          :select nil :align right :size 0.5)
           (compilation-mode         :select t   :align right :size 0.5)
           ("*Org Select*"           :select t   :align below :size 0.33)
+          ("*Org Note*"             :select t   :align below :size 0.33)
           (" *Org todo*"            :select t   :align below :size 0.2)
           ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
           ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
