@@ -1,0 +1,12 @@
+#-*- mode: conf -*-
+[Unit]
+Description=Compton composite manager
+After=dbus.service
+Requires=dbus.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/compton
+
+[Install]
+WantedBy=default.target
