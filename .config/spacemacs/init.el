@@ -60,7 +60,7 @@
    dotspacemacs-scratch-mode                       'emacs-lisp-mode
    dotspacemacs-themes                             '()
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font                       '("Fantasque Sans Mono" :size 18 :weight normal :width normal :powerline-scale 1.3)
+   dotspacemacs-default-font                       '("Monaco" :size 14 :weight normal :width normal :powerline-scale 1.0)
    dotspacemacs-leader-key                         "SPC"
    dotspacemacs-emacs-leader-key                   "M-m"
    dotspacemacs-major-mode-leader-key              ","
