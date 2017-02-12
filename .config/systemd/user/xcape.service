@@ -1,0 +1,10 @@
+#-*- mode: conf -*-
+[Unit]
+Description=Treat short taps of Caps/Ctrl as Escape
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/xcape
+
+[Install]
+WantedBy=default.target
