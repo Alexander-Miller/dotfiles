@@ -625,14 +625,13 @@ A small bit of custom font locking for '==>'
       (evil-define-key 'normal org-mode-map
         "-" #'org-cycle-list-bullet)
 
+      (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
       (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
 #+END_SRC
 
-***** TODO helm-org-in-buffer-heading
-to be redirected from helm-semantic-or-imenu @ SPC h i
 ** Shell Scripts
 
-Company-shell settings
+**** Settings
 #+BEGIN_SRC emacs-lisp
   (setq
    company-shell-delete-duplicates nil
