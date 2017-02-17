@@ -365,28 +365,29 @@ Also use ascii bullets for simple lists
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
-  (setq
-   calendar-date-style            'european
-   org-tags-column                85
-   org-src-window-setup           'other-window
-   org-log-done                   'time
-   org-startup-align-all-tables   t
-   org-startup-indented           t
-   org-log-into-drawer            t
-   org-startup-folded             t
-   org-table-use-standard-references nil
-   org-cycle-emulate-tab          t
-   org-cycle-global-at-bob        nil
-   org-M-RET-may-split-line       nil
-   org-fontify-whole-heading-line nil
-   org-catch-invisible-edits      'error
-   org-refile-targets             '((nil . (:maxlevel . 10)))
-   org-footnote-auto-adjust       t)
+  (with-eval-after-load 'org
+    (setq
+     calendar-date-style            'european
+     org-tags-column                85
+     org-src-window-setup           'other-window
+     org-log-done                   'time
+     org-startup-align-all-tables   t
+     org-startup-indented           t
+     org-log-into-drawer            t
+     org-startup-folded             t
+     org-table-use-standard-references nil
+     org-cycle-emulate-tab          t
+     org-cycle-global-at-bob        nil
+     org-M-RET-may-split-line       nil
+     org-fontify-whole-heading-line nil
+     org-catch-invisible-edits      'error
+     org-refile-targets             '((nil . (:maxlevel . 10)))
+     org-footnote-auto-adjust       t)
 
-  (setq-default
-   org-display-custom-times nil
-   ;; org-time-stamp-formats   '("<%Y-%m-%d %a>" . "<%Y-%m-%d %a %H:%M>")
-   )
+    (setq-default
+     org-display-custom-times nil
+     ;; org-time-stamp-formats   '("<%Y-%m-%d %a>" . "<%Y-%m-%d %a %H:%M>")
+     ))
   ;;  org-catch-invisible-edits      'show
   ;;  org-fontify-whole-heading-line nil
   ;;  ;; org-hide-block-overlays
@@ -400,33 +401,25 @@ Also use ascii bullets for simple lists
 *** Babel Languages
 
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
        (python     . t)
-       (shell      . t)))
+       (shell      . t))))
 #+END_SRC
 
 *** Font Locking
 
 A small bit of custom font locking for '==>'
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (defface a/result-face
+    `((t (:foreground "#886688" :bold t)))
+    "Face for '==>'.")
 
-    (defface a/result-face
-      `((t (:foreground "#44aa44" :bold t)))
-      "Face for '==>'.")
-
-    (defun a/org-custom-font-lock ()
-      (interactive)
-      (font-lock-add-keywords
-       'org-mode
-       '(("==>" . 'a/result-face))))
-
-    (defun a/org-mode-hook ()
-      (a/org-custom-font-lock))
-
-    (add-hook 'org-mode-hook #'a/org-mode-hook))
+  (font-lock-add-keywords
+   'org-mode
+   '(("==>" . 'a/result-face)))
 #+END_SRC
 
 *** Keybinds
