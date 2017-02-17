@@ -5,9 +5,6 @@
 " more convenient hint chars "
 set hintchars=asdfqwejkln
 
-" more convenient hint chars "
-set hintchars=asdfqwejkln
-
 " use emacs as external browser "
 set editor="emacsclient"
 
