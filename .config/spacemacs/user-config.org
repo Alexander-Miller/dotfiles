@@ -894,6 +894,14 @@ Add *company-dabbrev-code* to front row of completion backends.
     (define-key elm-mode-map         (kbd "M-.")     #'elm-mode-goto-tag-at-point))
 #+END_SRC
 
+** Git
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'magit
+    (setq magit-repository-directories '(("~/Documents/git/" . 0))))
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
