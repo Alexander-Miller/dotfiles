@@ -1084,6 +1084,11 @@ Killing a buffer alongside its window
   (spacemacs/set-leader-keys "b C-d" #'kill-buffer-and-window)
 #+END_SRC
 
+Same comment keybind as in eclipse
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-7") #'evilnc-comment-operator)
+#+END_SRC
+
 ** Smooth Scrolling
 
 No more jumpy recenter
