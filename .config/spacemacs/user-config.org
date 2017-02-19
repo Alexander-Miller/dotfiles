@@ -967,6 +967,24 @@ Replace popwin
           writeroom-extra-line-spacing 0))
 #+END_SRC
 
+** Treemacs
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq treemacs-be-evil t)
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys
+    "ft"   #'treemacs-init
+    "fT"   #'treemacs-projectile-init)
+
+  (global-set-key (kbd "<f8>")      #'treemacs-toggle)
+  (global-set-key (kbd "<C-M-tab>") #'treemacs-toggle)
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
