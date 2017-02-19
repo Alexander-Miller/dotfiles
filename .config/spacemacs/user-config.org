@@ -128,30 +128,32 @@ As shown in the spacemacs FAQ
 **** Company Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq
-   company-abort-manual-when-too-short t
-   company-auto-complete               nil
-   company-async-timeout               10
-   company-dabbrev-code-ignore-case    nil
-   company-dabbrev-downcase            nil
-   company-dabbrev-ignore-case         nil
-   company-etags-ignore-case           nil
-   company-idle-delay                  10
-   company-minimum-prefix-length       2
-   company-require-match               nil
-   company-selection-wrap-around       t
-   company-show-numbers                t
-   company-tooltip-flip-when-above     nil)
+  (with-eval-after-load 'company
+    (setq
+     company-abort-manual-when-too-short t
+     company-auto-complete               nil
+     company-async-timeout               10
+     company-dabbrev-code-ignore-case    nil
+     company-dabbrev-downcase            nil
+     company-dabbrev-ignore-case         nil
+     company-etags-ignore-case           nil
+     company-idle-delay                  10
+     company-minimum-prefix-length       2
+     company-require-match               nil
+     company-selection-wrap-around       t
+     company-show-numbers                t
+     company-tooltip-flip-when-above     nil))
 #+END_SRC
 
 **** Tooltip
 
 The tooltip will look vastly better if we set a minimum width and properly align annotations.
 #+BEGIN_SRC emacs-lisp
-  (setq
-   company-tooltip-minimum-width              70
-   company-tooltip-align-annotations          t
-   company-tooltip-margin                     2)
+  (with-eval-after-load 'company
+    (setq
+     company-tooltip-minimum-width              70
+     company-tooltip-align-annotations          t
+     company-tooltip-margin                     2))
 #+END_SRC
 
 *** Backend Priority
@@ -159,34 +161,35 @@ The tooltip will look vastly better if we set a minimum width and properly align
 The completions provided by combined backends should be sorted, so as to avoid
 interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
-  (defconst a/backend-priorities
-    '((company-anaconda     . 0)
-      (company-capf         . 6)
-      (company-yasnippet    . 7)
-      (company-keywords     . 8)
-      (company-files        . 9)
-      (company-dabbrev-code . 10)
-      (company-dabbrev      . 11))
-    "Alist of backends' priorities.  Smaller number means higher priority.")
+  (with-eval-after-load 'company
+    (defconst a/backend-priorities
+      '((company-anaconda     . 0)
+        (company-capf         . 6)
+        (company-yasnippet    . 7)
+        (company-keywords     . 8)
+        (company-files        . 9)
+        (company-dabbrev-code . 10)
+        (company-dabbrev      . 11))
+      "Alist of backends' priorities.  Smaller number means higher priority.")
 
-  (defun a/priority-of-backend (backend)
-    "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
+    (defun a/priority-of-backend (backend)
+      "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
   Hence only the less important backends neet to be explicitly marked."
-    (let ((pr (cdr (assoc backend a/backend-priorities))))
-      (if (null pr) -1 pr)))
+      (let ((pr (cdr (assoc backend a/backend-priorities))))
+        (if (null pr) -1 pr)))
 
-  (defun a/company-sort-by-backend-priority (candidates)
-    "Will sort completion CANDIDATES according to their priorities.
+    (defun a/company-sort-by-backend-priority (candidates)
+      "Will sort completion CANDIDATES according to their priorities.
   In case of equal priorities lexicographical ordering is used.
   Duplicate candidates will be removed as well."
-    (sort (delete-dups candidates)
-          (lambda (c1 c2)
-            (let* ((b1 (get-text-property 0 'company-backend c1))
-                   (b2 (get-text-property 0 'company-backend c2))
-                   (diff (- (a/priority-of-backend b1) (a/priority-of-backend b2))))
-              (if (= diff 0)
-                  nil
-                (if (< 0 diff) nil t))))))
+      (sort (delete-dups candidates)
+            (lambda (c1 c2)
+              (let* ((b1 (get-text-property 0 'company-backend c1))
+                     (b2 (get-text-property 0 'company-backend c2))
+                     (diff (- (a/priority-of-backend b1) (a/priority-of-backend b2))))
+                (if (= diff 0)
+                    nil
+                  (if (< 0 diff) nil t)))))))
 #+END_SRC
 
 The priority sorting is only used in major modes which use combined backends
@@ -201,44 +204,47 @@ The priority sorting is only used in major modes which use combined backends
 
 Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keymap while company is active
 #+BEGIN_SRC emacs-lisp
-  (defun a/company-off (arg)
-    "Use default keys when company is not active. ARG is ignored."
-    (a/def-key-for-maps
-     (kbd "C-j") #'electric-newline-and-maybe-indent
-     (list evil-normal-state-map evil-insert-state-map))
-    (a/def-key-for-maps
-     (kbd "C-k") #'kill-line
-     (list evil-normal-state-map evil-insert-state-map))
-     (a/def-key-for-maps
-      (kbd "C-l") #'yas-expand
-      (list evil-insert-state-map)))
+  (with-eval-after-load 'company-quickhelp
 
-  (defun a/company-on (arg)
-    "Use company's keys when company is active.
+    (defun a/company-off (arg)
+      "Use default keys when company is not active. ARG is ignored."
+      (a/def-key-for-maps
+       (kbd "C-j") #'electric-newline-and-maybe-indent
+       (list evil-normal-state-map evil-insert-state-map))
+      (a/def-key-for-maps
+       (kbd "C-k") #'kill-line
+       (list evil-normal-state-map evil-insert-state-map))
+      (a/def-key-for-maps
+       (kbd "C-l") #'yas-expand
+       (list evil-insert-state-map)))
+
+    (defun a/company-on (arg)
+      "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."
-    (a/def-key-for-maps
-     (kbd "C-j") #'company-select-next
-     (list evil-normal-state-map evil-insert-state-map))
-    (a/def-key-for-maps
-     (kbd "C-k") #'company-select-previous
-     (list evil-normal-state-map evil-insert-state-map))
-    (a/def-key-for-maps
-     (kbd "C-l") #'company-quickhelp-manual-begin
-     (list evil-insert-state-map)))
+      (a/def-key-for-maps
+       (kbd "C-j") #'company-select-next
+       (list evil-normal-state-map evil-insert-state-map))
+      (a/def-key-for-maps
+       (kbd "C-k") #'company-select-previous
+       (list evil-normal-state-map evil-insert-state-map))
+      (a/def-key-for-maps
+       (kbd "C-l") #'company-quickhelp-manual-begin
+       (list evil-insert-state-map)))
 
-  (add-hook 'company-completion-started-hook   #'a/company-on)
-  (add-hook 'company-completion-finished-hook  #'a/company-off)
-  (add-hook 'company-completion-cancelled-hook #'a/company-off)
+    (add-hook 'company-completion-started-hook   #'a/company-on)
+    (add-hook 'company-completion-finished-hook  #'a/company-off)
+    (add-hook 'company-completion-cancelled-hook #'a/company-off)
 
-  (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin)
+    (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin))
 #+END_SRC
 
 *** Company Flx
 
 #+BEGIN_SRC emacs-lisp
-  (company-flx-mode t)
-  (setq company-flx-limit 400)
+  (with-eval-after-load 'company
+    (company-flx-mode t)
+    (setq company-flx-limit 400))
 #+END_SRC
 
 *** Bindings
@@ -623,14 +629,15 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 ** Shell Scripts
-
 **** Settings
+
 #+BEGIN_SRC emacs-lisp
-  (setq
-   company-shell-delete-duplicates nil
-   company-shell-modes             nil
-   company-fish-shell-modes        nil
-   company-shell-use-help-arg      t)
+  (with-eval-after-load 'company
+    (setq
+     company-shell-delete-duplicates nil
+     company-shell-modes             nil
+     company-fish-shell-modes        nil
+     company-shell-use-help-arg      t))
 #+END_SRC
 
 ** Helm
@@ -674,14 +681,15 @@ A small bit of custom font locking for '==>'
 
 Rebuild tags
 #+BEGIN_SRC emacs-lisp
-  (defun a/rusty-rebuild-tags ()
-    (interactive)
-    (make-thread
-     #'(lambda ()
-         (let ((default-directory (projectile-project-root)))
-           (call-process-shell-command "rusty-tags emacs")
-           (call-process-shell-command "mv rusty-tags.emacs TAGS")
-           (message "Rusty tags rebuilt.")))))
+  (with-eval-after-load 'rust-mode
+    (defun a/rusty-rebuild-tags ()
+      (interactive)
+      (make-thread
+       #'(lambda ()
+           (let ((default-directory (projectile-project-root)))
+             (call-process-shell-command "rusty-tags emacs")
+             (call-process-shell-command "mv rusty-tags.emacs TAGS")
+             (message "Rusty tags rebuilt."))))))
 #+END_SRC
 
 *** Keybinds
@@ -737,11 +745,13 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
-    "pg"  nil
-    "pt"  #'projectile-find-tag
-    "psa" #'helm-projectile-ag
-    "pgs" #'a/projectile-magit-status)
+  (with-eval-after-load 'projectile
+    (spacemacs/set-leader-keys
+      "pg"  nil
+      "pt"  #'projectile-find-tag
+      "psa" #'helm-projectile-ag
+      "pgs" #'a/projectile-magit-status
+      "pC"  #'projectile-cleanup-known-projects))
 #+END_SRC
 
 *** Settings
@@ -899,9 +909,8 @@ Add *company-dabbrev-code* to front row of completion backends.
 * Single Package Configurations
 ** dired+
 
-dired+ needs to be explicitly required for whatever reason
 #+BEGIN_SRC emacs-lisp
-(require 'dired+)
+  (require 'dired+)
 #+END_SRC
 
 ** Eyebrowse
