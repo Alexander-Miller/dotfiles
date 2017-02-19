@@ -800,17 +800,18 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "magit"
+  (with-eval-after-load 'magit
     (setq
-     git-commit-summary-max-length 120
-     magit-diff-highlight-hunk-region-functions
-     '(magit-diff-highlight-hunk-region-dim-outside)))
+     git-commit-summary-max-length 120))
+
+  (with-eval-after-load 'git-gutter
+    (setq git-gutter-fr:side 'left-fringe))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "magit"
+  (with-eval-after-load 'magit
     (defvar a/magit-key-maps
       (list
        magit-mode-map

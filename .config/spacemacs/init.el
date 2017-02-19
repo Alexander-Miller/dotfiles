@@ -15,7 +15,8 @@
       auto-completion-enable-help-tooltip        'manual
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
-     (elm :variables elm-sort-imports-on-save t)
+     (elm
+      :variables elm-sort-imports-on-save t)
      emacs-lisp
      git
      html
@@ -26,7 +27,10 @@
      rust
      syntax-checking
      shell-scripts
-     version-control
+     (version-control
+      :variables
+      version-control-diff-tool     'git-gutter
+      version-control-global-margin t)
      vimscript
      yaml)
    dotspacemacs-additional-packages
