@@ -812,7 +812,8 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'magit
     (setq
-     git-commit-summary-max-length 120))
+     git-commit-summary-max-length              120
+     magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
 
   (with-eval-after-load 'git-gutter
     (setq git-gutter-fr:side 'left-fringe))
@@ -903,7 +904,8 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'magit
-    (setq magit-repository-directories '(("~/Documents/git/" . 0))))
+    (setq magit-repository-directories  '(("~/Documents/git/" . 0))
+          magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
 
 * Single Package Configurations
@@ -933,13 +935,11 @@ Replace popwin
   (setq helm-display-function 'pop-to-buffer)
 
   (setq shackle-rules
-        '((magit-status-mode        :same   t)
-          ("*helm-ag*"              :select t   :align right :size 0.5)
+        '(("*helm-ag*"              :select t   :align right :size 0.5)
           ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
           (flycheck-error-list-mode :select nil :align below :size 0.25)
           (racer-help-mode          :select t   :align right :size 0.5)
           (help-mode                :select t   :align right :size 0.5)
-          (magit-diff-mode          :select nil :align right :size 0.5)
           (compilation-mode         :select t   :align right :size 0.5)
           ("*Org Select*"           :select t   :align below :size 0.33)
           ("*Org Note*"             :select t   :align below :size 0.33)
