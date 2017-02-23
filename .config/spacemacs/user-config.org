@@ -645,8 +645,7 @@ A small bit of custom font locking for '==>'
 
 ~a/org-helm-headings~
 #+BEGIN_SRC emacs-lisp
-  ;; needs to be loaded to make `helm-source-org-headings-for-files' available
-  (require 'helm-org)
+  (autoload 'helm-source-org-headings-for-files "helm-org")
 
   (defun a/org-in-buffer-headings ()
     "Slightly retooled ~helm-org-in-buffer-headings~ to have the candidates retain their fontification."
