@@ -1,4 +1,4 @@
-" -*- mode: vimrc -*-
+" -*- mode: dactyl -*-
 
 set ignorecase
 set smartcase
@@ -10,7 +10,7 @@ set cursorline
 set autochdir
 set wrapscan
 set scrolloff=5
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set contentassistmode
 set globalregisters
@@ -19,7 +19,6 @@ set noregexsearch
 set exitlinkmode
 
 nnoremap ,<C-j> J
-nnoremap <C-s> /
 nnoremap <C-r> ?
 nnoremap U <C-r>
 nnoremap H :noh<CR>
@@ -33,3 +32,7 @@ noremap <C-e> $
 inoremap jk <Esc>
 
 vnoremap <Tab> :fm<CR>
+
+map b <Plug>(subword-back)
+map e <Plug>(subword-end)
+map w <Plug>(subword-word)
