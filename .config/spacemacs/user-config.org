@@ -903,7 +903,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'magit
-    (setq magit-repository-directories  '(("~/Documents/git/" . 0))
+    (setq magit-repository-directories  '(("~/Documents/git/" . 1))
           magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
 
@@ -1192,7 +1192,7 @@ Showing trailing whitespace breaks downward scrolling on current self-compiled v
 
 No need for vi-tilde, emacs default looks better
 #+BEGIN_SRC emacs-lisp
-  (setq indicate-empty-lines t)
+  (setq-default indicate-empty-lines t)
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
