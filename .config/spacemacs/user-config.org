@@ -1183,13 +1183,6 @@ I'll never want to keep my current tags when switching projects
   (setq tags-add-tables nil)
 #+END_SRC
 
-Showing trailing whitespace breaks downward scrolling on current self-compiled versions of emacs (as of [2017-02-19 Sun])
-#+BEGIN_SRC emacs-lisp
-  (setq-default
-   spacemacs-show-trailing-whitespace nil
-   show-trailing-whitespace           nil)
-#+END_SRC
-
 No need for vi-tilde, emacs default looks better
 #+BEGIN_SRC emacs-lisp
   (setq-default indicate-empty-lines t)
