@@ -1,5 +1,4 @@
 ;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
 
 (defun dotspacemacs/layers ()
   (setq-default
@@ -22,6 +21,7 @@
      html
      markdown
      org
+     pdf-tools
      python
      ranger
      rust
@@ -97,7 +97,6 @@
    dotspacemacs-highlight-delimiters               'any
    dotspacemacs-persistent-server                  nil
    dotspacemacs-search-tools                       '("ag" "pt" "ack" "grep")
-   dotspacemacs-default-package-repository         nil
    dotspacemacs-whitespace-cleanup                 'all))
 
 (defun dotspacemacs/user-init ()
