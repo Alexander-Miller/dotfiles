@@ -907,11 +907,61 @@ Add *company-dabbrev-code* to front row of completion backends.
           magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
 
+** Ranger
+*** Functions
+
+~a/deer-new-frame~
+#+BEGIN_SRC emacs-lisp
+  (defun a/deer-new-frame ()
+    (interactive)
+    (let ((frame (make-frame-command)))
+      (select-frame frame)
+      (deer)))
+#+END_SRC
+
+~a/deer-kill-frame~
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'ranger
+    (defun a/deer-delete-frame ()
+      (interactive)
+      (ranger-close)
+      (when (> (cl-list-length (frame-list)) 1)
+        (delete-frame))))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'ranger
+    (setq ranger-cleanup-eagerly    t
+          ranger-cleanup-on-disable t
+          ranger-deer-show-details  t
+          ranger-dont-show-binary   t
+          ranger-hide-cursor        t
+          ranger-listing-dir-first  t
+          ranger-modify-header      t
+          ranger-map-style          'dired
+          ranger-override-dired     t
+          ranger-tabs-style         'normal
+          ranger-show-hidden        t))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys
+    "ad" #'a/deer-new-frame)
+
+  (with-eval-after-load 'ranger
+    (evil-define-key 'motion ranger-mode-map (kbd "q") #'a/deer-delete-frame))
+#+END_SRC
+
 * Single Package Configurations
 ** dired+
 
 #+BEGIN_SRC emacs-lisp
-  (require 'dired+)
+  (with-eval-after-load 'dired
+    (require 'dired+))
 #+END_SRC
 
 ** Eyebrowse
