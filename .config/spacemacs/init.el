@@ -103,7 +103,7 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (org-babel-load-file (concat (getenv "SPACEMACSDIR") "/user-config.org")))
+  (load-file (concat (getenv "SPACEMACSDIR") "/user-config.elc")))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.

@@ -89,6 +89,30 @@ As shown in the spacemacs FAQ
   (define-key evil-visual-state-map "p" #'a/evil-paste)
 #+END_SRC
 
+* Config tangle & compilation
+To save on startup time the config file is only loaded on boot. Tangling and compilation is
+instead run as part of ~kill-emacs-hook~, relieving the need to load all of org and tangle the
+config before emacs may be used.
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/setup-config-before-quit ()
+    (let* ((dir      (getenv "SPACEMACSDIR"))
+           (el-file  (concat dir "/user-config.el"))
+           (org-file (concat dir "/user-config.org")))
+      (org-babel-tangle-file org-file cfg-file "emacs-lisp")
+      (byte-recompile-file cfg t 0 nil)))
+#+END_SRC
+
+Config prep must be run both on killing emacs and reloading the config
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'kill-emacs-hook #'a/setup-config-before-quit)
+
+  (defadvice dotspacemacs/sync-configuration-layers (before test activate)
+    (a/setup-config-before-quit)
+      ad-do-it)
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
