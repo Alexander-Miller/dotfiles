@@ -1262,4 +1262,14 @@ No need for vi-tilde, emacs default looks better
   (setq-default indicate-empty-lines t)
 #+END_SRC
 
+Banish mouse to the bottom so as not to interfere with notifications
+#+BEGIN_SRC emacs-lisp
+  (setq-default mouse-avoidance-banish-position
+                '((frame-or-window . frame)
+                  (side . right)
+                  (side-pos . 3)
+                  (top-or-bottom . bottom)
+                  (top-or-bottom-pos . 0)))
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
