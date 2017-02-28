@@ -138,7 +138,8 @@ Config prep must be run both on killing emacs and reloading the config
 
 #+BEGIN_SRC emacs-lisp
   (setq evil-move-beyond-eol t
-        evil-want-fine-undo  t)
+        evil-want-fine-undo  t
+        evil-lisp-state-enter-lisp-state-on-command nil)
 #+END_SRC
 
 ** Auto Completion
