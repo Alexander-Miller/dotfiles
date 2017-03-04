@@ -435,8 +435,11 @@ Also use ascii bullets for simple lists
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
-       (python     . t)
-       (shell      . t))))
+       (shell      . t)))
+
+    (with-eval-after-load 'python
+      org-babel-load-languages
+      '((python     . t))))
 #+END_SRC
 
 *** Font Locking
