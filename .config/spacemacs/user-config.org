@@ -99,8 +99,8 @@ config before emacs may be used.
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
            (org-file (concat dir "/user-config.org")))
-      (org-babel-tangle-file org-file cfg-file "emacs-lisp")
-      (byte-recompile-file cfg t 0 nil)))
+      (org-babel-tangle-file org-file el-file "emacs-lisp")
+      (byte-recompile-file el-file t 0 nil)))
 #+END_SRC
 
 Config prep must be run both on killing emacs and reloading the config
@@ -308,9 +308,8 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Prerequisites
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
     (setq-default org-directory          "~/Dropbox/Org/"
-                  org-default-notes-file (concat org-directory "Capture.org")))
+                  org-default-notes-file (concat org-directory "Capture.org"))
 #+END_SRC
 
 **** Additional modules
