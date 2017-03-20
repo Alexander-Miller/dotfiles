@@ -943,7 +943,8 @@ Add *company-dabbrev-code* to front row of completion backends.
     (interactive)
     (let ((frame (make-frame-command)))
       (select-frame frame)
-      (deer)))
+      (deer)
+      (delete-other-windows)))
 #+END_SRC
 
 ~a/deer-kill-frame~
