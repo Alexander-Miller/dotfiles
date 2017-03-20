@@ -30,7 +30,7 @@ bindsym $mod+minus scratchpad show
 bindsym $mod+q "kill"
 
 # Rofi run and window switch dialogues
-bindsym $mod+Tab exec "rofi -show run"
+bindsym $mod+Tab exec "rofi -show drun"
 bindsym $mod+l   exec "rofi -show window"
 
 # screenshot
