@@ -1061,6 +1061,11 @@ Replace popwin
 
 #+BEGIN_SRC emacs-lisp
   (setq treemacs-be-evil t)
+  (with-eval-after-load 'treemacs
+    (setq treemacs-git-integration   t
+          treemacs-follow-after-init t)
+    (fset treemacs-header-function #'treemacs--create-header-projectile)
+    (treemacs-follow-mode))
 #+END_SRC
 
 *** Keybinds
