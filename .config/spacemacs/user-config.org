@@ -386,10 +386,10 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Bullets
 
 Use only one bullet for headings (original = "◉" "○" "✸" "✿")
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
    (with-eval-after-load 'org
      (setq-default org-bullets-bullet-list '("✸")))
- #+END_SRC
+#+END_SRC
 
 Also use ascii bullets for simple lists
 #+BEGIN_SRC emacs-lisp
@@ -1093,6 +1093,16 @@ Replace popwin
 
   (global-set-key (kbd "<f8>")      #'treemacs-toggle)
   (global-set-key (kbd "<C-M-tab>") #'treemacs-toggle)
+#+END_SRC
+
+** Vimish fold
+
+A fallback in case evil's own folding is not sufficient
+#+BEGIN_SRC emacs-lisp
+  (define-key evil-normal-state-map (kbd "zva") #'vimish-fold-avy)
+  (define-key evil-normal-state-map (kbd "zvd") #'vimish-fold-delete)
+  (define-key evil-normal-state-map (kbd "zvv") #'vimish-fold-toggle)
+  (define-key evil-normal-state-map (kbd "zvz") #'vimish-fold)
 #+END_SRC
 
 * Modeline
