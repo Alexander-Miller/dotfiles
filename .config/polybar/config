@@ -1,0 +1,207 @@
+[colors]
+background = #2d2d31
+bg-alt     = #444444
+foreground = #bbbbbb
+blue       = #6699cc
+red        = #ab3737
+yellow     = #dbba1a
+green      = #66aa66
+grey       = #666666
+purple     = #997799
+aqua       = #1e7f7f
+brown      = #ccb18b
+
+[bar/a]
+width          = 100%
+height         = 24
+background     = ${colors.background}
+foreground     = ${colors.foreground}
+tray-position  = right
+tray-padding   = 3
+underline-size = 3
+fixed-center   = false
+bottom         = false
+modules-left   = i3
+modules-right  = cpu battery wlan date time volume
+modules-center = mpd
+font-0         = Terminus (TTF):size=9;0
+font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
+font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
+border-size    = 1
+border-color   = #2d2d31
+radius         = 0
+module-margin  = 0
+separator      = "  "
+wm-restack     = i3
+
+[module/i3]
+type            = internal/i3
+index-sort      = true
+wrapping-scroll = false
+pin-workspaces  = true
+
+label-focused              = %index%
+label-focused-background   = ${colors.bg-alt}
+label-focused-underline    = ${colors.blue}
+label-focused-padding      = 1
+label-unfocused            = %index%
+label-unfocused-background = ${colors.background}
+label-unfocused-underline  = ${colors.background}
+label-unfocused-foreground = ${colors.foreground}
+label-unfocused-padding    = 1
+label-visible              = %index%
+label-visible-background   = ${colors.red} ; TODO
+label-visible-underline    = ${colors.red} ; TODO
+label-visible-foreground   = ${colors.red} ; TODO
+label-visible-padding      = 1
+label-urgent               = %index%
+label-urgent-background    = ${colors.red}
+label-urgent-underline     = ${colors.yellow}
+label-urgent-foreground    = ${colors.yellow}
+label-urgent-padding       = 1
+
+[module/mpd]
+type                            = internal/mpd
+format-online-prefix            = " "
+format-online-prefix-foreground = ${colors.blue}
+format-online                   = <label-song> <bar-progress> <icon-prev> <icon-stop> <toggle> <icon-next>
+format-prefix-foreground        = ${colors.blue}
+label-song                      = %artist% - %title%
+label-offline                   = ""
+bar-progress-width              = 10
+bar-progress-indicator          = 
+bar-progress-indicator-foreground = ${colors.green}
+bar-progress-fill               = 
+bar-progress-fill-foreground    = ${colors.green}
+bar-progress-empty              = 
+bar-progress-empty-foreground   = ${colors.grey}
+icon-play                       = ⏵
+icon-pause                      = ⏸
+icon-stop                       = ⏹
+icon-prev                       = ⏮
+icon-next                       = ⏭
+icon-seekb                      = ⏪
+icon-seekf                      = ⏩
+icon-random                     = 🔀
+icon-repeat                     = 🔁
+icon-repeatone                  = 🔂
+
+[module/time]
+type                     = internal/date
+interval                 = 5
+time                     = %H:%M:%S
+format-prefix            = " "
+format-prefix-foreground = ${colors.blue}
+format-underline         = ${colors.green}
+format-overline          = ${colors.green}
+label                    = %time%
+
+[module/date]
+type                     = internal/date
+interval                 = 60
+date                     = %a%e %b
+format-prefix            = " "
+format-prefix-foreground = ${colors.blue}
+format-underline         = ${colors.green}
+format-overline          = ${colors.green}
+label                    = %date%
+
+[module/battery]
+type                          = internal/battery
+battery                       = BAT1
+adapter                       = ACAD
+full-at                       = 99
+label-charging                = %time:8:8%
+format-charging               = <animation-charging> <label-charging>
+format-charging-underline     = ${colors.yellow}
+animation-charging-0          = 
+animation-charging-1          = 
+animation-charging-2          = 
+animation-charging-3          = 
+animation-charging-foreground = ${colors.blue}
+animation-charging-framerate  = 1000
+label-full                    = Full
+format-full-prefix            = " "
+format-full-prefix-foreground = ${colors.blue}
+format-full-underline         = ${self.format-charging-underline}
+
+; TODO
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-foreground = #0f0
+
+[module/volume]
+type                            = internal/volume
+format-volume                   = <label-volume> <bar-volume>
+format-volume-underline         = ${colors.purple}
+label-volume                    = 
+label-volume-foreground         = ${colors.blue}
+format-muted-prefix             = "🔇 "
+format-muted-prefix-foreground  = ${colors.blue}
+format-muted-foreground         = ${colors.foreground}
+format-muted-underline          = ${colors.red}
+label-muted                     = sound muted
+bar-volume-width                = 10
+bar-volume-indicator            = ◉
+bar-volume-indicator-foreground = ${colors.green}
+bar-volume-fill                 = ─
+bar-volume-fill-foreground      = ${colors.green}
+bar-volume-empty                = ─
+bar-volume-empty-foreground =   ${colors.grey}
+
+; TODO
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator-font = 2
+
+[module/cpu]
+;; TODO: mpd off format?
+type                       = internal/cpu
+interval                   = 1
+format                     = <ramp-coreload>
+label                      = %percentage-cores%
+ramp-coreload-0            = ▁
+ramp-coreload-1            = ▂
+ramp-coreload-2            = ▃
+ramp-coreload-3            = ▄
+ramp-coreload-4            = ▅
+ramp-coreload-5            = ▆
+ramp-coreload-6            = ▇
+ramp-coreload-7            = █
+ramp-coreload-0-foreground = ${colors.green}
+ramp-coreload-1-foreground = ${colors.green}
+ramp-coreload-2-foreground = ${colors.green}
+ramp-coreload-3-foreground = ${colors.yellow}
+ramp-coreload-4-foreground = ${colors.yellow}
+ramp-coreload-5-foreground = ${colors.yellow}
+ramp-coreload-6-foreground = ${colors.red}
+ramp-coreload-7-foreground = ${colors.red}
+format-prefix              = " "
+format-prefix-foreground   = ${colors.blue}
+format-underline           = ${colors.aqua}
+
+[module/wlan]
+type                       = internal/network
+interface                  = wlp4s0
+interval                   = 3.0
+format-connected           = <ramp-signal> <label-connected>
+format-connected-underline = ${colors.red}
+label-connected            = %essid%
+ramp-signal-0              = 
+ramp-signal-1              = 
+ramp-signal-2              = 
+ramp-signal-3              = 
+ramp-signal-4              = 
+ramp-signal-foreground     = ${colors.blue}
+format-disconnected        =
