@@ -134,6 +134,22 @@ Config prep must be run both on killing emacs and reloading the config
   (setq-default evil-escape-key-sequence "kj")
 #+END_SRC
 
+*** Custom text objects
+
+#+BEGIN_SRC emacs-lisp
+  (evil-define-text-object a/evil-defun-object (count &optional beg end type)
+    "Evil defun text objec"
+    (save-excursion
+      (let ((start) (end))
+        (mark-defun)
+        (setq start (region-beginning)
+              end   (region-end))
+        (deactivate-mark)
+        (evil-range start end type :expanded t))))
+
+  (define-key evil-operator-state-map "üf" #'a/evil-defun-object)
+  #+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
