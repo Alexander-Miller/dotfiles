@@ -1309,4 +1309,9 @@ Banish mouse to the bottom so as not to interfere with notifications
                   (top-or-bottom-pos . 0)))
 #+END_SRC
 
+Don't load outdated files
+#+BEGIN_SRC emacs-lisp
+  (setq load-prefer-newer t)
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
