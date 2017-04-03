@@ -107,18 +107,28 @@ end
 
 
 function fish_prompt_pwd
-    fish_prompt_block $fish_prompt_color_pwd (pwd)
+    set -l dir (pwd)
+    if [ -n "$dir" ]
+        fish_prompt_block $fish_prompt_color_pwd (pwd)
+    else
+        fish_prompt_block $fish_prompt_color_pwd "?"
+    end
 end
 
 
 function fish_prompt_git
-    set git_stat (__fish_git_prompt)
-    if [ -n "$git_stat" ]
-        set len      (string length $git_stat)
-        set git_stat (string sub -s 3 -l (math "$len - 3") $git_stat)
+    set -l dir (pwd)
+    if [ -n "$dir" ]
+        set git_stat (__fish_git_prompt)
         if [ -n "$git_stat" ]
-            fish_prompt_block $fish_prompt_color_git $git_stat
+            set len      (string length $git_stat)
+            set git_stat (string sub -s 3 -l (math "$len - 3") $git_stat)
+            if [ -n "$git_stat" ]
+                fish_prompt_block $fish_prompt_color_git $git_stat
+            end
         end
+    else
+        fish_prompt_block $fish_prompt_color_git "?"
     end
 end
 
