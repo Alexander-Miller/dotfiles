@@ -673,6 +673,15 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 ** Shell Scripts
+**** Functions
+
+~a/fish-mode-hook~
+#+BEGIN_SRC emacs-lisp
+  (defun a/fish-mode-hook ()
+    (setq imenu-generic-expression fish-mode-imenu-expr))
+  (add-hook 'fish-mode-hook #'a/fish-mode-hook)
+#+END_SRC
+
 **** Settings
 
 #+BEGIN_SRC emacs-lisp
@@ -682,6 +691,15 @@ A small bit of custom font locking for '==>'
      company-shell-modes             nil
      company-fish-shell-modes        nil
      company-shell-use-help-arg      t))
+
+  (defconst fish-mode-imenu-expr
+    (list
+     (list
+      (propertize "Function" 'face 'font-lock-function-name-face)
+      (rx
+       (group-n 1 (seq bol "function" (1+ space)))
+       (group-n 2 (1+ (or alnum (syntax symbol)))) symbol-end)
+      2)))
 #+END_SRC
 
 ** Helm
