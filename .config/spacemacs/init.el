@@ -37,6 +37,7 @@
    '(company-flx
      dash
      dired+
+     el-mock
      flx
      flycheck-package
      haskell-mode
