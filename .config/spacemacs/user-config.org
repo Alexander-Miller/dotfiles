@@ -147,7 +147,8 @@ Config prep must be run both on killing emacs and reloading the config
         (deactivate-mark)
         (evil-range start end type :expanded t))))
 
-  (define-key evil-operator-state-map "üf" #'a/evil-defun-object)
+  (define-key evil-operator-state-map     "üf" #'a/evil-defun-object)
+  (define-key evil-outer-text-objects-map "üf" #'a/evil-defun-object)
   #+END_SRC
 
 *** Settings
