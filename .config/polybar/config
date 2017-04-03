@@ -4,12 +4,14 @@ bg-alt     = #444444
 foreground = #bbbbbb
 blue       = #6699cc
 red        = #ab3737
+red2       = #f2777a
 yellow     = #dbba1a
 green      = #66aa66
 grey       = #666666
 purple     = #997799
 aqua       = #1e7f7f
 brown      = #ccb18b
+orange     = #c98459
 
 [bar/a]
 width          = 100%
@@ -113,7 +115,7 @@ adapter                       = ACAD
 full-at                       = 99
 label-charging                = %time:8:8%
 format-charging               = <animation-charging> <label-charging>
-format-charging-underline     = ${colors.yellow}
+format-charging-underline     = ${colors.red2}
 animation-charging-0          = 
 animation-charging-1          = 
 animation-charging-2          = 
@@ -124,16 +126,14 @@ label-full                    = Full
 format-full-prefix            = " "
 format-full-prefix-foreground = ${colors.blue}
 format-full-underline         = ${self.format-charging-underline}
+ramp-capacity-0               = 
+ramp-capacity-1               = 
+ramp-capacity-2               = 
+ramp-capacity-foreground      = ${colors.brown}
+format-discharging            = <ramp-capacity> <label-discharging>
+format-discharging-underline  = ${self.format-charging-underline}
 
-; TODO
-format-discharging = <ramp-capacity> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
 
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = #0f0
 
 [module/volume]
 type                            = internal/volume
