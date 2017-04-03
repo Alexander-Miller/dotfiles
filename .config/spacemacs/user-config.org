@@ -850,7 +850,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (setq
-   helm-ag-base-command              "ag -f --hidden --nocolor --nogroup --depth 999999 --smart-case --recurse"
+   helm-ag-base-command              "ag -f -t --hidden --nocolor --nogroup --depth 999999 --smart-case --recurse"
    helm-move-to-line-cycle-in-source t
    helm-swoop-use-line-number-face   t)
 #+END_SRC
