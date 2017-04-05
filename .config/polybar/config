@@ -3,6 +3,7 @@ background = #2d2d31
 bg-alt     = #444444
 foreground = #bbbbbb
 blue       = #6699cc
+blue2      = #4477aa
 red        = #ab3737
 red2       = #f2777a
 yellow     = #dbba1a
@@ -24,13 +25,13 @@ underline-size = 3
 fixed-center   = false
 bottom         = false
 modules-left   = i3
-modules-right  = cpu battery wlan date time volume
+modules-right  = cpu memory battery wlan date time volume
 modules-center = mpd
 font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
 font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
 border-size    = 1
-border-color   = #2d2d31
+border-color   = #000000
 radius         = 0
 module-margin  = 0
 separator      = "  "
@@ -131,9 +132,7 @@ ramp-capacity-1               = 
 ramp-capacity-2               = 
 ramp-capacity-foreground      = ${colors.brown}
 format-discharging            = <ramp-capacity> <label-discharging>
-format-discharging-underline  = ${self.format-charging-underline}
-
-
+format-discharging-underline  = ${colors.red}
 
 [module/volume]
 type                            = internal/volume
@@ -144,7 +143,7 @@ label-volume-foreground         = ${colors.blue}
 format-muted-prefix             = "🔇 "
 format-muted-prefix-foreground  = ${colors.blue}
 format-muted-foreground         = ${colors.foreground}
-format-muted-underline          = ${colors.red}
+format-muted-underline          = ${colors.purple}
 label-muted                     = sound muted
 bar-volume-width                = 10
 bar-volume-indicator            = ◉
@@ -205,3 +204,12 @@ ramp-signal-3              = 
 ramp-signal-4              = 
 ramp-signal-foreground     = ${colors.blue}
 format-disconnected        =
+
+[module/memory]
+type                     = internal/memory
+interval                 = 2
+format-prefix            = " "
+format-prefix-foreground = ${colors.blue}
+format-underline         = ${colors.blue2}
+label                    = %percentage_used%%
+
