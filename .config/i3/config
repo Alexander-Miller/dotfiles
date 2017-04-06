@@ -174,26 +174,27 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-bar {
-        status_command          "~/Documents/git/dotfiles/i3bar++/run_i3bar++"
-        Font pango:             Terminus (TTF) 9
-        position                top
-        mode                    dock
-        workspace_buttons       yes
-        strip_workspace_numbers yes
-        binding_mode_indicator  yes
+exec_always --no-startup-id "python ~/.config/polybar/run_polybar.py"
+# bar {
+#         status_command          "~/Documents/git/rust3bar/run_rust3bar.sh"
+#         Font pango:             Terminus (TTF) 9
+#         position                top
+#         mode                    dock
+#         workspace_buttons       yes
+#         strip_workspace_numbers yes
+#         binding_mode_indicator  yes
 
-        colors {
-            background         #2d2d31
-            statusline         #00ffff
-            separator          #33D04E
-            ################## border  bground text
-            focused_workspace  #2d2d31 #2d2d31 #5588bb
-            active_workspace   #2d2d31 #2d2d31 #888888
-            inactive_workspace #2d2d31 #2d2d31 #888888
-            urgent_workspace   #2d2d31 #2d2d31 #cc6666
-        }
-}
+#         colors {
+#             background         #2d2d31
+#             statusline         #00ffff
+#             separator          #33D04E
+#             ################## border  bground text
+#             focused_workspace  #2d2d31 #2d2d31 #5588bb
+#             active_workspace   #2d2d31 #2d2d31 #888888
+#             inactive_workspace #2d2d31 #2d2d31 #888888
+#             urgent_workspace   #2d2d31 #2d2d31 #cc6666
+#         }
+# }
 
 for_window [class="Wicd"]              floating enable
 for_window [window_role="pop-up"]      floating enable

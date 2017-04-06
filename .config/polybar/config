@@ -15,6 +15,7 @@ brown      = #ccb18b
 orange     = #c98459
 
 [bar/a]
+monitor        = ${env:POLYBAR_SCREEN:eDP1}
 width          = 100%
 height         = 24
 background     = ${colors.background}
@@ -38,11 +39,10 @@ separator      = "  "
 wm-restack     = i3
 
 [module/i3]
-type            = internal/i3
-index-sort      = true
-wrapping-scroll = false
-pin-workspaces  = true
-
+type                       = internal/i3
+index-sort                 = true
+wrapping-scroll            = false
+pin-workspaces             = true
 label-focused              = %index%
 label-focused-background   = ${colors.bg-alt}
 label-focused-underline    = ${colors.blue}
@@ -53,9 +53,9 @@ label-unfocused-underline  = ${colors.background}
 label-unfocused-foreground = ${colors.foreground}
 label-unfocused-padding    = 1
 label-visible              = %index%
-label-visible-background   = ${colors.red} ; TODO
-label-visible-underline    = ${colors.red} ; TODO
-label-visible-foreground   = ${colors.red} ; TODO
+label-visible-background   = ${colors.background}
+label-visible-underline    = ${colors.background}
+label-visible-foreground   = ${colors.foreground}
 label-visible-padding      = 1
 label-urgent               = %index%
 label-urgent-background    = ${colors.red}
@@ -122,7 +122,7 @@ animation-charging-1          = 
 animation-charging-2          = 
 animation-charging-3          = 
 animation-charging-foreground = ${colors.blue}
-animation-charging-framerate  = 1000
+animation-charging-framerate  = 750
 label-full                    = Full
 format-full-prefix            = " "
 format-full-prefix-foreground = ${colors.blue}
@@ -130,7 +130,8 @@ format-full-underline         = ${self.format-charging-underline}
 ramp-capacity-0               = 
 ramp-capacity-1               = 
 ramp-capacity-2               = 
-ramp-capacity-foreground      = ${colors.brown}
+ramp-capacity-foreground      = ${colors.blue}
+ramp-capacity-0-foreground    = ${colors.red}
 format-discharging            = <ramp-capacity> <label-discharging>
 format-discharging-underline  = ${colors.red}
 
@@ -192,7 +193,7 @@ format-underline           = ${colors.aqua}
 
 [module/wlan]
 type                       = internal/network
-interface                  = wlp4s0
+interface                  = ${env:POLYBAR_WIFI:wlp4s0}
 interval                   = 3.0
 format-connected           = <ramp-signal> <label-connected>
 format-connected-underline = ${colors.red}
@@ -212,4 +213,3 @@ format-prefix            = " "
 format-prefix-foreground = ${colors.blue}
 format-underline         = ${colors.blue2}
 label                    = %percentage_used%%
-
