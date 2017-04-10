@@ -1232,7 +1232,7 @@ Same comment keybind as in eclipse
 No more jumpy recenter
 #+BEGIN_SRC emacs-lisp
 (setq
-  scroll-conservatively           99
+  scroll-conservatively           101
   scroll-margin                   10
   scroll-preserve-screen-position t)
 #+END_SRC
