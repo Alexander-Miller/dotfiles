@@ -1252,7 +1252,6 @@ Off
 #+BEGIN_SRC emacs-lisp
   (ido-mode -1)
   (global-hl-line-mode -1)
-  (global-vi-tilde-fringe-mode -1)
 #+END_SRC
 
 *** Hooks

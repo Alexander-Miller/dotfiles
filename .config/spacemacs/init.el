@@ -14,8 +14,6 @@
       auto-completion-enable-help-tooltip        'manual
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
-     (elm
-      :variables elm-sort-imports-on-save t)
      emacs-lisp
      git
      html
@@ -44,12 +42,11 @@
      helm-systemd
      (i3wm-config-mode   :location (recipe :fetcher github
                                            :repo "Alexander-Miller/i3wm-config-mode"))
-     org-plus-contrib
      rainbow-mode
      shackle
      vimish-fold
      writeroom-mode)
-   dotspacemacs-excluded-packages '(evil-org popwin)
+   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe)
    dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
