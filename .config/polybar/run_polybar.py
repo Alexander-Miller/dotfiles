@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 from time import sleep
 
-POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} polybar --log=error --quiet --reload a &'
+POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} polybar --log=error --quiet a &'
 
 def kill_polybar():
     run('killall polybar')
@@ -11,7 +11,6 @@ def kill_polybar():
 def get_screens():
     screen_lines = run('xrandr -q | ag " connected"').split('\n')
     return [line.split(' ')[0] for line in screen_lines]
-
 
 def get_wifi_iface():
     iface_lines = run('ip link | ag "<.*BROADCAST.*UP.*>"').split('\n')
