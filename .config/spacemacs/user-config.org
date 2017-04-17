@@ -1139,6 +1139,48 @@ Don't use Spacemacs' evil state highlighter
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 #+END_SRC
 
+* Fonts
+** Functions
+
+~a/downscale~
+#+BEGIN_SRC emacs-lisp
+  (defun* a/downscale (font &key char start end)
+    (set-fontset-font "fontset-default" `(,(or start char) . ,(or end char))
+                      (font-spec :size 12 :name font)))
+#+END_SRC
+
+** Scaled Characters
+
+Some unicode characters are displayed taller than the default text. Scrolling through such
+characters will sometimes cause the cursor to be jumpy. To avoid that these unicode characters
+need to be scaled down.
+
+First the entirety of Font Awesome
+#+BEGIN_SRC emacs-lisp
+  (a/downscale "Font Awesome" :start #xf000 :end #xf2e0)
+#+END_SRC
+
+Then single characters, like those used for prettify-symbols
+#+BEGIN_SRC emacs-lisp
+  (a/downscale "Symbola" :char ?\⇛)
+  (a/downscale "Symbola" :char ?\⭢)
+  (a/downscale "Symbola" :char ?\⩵)
+  (a/downscale "Symbola" :char ?\⮕)
+  (a/downscale "Symbola" :char ?\⬅)
+  (a/downscale "Symbola" :char ?\◉)
+  (a/downscale "Symbola" :char ?\•)
+  (a/downscale "Symbola" :char ?\⏵)
+  (a/downscale "Symbola" :char ?\⏸)
+  (a/downscale "Symbola" :char ?\⏹)
+  (a/downscale "Symbola" :char ?\⏮)
+  (a/downscale "Symbola" :char ?\⏭)
+  (a/downscale "Symbola" :char ?\⏪)
+  (a/downscale "Symbola" :char ?\⏩)
+  (a/downscale "Symbola" :char ?\🔀)
+  (a/downscale "Symbola" :char ?\🔁)
+  (a/downscale "Symbola" :char ?\🔂)
+#+END_SRC
+
 * Misc. Settings
 ** General Key Binds
 
@@ -1270,13 +1312,13 @@ Off
 #+BEGIN_SRC emacs-lisp
   (setq-default
    prettify-symbols-alist
-   '(("lambda" . (propertize "λ" 'face '(:family "Monospace")))
-     ("!=" . "≠")
-     ("==" . "⩵")
-     ("<=" . "⇚")
-     ("=>" . "⇛")
-     ("<-" . "⭠")
-     ("->" . "⭢")))
+   `(("lambda" . "λ")
+     ("!="     . "≠")
+     ("=="     . "⩵")
+     ("<="     . "⇚")
+     ("=>"     . "⇛")
+     ("<-"     . "⬅")
+     ("->"     . "⮕")))
   (add-hook 'prog-mode-hook #'prettify-symbols-mode)
 #+END_SRC
 
