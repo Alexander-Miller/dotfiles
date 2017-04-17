@@ -33,10 +33,10 @@ font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
 font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
 border-size    = 1
-border-color   = #000000
+border-color   = #2d2d31
 radius         = 0
 module-margin  = 0
-separator      = "  "
+separator      = "    "
 wm-restack     = i3
 
 [module/i3]
@@ -103,7 +103,7 @@ label                    = %time%
 [module/date]
 type                     = internal/date
 interval                 = 60
-date                     = %a%e %b
+date                     = %a %e %b
 format-prefix            = " "
 format-prefix-foreground = ${colors.blue}
 format-underline         = ${colors.green}
