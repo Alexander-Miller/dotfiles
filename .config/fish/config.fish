@@ -1,11 +1,14 @@
 #!/usr/bin/fish
-set -g fish_user_paths   ~/.cargo/bin
-set -g fish_key_bindings fish_user_key_bindings
-set -x RUST_SRC_PATH     $HOME/Documents/git/rust/src
-set -x XDG_CONFIG_HOME   $HOME/.config
-set -x SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
-set -x EDITOR            "emacsclient -c -n"
-set -e fish_greeting
+set -g  fish_key_bindings fish_user_key_bindings
+set -x  RUST_SRC_PATH     $HOME/Documents/git/rust/src
+set -x  XDG_CONFIG_HOME   $HOME/.config
+set -x  SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
+set -x  EDITOR            "emacsclient -c -n"
+set -e  fish_greeting
+set -eU fish_user_paths
+add_to_user_path ~/.cargo/bin
+add_to_user_path ~/.sdkman/candidates/java/current/bin
+add_to_user_path ~/Documents/Clojure/Leiningen
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
