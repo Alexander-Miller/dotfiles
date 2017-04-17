@@ -662,14 +662,14 @@ A small bit of custom font locking for '==>'
       "C-f" #'org-footnote-action
       "C-o" #'org-open-at-point
       "C-e" #'org-edit-special
-      "C-t" #'org-todo
       "P"   #'org-priority)
 
-      (evil-define-key 'normal org-mode-map
-        "-" #'org-cycle-list-bullet)
+    (evil-define-key 'normal org-mode-map
+      "-" #'org-cycle-list-bullet
+      "t" #'org-todo)
 
-      (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
-      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
+    (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
+    (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
 #+END_SRC
 
 ** Shell Scripts
