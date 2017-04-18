@@ -695,11 +695,16 @@ A small bit of custom font locking for '==>'
   (defconst fish-mode-imenu-expr
     (list
      (list
-      (propertize "Function" 'face 'font-lock-function-name-face)
-      (rx
-       (group-n 1 (seq bol "function" (1+ space)))
-       (group-n 2 (1+ (or alnum (syntax symbol)))) symbol-end)
-      2)))
+      "Function"
+      (rx (group-n 1 (seq bol "function" (1+ space)))
+          (group-n 2 (1+ (or alnum (syntax symbol)))) symbol-end)
+      2)
+
+     (list
+      "Variables"
+      (rx bol "set" (1+ space) (0+ "-" (1+ alpha) (1+ space))
+          (group-n 1 symbol-start (1+ (or word "_"))))
+      1)))
 #+END_SRC
 
 ** Helm
