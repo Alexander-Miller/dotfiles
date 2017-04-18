@@ -42,6 +42,8 @@
      helm-systemd
      (i3wm-config-mode   :location (recipe :fetcher github
                                            :repo "Alexander-Miller/i3wm-config-mode"))
+     (morning-star-theme :location (recipe :fetcher github
+                                           :repo "Alexander-Miller/morning-star-theme"))
      rainbow-mode
      shackle
      vimish-fold
@@ -60,7 +62,7 @@
    dotspacemacs-startup-lists                      '(recents projects bookmarks)
    dotspacemacs-startup-recent-list-size           5
    dotspacemacs-scratch-mode                       'emacs-lisp-mode
-   dotspacemacs-themes                             '()
+   dotspacemacs-themes                             '(morning-star)
    dotspacemacs-colorize-cursor-according-to-state t
    dotspacemacs-default-font                       '("Monaco" :size 14 :weight normal :width normal :powerline-scale 1.0)
    dotspacemacs-leader-key                         "SPC"
