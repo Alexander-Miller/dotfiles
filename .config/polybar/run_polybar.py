@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 from time import sleep
 
-POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} polybar --log=error --quiet --reload a &'
+POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} polybar --log=error --quiet --reload a &'
 
 def kill_polybar():
     run('killall polybar')
@@ -14,10 +14,17 @@ def get_screens():
 
 
 def get_wifi_iface():
-    iface_lines = run('ip link | ag "BROADCAST"').split('\n')
+    iface_lines = run('ip link | ag "<.*BROADCAST.*UP.*>"').split('\n')
     for line in iface_lines:
         iface = line.split(' ')[1][0:-1]
         if iface.startswith("w"):
+            return iface
+
+def get_eth_interface():
+    iface_lines = run('ip link | ag "<.*BROADCAST.*UP.*>"').split('\n')
+    for line in iface_lines:
+        iface = line.split(' ')[1][0:-1]
+        if iface.startswith('e'):
             return iface
 
 def run(cmd):
@@ -27,9 +34,10 @@ def run(cmd):
 def main():
     kill_polybar()
     wifi_iface = get_wifi_iface()
+    eth_iface = get_eth_interface()
 
     for screen in get_screens():
-        Popen(POLYBAR_CMD.format(screen, wifi_iface), shell=True)
+        Popen(POLYBAR_CMD.format(screen, wifi_iface, eth_iface), shell=True)
 
 if __name__ == '__main__':
     main()

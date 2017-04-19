@@ -27,7 +27,7 @@ underline-size = 3
 fixed-center   = false
 bottom         = false
 modules-left   = i3
-modules-right  = cpu memory battery wlan date time volume
+modules-right  = cpu memory battery eth wlan date time volume
 modules-center = mpd
 font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
@@ -206,6 +206,15 @@ ramp-signal-3              = 
 ramp-signal-4              = 
 ramp-signal-foreground     = ${colors.blue}
 format-disconnected        =
+
+[module/eth]
+type                               = internal/network
+interface                          = ${env:POLYBAR_ETH:enp0s25}
+format-connected-underline         = ${colors.red}
+format-connected-prefix            = " "
+format-connected-prefix-foreground = ${colors.blue}
+label-connected                    = %local_ip%
+format-disconnected                =
 
 [module/memory]
 type                     = internal/memory
