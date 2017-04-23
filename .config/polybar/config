@@ -11,7 +11,7 @@ green2     = #aaccaa
 grey       = #666666
 purple     = #997799
 purple2    = #cc66cc
-aqua       = #1e7f7f
+aqua       = #1e8f8f
 brown      = #ccb18b
 orange     = #c98459
 
@@ -68,7 +68,8 @@ label-urgent-padding       = 1
 type                            = internal/mpd
 format-online-prefix            = " "
 format-online-prefix-foreground = ${colors.blue}
-format-online                   = <label-song> <bar-progress> <icon-prev> <icon-stop> <toggle> <icon-next>
+format-online                   = <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next> <bar-progress> <label-song>
+format-offline                  = ""
 format-prefix-foreground        = ${colors.blue}
 label-song                      = %artist% - %title%
 label-offline                   = ""
@@ -117,7 +118,7 @@ adapter                       = ACAD
 full-at                       = 99
 label-charging                = %time:8:8%
 format-charging               = <animation-charging> <label-charging>
-format-charging-underline     = ${colors.purple2}
+format-charging-underline     = ${colors.aqua}
 animation-charging-0          = 
 animation-charging-1          = 
 animation-charging-2          = 
@@ -139,7 +140,7 @@ format-discharging-underline  = ${colors.red}
 [module/volume]
 type                            = internal/volume
 format-volume                   = <label-volume> <bar-volume>
-format-volume-underline         = ${colors.purple}
+format-volume-underline         = ${colors.red2}
 label-volume                    = 
 label-volume-foreground         = ${colors.blue}
 format-muted-prefix             = "🔇 "
@@ -153,21 +154,18 @@ bar-volume-indicator-foreground = ${colors.green}
 bar-volume-fill                 = ─
 bar-volume-fill-foreground      = ${colors.green}
 bar-volume-empty                = ─
-bar-volume-empty-foreground =   ${colors.grey}
-
-; TODO
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator-font = 2
+bar-volume-empty-foreground     = ${colors.grey}
+bar-volume-foreground-0         = ${colors.green}
+bar-volume-foreground-1         = ${colors.green}
+bar-volume-foreground-2         = ${colors.green}
+bar-volume-foreground-3         = ${colors.green}
+bar-volume-foreground-4         = ${colors.yellow}
+bar-volume-foreground-5         = ${colors.orange}
+bar-volume-foreground-6         = ${colors.red}
+bar-volume-gradient             = false
+bar-volume-indicator-font       = 2
 
 [module/cpu]
-;; TODO: mpd off format?
 type                       = internal/cpu
 interval                   = 1
 format                     = <ramp-coreload>
@@ -190,14 +188,14 @@ ramp-coreload-6-foreground = ${colors.red}
 ramp-coreload-7-foreground = ${colors.red}
 format-prefix              = " "
 format-prefix-foreground   = ${colors.blue}
-format-underline           = ${colors.aqua}
+format-underline           = ${colors.brown}
 
 [module/wlan]
 type                       = internal/network
 interface                  = ${env:POLYBAR_WIFI:wlp4s0}
 interval                   = 3.0
 format-connected           = <ramp-signal> <label-connected>
-format-connected-underline = ${colors.red}
+format-connected-underline = ${colors.purple}
 label-connected            = %essid%
 ramp-signal-0              = 
 ramp-signal-1              = 
