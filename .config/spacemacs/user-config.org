@@ -692,6 +692,9 @@ A small bit of custom font locking for '==>'
      company-fish-shell-modes        nil
      company-shell-use-help-arg      t))
 
+  (setq company-backends-fish-mode
+        '((company-dabbrev-code company-files company-shell company-shell-env company-fish-shell :with company-yasnippet)))
+
   (defconst fish-mode-imenu-expr
     (list
      (list
