@@ -1187,6 +1187,7 @@ Then single characters, like those used for prettify-symbols
   (a/downscale "Symbola" :char ?\🔀)
   (a/downscale "Symbola" :char ?\🔁)
   (a/downscale "Symbola" :char ?\🔂)
+  (a/downscale "Symbola" :char ?\❯)
 #+END_SRC
 
 * Misc. Settings
