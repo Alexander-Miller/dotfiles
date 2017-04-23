@@ -95,11 +95,15 @@ instead run as part of ~kill-emacs-hook~, relieving the need to load all of org 
 config before emacs may be used.
 
 #+BEGIN_SRC emacs-lisp
+  (autoload #'org-babel-tangle-file "ob-tangle")
   (defun a/setup-config-before-quit ()
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
            (org-file (concat dir "/user-config.org")))
-      (org-babel-tangle-file org-file el-file "emacs-lisp")
+      (when (time-less-p
+             (-> el-file  (file-attributes) (file-attribute-modification-time))
+             (-> org-file (file-attributes) (file-attribute-modification-time)))
+        (org-babel-tangle-file org-file el-file "emacs-lisp"))
       (byte-recompile-file el-file t 0 nil)))
 #+END_SRC
 
