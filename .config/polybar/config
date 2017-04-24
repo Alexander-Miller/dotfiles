@@ -140,13 +140,13 @@ format-discharging-underline  = ${colors.red}
 [module/volume]
 type                            = internal/volume
 format-volume                   = <label-volume> <bar-volume>
-format-volume-underline         = ${colors.red2}
+format-volume-underline         = ${colors.purple2}
 label-volume                    = 
 label-volume-foreground         = ${colors.blue}
 format-muted-prefix             = "🔇 "
 format-muted-prefix-foreground  = ${colors.blue}
 format-muted-foreground         = ${colors.foreground}
-format-muted-underline          = ${colors.purple}
+format-muted-underline          = ${colors.grey}
 label-muted                     = sound muted
 bar-volume-width                = 10
 bar-volume-indicator            = ◉
