@@ -1138,6 +1138,15 @@ A fallback in case evil's own folding is not sufficient
   (define-key evil-normal-state-map (kbd "zvz") #'vimish-fold)
 #+END_SRC
 
+** Winum
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq winum-scope 'frame-local)
+  (winum-mode -1)
+  (winum-mode t)
+#+END_SRC
+
 ** Persp
 *** Settings
 
