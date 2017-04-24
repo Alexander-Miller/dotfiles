@@ -48,7 +48,7 @@
      shackle
      vimish-fold
      writeroom-mode)
-   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe)
+   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe hl-todo)
    dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
