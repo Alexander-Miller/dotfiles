@@ -201,7 +201,7 @@ for_window [window_role="pop-up"]      floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [class="Xfce4-notifyd"]     floating enable
 
-for_window [class="VirtualBox"]               border pixel 0
+for_window [class="VirtualBox"]               border pixel 4
 for_window [class="Xfce4.*"]                  border pixel 4
 for_window [class="Evince.*"]                 border pixel 4
 for_window [class="Firefox"]                  border pixel 4
