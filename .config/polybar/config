@@ -208,7 +208,7 @@ format-disconnected        =
 [module/eth]
 type                               = internal/network
 interface                          = ${env:POLYBAR_ETH:enp0s25}
-format-connected-underline         = ${colors.red}
+format-connected-underline         = ${colors.purple}
 format-connected-prefix            = " "
 format-connected-prefix-foreground = ${colors.blue}
 label-connected                    = %local_ip%
