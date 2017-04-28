@@ -1,7 +1,50 @@
-" -*- mode: vimrc -*-
+" -*- mode: dactyl -*-
 
-set show-recent 0
-map [normal] J scroll half-down
-map [normal] K scroll half-up
+set show-recent        0
+set recolor            true
+set recolor-darkcolor  "#cccccc"
+set recolor-lightcolor "#2d2d31"
+
+map [normal]     J scroll half-down
 map [fullscreen] J scroll half-down
+
+map [normal]     K scroll half-up
 map [fullscreen] K scroll half-up
+
+map [normal]     <C-r> recolor
+map [fullscreen] <C-r> recolor
+
+map [normal]     a adjust_window best-fit
+map [fullscreen] a adjust_window best-fit
+map [normal]     s adjust_window width
+map [fullscreen] s adjust_window width
+
+map [normal]     <C-g> abort
+map [fullscreen] <C-g> abort
+
+map [normal]     d follow
+map [fullscreen] d follow
+
+map [normal]     r     rotate rotate-cw
+map [fullscreen] r     rotate rotate-cw
+map [normal]     <A-r> rotate rotate-ccw
+map [fullscreen] <A-r> rotate rotate-ccw
+
+map [normal]     n search forward
+map [fullscreen] n search forward
+map [normal]     N search backward
+map [fullscreen] N search backward
+
+map [normal]     <S-r> reload
+map [fullscreen] <S-r> reload
+
+map [normal]     f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+
+map [normal]     p toggle_page_mode
+map [fullscreen] p toggle_page_mode
+
+map [normal]     + zoom in
+map [fullscreen] + zoom in
+map [normal]     - zoom out
+map [fullscreen] - zoom out
