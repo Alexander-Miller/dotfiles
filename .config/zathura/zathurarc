@@ -1,9 +1,60 @@
 " -*- mode: dactyl -*-
 
-set show-recent        0
-set recolor            true
-set recolor-darkcolor  "#cccccc"
-set recolor-lightcolor "#2d2d31"
+set adjust-open            width
+set abort-clear-search     false
+set exec-command           "fish -c"
+set font                   "Fantasque Sans Mono 12"
+set guioptions             s
+set incremental-search     false
+set n-completion-items     15
+set pages-per-row          1
+set recolor                true
+set recolor-keephue        true
+set scroll-page-aware      false
+set selection-clipboard    clipboard
+set selection-notification true
+set show-directories       true
+set show-recent            10
+set smooth-scroll          true
+set statusbar-basename     false
+set statusbar-home-tilde   true
+set statusbar-h-padding    8
+set statusbar-v-padding    8
+
+
+set highlight-transparency  0.6
+set index-fg                "#cccccc"
+set index-bg                "#2d2d31"
+set index-active-fg         "#1a1a1a"
+set index-active-bg         "#997799"
+set highlight-color         "#6699cc"
+set highlight-active-color  "#ab3737"
+set default-fg              "#cccccc"
+set default-bg              "#2d2d31"
+set recolor-darkcolor       "#cccccc"
+set recolor-lightcolor      "#2d2d31"
+set inputbar-fg             "#997799"
+set inputbar-bg             "#1a1a1a"
+set statusbar-fg            "#5588bb"
+set statusbar-bg            "#1a1a1a"
+set completion-bg           "#25252a"
+set completion-fg           "#cccccc"
+set completion-group-bg     "#1a1a1a"
+set completion-group-fg     "#55a9a9"
+set completion-highlight-bg "#ab3737"
+set completion-highlight-fg "#ddba1a"
+set notification-bg         "#1a1a1a"
+set notification-fg         "#66aa66"
+set notification-error-bg   "#ab3737"
+set notification-error-fg   "#000000"
+set notification-warning-bg "#1a1a1a"
+set notification-warning-fg "#f0c674"
+
+"TODO"
+set tabbar-bg               "#000000"
+set tabbar-fg               "#ff0000"
+set tabbar-focus-bg         "#000000"
+set tabbar-focus-fg         "#ff0000"
 
 map [normal]     J scroll half-down
 map [fullscreen] J scroll half-down
