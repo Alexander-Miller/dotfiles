@@ -1143,8 +1143,6 @@ A fallback in case evil's own folding is not sufficient
 
 #+BEGIN_SRC emacs-lisp
   (setq winum-scope 'frame-local)
-  (winum-mode -1)
-  (winum-mode t)
 #+END_SRC
 
 ** Persp
