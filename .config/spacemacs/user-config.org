@@ -1101,7 +1101,7 @@ Replace popwin
     :evil-leader "TW")
 
   (with-eval-after-load 'writeroom-mode
-    (setq writeroom-width              100
+    (setq writeroom-width              120
           writeroom-extra-line-spacing 0))
 #+END_SRC
 
