@@ -19,7 +19,6 @@
      html
      markdown
      org
-     pdf-tools
      python
      ranger
      rust
