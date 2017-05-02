@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 from time import sleep
 
-POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} polybar --log=error --quiet a &'
+POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} POLYBAR_BAT={3} polybar --log=error --quiet a &'
 
 def kill_polybar():
     run('killall polybar')
@@ -26,6 +26,10 @@ def get_eth_interface():
         if iface.startswith('e'):
             return iface
 
+def get_battery():
+    battery_line = run('upower --enumerate | ag battery')
+    return battery_line.split('/')[-1][len('battery_'):]
+
 def run(cmd):
     call = Popen(cmd, shell=True, stdout=PIPE)
     return call.communicate()[0].strip().decode('utf-8')
@@ -34,9 +38,10 @@ def main():
     kill_polybar()
     wifi_iface = get_wifi_iface()
     eth_iface = get_eth_interface()
+    battery = get_battery()
 
     for screen in get_screens():
-        Popen(POLYBAR_CMD.format(screen, wifi_iface, eth_iface), shell=True)
+        Popen(POLYBAR_CMD.format(screen, wifi_iface, eth_iface, battery), shell=True)
 
 if __name__ == '__main__':
     main()
