@@ -113,7 +113,7 @@ label                    = %date%
 
 [module/battery]
 type                          = internal/battery
-battery                       = ${env:POLYBAR_BATT:BAT1}
+battery                       = ${env:POLYBAR_BAT:BAT1}
 full-at                       = 99
 label-charging                = %time:8:8%
 format-charging               = <animation-charging> <label-charging>
