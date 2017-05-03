@@ -14,7 +14,7 @@ set scroll-page-aware      false
 set selection-clipboard    clipboard
 set selection-notification true
 set show-directories       true
-set show-recent            10
+set show-recent            0
 set smooth-scroll          true
 set statusbar-basename     false
 set statusbar-home-tilde   true
