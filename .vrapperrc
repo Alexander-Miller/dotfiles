@@ -36,3 +36,6 @@ vnoremap <Tab> :fm<CR>
 map b <Plug>(subword-back)
 map e <Plug>(subword-end)
 map w <Plug>(subword-word)
+
+vnoremap s S
+vnoremap S s
