@@ -89,6 +89,19 @@ As shown in the spacemacs FAQ
   (define-key evil-visual-state-map "p" #'a/evil-paste)
 #+END_SRC
 
+** a/fold-defun
+
+#+BEGIN_SRC emacs-lisp
+  (defun a/fold-defun ()
+    (interactive)
+    (save-excursion
+      (end-of-line)
+      (beginning-of-defun)
+      (end-of-line)
+      (evil-close-fold)))
+  (define-key evil-normal-state-map (kbd "z C-f") #'a/fold-defun)
+#+END_SRC
+
 * Config tangle & compilation
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
 instead run as part of ~kill-emacs-hook~, relieving the need to load all of org and tangle the
