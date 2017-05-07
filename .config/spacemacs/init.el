@@ -73,7 +73,7 @@
    dotspacemacs-remap-Y-to-y$                      t
    dotspacemacs-default-layout-name                "@std"
    dotspacemacs-display-default-layout             t
-   dotspacemacs-auto-resume-layouts                t
+   dotspacemacs-auto-resume-layouts                nil
    dotspacemacs-auto-save-file-location            'cache
    dotspacemacs-max-rollback-slots                 5
    dotspacemacs-use-ido                            nil

@@ -1152,7 +1152,7 @@ A fallback in case evil's own folding is not sufficient
   (setq
    persp-add-buffer-on-after-change-major-mode      nil
    persp-add-buffer-on-find-file                    t
-   persp-auto-resume-time                           3
+   persp-auto-resume-time                           0
    persp-auto-save-opt                              0
    persp-auto-save-persps-to-their-file-before-kill nil
    persp-autokill-buffer-on-remove                  nil)
@@ -1322,6 +1322,7 @@ On
   (global-subword-mode t)
   (blink-cursor-mode t)
   (mouse-avoidance-mode 'banish)
+  (desktop-save-mode t)
 #+END_SRC
 
 Off
@@ -1412,6 +1413,18 @@ Don't load outdated files
 1 tab = 4 spaces
 #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 4)
+#+END_SRC
+
+** Desktop Restoration
+The way spacemacs loads its config doesn't seem to mesh with desktop-save-mode
+so it needs to be done manually - just once on boot and not every time the
+config is reloaded at runtime
+
+#+BEGIN_SRC emacs-lisp
+  (when (and (bound-and-true-p desktop-save-mode)
+             (not (boundp 'a/boot-finished)))
+    (desktop-read)
+    (defvar a/boot-finished t))
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
