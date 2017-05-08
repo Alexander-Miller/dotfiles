@@ -406,7 +406,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 Use only one bullet for headings (original = "◉" "○" "✸" "✿")
 #+BEGIN_SRC emacs-lisp
    (with-eval-after-load 'org
-     (setq-default org-bullets-bullet-list '("✸")))
+     (setq-default org-bullets-bullet-list '("✿")))
 #+END_SRC
 
 Also use ascii bullets for simple lists
@@ -1225,6 +1225,9 @@ Then single characters, like those used for prettify-symbols
   (a/downscale "Symbola" :char ?\🔁)
   (a/downscale "Symbola" :char ?\🔂)
   (a/downscale "Symbola" :char ?\❯)
+  (a/downscale "Symbola" :char ?\✸)
+  (a/downscale "Symbola" :char ?\✿)
+  (a/downscale "Cantarell" :char ?\•)
 #+END_SRC
 
 * Misc. Settings
