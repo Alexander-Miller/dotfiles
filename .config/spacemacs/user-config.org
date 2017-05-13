@@ -2,53 +2,53 @@
 #+STARTUP: hideblocks
 
 * Utility Functions
-** a/what-face
+** std::what-face
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/what-face (point)
+  (defun std::what-face (point)
     "Reveal face at POINT."
     (interactive "d")
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" point))))
-  (global-set-key (kbd "C-x ö") #'a/what-face)
+  (global-set-key (kbd "C-x ö") #'std::what-face)
 #+END_SRC
 
-** a/what-major-mode
+** std::what-major-mode
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/what-major-mode ()
+  (defun std::what-major-mode ()
     "Reveal current major mode."
     (interactive)
     (message "%s" major-mode))
-  (global-set-key (kbd "C-x ä") #'a/what-major-mode)
+  (global-set-key (kbd "C-x ä") #'std::what-major-mode)
 #+END_SRC
 
-** a/edit-org-user-config
+** std::edit-org-user-config
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/edit-org-user-config ()
+  (defun std::edit-org-user-config ()
     "Edit the org user config file, in the current window."
     (interactive)
     (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
 
   (evil-leader/set-key
-    "feo" #'a/edit-org-user-config)
+    "feo" #'std::edit-org-user-config)
 #+END_SRC
 
-** a/def-key-for-maps
+** std::def-key-for-maps
 
 #+BEGIN_SRC emacs-lisp
-(defun a/def-key-for-maps (key cmd keymaps)
+(defun std::def-key-for-maps (key cmd keymaps)
   "Bind KEY to CMD for all keymaps in MAPS."
   (dolist (keymap keymaps)
     (define-key keymap key cmd)))
 #+END_SRC
 
-** a/eval-last-sexp
+** std::eval-last-sexp
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/eval-last-sexp ()
+  (defun std::eval-last-sexp ()
     (interactive)
     (if (and (evil-normal-state-p)
              (string= ")" (string (or (char-after) 0))))
@@ -57,15 +57,15 @@
           (call-interactively 'eval-last-sexp))
       (call-interactively 'eval-last-sexp)))
 
-  (global-set-key (kbd "C-x C-e") #'a/eval-last-sexp)
+  (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
   (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "ee" #'a/eval-last-sexp)
+    "ee" #'std::eval-last-sexp)
 #+END_SRC
 
-** a/org-files
+** std::org-files
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/org-files ()
+  (defun std::org-files ()
     (interactive)
     (helm :prompt "Org File: "
           :buffer "*helm org files*"
@@ -74,60 +74,73 @@
                      :action #'find-file
                      :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
   (spacemacs/set-leader-keys
-    "aof" #'a/org-files)
+    "aof" #'std::org-files)
 #+END_SRC
 
-** a/evil-paste
+** std::evil-paste
 
 As shown in the spacemacs FAQ
 #+BEGIN_SRC emacs-lisp
-  (defun a/evil-paste ()
+  (defun std::evil-paste-after ()
     (interactive)
     (let ((evil-this-register ?0))
       (call-interactively 'evil-paste-after)))
 
-  (define-key evil-visual-state-map "p" #'a/evil-paste)
+  (defun std::evil-paste-before ()
+    (interactive)
+    (let ((evil-this-register ?0))
+      (call-interactively 'evil-paste-before)))
+
+  (define-key evil-visual-state-map "p" #'std::evil-paste-after)
+  (define-key evil-visual-state-map "P" #'std::evil-paste-after)
 #+END_SRC
 
-** a/fold-defun
+** std::fold-defun
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/fold-defun ()
+  (defun std::fold-defun ()
     (interactive)
     (save-excursion
       (end-of-line)
       (beginning-of-defun)
       (end-of-line)
       (evil-close-fold)))
-  (define-key evil-normal-state-map (kbd "z C-f") #'a/fold-defun)
+
+  (define-key evil-normal-state-map (kbd "züf") #'std::fold-defun)
 #+END_SRC
 
 * Config tangle & compilation
+
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
 instead run as part of ~kill-emacs-hook~, relieving the need to load all of org and tangle the
 config before emacs may be used.
 
+The function to tangle and recompile the config, running only if the org file was recently
+modified.
 #+BEGIN_SRC emacs-lisp
   (autoload #'org-babel-tangle-file "ob-tangle")
-  (defun a/setup-config-before-quit ()
+
+  (defun std::config-tangle-and-recompile ()
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
            (org-file (concat dir "/user-config.org")))
       (when (time-less-p
              (-> el-file  (file-attributes) (file-attribute-modification-time))
              (-> org-file (file-attributes) (file-attribute-modification-time)))
-        (org-babel-tangle-file org-file el-file "emacs-lisp"))
-      (byte-recompile-file el-file t 0 nil)))
+        (org-babel-tangle-file org-file el-file "emacs-lisp")
+        (byte-recompile-file el-file t 0 nil))))
 #+END_SRC
 
-Config prep must be run both on killing emacs and reloading the config
-
+Advice to insert reload before spacemacs' layer syncing.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'kill-emacs-hook #'a/setup-config-before-quit)
+  (defun std::layer-sync-config-tangle-advice (&rest _)
+    (std::config-tangle-and-recompile))
+#+END_SRC
 
-  (defadvice dotspacemacs/sync-configuration-layers (before test activate)
-    (a/setup-config-before-quit)
-      ad-do-it)
+Insert retangle before both quitting emacs and reloading the config.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'kill-emacs-hook #'std::setup-config-before-quit)
+  (advice-add #'dotspacemacs/sync-configuration-layers :after #'std::layer-sync-config-tangle-advice)
 #+END_SRC
 
 * Layer configurations
@@ -154,18 +167,16 @@ Config prep must be run both on killing emacs and reloading the config
 *** Custom text objects
 
 #+BEGIN_SRC emacs-lisp
-  (evil-define-text-object a/evil-defun-object (count &optional beg end type)
-    "Evil defun text objec"
-    (save-excursion
-      (let ((start) (end))
-        (mark-defun)
-        (setq start (region-beginning)
-              end   (region-end))
-        (deactivate-mark)
-        (evil-range start end type :expanded t))))
+  (evil-define-text-object std::evil-defun-object (count &optional beg end type)
+    "Evil defun text object."
+    (let ((start) (finish))
+      (mark-defun)
+      (setq start  (region-beginning)
+            finish (region-end))
+      (deactivate-mark)
+      (evil-range start finish type )))
 
-  (define-key evil-operator-state-map     "üf" #'a/evil-defun-object)
-  (define-key evil-outer-text-objects-map "üf" #'a/evil-defun-object)
+  (define-key evil-operator-state-map "üf" #'std::evil-defun-object)
   #+END_SRC
 
 *** Settings
@@ -221,7 +232,7 @@ The completions provided by combined backends should be sorted, so as to avoid
 interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
-    (defconst a/backend-priorities
+    (defconst std::backend-priorities
       '((company-anaconda     . 0)
         (company-capf         . 6)
         (company-yasnippet    . 7)
@@ -231,32 +242,34 @@ interspersing semantic completion candidates with dumb code-dabbrevs
         (company-dabbrev      . 11))
       "Alist of backends' priorities.  Smaller number means higher priority.")
 
-    (defun a/priority-of-backend (backend)
+    (defun std::priority-of-backend (backend)
       "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
   Hence only the less important backends neet to be explicitly marked."
-      (let ((pr (cdr (assoc backend a/backend-priorities))))
+      (let ((pr (cdr (assoc backend std::backend-priorities))))
         (if (null pr) -1 pr)))
 
-    (defun a/company-sort-by-backend-priority (candidates)
+    (defun std::company-sort-by-backend-priority (candidates)
       "Will sort completion CANDIDATES according to their priorities.
   In case of equal priorities lexicographical ordering is used.
   Duplicate candidates will be removed as well."
-      (sort (delete-dups candidates)
-            (lambda (c1 c2)
-              (let* ((b1 (get-text-property 0 'company-backend c1))
-                     (b2 (get-text-property 0 'company-backend c2))
-                     (diff (- (a/priority-of-backend b1) (a/priority-of-backend b2))))
-                (if (= diff 0)
-                    nil
-                  (if (< 0 diff) nil t)))))))
+      (sort
+       (delete-dups candidates)
+       (lambda (c1 c2)
+         (let* ((b1 (get-text-property 0 'company-backend c1))
+                (b2 (get-text-property 0 'company-backend c2))
+                (diff (- (std::priority-of-backend b1) (std::priority-of-backend b2))))
+           (if (= diff 0)
+               nil
+             (if (< 0 diff) nil t)))))))
 #+END_SRC
 
 The priority sorting is only used in major modes which use combined backends
 #+BEGIN_SRC emacs-lisp
-  (defun a/use-completions-priority-sorting ()
-    (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence a/company-sort-by-backend-priority)))
+  (defun std::use-completions-priority-sorting ()
+    (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence std::company-sort-by-backend-priority)))
 
-  (add-hook 'rust-mode-hook #'a/use-completions-priority-sorting)
+  (--each '(rust-mode-hook fish-mode-hook python-mode-hook)
+    (add-hook it #'std::use-completions-priority-sorting))
 #+END_SRC
 
 *** Quickhelp
@@ -265,35 +278,35 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company-quickhelp
 
-    (defun a/company-off (arg)
+    (defun std::company-off (arg)
       "Use default keys when company is not active. ARG is ignored."
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-j") #'electric-newline-and-maybe-indent
        (list evil-normal-state-map evil-insert-state-map))
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-k") #'kill-line
        (list evil-normal-state-map evil-insert-state-map))
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-l") #'yas-expand
        (list evil-insert-state-map)))
 
-    (defun a/company-on (arg)
+    (defun std::company-on (arg)
       "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-j") #'company-select-next
        (list evil-normal-state-map evil-insert-state-map))
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-k") #'company-select-previous
        (list evil-normal-state-map evil-insert-state-map))
-      (a/def-key-for-maps
+      (std::def-key-for-maps
        (kbd "C-l") #'company-quickhelp-manual-begin
        (list evil-insert-state-map)))
 
-    (add-hook 'company-completion-started-hook   #'a/company-on)
-    (add-hook 'company-completion-finished-hook  #'a/company-off)
-    (add-hook 'company-completion-cancelled-hook #'a/company-off)
+    (add-hook 'company-completion-started-hook   #'std::company-on)
+    (add-hook 'company-completion-finished-hook  #'std::company-off)
+    (add-hook 'company-completion-cancelled-hook #'std::company-off)
 
     (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin))
 #+END_SRC
@@ -323,14 +336,14 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
   (with-eval-after-load 'org
     (defun org-switch-to-buffer-other-window (&rest args)
       "Same as the original, but lacking the wrapping
-  call to `org-no-popups'"
+      call to `org-no-popups'"
       (apply 'switch-to-buffer-other-window args)))
 #+END_SRC
 
-~a/org--capture-std-target~
+~std::org--capture-std-target~
 #+BEGIN_SRC  emacs-lisp
   (with-eval-after-load 'org
-    (defun a/org-capture-std-target ()
+    (defun std::org-capture-std-target ()
       `(file+headline
         ,(concat org-directory "Capture.org")
         ,(if (s-equals? (system-name) "a-laptop")
@@ -422,7 +435,7 @@ Also use ascii bullets for simple lists
   (with-eval-after-load 'org
     (setq org-capture-templates
           `(("t" "Idee/Todo" entry
-             ,(a/org-capture-std-target)
+             ,(std::org-capture-std-target)
              "** [TODO] %?\n %U"))))
 #+END_SRC
 
@@ -480,13 +493,13 @@ Also use ascii bullets for simple lists
 
 A small bit of custom font locking for '==>'
 #+BEGIN_SRC emacs-lisp
-  (defface a/result-face
+  (defface std::result-face
     `((t (:foreground "#886688" :bold t)))
     "Face for '==>'.")
 
   (font-lock-add-keywords
    'org-mode
-   '(("==>" . 'a/result-face)))
+   '(("==>" . 'std::result-face)))
 #+END_SRC
 
 *** Keybinds
@@ -597,7 +610,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
-    (defun a/org-table-recalc ()
+    (defun std::org-table-recalc ()
       "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
   by default the entire table is recalculated, while with a prefix arg recalculates
   only the current cell."
@@ -605,19 +618,19 @@ A small bit of custom font locking for '==>'
       (setq current-prefix-arg (not current-prefix-arg))
       (call-interactively #'org-table-recalculate))
 
-    (defun a/org-table-switch-right ()
+    (defun std::org-table-switch-right ()
       "Switch content of current table cell with the cell to the right."
       (interactive)
       (when (org-at-table-p)
-        (a/org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
+        (std::org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
 
-    (defun a/org-table-switch-left ()
+    (defun std::org-table-switch-left ()
       "Switch content of current table cell with the cell to the left."
       (interactive)
       (when (org-at-table-p)
-        (a/org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
+        (std::org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
 
-    (defun a/org-table-switch (x2 y2)
+    (defun std::org-table-switch (x2 y2)
       (let* ((p  (point))
              (x1 (org-table-current-line))
              (y1 (org-table-current-column))
@@ -642,11 +655,11 @@ A small bit of custom font locking for '==>'
       "qx"  #'org-table-cut-region
       "qp"  #'org-table-paste-rectangle
       "qo"  #'org-table-toggle-coordinate-overlays
-      "qf"  #'a/org-table-recalc
+      "qf"  #'std::org-table-recalc
       "q#"  #'org-table-rotate-recalc-marks
       "qg"  #'org-plot/gnuplot
-      "qsl" #'a/org-table-switch-right
-      "qsh" #'a/org-table-switch-left)
+      "qsl" #'std::org-table-switch-right
+      "qsh" #'std::org-table-switch-left)
 
     (evil-leader/set-key-for-mode 'org-mode
       "+" #'org-table-sum
@@ -692,11 +705,11 @@ A small bit of custom font locking for '==>'
 ** Shell Scripts
 **** Functions
 
-~a/fish-mode-hook~
+~std::fish-mode-hook~
 #+BEGIN_SRC emacs-lisp
-  (defun a/fish-mode-hook ()
+  (defun std::fish-mode-hook ()
     (setq imenu-generic-expression fish-mode-imenu-expr))
-  (add-hook 'fish-mode-hook #'a/fish-mode-hook)
+  (add-hook 'fish-mode-hook #'std::fish-mode-hook)
 #+END_SRC
 
 **** Settings
@@ -730,11 +743,11 @@ A small bit of custom font locking for '==>'
 ** Helm
 *** Functions
 
-~a/org-helm-headings~
+~std::org-helm-headings~
 #+BEGIN_SRC emacs-lisp
   (autoload 'helm-source-org-headings-for-files "helm-org")
 
-  (defun a/org-in-buffer-headings ()
+  (defun std::org-in-buffer-headings ()
     "Slightly retooled ~helm-org-in-buffer-headings~ to have the candidates retain their fontification."
     (interactive)
     (helm :sources (helm-source-org-headings-for-files
@@ -745,13 +758,13 @@ A small bit of custom font locking for '==>'
           :buffer "*helm org inbuffer*"))
 #+END_SRC
 
-~a/helm-semantic-or-imenu~
+~std::helm-semantic-or-imenu~
 #+BEGIN_SRC emacs-lisp
-  (defun a/helm-semantic-or-imenu ()
-      "Same as `helm-semantic-or-imenu', but will call `a/org-helm-headings' in org-mode buffers."
+  (defun std::helm-semantic-or-imenu ()
+      "Same as `helm-semantic-or-imenu', but will call `std::org-helm-headings' in org-mode buffers."
       (interactive)
       (if (eq major-mode 'org-mode)
-          (a/org-in-buffer-headings)
+          (std::org-in-buffer-headings)
         (call-interactively #'helm-semantic-or-imenu)))
 #+END_SRC
 
@@ -759,7 +772,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys
-    "hi" #'a/helm-semantic-or-imenu)
+    "hi" #'std::helm-semantic-or-imenu)
 #+END_SRC
 
 ** Rust
@@ -768,7 +781,7 @@ A small bit of custom font locking for '==>'
 Rebuild tags
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'rust-mode
-    (defun a/rusty-rebuild-tags ()
+    (defun std::rusty-rebuild-tags ()
       (interactive)
       (make-thread
        #'(lambda ()
@@ -791,7 +804,7 @@ Rebuild tags
       "a"   #'rust-beginning-of-defun
       "e"   #'rust-end-of-defun
       "d"   #'racer-describe
-      "C-t" #'a/rusty-rebuild-tags))
+      "C-t" #'std::rusty-rebuild-tags))
 #+END_SRC
 
 *** Settings
@@ -809,9 +822,9 @@ Add *company-dabbrev-code* to front row of completion backends.
 ** Projectile
 *** Functions
 
-~a/projectile-magit-status~
+~std::projectile-magit-status~
 #+BEGIN_SRC emacs-lisp
-  (defun a/projectile-magit-status (&optional arg)
+  (defun std::projectile-magit-status (&optional arg)
     "Use projectile with Helm for running `magit-status'
 
     With a prefix ARG invalidates the cache first."
@@ -836,7 +849,7 @@ Add *company-dabbrev-code* to front row of completion backends.
       "pg"  nil
       "pt"  #'projectile-find-tag
       "psa" #'helm-projectile-ag
-      "pgs" #'a/projectile-magit-status
+      "pgs" #'std::projectile-magit-status
       "pC"  #'projectile-cleanup-known-projects))
 #+END_SRC
 
@@ -910,7 +923,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'magit
-    (defvar a/magit-key-maps
+    (defvar std::magit-key-maps
       (list
        magit-mode-map
        magit-status-mode-map
@@ -926,22 +939,22 @@ Add *company-dabbrev-code* to front row of completion backends.
        magit-staged-section-map
        magit-unstaged-section-map))
 
-    (a/def-key-for-maps (kbd "J")   #'a/quick-forward                 a/magit-key-maps)
-    (a/def-key-for-maps (kbd "K")   #'a/quick-backward                a/magit-key-maps)
-    (a/def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   a/magit-key-maps)
-    (a/def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  a/magit-key-maps)
-    (a/def-key-for-maps (kbd ",u")  #'magit-section-up                a/magit-key-maps)
-    (a/def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  a/magit-key-maps)
-    (a/def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  a/magit-key-maps)
-    (a/def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  a/magit-key-maps)
-    (a/def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  a/magit-key-maps))
+    (std::def-key-for-maps (kbd "J")   #'std::quick-forward              std::magit-key-maps)
+    (std::def-key-for-maps (kbd "K")   #'std::quick-backward             std::magit-key-maps)
+    (std::def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   std::magit-key-maps)
+    (std::def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  std::magit-key-maps)
+    (std::def-key-for-maps (kbd ",u")  #'magit-section-up                std::magit-key-maps)
+    (std::def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  std::magit-key-maps)
+    (std::def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  std::magit-key-maps)
+    (std::def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  std::magit-key-maps)
+    (std::def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  std::magit-key-maps))
 #+END_SRC
 
 ** Elm
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/format-and-save-elm-buffer ()
+  (defun std::format-and-save-elm-buffer ()
     "Format an elm buffer and then save it."
     (interactive)
     (elm-mode-format-buffer)
@@ -951,11 +964,11 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (defun a/elm-mode-hook ()
+  (defun std::elm-mode-hook ()
     (setq-local company-backends
                 '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
 
-  (add-hook 'elm-mode-hook #'a/elm-mode-hook t)
+  (add-hook 'elm-mode-hook #'std::elm-mode-hook t)
 #+END_SRC
 
 *** Keybinds
@@ -977,12 +990,12 @@ Add *company-dabbrev-code* to front row of completion backends.
       ",e" "preview")
 
     (spacemacs/set-leader-keys
-      "fs" #'a/format-and-save-elm-buffer)
+      "fs" #'std::format-and-save-elm-buffer)
 
-    (define-key elm-package-mode-map (kbd "J")       #'a/quick-forward)
-    (define-key elm-package-mode-map (kbd "K")       #'a/quick-backward)
+    (define-key elm-package-mode-map (kbd "J")       #'std::quick-forward)
+    (define-key elm-package-mode-map (kbd "K")       #'std::quick-backward)
     (define-key elm-package-mode-map (kbd "q")       #'kill-buffer-and-window)
-    (define-key elm-mode-map         (kbd "C-x C-s") #'a/format-and-save-elm-buffer)
+    (define-key elm-mode-map         (kbd "C-x C-s") #'std::format-and-save-elm-buffer)
     (define-key elm-mode-map         (kbd "M-.")     #'elm-mode-goto-tag-at-point))
 #+END_SRC
 
@@ -998,9 +1011,9 @@ Add *company-dabbrev-code* to front row of completion backends.
 ** Ranger
 *** Functions
 
-~a/deer-new-frame~
+~std::deer-new-frame~
 #+BEGIN_SRC emacs-lisp
-  (defun a/deer-new-frame ()
+  (defun std::deer-new-frame ()
     (interactive)
     (let ((frame (make-frame-command)))
       (select-frame frame)
@@ -1008,10 +1021,10 @@ Add *company-dabbrev-code* to front row of completion backends.
       (delete-other-windows)))
 #+END_SRC
 
-~a/deer-kill-frame~
+~std::deer-kill-frame~
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'ranger
-    (defun a/deer-delete-frame ()
+    (defun std::deer-delete-frame ()
       (interactive)
       (ranger-close)
       (when (> (cl-list-length (frame-list)) 1)
@@ -1039,10 +1052,17 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys
-    "ad" #'a/deer-new-frame)
+    "ad" #'std::deer-new-frame)
 
   (with-eval-after-load 'ranger
-    (evil-define-key 'motion ranger-mode-map (kbd "q") #'a/deer-delete-frame))
+    (evil-define-key 'motion ranger-mode-map (kbd "q") #'std::deer-delete-frame))
+#+END_SRC
+
+** Clojure
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq clojure-enable-fancify-symbols t)
 #+END_SRC
 
 * Single Package Configurations
@@ -1187,9 +1207,9 @@ Don't use Spacemacs' evil state highlighter
 * Fonts
 ** Functions
 
-~a/downscale~
+~std::downscale~
 #+BEGIN_SRC emacs-lisp
-  (defun* a/downscale (font &key char start end)
+  (cl-defun std::downscale (font &key char start end)
     (set-fontset-font "fontset-default" `(,(or start char) . ,(or end char))
                       (font-spec :size 12 :name font)))
 #+END_SRC
@@ -1202,32 +1222,32 @@ need to be scaled down.
 
 First the entirety of Font Awesome
 #+BEGIN_SRC emacs-lisp
-  (a/downscale "Font Awesome" :start #xf000 :end #xf2e0)
+  (std::downscale "Font Awesome" :start #xf000 :end #xf2e0)
 #+END_SRC
 
 Then single characters, like those used for prettify-symbols
 #+BEGIN_SRC emacs-lisp
-  (a/downscale "Symbola" :char ?\⇛)
-  (a/downscale "Symbola" :char ?\⭢)
-  (a/downscale "Symbola" :char ?\⩵)
-  (a/downscale "Symbola" :char ?\⮕)
-  (a/downscale "Symbola" :char ?\⬅)
-  (a/downscale "Symbola" :char ?\◉)
-  (a/downscale "Symbola" :char ?\•)
-  (a/downscale "Symbola" :char ?\⏵)
-  (a/downscale "Symbola" :char ?\⏸)
-  (a/downscale "Symbola" :char ?\⏹)
-  (a/downscale "Symbola" :char ?\⏮)
-  (a/downscale "Symbola" :char ?\⏭)
-  (a/downscale "Symbola" :char ?\⏪)
-  (a/downscale "Symbola" :char ?\⏩)
-  (a/downscale "Symbola" :char ?\🔀)
-  (a/downscale "Symbola" :char ?\🔁)
-  (a/downscale "Symbola" :char ?\🔂)
-  (a/downscale "Symbola" :char ?\❯)
-  (a/downscale "Symbola" :char ?\✸)
-  (a/downscale "Symbola" :char ?\✿)
-  (a/downscale "Cantarell" :char ?\•)
+  (std::downscale "Symbola" :char ?\⇛)
+  (std::downscale "Symbola" :char ?\⭢)
+  (std::downscale "Symbola" :char ?\⩵)
+  (std::downscale "Symbola" :char ?\⮕)
+  (std::downscale "Symbola" :char ?\⬅)
+  (std::downscale "Symbola" :char ?\◉)
+  (std::downscale "Symbola" :char ?\•)
+  (std::downscale "Symbola" :char ?\⏵)
+  (std::downscale "Symbola" :char ?\⏸)
+  (std::downscale "Symbola" :char ?\⏹)
+  (std::downscale "Symbola" :char ?\⏮)
+  (std::downscale "Symbola" :char ?\⏭)
+  (std::downscale "Symbola" :char ?\⏪)
+  (std::downscale "Symbola" :char ?\⏩)
+  (std::downscale "Symbola" :char ?\🔀)
+  (std::downscale "Symbola" :char ?\🔁)
+  (std::downscale "Symbola" :char ?\🔂)
+  (std::downscale "Symbola" :char ?\❯)
+  (std::downscale "Symbola" :char ?\✸)
+  (std::downscale "Symbola" :char ?\✿)
+  (std::downscale "Cantarell" :char ?\•)
 #+END_SRC
 
 * Misc. Settings
@@ -1235,27 +1255,27 @@ Then single characters, like those used for prettify-symbols
 
 Use visual lines
 #+BEGIN_SRC emacs-lisp
-  (a/def-key-for-maps
+  (std::def-key-for-maps
    (kbd "j") #'evil-next-visual-line
    (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
-  (a/def-key-for-maps
+  (std::def-key-for-maps
    (kbd "k") #'evil-previous-visual-line
    (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
 #+END_SRC
 
 Quick line jumping
 #+BEGIN_SRC emacs-lisp
-  (defun a/quick-forward ()
+  (defun std::quick-forward ()
     (interactive) (evil-next-visual-line 5))
 
-  (defun a/quick-backward ()
+  (defun std::quick-backward ()
     (interactive) (evil-previous-visual-line 5))
 
   (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
-    (define-key map (kbd "J") #'a/quick-forward))
+    (define-key map (kbd "J") #'std::quick-forward))
 
   (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
-    (define-key map (kbd "K") #'a/quick-backward))
+    (define-key map (kbd "K") #'std::quick-backward))
 #+END_SRC
 
 Emacs style line start/end jump
@@ -1281,14 +1301,14 @@ Splitting and joining lines
 
 Dumb Refactoring
 #+BEGIN_SRC emacs-lisp
-  (defun a/defun-query-replace ()
+  (defun std::defun-query-replace ()
     (interactive)
     (mark-defun)
     (call-interactively 'anzu-query-replace))
 
   (evil-leader/set-key
     "üü" #'anzu-query-replace
-    "üd" #'a/defun-query-replace)
+    "üf" #'std::defun-query-replace)
 #+END_SRC
 
 Evil smart doc lookup
@@ -1438,9 +1458,9 @@ config is reloaded at runtime
 
 #+BEGIN_SRC emacs-lisp
   (when (and (bound-and-true-p desktop-save-mode)
-             (not (boundp 'a/boot-finished)))
+             (not (boundp 'std::boot-finished)))
     (desktop-read)
-    (defvar a/boot-finished t))
+    (defvar std::boot-finished t))
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
