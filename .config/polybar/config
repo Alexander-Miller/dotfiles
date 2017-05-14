@@ -131,6 +131,7 @@ format-full-underline         = ${self.format-charging-underline}
 ramp-capacity-0               = 
 ramp-capacity-1               = 
 ramp-capacity-2               = 
+ramp-capacity-3               = 
 ramp-capacity-foreground      = ${colors.blue}
 ramp-capacity-0-foreground    = ${colors.red}
 format-discharging            = <ramp-capacity> <label-discharging>
