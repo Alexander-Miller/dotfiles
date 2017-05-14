@@ -187,6 +187,33 @@ Insert retangle before both quitting emacs and reloading the config.
         evil-lisp-state-enter-lisp-state-on-command nil)
 #+END_SRC
 
+** Elisp
+*** Functions
+
+~std::elisp-repl~
+The elisp repl window refuses to be controlled by shackle, so we'll
+do it manually.
+#+BEGIN_SRC emacs-lisp
+  (defun std::elisp-repl (&optional arg)
+    (interactive "P")
+    (let* ((w (get-buffer-window))
+           (h (window-height w)))
+      (split-window-below)
+      (other-window 1)
+      (-if-let (repl-buf (get-buffer "*ielm*"))
+          (switch-to-buffer repl-buf)
+        (ielm))
+      (set-window-text-height (get-buffer-window) (round (* 0.33 h)))
+      (when arg (select-window w))))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+    "'" #'std::elisp-repl)
+#+END_SRC
+
 ** Auto Completion
 *** Global Activation
 
