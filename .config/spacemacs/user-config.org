@@ -167,7 +167,7 @@ Insert retangle before both quitting emacs and reloading the config.
 *** Custom text objects
 
 #+BEGIN_SRC emacs-lisp
-  (evil-define-text-object std::evil-defun-object (count &optional beg end type)
+  (evil-define-text-object std::evil::defun-object (count &optional beg end type)
     "Evil defun text object."
     (let ((start) (finish))
       (mark-defun)
@@ -176,7 +176,7 @@ Insert retangle before both quitting emacs and reloading the config.
       (deactivate-mark)
       (evil-range start finish type )))
 
-  (define-key evil-operator-state-map "üf" #'std::evil-defun-object)
+  (define-key evil-operator-state-map "üf" #'std::evil::defun-object)
   #+END_SRC
 
 *** Settings
@@ -190,11 +190,11 @@ Insert retangle before both quitting emacs and reloading the config.
 ** Elisp
 *** Functions
 
-~std::elisp-repl~
+~std::elisp::repl-buffer~
 The elisp repl window refuses to be controlled by shackle, so we'll
 do it manually.
 #+BEGIN_SRC emacs-lisp
-  (defun std::elisp-repl (&optional arg)
+  (defun std::elisp::repl-buffer (&optional arg)
     (interactive "P")
     (let* ((w (get-buffer-window))
            (h (window-height w)))
@@ -211,7 +211,7 @@ do it manually.
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "'" #'std::elisp-repl)
+    "'" #'std::elisp::repl-buffer)
 #+END_SRC
 
 ** Auto Completion
@@ -259,7 +259,7 @@ The completions provided by combined backends should be sorted, so as to avoid
 interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
-    (defconst std::backend-priorities
+    (defconst std::company::backend-priorities
       '((company-anaconda     . 0)
         (company-capf         . 6)
         (company-yasnippet    . 7)
@@ -269,13 +269,13 @@ interspersing semantic completion candidates with dumb code-dabbrevs
         (company-dabbrev      . 11))
       "Alist of backends' priorities.  Smaller number means higher priority.")
 
-    (defun std::priority-of-backend (backend)
+    (defun std::company::priority-of-backend (backend)
       "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
   Hence only the less important backends neet to be explicitly marked."
-      (let ((pr (cdr (assoc backend std::backend-priorities))))
+      (let ((pr (cdr (assoc backend std::company::backend-priorities))))
         (if (null pr) -1 pr)))
 
-    (defun std::company-sort-by-backend-priority (candidates)
+    (defun std::company::sort-by-backend-priority (candidates)
       "Will sort completion CANDIDATES according to their priorities.
   In case of equal priorities lexicographical ordering is used.
   Duplicate candidates will be removed as well."
@@ -284,19 +284,21 @@ interspersing semantic completion candidates with dumb code-dabbrevs
        (lambda (c1 c2)
          (let* ((b1 (get-text-property 0 'company-backend c1))
                 (b2 (get-text-property 0 'company-backend c2))
-                (diff (- (std::priority-of-backend b1) (std::priority-of-backend b2))))
+                (diff (-
+                       (std::company::priority-of-backend b1)
+                       (std::company::priority-of-backend b2))))
            (if (= diff 0)
                nil
-             (if (< 0 diff) nil t)))))))
+             (>= 0 diff)))))))
 #+END_SRC
 
 The priority sorting is only used in major modes which use combined backends
 #+BEGIN_SRC emacs-lisp
-  (defun std::use-completions-priority-sorting ()
-    (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence std::company-sort-by-backend-priority)))
+  (defun std::company::use-completions-priority-sorting ()
+    (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence std::company::sort-by-backend-priority)))
 
   (--each '(rust-mode-hook fish-mode-hook python-mode-hook)
-    (add-hook it #'std::use-completions-priority-sorting))
+    (add-hook it #'std::company::use-completions-priority-sorting))
 #+END_SRC
 
 *** Quickhelp
@@ -305,7 +307,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company-quickhelp
 
-    (defun std::company-off (arg)
+    (defun std::company::off (arg)
       "Use default keys when company is not active. ARG is ignored."
       (std::def-key-for-maps
        (kbd "C-j") #'electric-newline-and-maybe-indent
@@ -317,7 +319,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
        (kbd "C-l") #'yas-expand
        (list evil-insert-state-map)))
 
-    (defun std::company-on (arg)
+    (defun std::company::on (arg)
       "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."
@@ -331,9 +333,9 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
        (kbd "C-l") #'company-quickhelp-manual-begin
        (list evil-insert-state-map)))
 
-    (add-hook 'company-completion-started-hook   #'std::company-on)
-    (add-hook 'company-completion-finished-hook  #'std::company-off)
-    (add-hook 'company-completion-cancelled-hook #'std::company-off)
+    (add-hook 'company-completion-started-hook   #'std::company::on)
+    (add-hook 'company-completion-finished-hook  #'std::company::off)
+    (add-hook 'company-completion-cancelled-hook #'std::company::off)
 
     (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin))
 #+END_SRC
@@ -367,10 +369,10 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
       (apply 'switch-to-buffer-other-window args)))
 #+END_SRC
 
-~std::org--capture-std-target~
+~std::org::capture-std-target~
 #+BEGIN_SRC  emacs-lisp
   (with-eval-after-load 'org
-    (defun std::org-capture-std-target ()
+    (defun std::org::capture-std-target ()
       `(file+headline
         ,(concat org-directory "Capture.org")
         ,(if (s-equals? (system-name) "a-laptop")
@@ -462,7 +464,7 @@ Also use ascii bullets for simple lists
   (with-eval-after-load 'org
     (setq org-capture-templates
           `(("t" "Idee/Todo" entry
-             ,(std::org-capture-std-target)
+             ,(std::org::capture-std-target)
              "** [TODO] %?\n %U"))))
 #+END_SRC
 
@@ -637,7 +639,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
-    (defun std::org-table-recalc ()
+    (defun std::org::table-recalc ()
       "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
   by default the entire table is recalculated, while with a prefix arg recalculates
   only the current cell."
@@ -645,19 +647,19 @@ A small bit of custom font locking for '==>'
       (setq current-prefix-arg (not current-prefix-arg))
       (call-interactively #'org-table-recalculate))
 
-    (defun std::org-table-switch-right ()
+    (defun std::org::table-switch-right ()
       "Switch content of current table cell with the cell to the right."
       (interactive)
       (when (org-at-table-p)
-        (std::org-table-switch (org-table-current-line) (1+ (org-table-current-column)))))
+        (std::org::table-switch (org-table-current-line) (1+ (org-table-current-column)))))
 
-    (defun std::org-table-switch-left ()
+    (defun std::org::table-switch-left ()
       "Switch content of current table cell with the cell to the left."
       (interactive)
       (when (org-at-table-p)
-        (std::org-table-switch (org-table-current-line) (1- (org-table-current-column)))))
+        (std::org::table-switch (org-table-current-line) (1- (org-table-current-column)))))
 
-    (defun std::org-table-switch (x2 y2)
+    (defun std::org::table-switch (x2 y2)
       (let* ((p  (point))
              (x1 (org-table-current-line))
              (y1 (org-table-current-column))
@@ -682,11 +684,11 @@ A small bit of custom font locking for '==>'
       "qx"  #'org-table-cut-region
       "qp"  #'org-table-paste-rectangle
       "qo"  #'org-table-toggle-coordinate-overlays
-      "qf"  #'std::org-table-recalc
+      "qf"  #'std::org::table-recalc
       "q#"  #'org-table-rotate-recalc-marks
       "qg"  #'org-plot/gnuplot
-      "qsl" #'std::org-table-switch-right
-      "qsh" #'std::org-table-switch-left)
+      "qsl" #'std::org::table-switch-right
+      "qsh" #'std::org::table-switch-left)
 
     (evil-leader/set-key-for-mode 'org-mode
       "+" #'org-table-sum
@@ -734,9 +736,9 @@ A small bit of custom font locking for '==>'
 
 ~std::fish-mode-hook~
 #+BEGIN_SRC emacs-lisp
-  (defun std::fish-mode-hook ()
+  (defun std::fish::mode-hook ()
     (setq imenu-generic-expression fish-mode-imenu-expr))
-  (add-hook 'fish-mode-hook #'std::fish-mode-hook)
+  (add-hook 'fish-mode-hook #'std::fish::mode-hook)
 #+END_SRC
 
 **** Settings
@@ -805,10 +807,10 @@ A small bit of custom font locking for '==>'
 ** Rust
 *** Functions
 
-Rebuild tags
+~std::rust::build-rusty-tags~
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'rust-mode
-    (defun std::rusty-rebuild-tags ()
+    (defun std::rust::build-rusty-tags ()
       (interactive)
       (make-thread
        #'(lambda ()
@@ -831,7 +833,7 @@ Rebuild tags
       "a"   #'rust-beginning-of-defun
       "e"   #'rust-end-of-defun
       "d"   #'racer-describe
-      "C-t" #'std::rusty-rebuild-tags))
+      "C-t" #'std::rust::build-rusty-tags))
 #+END_SRC
 
 *** Settings
@@ -849,9 +851,9 @@ Add *company-dabbrev-code* to front row of completion backends.
 ** Projectile
 *** Functions
 
-~std::projectile-magit-status~
+~std::projectile::magit-status~
 #+BEGIN_SRC emacs-lisp
-  (defun std::projectile-magit-status (&optional arg)
+  (defun std::projectile::magit-status (&optional arg)
     "Use projectile with Helm for running `magit-status'
 
     With a prefix ARG invalidates the cache first."
@@ -876,7 +878,7 @@ Add *company-dabbrev-code* to front row of completion backends.
       "pg"  nil
       "pt"  #'projectile-find-tag
       "psa" #'helm-projectile-ag
-      "pgs" #'std::projectile-magit-status
+      "pgs" #'std::projectile::magit-status
       "pC"  #'projectile-cleanup-known-projects))
 #+END_SRC
 
