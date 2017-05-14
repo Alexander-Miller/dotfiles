@@ -71,7 +71,7 @@
           :buffer "*helm org files*"
           :sources (helm-build-sync-source "Org Files"
                      :candidates (--map (cons (f-filename it) it) (f-files org-directory))
-                     :action #'find-file
+                     :action #'find-file-existing
                      :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
   (spacemacs/set-leader-keys
     "aof" #'std::org-files)
@@ -139,7 +139,7 @@ Advice to insert reload before spacemacs' layer syncing.
 
 Insert retangle before both quitting emacs and reloading the config.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'kill-emacs-hook #'std::setup-config-before-quit)
+  (add-hook 'kill-emacs-hook #'std::config-tangle-and-recompile)
   (advice-add #'dotspacemacs/sync-configuration-layers :after #'std::layer-sync-config-tangle-advice)
 #+END_SRC
 
@@ -1216,6 +1216,17 @@ A fallback in case evil's own folding is not sufficient
    persp-auto-save-opt                              0
    persp-auto-save-persps-to-their-file-before-kill nil
    persp-autokill-buffer-on-remove                  nil)
+#+END_SRC
+
+*** Layouts
+
+#+BEGIN_SRC emacs-lisp
+  (spacemacs|define-custom-layout "@OrgDir"
+    :binding "a"
+    :body
+    (-if-let (org-files (f-files org-directory))
+        (find-file-existing (first org-files))
+      (user-error "No org files ")))
 #+END_SRC
 
 * Modeline
