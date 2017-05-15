@@ -260,7 +260,10 @@ interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
     (defconst std::company::backend-priorities
-      '((company-anaconda     . 0)
+      '((company-fish-shell   . 0)
+        (company-shell        . 1)
+        (company-shell-env    . 2)
+        (company-anaconda     . 0)
         (company-capf         . 6)
         (company-yasnippet    . 7)
         (company-keywords     . 8)
