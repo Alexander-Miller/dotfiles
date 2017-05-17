@@ -120,6 +120,11 @@ modified.
 #+BEGIN_SRC emacs-lisp
   (autoload #'org-babel-tangle-file "ob-tangle")
 
+  (defun std::do-recompile (org-file el-file)
+    (interactive)
+    (org-babel-tangle-file org-file el-file "emacs-lisp")
+    (byte-recompile-file el-file t 0 nil))
+
   (defun std::config-tangle-and-recompile ()
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
@@ -127,8 +132,7 @@ modified.
       (when (time-less-p
              (-> el-file  (file-attributes) (file-attribute-modification-time))
              (-> org-file (file-attributes) (file-attribute-modification-time)))
-        (org-babel-tangle-file org-file el-file "emacs-lisp")
-        (byte-recompile-file el-file t 0 nil))))
+        (std::do-recompile))))
 #+END_SRC
 
 Advice to insert reload before spacemacs' layer syncing.
