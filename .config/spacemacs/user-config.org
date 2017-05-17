@@ -1499,6 +1499,15 @@ Don't load outdated files
 #+END_SRC
 
 ** Desktop Restoration
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq desktop-restore-eager           2
+        desktop-restore-forces-onscreen nil
+        desktop-lazy-idle-delay         10)
+#+END_SRC
+
+*** Restoration
 The way spacemacs loads its config doesn't seem to mesh with desktop-save-mode
 so it needs to be done manually - just once on boot and not every time the
 config is reloaded at runtime
