@@ -282,21 +282,19 @@ interspersing semantic completion candidates with dumb code-dabbrevs
       (let ((pr (cdr (assoc backend std::company::backend-priorities))))
         (if (null pr) -1 pr)))
 
+    (defun std::company::priority-compare (c1 c2)
+      "Compares the priorities of C1 & C2."
+      (let* ((b1   (get-text-property 0 'company-backend c1))
+             (b2   (get-text-property 0 'company-backend c1))
+             (p1   (std::company::priority-of-backend b1))
+             (p2   (std::company::priority-of-backend b2))
+             (diff (- p1 p2)))
+        (>= diff 0)))
+
     (defun std::company::sort-by-backend-priority (candidates)
-      "Will sort completion CANDIDATES according to their priorities.
-  In case of equal priorities lexicographical ordering is used.
-  Duplicate candidates will be removed as well."
-      (sort
-       (delete-dups candidates)
-       (lambda (c1 c2)
-         (let* ((b1 (get-text-property 0 'company-backend c1))
-                (b2 (get-text-property 0 'company-backend c2))
-                (diff (-
-                       (std::company::priority-of-backend b1)
-                       (std::company::priority-of-backend b2))))
-           (if (= diff 0)
-               nil
-             (>= 0 diff)))))))
+      "Will sort completion CANDIDATES according to their priorities."
+      (sort (delete-dups candidates)
+            #'std::company::priority-compare)))
 #+END_SRC
 
 The priority sorting is only used in major modes which use combined backends
