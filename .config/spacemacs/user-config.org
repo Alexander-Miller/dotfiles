@@ -132,7 +132,7 @@ modified.
       (when (time-less-p
              (-> el-file  (file-attributes) (file-attribute-modification-time))
              (-> org-file (file-attributes) (file-attribute-modification-time)))
-        (std::do-recompile))))
+        (std::do-recompile org-file el-file))))
 #+END_SRC
 
 Advice to insert reload before spacemacs' layer syncing.
@@ -264,16 +264,16 @@ interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
     (defconst std::company::backend-priorities
-      '((company-fish-shell   . 0)
-        (company-shell        . 1)
-        (company-shell-env    . 2)
-        (company-anaconda     . 0)
-        (company-capf         . 6)
-        (company-yasnippet    . 7)
-        (company-keywords     . 8)
-        (company-files        . 9)
-        (company-dabbrev-code . 10)
-        (company-dabbrev      . 11))
+      '((company-fish-shell   . 10)
+        (company-shell        . 11)
+        (company-shell-env    . 12)
+        (company-anaconda     . 10)
+        (company-capf         . 50)
+        (company-yasnippet    . 60)
+        (company-keywords     . 70)
+        (company-files        . 80)
+        (company-dabbrev-code . 90)
+        (company-dabbrev      . 100))
       "Alist of backends' priorities.  Smaller number means higher priority.")
 
     (defun std::company::priority-of-backend (backend)
@@ -285,7 +285,7 @@ interspersing semantic completion candidates with dumb code-dabbrevs
     (defun std::company::priority-compare (c1 c2)
       "Compares the priorities of C1 & C2."
       (let* ((b1   (get-text-property 0 'company-backend c1))
-             (b2   (get-text-property 0 'company-backend c1))
+             (b2   (get-text-property 0 'company-backend c2))
              (p1   (std::company::priority-of-backend b1))
              (p2   (std::company::priority-of-backend b2))
              (diff (- p1 p2)))
