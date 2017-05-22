@@ -481,6 +481,7 @@ Also use ascii bullets for simple lists
      org-tags-column                85
      org-src-window-setup           'other-window
      org-log-done                   'time
+     org-ellipsis                   "  "
      org-startup-align-all-tables   t
      org-startup-indented           t
      org-log-into-drawer            t
