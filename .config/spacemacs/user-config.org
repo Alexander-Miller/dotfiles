@@ -277,10 +277,10 @@ interspersing semantic completion candidates with dumb code-dabbrevs
       "Alist of backends' priorities.  Smaller number means higher priority.")
 
     (defun std::company::priority-of-backend (backend)
-      "Will retrieve priority of BACKEND.  Defauts to -1 if no priority is defined.
-  Hence only the less important backends neet to be explicitly marked."
+      "Will retrieve priority of BACKEND.
+  Defauts to 999 if BACKEND is nul or has no priority defined."
       (let ((pr (cdr (assoc backend std::company::backend-priorities))))
-        (if (null pr) -1 pr)))
+        (if (null pr) 999 pr)))
 
     (defun std::company::priority-compare (c1 c2)
       "Compares the priorities of C1 & C2."
@@ -289,12 +289,11 @@ interspersing semantic completion candidates with dumb code-dabbrevs
              (p1   (std::company::priority-of-backend b1))
              (p2   (std::company::priority-of-backend b2))
              (diff (- p1 p2)))
-        (>= diff 0)))
+        (< diff 0)))
 
     (defun std::company::sort-by-backend-priority (candidates)
       "Will sort completion CANDIDATES according to their priorities."
-      (sort (delete-dups candidates)
-            #'std::company::priority-compare)))
+      (sort (delete-dups candidates) #'std::company::priority-compare)))
 #+END_SRC
 
 The priority sorting is only used in major modes which use combined backends
