@@ -1153,6 +1153,13 @@ Replace popwin
     (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
 #+END_SRC
 
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'yasnippet
+    (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
+#+END_SRC
+
 ** i3wm-config-mode
 
 #+BEGIN_SRC emacs-lisp
