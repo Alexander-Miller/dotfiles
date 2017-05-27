@@ -1,8 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: type alias
-# key: ta
-# binding: direct-keybinding
-# expand-env: ((yas-indent-line 'fixed))
-# --
-type alias ${1:Foo} =
-     ${2:Bar}$0
