@@ -1,6 +1,5 @@
 [colors]
 background = #2d2d31
-bg-alt     = #444444
 foreground = #bbbbbb
 blue       = #6699cc
 red        = #ab3737
@@ -33,7 +32,7 @@ font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
 font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
 border-size    = 1
-border-color   = #2d2d31
+border-color   = #000000
 radius         = 0
 module-margin  = 0
 separator      = "    "
@@ -44,21 +43,32 @@ type                       = internal/i3
 index-sort                 = true
 wrapping-scroll            = false
 pin-workspaces             = true
-label-focused              = %index%
-label-focused-background   = ${colors.bg-alt}
+ws-icon-0                  = "1;➊"
+ws-icon-1                  = "2;➋"
+ws-icon-2                  = "3;➌"
+ws-icon-3                  = "4;➍"
+ws-icon-4                  = "5;➎"
+ws-icon-5                  = "6;➏"
+ws-icon-6                  = "7;➐"
+ws-icon-7                  = "8;➑"
+ws-icon-8                  = "9;➒"
+ws-icon-9                  = "10;➓"
+label-focused              = %icon%
+label-focused-foreground   = ${colors.purple}
+label-focused-background   = ${colors.background}
 label-focused-underline    = ${colors.blue}
 label-focused-padding      = 1
-label-unfocused            = %index%
+label-unfocused            = %icon%
 label-unfocused-background = ${colors.background}
 label-unfocused-underline  = ${colors.background}
 label-unfocused-foreground = ${colors.foreground}
 label-unfocused-padding    = 1
-label-visible              = %index%
+label-visible              = %icon%
 label-visible-background   = ${colors.background}
 label-visible-underline    = ${colors.background}
 label-visible-foreground   = ${colors.foreground}
 label-visible-padding      = 1
-label-urgent               = %index%
+label-urgent               = %icon%
 label-urgent-background    = ${colors.red}
 label-urgent-underline     = ${colors.yellow}
 label-urgent-foreground    = ${colors.yellow}
