@@ -388,8 +388,8 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Prerequisites
 
 #+BEGIN_SRC emacs-lisp
-    (setq-default org-directory          "~/Dropbox/Org/"
-                  org-default-notes-file (concat org-directory "Capture.org"))
+  (setq-default org-directory          "~/Dropbox/Org/"
+                org-default-notes-file (concat org-directory "Capture.org"))
 #+END_SRC
 
 **** Additional modules
@@ -411,12 +411,12 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
-      (setq
-       org-special-ctrl-a         nil
-       org-special-ctrl-k         nil
-       org-special-ctrl-o         nil
-       org-special-ctrl-a/e       nil
-       org-ctrl-k-protect-subtree nil))
+    (setq
+     org-special-ctrl-a         nil
+     org-special-ctrl-k         nil
+     org-special-ctrl-o         nil
+     org-special-ctrl-a/e       nil
+     org-ctrl-k-protect-subtree nil))
 #+END_SRC
 
 **** Agenda
@@ -1158,6 +1158,21 @@ Replace popwin
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'yasnippet
     (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
+#+END_SRC
+
+*** Enable Smartparens
+
+Smartparens is disabled while yasnippet is expanding and editing a snippet. Whatever this was a workaround for
+I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
+#+BEGIN_SRC emacs-lisp
+  (unless (bound-and-true-p std::yasnippet::smartparens-restored)
+    (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
+        (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
+      (error "Smartparens no longer disabled before yasnippet starts."))
+    (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
+        (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
+      (error "Smartparens no longer restored after yasnippet ends.")))
+  (defvar std::yasnippet::smartparens-restored t)
 #+END_SRC
 
 ** i3wm-config-mode
