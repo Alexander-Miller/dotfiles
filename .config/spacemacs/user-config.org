@@ -129,9 +129,9 @@ modified.
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
            (org-file (concat dir "/user-config.org")))
-      (when (time-less-p
-             (-> el-file  (file-attributes) (file-attribute-modification-time))
-             (-> org-file (file-attributes) (file-attribute-modification-time)))
+      (when (or (not (file-exists-p el-file))
+                (time-less-p (-> el-file  (file-attributes) (file-attribute-modification-time))
+                             (-> org-file (file-attributes) (file-attribute-modification-time))))
         (std::do-recompile org-file el-file))))
 #+END_SRC
 
@@ -193,8 +193,7 @@ Insert retangle before both quitting emacs and reloading the config.
 
 ** Elisp
 *** Functions
-
-~std::elisp::repl-buffer~
+**** ~std::elisp::repl-buffer~
 The elisp repl window refuses to be controlled by shackle, so we'll
 do it manually.
 #+BEGIN_SRC emacs-lisp
