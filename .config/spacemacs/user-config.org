@@ -209,12 +209,25 @@ do it manually.
       (set-window-text-height (get-buffer-window) (round (* 0.33 h)))
       (when arg (select-window w))))
 #+END_SRC
+**** ~std::elisp::fold-all-top-level-forms~
+
+#+BEGIN_SRC emacs-lisp
+  (defun std::elisp::fold-all-top-level-forms ()
+    (interactive)
+    (save-excursion
+      (save-match-data
+        (evil-with-state 'insert
+          (goto-char (point-min))
+          (while (search-forward-regexp (rx bol "(") nil t)
+            (evil-close-fold))))))
+#+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "'" #'std::elisp::repl-buffer)
+    "'" #'std::elisp::repl-buffer
+    "C" #'std::elisp::fold-all-top-level-forms)
 #+END_SRC
 
 ** Auto Completion
