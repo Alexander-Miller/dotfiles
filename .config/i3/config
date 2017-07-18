@@ -219,8 +219,11 @@ for_window [class="Thunar"]                   border pixel 4
 for_window [class="Evince"]                   border pixel 4
 for_window [class="Firefox"]                  border pixel 4
 for_window [class="Redshift"]                 border pixel 4
+for_window [class="Gimp"]                     border pixel 4
 for_window [class="Pamac-manager"]            border pixel 4
 for_window [class="Pamac-updater"]            border pixel 4
+for_window [class="Nautilus"]                 border pixel 4
+for_window [class="Gnome-disks"]              border pixel 4
 
 smart_gaps on
 smart_borders on
