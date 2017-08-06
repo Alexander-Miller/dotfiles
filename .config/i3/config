@@ -175,6 +175,8 @@ mode "$mode_gaps_outer" {
 }
 
 exec_always --no-startup-id "python ~/.config/polybar/run_polybar.py"
+exec_always --no-startup-id "fish -c start_xcape"
+
 # bar {
 #         status_command          "~/Documents/git/rust3bar/run_rust3bar.sh"
 #         Font pango:             Terminus (TTF) 9
