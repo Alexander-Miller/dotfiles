@@ -6,6 +6,7 @@ set -x  SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
 set -x  EDITOR            "emacsclient -c -n"
 set -e  fish_greeting
 set -eU fish_user_paths
+
 add_to_user_path ~/.cargo/bin
 add_to_user_path ~/.sdkman/candidates/java/current/bin
 add_to_user_path ~/Documents/Clojure/Leiningen
