@@ -128,7 +128,7 @@ modified.
   (defun std::config-tangle-and-recompile ()
     (let* ((dir      (getenv "SPACEMACSDIR"))
            (el-file  (concat dir "/user-config.el"))
-           (org-file (concat dir "/user-config.org")))
+           (org-file (file-chase-links (concat dir "/user-config.org"))))
       (when (or (not (file-exists-p el-file))
                 (time-less-p (-> el-file  (file-attributes) (file-attribute-modification-time))
                              (-> org-file (file-attributes) (file-attribute-modification-time))))
