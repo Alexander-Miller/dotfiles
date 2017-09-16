@@ -23,6 +23,7 @@
      ranger
      rust
      syntax-checking
+     shell
      shell-scripts
      (version-control
       :variables
