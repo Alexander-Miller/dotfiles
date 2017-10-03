@@ -57,6 +57,9 @@ def_key "d"
 def_key "space"
  add_item_to_playlist
 
+def_key "v"
+ select_item
+
 def_key "space"
  toggle_lyrics_update_on_song_change
 
@@ -225,6 +228,9 @@ def_key "r"
 def_key "z"
  toggle_random
 
+def_key "V"
+ reverse_selection
+
 def_key "y"
  toggle_single
 
@@ -282,8 +288,6 @@ def_key "L"
 # def_key "w"
 #  toggle_find_mode
 #
-# def_key "v"
-#  reverse_selection
 #
 # def_key "V"
 #  remove_selection
