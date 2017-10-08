@@ -1148,6 +1148,7 @@ Replace popwin
           (calendar-mode            :select t   :align below :size 0.25)
           (racer-help-mode          :select t   :align right :size 0.5)
           (help-mode                :select t   :align right :size 0.5)
+          (helpful-mode             :select t   :align right :size 0.5)
           (compilation-mode         :select t   :align right :size 0.5)
           ("*Org Select*"           :select t   :align below :size 0.33)
           ("*Org Note*"             :select t   :align below :size 0.33)
@@ -1271,6 +1272,20 @@ A fallback in case evil's own folding is not sufficient
       (user-error "No org files ")))
 #+END_SRC
 
+
+** Helpful
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x ß") #'helpful-at-point)
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'helpful-mode-hook #'evil-motion-state)
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
@@ -1391,11 +1406,6 @@ Dumb Refactoring
     "üf" #'std::defun-query-replace)
 #+END_SRC
 
-Evil smart doc lookup
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x ß") #'spacemacs/evil-smart-doc-lookup)
-#+END_SRC
-
 Find definition
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-.") #'xref-find-definitions)
@@ -1451,9 +1461,10 @@ Off
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
+  (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
   (add-hook 'conf-mode-hook       #'rainbow-mode)
-  (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
+  (add-hook 'help-mode-hook       #'rainbow-mode)
   (add-hook 'org-mode-hook        #'smartparens-mode)
 #+END_SRC
 

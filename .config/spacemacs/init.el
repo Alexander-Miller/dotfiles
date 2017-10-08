@@ -40,6 +40,7 @@
      flycheck-package
      haskell-mode
      helm-systemd
+     helpful
      (i3wm-config-mode   :location (recipe :fetcher github
                                            :repo "Alexander-Miller/i3wm-config-mode"))
      (morning-star-theme :location (recipe :fetcher github
