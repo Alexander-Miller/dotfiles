@@ -130,8 +130,8 @@ modified.
            (el-file  (concat dir "/user-config.el"))
            (org-file (file-chase-links (concat dir "/user-config.org"))))
       (when (or (not (file-exists-p el-file))
-                (time-less-p (-> el-file  (file-attributes) (file-attribute-modification-time))
-                             (-> org-file (file-attributes) (file-attribute-modification-time))))
+                (time-less-p (->> el-file  (file-attributes) (nth 5))
+                             (->> org-file (file-attributes) (nth 5))))
         (std::do-recompile org-file el-file))))
 #+END_SRC
 
