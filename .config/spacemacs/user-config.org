@@ -1171,6 +1171,7 @@ Replace popwin
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'yasnippet
+    (autoload #'f-join "f.el")
     (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
 #+END_SRC
 
