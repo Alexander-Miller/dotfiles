@@ -1273,6 +1273,28 @@ A fallback in case evil's own folding is not sufficient
       (user-error "No org files ")))
 #+END_SRC
 
+** Evil Goggles
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (evil-goggles-mode t)
+  (setq evil-goggles-duration                     0.1
+        evil-goggles-pulse                        t
+        evil-goggles-enable-delete                t
+        evil-goggles-enable-indent                t
+        evil-goggles-enable-yank                  t
+        evil-goggles-enable-join                  t
+        evil-goggles-enable-fill-and-move         t
+        evil-goggles-enable-paste                 t
+        evil-goggles-enable-shift                 t
+        evil-goggles-enable-surround              t
+        evil-goggles-enable-commentary            t
+        evil-goggles-enable-nerd-commenter        t
+        evil-goggles-enable-replace-with-register t
+        evil-goggles-enable-set-marker            t
+        evil-goggles-enable-undo                  t
+        evil-goggles-enable-redo                  t)
+#+END_SRC
 
 ** Helpful
 *** Keybinds
