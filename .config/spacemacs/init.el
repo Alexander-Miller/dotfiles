@@ -48,6 +48,7 @@
      evil-goggles
      rainbow-mode
      shackle
+     swiper
      vimish-fold
      writeroom-mode)
    dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe hl-todo)
@@ -86,7 +87,7 @@
    dotspacemacs-enable-paste-micro-state           nil
    dotspacemacs-which-key-delay                    2.0
    dotspacemacs-which-key-position                 'bottom
-   dotspacemacs-loading-progress-bar               t
+   dotspacemacs-loading-progress-bar               nil
    dotspacemacs-fullscreen-at-startup              nil
    dotspacemacs-fullscreen-use-non-native          nil
    dotspacemacs-maximized-at-startup               nil
@@ -98,8 +99,8 @@
    dotspacemacs-smartparens-strict-mode            nil
    dotspacemacs-highlight-delimiters               'any
    dotspacemacs-persistent-server                  nil
-   dotspacemacs-search-tools                       '("ag" "pt" "ack" "grep")
    dotspacemacs-whitespace-cleanup                 'all))
+   dotspacemacs-search-tools                       '("ag" "grep")
 
 (defun dotspacemacs/user-init ()
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))

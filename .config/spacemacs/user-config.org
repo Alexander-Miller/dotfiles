@@ -750,7 +750,7 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 ** Shell Scripts
-**** Functions
+*** Functions
 
 ~std::fish-mode-hook~
 #+BEGIN_SRC emacs-lisp
@@ -759,7 +759,7 @@ A small bit of custom font locking for '==>'
   (add-hook 'fish-mode-hook #'std::fish::mode-hook)
 #+END_SRC
 
-**** Settings
+*** Settings
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
@@ -831,8 +831,9 @@ A small bit of custom font locking for '==>'
   (spacemacs/set-leader-keys
     "hi"  #'std::helm-semantic-or-imenu
     "saa" #'helm-do-ag-this-file)
-  (define-key helm-map (kbd "M-j") #'helm-next-source)
-  (define-key helm-map (kbd "M-k") #'helm-previous-source)
+  (with-eval-after-load "helm"
+    (define-key helm-map (kbd "M-j") #'helm-next-source)
+    (define-key helm-map (kbd "M-k") #'helm-previous-source))
 #+END_SRC
 
 ** Rust
@@ -1096,6 +1097,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 ** Clojure
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
@@ -1103,6 +1105,34 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 * Single Package Configurations
+** Swiper
+*** Functions
+
+#+BEGIN_SRC emacs-lisp
+  (defun std::swipe-symbol-at-point ()
+    (interactive)
+    (-if-let (sym (thing-at-point 'symbol t))
+        (swiper sym)
+      (message "No symbol found.")))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'swiper
+    (setq ivy-height 4))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-s") #'swiper)
+  (std::def-key-for-maps
+   (kbd "C-M-s")
+   #'std::swipe-symbol-at-point
+   evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
+#+END_SRC
+
 ** dired+
 
 #+BEGIN_SRC emacs-lisp
@@ -1393,12 +1423,6 @@ Emacs style line start/end jump
 
   (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
     (define-key map (kbd "C-a") #'evil-beginning-of-visual-line))
-#+END_SRC
-
-Evil search on emacs' buttons
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-s") #'evil-search-forward)
-  (global-set-key (kbd "C-r") #'evil-search-backward)
 #+END_SRC
 
 Splitting and joining lines
