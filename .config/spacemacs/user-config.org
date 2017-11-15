@@ -39,7 +39,7 @@
 ** std::def-key-for-maps
 
 #+BEGIN_SRC emacs-lisp
-(defun std::def-key-for-maps (key cmd keymaps)
+(defun std::def-key-for-maps (key cmd &rest keymaps)
   "Bind KEY to CMD for all keymaps in MAPS."
   (dolist (keymap keymaps)
     (define-key keymap key cmd)))
@@ -327,13 +327,13 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
       "Use default keys when company is not active. ARG is ignored."
       (std::def-key-for-maps
        (kbd "C-j") #'electric-newline-and-maybe-indent
-       (list evil-normal-state-map evil-insert-state-map))
+       evil-normal-state-map evil-insert-state-map)
       (std::def-key-for-maps
        (kbd "C-k") #'kill-line
-       (list evil-normal-state-map evil-insert-state-map))
+       evil-normal-state-map evil-insert-state-map)
       (std::def-key-for-maps
        (kbd "C-l") #'yas-expand
-       (list evil-insert-state-map)))
+       evil-insert-state-map))
 
     (defun std::company::on (arg)
       "Use company's keys when company is active.
@@ -341,13 +341,13 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
   ARG is ignored."
       (std::def-key-for-maps
        (kbd "C-j") #'company-select-next
-       (list evil-normal-state-map evil-insert-state-map))
+       evil-normal-state-map evil-insert-state-map)
       (std::def-key-for-maps
        (kbd "C-k") #'company-select-previous
-       (list evil-normal-state-map evil-insert-state-map))
+       evil-normal-state-map evil-insert-state-map)
       (std::def-key-for-maps
        (kbd "C-l") #'company-quickhelp-manual-begin
-       (list evil-insert-state-map)))
+       evil-insert-state-map))
 
     (add-hook 'company-completion-started-hook   #'std::company::on)
     (add-hook 'company-completion-finished-hook  #'std::company::off)
@@ -976,15 +976,15 @@ Add *company-dabbrev-code* to front row of completion backends.
        magit-staged-section-map
        magit-unstaged-section-map))
 
-    (std::def-key-for-maps (kbd "J")   #'std::quick-forward              std::magit-key-maps)
-    (std::def-key-for-maps (kbd "K")   #'std::quick-backward             std::magit-key-maps)
-    (std::def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   std::magit-key-maps)
-    (std::def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  std::magit-key-maps)
-    (std::def-key-for-maps (kbd ",u")  #'magit-section-up                std::magit-key-maps)
-    (std::def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  std::magit-key-maps)
-    (std::def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  std::magit-key-maps)
-    (std::def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  std::magit-key-maps)
-    (std::def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  std::magit-key-maps))
+    (apply #'std::def-key-for-maps (kbd "J")   #'std::quick-forward              std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd "K")   #'std::quick-backward             std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd ",u")  #'magit-section-up                std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  std::magit-key-maps)
+    (apply #'std::def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  std::magit-key-maps))
 #+END_SRC
 
 ** Elm
@@ -1365,10 +1365,10 @@ Use visual lines
 #+BEGIN_SRC emacs-lisp
   (std::def-key-for-maps
    (kbd "j") #'evil-next-visual-line
-   (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
+   evil-normal-state-map evil-visual-state-map evil-motion-state-map)
   (std::def-key-for-maps
    (kbd "k") #'evil-previous-visual-line
-   (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
+   evil-normal-state-map evil-visual-state-map evil-motion-state-map)
 #+END_SRC
 
 Quick line jumping
