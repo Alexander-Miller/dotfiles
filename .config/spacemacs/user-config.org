@@ -1344,8 +1344,8 @@ A fallback in case evil's own folding is not sufficient
 
 #+BEGIN_SRC emacs-lisp
   (evil-goggles-mode t)
-  (setq evil-goggles-duration                     0.1
-        evil-goggles-pulse                        t
+  (setq evil-goggles-duration                     0.15
+        evil-goggles-pulse                        nil
         evil-goggles-enable-delete                t
         evil-goggles-enable-indent                t
         evil-goggles-enable-yank                  t
