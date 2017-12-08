@@ -1600,9 +1600,9 @@ I'll never want to keep my current tags when switching projects
   (setq tags-add-tables nil)
 #+END_SRC
 
-No need for vi-tilde, emacs default looks better
+Keept the fringes clean
 #+BEGIN_SRC emacs-lisp
-  (setq-default indicate-empty-lines t)
+  (setq-default indicate-empty-lines nil)
 #+END_SRC
 
 Banish mouse to the bottom so as not to interfere with notifications
