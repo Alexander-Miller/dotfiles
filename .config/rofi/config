@@ -49,3 +49,4 @@ rofi.scrollbar-width:   8
 rofi.scroll-method:     0
 rofi.fake-background:   screenshot
 rofi.pid:               /run/user/1000/rofi.pid
+rofi.show-icons:        true
