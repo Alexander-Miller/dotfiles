@@ -631,7 +631,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
-    ;;Spacemancs default *,n* needs to be removed first
+    ;;Spacemacs default *,n* needs to be removed first
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
 
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -1104,6 +1104,75 @@ Add *company-dabbrev-code* to front row of completion backends.
   (setq clojure-enable-fancify-symbols t)
 #+END_SRC
 
+** Treemacs
+
+I don't use the treemacs layer directly, loading the local development version instead. Without loading the layer
+the custom ~spacemacs-treemacs-face~ is not defined and leads to display errors and an empty modeline.
+
+#+BEGIN_SRC emacs-lisp
+  (defface spacemacs-treemacs-face
+    `((t (:foreground "#1a1a1a" :background "MediumPurple1")))
+    "Custom spacemacs-treemacs face for the modeline.")
+#+END_SRC
+
+Flycheck should be turned on for treemacs, but not all elisp files.
+
+#+BEGIN_SRC emacs-lisp
+  (autoload #'s-matches "s.el")
+  (defun std::elisp::treemacs-flycheck-activate ()
+    (when (s-matches? (rx "treemacs" (0+ (or "-" (1+ alnum))) ".el")
+                      (buffer-name))
+      (flycheck-mode)))
+  (add-hook 'find-file-hook #'std::elisp::treemacs-flycheck-activate)
+#+END_SRC
+
+Load up the local repository. Settings are mostly default, minor modes are on. Everyting's wrapped up in a single when
+for easy deactivation.
+
+#+BEGIN_SRC emacs-lisp
+  (when t
+      (add-to-list 'load-path "/home/a/Documents/git/treemacs")
+      (use-package treemacs
+        :load-path "/home/a/Documents/git/treemacs/src/elisp"
+        :defer t
+        :config
+        (progn
+          (use-package treemacs-evil
+            :load-path "/home/a/Documents/git/treemacs/src/elisp"
+            :demand t)
+          (setq treemacs-follow-after-init          t
+                treemacs-width                      35
+                treemacs-indentation                2
+                treemacs-git-integration            t
+                treemacs-collapse-dirs              3
+                treemacs-silent-refresh             nil
+                treemacs-change-root-without-asking nil
+                treemacs-sorting                    'alphabetic-desc
+                treemacs-show-hidden-files          t
+                treemacs-never-persist              nil
+                treemacs-goto-tag-strategy          'refetch-index)
+          (treemacs-follow-mode t)
+          (treemacs-filewatch-mode t))
+        :bind
+        (:map global-map
+              ([f8]        . treemacs-toggle)
+              ("<C-M-tab>" . treemacs-toggle)
+              ("M-0"       . treemacs-select-window)
+              ("C-c 1"     . treemacs-delete-other-windows)
+              :map spacemacs-default-map
+              ("ft"    . treemacs-toggle)
+              ("fT"    . treemacs)
+              ("f C-t" . treemacs-find-file)))
+      (use-package treemacs-projectile
+        :load-path "/home/a/Documents/git/treemacs/src/elisp"
+        :config
+        (setq treemacs-header-function #'treemacs-projectile-create-header)
+        :bind
+        (:map spacemacs-default-map
+              ("fP" . treemacs-projectile)
+              ("fp" . treemacs-projectile-toggle))))
+#+END_SRC
+
 * Single Package Configurations
 ** Swiper
 *** Functions
@@ -1227,29 +1296,6 @@ I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
   (with-eval-after-load 'writeroom-mode
     (setq writeroom-width              120
           writeroom-extra-line-spacing 0))
-#+END_SRC
-
-** Treemacs
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq treemacs-be-evil t)
-  (with-eval-after-load 'treemacs
-    (setq treemacs-header-function   #'treemacs--create-header-projectile
-          treemacs-follow-after-init t
-          treemacs-git-integration   t)
-    (treemacs-follow-mode))
-#+END_SRC
-
-*** Keybinds
-
-#+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
-    "ft"   #'treemacs-init
-    "fT"   #'treemacs-projectile-init)
-
-  (global-set-key (kbd "<f8>")      #'treemacs-toggle)
-  (global-set-key (kbd "<C-M-tab>") #'treemacs-toggle)
 #+END_SRC
 
 ** Vimish fold
