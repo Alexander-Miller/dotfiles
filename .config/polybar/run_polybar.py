@@ -27,7 +27,7 @@ def get_eth_interface():
             return iface
 
 def get_battery():
-    battery_line = run('upower --enumerate | ag battery')
+    battery_line = run('upower --enumerate | ag battery | head -n 1')
     return battery_line.split('/')[-1][len('battery_'):]
 
 def run(cmd):
