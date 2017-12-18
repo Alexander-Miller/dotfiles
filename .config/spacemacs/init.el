@@ -51,8 +51,8 @@
      swiper
      vimish-fold
      writeroom-mode)
-   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe hl-todo)
    dotspacemacs-delete-orphan-packages t))
+   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe)
 
 (defun dotspacemacs/init ()
   (setq-default
