@@ -99,8 +99,8 @@
    dotspacemacs-smartparens-strict-mode            nil
    dotspacemacs-highlight-delimiters               'any
    dotspacemacs-persistent-server                  nil
-   dotspacemacs-whitespace-cleanup                 'all))
    dotspacemacs-search-tools                       '("ag" "grep")
+   dotspacemacs-whitespace-cleanup                 'trailing))
 
 (defun dotspacemacs/user-init ()
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
