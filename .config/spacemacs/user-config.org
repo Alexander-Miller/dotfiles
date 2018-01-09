@@ -196,6 +196,7 @@ Insert retangle before both quitting emacs and reloading the config.
 **** ~std::elisp::repl-buffer~
 The elisp repl window refuses to be controlled by shackle, so we'll
 do it manually.
+
 #+BEGIN_SRC emacs-lisp
   (defun std::elisp::repl-buffer (&optional arg)
     (interactive "P")
@@ -209,6 +210,7 @@ do it manually.
       (set-window-text-height (get-buffer-window) (round (* 0.33 h)))
       (when arg (select-window w))))
 #+END_SRC
+
 **** ~std::elisp::fold-all-top-level-forms~
 
 #+BEGIN_SRC emacs-lisp
@@ -380,8 +382,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
     (defun org-switch-to-buffer-other-window (&rest args)
-      "Same as the original, but lacking the wrapping
-      call to `org-no-popups'"
+      "Same as the original, but lacking the wrapping call to `org-no-popups'"
       (apply 'switch-to-buffer-other-window args)))
 #+END_SRC
 
@@ -1252,7 +1253,7 @@ Replace popwin
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "yasnippet"
+  (with-eval-after-load 'yasnippet
     (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
 #+END_SRC
 
@@ -1269,14 +1270,22 @@ Replace popwin
 Smartparens is disabled while yasnippet is expanding and editing a snippet. Whatever this was a workaround for
 I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
 #+BEGIN_SRC emacs-lisp
-  (unless (bound-and-true-p std::yasnippet::smartparens-restored)
-    (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
-        (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
-      (error "Smartparens no longer disabled before yasnippet starts."))
-    (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
-        (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
-      (error "Smartparens no longer restored after yasnippet ends.")))
-  (defvar std::yasnippet::smartparens-restored t)
+  (with-eval-after-load 'yasnippet
+    (unless (bound-and-true-p std::yasnippet::smartparens-restored)
+      (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
+          (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
+        (error "Smartparens no longer disabled before yasnippet starts."))
+      (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
+          (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
+        (error "Smartparens no longer restored after yasnippet ends.")))
+    (defvar std::yasnippet::smartparens-restored t))
+#+END_SRC
+
+*** Enabele Whitespace mode
+
+Hoping it'll help with the issue of the extra newline in snippets
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'snippet-mode-hook #'whitespace-mode)
 #+END_SRC
 
 ** i3wm-config-mode
