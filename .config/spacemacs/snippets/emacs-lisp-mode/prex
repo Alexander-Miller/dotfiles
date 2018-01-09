@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: pretty-expand
+#key: prex
+# --
+(cl-prettyexpand '${1:form})$0
