@@ -405,6 +405,16 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
                 org-default-notes-file (concat org-directory "Capture.org"))
 #+END_SRC
 
+**** Startup
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'org
+    (setq org-startup-folded             t
+          org-startup-indented           t
+          org-startup-align-all-tables   t
+          org-startup-with-inline-images nil))
+#+END_SRC
+
 **** Additional modules
 
 #+BEGIN_SRC emacs-lisp
@@ -495,10 +505,7 @@ Also use ascii bullets for simple lists
      org-src-window-setup           'other-window
      org-log-done                   'time
      org-ellipsis                   "  "
-     org-startup-align-all-tables   t
-     org-startup-indented           t
      org-log-into-drawer            t
-     org-startup-folded             t
      org-table-use-standard-references nil
      org-cycle-emulate-tab          t
      org-cycle-global-at-bob        nil
@@ -519,7 +526,6 @@ Also use ascii bullets for simple lists
   ;;  org-list-indent-offset         1
   ;;  org-list-allow-alphabetical    nil
   ;;  org-src-fontify-natively       t
-  ;;  org-startup-folded             t
 #+END_SRC
 
 *** Babel Languages
