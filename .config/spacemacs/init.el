@@ -36,6 +36,7 @@
      dash
      dired+
      el-mock
+     eros
      flx
      flycheck-package
      haskell-mode
@@ -82,8 +83,8 @@
    dotspacemacs-max-rollback-slots                 5
    dotspacemacs-use-ido                            nil
    dotspacemacs-helm-resize                        nil
-   dotspacemacs-helm-no-header                     nil
-   dotspacemacs-helm-position                      'bottom
+   dotspacemacs-helm-no-header                     t
+   dotspacemacs-helm-position                      nil
    dotspacemacs-enable-paste-micro-state           nil
    dotspacemacs-which-key-delay                    2.0
    dotspacemacs-which-key-position                 'bottom

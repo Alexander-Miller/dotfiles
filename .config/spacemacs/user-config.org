@@ -45,23 +45,6 @@
     (define-key keymap key cmd)))
 #+END_SRC
 
-** std::eval-last-sexp
-
-#+BEGIN_SRC emacs-lisp
-  (defun std::eval-last-sexp ()
-    (interactive)
-    (if (and (evil-normal-state-p)
-             (string= ")" (string (or (char-after) 0))))
-        (save-excursion
-          (forward-char)
-          (call-interactively 'eval-last-sexp))
-      (call-interactively 'eval-last-sexp)))
-
-  (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
-  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "ee" #'std::eval-last-sexp)
-#+END_SRC
-
 ** std::org-files
 
 #+BEGIN_SRC emacs-lisp
@@ -1390,6 +1373,32 @@ A fallback in case evil's own folding is not sufficient
   (add-hook 'helpful-mode-hook #'evil-motion-state)
 #+END_SRC
 
+** Eros
+
+*** Functions
+
+Evaluate last s-expr on the right spot, calling into eros if it's on.
+#+BEGIN_SRC emacs-lisp
+  (defun std::eval-last-sexp ()
+    (interactive)
+    (autoload #'eros-eval-last-sexp "eros")
+    (let ((func (if eros-mode 'eros-eval-last-sexp 'eval-last-sexp)))
+      (if (and (evil-normal-state-p)
+               (string= ")" (string (or (char-after) 0))))
+          (save-excursion
+            (forward-char)
+            (call-interactively func))
+        (call-interactively func))))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+    "ee" #'std::eval-last-sexp)
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
@@ -1547,6 +1556,7 @@ On
   (blink-cursor-mode t)
   (mouse-avoidance-mode 'banish)
   (desktop-save-mode t)
+  (eros-mode t)
 #+END_SRC
 
 Off
