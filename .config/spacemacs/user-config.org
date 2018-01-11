@@ -1655,6 +1655,12 @@ No more asking to following symlinks
   (setq vc-follow-symlinks t)
 #+END_SRC
 
+Dash.el highlighting
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'dash
+    (dash-enable-font-lock))
+#+END_SRC
+
 ** Desktop Restoration
 *** Settings
 
