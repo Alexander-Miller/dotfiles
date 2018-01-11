@@ -533,9 +533,9 @@ A small bit of custom font locking for '==>'
     `((t (:foreground "#886688" :bold t)))
     "Face for '==>'.")
 
-  (font-lock-add-keywords
-   'org-mode
-   '(("==>" . 'std::result-face)))
+    (font-lock-add-keywords
+     'org-mode
+     '(("==>" . 'std::result-face)))
 #+END_SRC
 
 *** Keybinds
@@ -557,8 +557,8 @@ A small bit of custom font locking for '==>'
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "u"   #'outline-up-heading
       "M-u" #'helm-org-parent-headings
-      "j"   #'outline-next-visible-heading
-      "k"   #'outline-previous-visible-heading
+      "j"   #'org-next-visible-heading
+      "k"   #'org-previous-visible-heading
       "C-j" #'org-forward-heading-same-level
       "C-k" #'org-backward-heading-same-level))
 #+END_SRC
@@ -982,21 +982,23 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::format-and-save-elm-buffer ()
-    "Format an elm buffer and then save it."
-    (interactive)
-    (elm-mode-format-buffer)
-    (save-buffer))
+  (with-eval-after-load 'elm-mode
+    (defun std::format-and-save-elm-buffer ()
+      "Format an elm buffer and then save it."
+      (interactive)
+      (elm-mode-format-buffer)
+      (save-buffer)))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::elm-mode-hook ()
-    (setq-local company-backends
-                '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
+  (with-eval-after-load 'elm-mode
+    (defun std::elm-mode-hook ()
+      (setq-local company-backends
+                  '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
 
-  (add-hook 'elm-mode-hook #'std::elm-mode-hook t)
+    (add-hook 'elm-mode-hook #'std::elm-mode-hook t))
 #+END_SRC
 
 *** Keybinds
@@ -1041,12 +1043,13 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 ~std::deer-new-frame~
 #+BEGIN_SRC emacs-lisp
-  (defun std::deer-new-frame ()
-    (interactive)
-    (let ((frame (make-frame-command)))
-      (select-frame frame)
-      (deer)
-      (delete-other-windows)))
+  (with-eval-after-load 'ranger
+    (defun std::deer-new-frame ()
+      (interactive)
+      (let ((frame (make-frame-command)))
+        (select-frame frame)
+        (deer)
+        (delete-other-windows))))
 #+END_SRC
 
 ~std::deer-kill-frame~
@@ -1108,7 +1111,6 @@ the custom ~spacemacs-treemacs-face~ is not defined and leads to display errors 
 Flycheck should be turned on for treemacs, but not all elisp files.
 
 #+BEGIN_SRC emacs-lisp
-  (autoload #'s-matches "s.el")
   (defun std::elisp::treemacs-flycheck-activate ()
     (when (s-matches? (rx "treemacs" (0+ (or "-" (1+ alnum))) ".el")
                       (buffer-name))
@@ -1133,7 +1135,6 @@ for easy deactivation.
           (setq treemacs-follow-after-init          t
                 treemacs-width                      35
                 treemacs-indentation                2
-                treemacs-git-integration            t
                 treemacs-collapse-dirs              3
                 treemacs-silent-refresh             nil
                 treemacs-change-root-without-asking nil
