@@ -1144,7 +1144,9 @@ for easy deactivation.
                 treemacs-never-persist              nil
                 treemacs-goto-tag-strategy          'refetch-index)
           (treemacs-follow-mode t)
-          (treemacs-filewatch-mode t))
+          (treemacs-filewatch-mode t)
+          (with-eval-after-load 'winum
+            (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
         :bind
         (:map global-map
               ([f8]        . treemacs-toggle)
