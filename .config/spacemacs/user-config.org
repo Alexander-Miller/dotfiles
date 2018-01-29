@@ -940,6 +940,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'magit
     (setq
+     magit-save-repository-buffers              'dontask
      git-commit-summary-max-length              120
      magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
 
