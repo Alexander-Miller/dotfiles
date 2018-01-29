@@ -1,6 +1,15 @@
 #+STARTUP: overview
 #+STARTUP: hideblocks
 
+* Requirements
+
+Load used libraries to somewhat reduce the amount of warnings.
+#+BEGIN_SRC emacs-lisp
+  (require 'dash)
+  (require 'f)
+  (require 's)
+#+END_SRC
+
 * Utility Functions
 ** std::what-face
 
