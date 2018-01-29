@@ -62,6 +62,7 @@
    dotspacemacs-elpa-https                         t
    dotspacemacs-elpa-timeout                       10
    dotspacemacs-check-for-update                   t
+   dotspacemacs-mode-line-theme                    'spacemacs
    dotspacemacs-editing-style                      'vim
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
