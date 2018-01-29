@@ -809,7 +809,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (setq
-   helm-ag-base-command              "ag -f -t --hidden --nocolor --nogroup --depth 999999 --smart-case --recurse"
+   helm-ag-base-command              "ag -f --nocolor --nogroup --depth 999999 --smart-case --recurse"
    helm-imenu-delimiter              ": "
    helm-move-to-line-cycle-in-source t
    helm-swoop-use-line-number-face   t)
