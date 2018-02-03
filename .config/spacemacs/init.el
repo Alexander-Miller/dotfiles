@@ -61,6 +61,7 @@
   (setq-default
    dotspacemacs-elpa-https                         t
    dotspacemacs-elpa-timeout                       10
+   dotspacemacs-use-spacelpa                       nil
    dotspacemacs-check-for-update                   t
    dotspacemacs-mode-line-theme                    'spacemacs
    dotspacemacs-editing-style                      'vim
