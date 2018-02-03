@@ -152,6 +152,19 @@ Insert retangle before both quitting emacs and reloading the config.
    evil-operator-state-cursor '("#00688b" (hbar . 5))
    evil-emacs-state-cursor    '("#339999" bar)
    evil-resize-state-cursor   '("#ffdb1a" box))
+
+  (setq spacemacs-evil-cursors
+        '(("normal"       "#ab3737"  box)
+          ("insert"       "#33aa33"  (bar . 2))
+          ("emacs"        "#339999"        box)
+          ("hybrid"       "#339999"        (bar . 2))
+          ("replace"      "#993333"       (hbar . 2))
+          ("evilified"    "LightGoldenrod3" box)
+          ("visual"       "gray"            (hbar . 2))
+          ("motion"       "plum3"           box)
+          ("lisp"         "HotPink1"        box)
+          ("iedit"        "firebrick1"      box)
+          ("iedit-insert" "firebrick1"      (bar . 2))))
 #+END_SRC
 
 *** kj key-chord
@@ -1053,13 +1066,12 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 ~std::deer-new-frame~
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'ranger
-    (defun std::deer-new-frame ()
-      (interactive)
-      (let ((frame (make-frame-command)))
-        (select-frame frame)
-        (deer)
-        (delete-other-windows))))
+  (defun std::deer-new-frame ()
+    (interactive)
+    (let ((frame (make-frame-command)))
+      (select-frame frame)
+      (deer)
+      (delete-other-windows)))
 #+END_SRC
 
 ~std::deer-kill-frame~
