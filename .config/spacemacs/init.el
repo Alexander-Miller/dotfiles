@@ -16,6 +16,7 @@
      better-defaults
      emacs-lisp
      git
+     helm
      html
      markdown
      org
@@ -54,8 +55,8 @@
      swiper
      vimish-fold
      writeroom-mode)
-   dotspacemacs-delete-orphan-packages t))
-   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe)
+   dotspacemacs-delete-orphan-packages t
+   dotspacemacs-excluded-packages '(evil-org popwin vi-tilde-fringe)))
 
 (defun dotspacemacs/init ()
   (setq-default
