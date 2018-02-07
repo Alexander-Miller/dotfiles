@@ -64,7 +64,7 @@
    dotspacemacs-elpa-timeout                       10
    dotspacemacs-use-spacelpa                       nil
    dotspacemacs-check-for-update                   t
-   dotspacemacs-mode-line-theme                    'spacemacs
+   dotspacemacs-mode-line-theme                    '(spacemacs :separator-scale 1.1)
    dotspacemacs-editing-style                      'vim
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
@@ -73,7 +73,7 @@
    dotspacemacs-scratch-mode                       'emacs-lisp-mode
    dotspacemacs-themes                             '(morning-star)
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font                       '("Fantasque Sans Mono" :size 16 :weight normal :width normal :powerline-scale 1.2)
+   dotspacemacs-default-font                       '("Fantasque Sans Mono" :size 16 :weight normal :width normal)
    dotspacemacs-leader-key                         "SPC"
    dotspacemacs-emacs-leader-key                   "M-m"
    dotspacemacs-major-mode-leader-key              ","
