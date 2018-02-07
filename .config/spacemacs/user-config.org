@@ -752,6 +752,9 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
+
+    (global-set-key (kbd "<f12>") #'org-agenda-list)
+
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "0"   #'org-sort
       "#"   #'org-update-statistics-cookies
@@ -1606,6 +1609,7 @@ Off
   (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
   (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
+  (add-hook 'emacs-lisp-mode-hook #'nameless-mode)
   (add-hook 'conf-mode-hook       #'rainbow-mode)
   (add-hook 'help-mode-hook       #'rainbow-mode)
   (add-hook 'org-mode-hook        #'smartparens-mode)
