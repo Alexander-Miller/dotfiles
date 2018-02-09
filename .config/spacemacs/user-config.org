@@ -751,10 +751,9 @@ A small bit of custom font locking for '==>'
 **** Other
 
 #+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f12>") #'org-agenda-list)
+
   (with-eval-after-load 'org
-
-    (global-set-key (kbd "<f12>") #'org-agenda-list)
-
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "0"   #'org-sort
       "#"   #'org-update-statistics-cookies
@@ -1318,7 +1317,8 @@ Hoping it'll help with the issue of the extra newline in snippets
 ** i3wm-config-mode
 
 #+BEGIN_SRC emacs-lisp
-  (require 'i3wm-config-mode)
+  (with-eval-after-load 'conf-mode
+    (require 'i3wm-config-mode))
 #+END_SRC
 
 ** Writeroom mode
@@ -1435,6 +1435,13 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
   (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
   (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
     "ee" #'std::eval-last-sexp)
+#+END_SRC
+
+** Nameless
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq nameless-prefix ".")
 #+END_SRC
 
 * Modeline
