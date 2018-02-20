@@ -973,6 +973,7 @@ Add *company-dabbrev-code* to front row of completion backends.
     (setq
      magit-save-repository-buffers              'dontask
      git-commit-summary-max-length              120
+     magit-fetch-arguments                      '("--prune")
      magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
 
   (with-eval-after-load 'git-gutter
