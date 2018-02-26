@@ -1609,6 +1609,7 @@ Off
 #+BEGIN_SRC emacs-lisp
   (ido-mode -1)
   (global-hl-line-mode -1)
+  (blink-cursor-mode -1)
 #+END_SRC
 
 *** Hooks
