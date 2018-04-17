@@ -197,11 +197,36 @@ Insert retangle before both quitting emacs and reloading the config.
 ** Elisp
 *** Settings
 
+Completion backends
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
     (setq company-backends-emacs-lisp-mode
           '((company-capf company-files :with company-yasnippet)
             (company-dabbrev-code company-dabbrev))))
+#+END_SRC
+
+Syntax highlighting for symbols and function symbols
+#+BEGIN_SRC emacs-lisp
+  (font-lock-add-keywords
+   'emacs-lisp-mode
+   `((,(rx (group-n
+            1
+            (not (any "#"))
+            "'"
+            symbol-start
+            (1+ (or (syntax word)
+                    (syntax symbol)))
+            symbol-end))
+      1 font-lock-type-face)
+     (,(rx (group-n
+            1
+            "#'"
+            symbol-start
+            (1+ (or (syntax word)
+                    (syntax symbol)))
+            symbol-end))
+      1 font-lock-function-name-face) )
+   'append)
 #+END_SRC
 
 *** Functions
