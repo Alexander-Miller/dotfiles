@@ -238,6 +238,7 @@ new_float none
 gaps inner 10
 
 assign [class="Firefox"] → 2
+assign [class="mpv"] → 1
 assign [class="qutebrowser"] → 2
 assign [class="Emacs"] → 3
 assign [class="Thunderbird"] → 4
