@@ -101,6 +101,17 @@ As shown in the spacemacs FAQ
   (define-key evil-normal-state-map (kbd "züf") #'std::fold-defun)
 #+END_SRC
 
+** after!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro after! (feature &rest body)
+    "Run BODY after loading FEATURE.
+  Same as `with-eval-after-load', but there is no need to quote FEATURE."
+    (declare (debug (sexp body)) (indent 1))
+    `(with-eval-after-load ,(if (stringp feature) feature `(quote ,feature))
+       ,@body))
+#+END_SRC
+
 * Config tangle & compilation
 
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
@@ -199,7 +210,7 @@ Insert retangle before both quitting emacs and reloading the config.
 
 Completion backends
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (setq company-backends-emacs-lisp-mode
           '((company-capf company-files :with company-yasnippet)
             (company-dabbrev-code company-dabbrev))))
@@ -280,7 +291,7 @@ do it manually.
 **** Company Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (setq
      company-abort-manual-when-too-short t
      company-auto-complete               nil
@@ -301,7 +312,7 @@ do it manually.
 
 The tooltip will look vastly better if we set a minimum width and properly align annotations.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (setq
      company-tooltip-minimum-width              70
      company-tooltip-align-annotations          t
@@ -313,7 +324,7 @@ The tooltip will look vastly better if we set a minimum width and properly align
 The completions provided by combined backends should be sorted, so as to avoid
 interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (defconst std::company::backend-priorities
       '((company-fish-shell   . 10)
         (company-shell        . 11)
@@ -360,7 +371,7 @@ The priority sorting is only used in major modes which use combined backends
 
 Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keymap while company is active
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company-quickhelp
+  (after! company-quickhelp
 
     (defun std::company::off (arg)
       "Use default keys when company is not active. ARG is ignored."
@@ -398,7 +409,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 *** Company Flx
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (company-flx-mode t)
     (setq company-flx-limit 400))
 #+END_SRC
@@ -417,7 +428,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 Org thinks it's a good idea to disable ~display-buffer-alist~ when displaying its buffers. I don't.
 I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (defun org-switch-to-buffer-other-window (&rest args)
       "Same as the original, but lacking the wrapping call to `org-no-popups'"
       (apply 'switch-to-buffer-other-window args)))
@@ -425,7 +436,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 ~std::org::capture-std-target~
 #+BEGIN_SRC  emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (defun std::org::capture-std-target ()
       `(file+headline
         ,(concat org-directory "Capture.org")
@@ -445,7 +456,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Startup
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (setq org-startup-folded             t
           org-startup-indented           t
           org-startup-align-all-tables   t
@@ -455,7 +466,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Additional modules
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (add-to-list 'org-modules 'org-habit)
     (require 'org-habit))
 #+END_SRC
@@ -463,14 +474,14 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Better looking TODO keywords
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (setq-default org-todo-keywords '((sequence "[TODO]" "|" "[DONE]"))))
 #+END_SRC
 
 **** No `special` behaviour.
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (setq
      org-special-ctrl-a         nil
      org-special-ctrl-k         nil
@@ -482,7 +493,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Agenda
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org-agenda
+  (after! org-agenda
 
     (add-to-list 'org-agenda-files (concat org-directory "NT.org"))
 
@@ -511,7 +522,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 Use only one bullet for headings (original = "◉" "○" "✸" "✿")
 #+BEGIN_SRC emacs-lisp
-   (with-eval-after-load 'org
+   (after! org
      (setq-default org-bullets-bullet-list '("✿")))
 #+END_SRC
 
@@ -525,7 +536,7 @@ Also use ascii bullets for simple lists
 **** Capture
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (setq org-capture-templates
           `(("t" "Idee/Todo" entry
              ,(std::org::capture-std-target)
@@ -535,7 +546,7 @@ Also use ascii bullets for simple lists
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (setq
      calendar-date-style            'european
      org-tags-column                85
@@ -568,7 +579,7 @@ Also use ascii bullets for simple lists
 *** Babel Languages
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -596,7 +607,7 @@ A small bit of custom font locking for '==>'
 **** Showing content
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "rr" #'org-reveal
       "rb" #'outline-show-branches
@@ -607,7 +618,7 @@ A small bit of custom font locking for '==>'
 **** Headline Navigation
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "u"   #'outline-up-heading
       "M-u" #'helm-org-parent-headings
@@ -620,7 +631,7 @@ A small bit of custom font locking for '==>'
 **** Scheduling
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "s"  nil
       "ss" #'org-schedule
@@ -631,7 +642,7 @@ A small bit of custom font locking for '==>'
 **** (Sub)Tree
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "wi" #'org-tree-to-indirect-buffer
       "wm" #'org-mark-subtree
@@ -645,7 +656,7 @@ A small bit of custom font locking for '==>'
 **** Structure Editing
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (dolist (mode '(normal insert))
       (evil-define-key mode org-mode-map
         (kbd "M-RET") #'org-meta-return
@@ -663,7 +674,7 @@ A small bit of custom font locking for '==>'
 **** Sparse Trees
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "7"   #'org-sparse-tree
       "8"   #'org-occur
@@ -674,7 +685,7 @@ A small bit of custom font locking for '==>'
 **** Narrowing
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     ;;Spacemacs default *,n* needs to be removed first
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
 
@@ -688,13 +699,14 @@ A small bit of custom font locking for '==>'
 **** Insert Commands
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "if" #'org-footnote-new
       "il" #'org-insert-link
       "in" #'org-add-note
       "id" #'org-insert-drawer
-      "iD" #'org-insert-property-drawer))
+      "ii" #'org-time-stamp-inactive
+      "iI" #'org-time-stamp))
 #+END_SRC
 
 **** Tables
@@ -760,7 +772,7 @@ A small bit of custom font locking for '==>'
 **** Toggles
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "zh" #'org-toggle-heading
       "zl" #'org-toggle-link-display
@@ -776,7 +788,7 @@ A small bit of custom font locking for '==>'
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f12>") #'org-agenda-list)
 
-  (with-eval-after-load 'org
+  (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "0"   #'org-sort
       "#"   #'org-update-statistics-cookies
@@ -808,7 +820,7 @@ A small bit of custom font locking for '==>'
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
+  (after! company
     (setq
      company-shell-delete-duplicates nil
      company-shell-modes             nil
@@ -877,7 +889,7 @@ A small bit of custom font locking for '==>'
   (spacemacs/set-leader-keys
     "hi"  #'std::helm-semantic-or-imenu
     "saa" #'helm-do-ag-this-file)
-  (with-eval-after-load "helm"
+  (after! helm
     (define-key helm-map (kbd "M-j") #'helm-next-source)
     (define-key helm-map (kbd "M-k") #'helm-previous-source))
 #+END_SRC
@@ -887,7 +899,7 @@ A small bit of custom font locking for '==>'
 
 ~std::rust::build-rusty-tags~
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'rust-mode
+  (after! rust-mode
     (defun std::rust::build-rusty-tags ()
       (interactive)
       (make-thread
@@ -901,7 +913,7 @@ A small bit of custom font locking for '==>'
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "racer"
+  (after! "racer"
     (evil-define-key 'normal racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'insert racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'kill-buffer-and-window)
@@ -918,8 +930,9 @@ A small bit of custom font locking for '==>'
 
 Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "rust-mode"
-    (setq company-backends-rust-mode
+  (after! "rust-mode"
+    (setq racer-rust-src-path "~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
+          company-backends-rust-mode
           '((company-capf :with company-dabbrev-code company-yasnippet)
             (company-dabbrev-code company-gtags company-etags company-keywords :with company-yasnippet)
             (company-files :with company-yasnippet)
@@ -951,7 +964,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'projectile
+  (after! projectile
     (spacemacs/set-leader-keys
       "pg"  nil
       "pt"  #'projectile-find-tag
@@ -963,7 +976,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'projectile
+  (after! projectile
     (setq projectile-switch-project-action #'project-find-file))
 #+END_SRC
 
@@ -980,7 +993,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "flycheck"
+  (after! flycheck
 
     (evil-leader/set-key
       "ee"    #'flycheck-buffer
@@ -994,21 +1007,21 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'magit
+  (after! magit
     (setq
      magit-save-repository-buffers              'dontask
      git-commit-summary-max-length              120
      magit-fetch-arguments                      '("--prune")
      magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
 
-  (with-eval-after-load 'git-gutter
+  (after! git-gutter
     (setq git-gutter-fr:side 'left-fringe))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'magit
+  (after! magit
     (defvar std::magit-key-maps
       (list
        magit-mode-map
@@ -1040,7 +1053,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'elm-mode
+  (after! elm-mode
     (defun std::format-and-save-elm-buffer ()
       "Format an elm buffer and then save it."
       (interactive)
@@ -1051,7 +1064,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'elm-mode
+  (after! elm-mode
     (defun std::elm-mode-hook ()
       (setq-local company-backends
                   '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
@@ -1062,7 +1075,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'elm-mode
+  (after! elm-mode
     (spacemacs/set-leader-keys-for-major-mode 'elm-mode
       "R"   nil
       "h"   nil
@@ -1091,7 +1104,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'magit
+  (after! magit
     (setq magit-repository-directories  '(("~/Documents/git/" . 1))
           magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
@@ -1111,7 +1124,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 ~std::deer-kill-frame~
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'ranger
+  (after! ranger
     (defun std::deer-delete-frame ()
       (interactive)
       (ranger-close)
@@ -1122,7 +1135,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'ranger
+  (after! ranger
     (setq ranger-cleanup-eagerly    t
           ranger-cleanup-on-disable t
           ranger-deer-show-details  t
@@ -1142,7 +1155,7 @@ Add *company-dabbrev-code* to front row of completion backends.
   (spacemacs/set-leader-keys
     "ad" #'std::deer-new-frame)
 
-  (with-eval-after-load 'ranger
+  (after! ranger
     (evil-define-key 'motion ranger-mode-map (kbd "q") #'std::deer-delete-frame))
 #+END_SRC
 
@@ -1201,7 +1214,7 @@ for easy deactivation.
                 treemacs-goto-tag-strategy          'refetch-index)
           (treemacs-follow-mode t)
           (treemacs-filewatch-mode t)
-          (with-eval-after-load 'winum
+          (after! winum
             (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
         :bind
         (:map global-map
@@ -1238,7 +1251,7 @@ for easy deactivation.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'swiper
+  (after! swiper
     (setq ivy-height 4)
     (push 'org-mode swiper-font-lock-exclude))
 #+END_SRC
@@ -1256,7 +1269,7 @@ for easy deactivation.
 ** dired+
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'dired
+  (after! dired
     (require 'dired+))
 #+END_SRC
 
@@ -1303,14 +1316,14 @@ Replace popwin
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'yasnippet
+  (after! yasnippet
     (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'yasnippet
+  (after! yasnippet
     (autoload #'f-join "f.el")
     (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
 #+END_SRC
@@ -1320,7 +1333,7 @@ Replace popwin
 Smartparens is disabled while yasnippet is expanding and editing a snippet. Whatever this was a workaround for
 I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'yasnippet
+  (after! yasnippet
     (unless (bound-and-true-p std::yasnippet::smartparens-restored)
       (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
           (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
@@ -1331,7 +1344,7 @@ I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
     (defvar std::yasnippet::smartparens-restored t))
 #+END_SRC
 
-*** Enabele Whitespace mode
+*** Enable Whitespace mode
 
 Hoping it'll help with the issue of the extra newline in snippets
 #+BEGIN_SRC emacs-lisp
@@ -1341,7 +1354,7 @@ Hoping it'll help with the issue of the extra newline in snippets
 ** i3wm-config-mode
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'conf-mode
+  (after! conf-mode
     (require 'i3wm-config-mode))
 #+END_SRC
 
@@ -1353,7 +1366,7 @@ Hoping it'll help with the issue of the extra newline in snippets
     :documentation "Disable visual distractions."
     :evil-leader "TW")
 
-  (with-eval-after-load 'writeroom-mode
+  (after! writeroom-mode
     (setq writeroom-width              120
           writeroom-extra-line-spacing 0))
 #+END_SRC
@@ -1592,7 +1605,7 @@ Quitting with *q*
 #+BEGIN_SRC emacs-lisp
   (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
   (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window)
-  (with-eval-after-load 'Man-mode
+  (after! Man-mode
     (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
 #+END_SRC
 
@@ -1671,7 +1684,7 @@ Better line numbers
 
 Pos Tip colors
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load "pos-tip"
+  (after! pos-tip
     (setq pos-tip-background-color "#2d2d2d"
           pos-tip-foreground-color "#ccb18b"))
 #+END_SRC
@@ -1728,7 +1741,7 @@ No more asking to following symlinks
 
 Dash.el highlighting
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'dash
+  (after! dash
     (dash-enable-font-lock))
 #+END_SRC
 
