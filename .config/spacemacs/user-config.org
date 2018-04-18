@@ -1499,9 +1499,9 @@ Don't use Spacemacs' evil state highlighter
 
 ~std::downscale~
 #+BEGIN_SRC emacs-lisp
-  (cl-defun std::downscale (font &key char start end)
+  (cl-defun std::downscale (font &key char start end (size 12))
     (set-fontset-font "fontset-default" `(,(or start char) . ,(or end char))
-                      (font-spec :size 12 :name font)))
+                      (font-spec :size size :name font)))
 #+END_SRC
 
 ** Scaled Characters
@@ -1538,6 +1538,16 @@ Then single characters, like those used for prettify-symbols
   (std::downscale "Symbola" :char ?\✸)
   (std::downscale "Symbola" :char ?\✿)
   (std::downscale "Cantarell" :char ?\•)
+  (std::downscale "DejaVu Sans" :char ?\➊ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➋ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➌ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➍ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➎ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➏ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➐ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➑ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➒ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\➓ :size 14)
 #+END_SRC
 
 * Misc. Settings
