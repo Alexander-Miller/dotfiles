@@ -231,12 +231,15 @@ Syntax highlighting for symbols and function symbols
       1 font-lock-type-face)
      (,(rx (group-n
             1
-            "#'"
+            "#'")
+           (group-n
+            2
             symbol-start
             (1+ (or (syntax word)
                     (syntax symbol)))
             symbol-end))
-      1 font-lock-function-name-face) )
+      (1 font-lock-constant-face)
+      (2 font-lock-function-name-face)))
    'append)
 #+END_SRC
 
