@@ -1632,6 +1632,11 @@ Same comment keybind as in eclipse
   (global-set-key (kbd "C-7") #'evilnc-comment-operator)
 #+END_SRC
 
+Newline in normal state
+#+BEGIN_SRC emacs-lisp
+  (define-key evil-normal-state-map (kbd "<RET>") #'newline-and-indent)
+#+END_SRC
+
 ** Smooth Scrolling
 
 No more jumpy recenter
