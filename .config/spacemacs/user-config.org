@@ -448,6 +448,57 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
            "Postfach"))))
 #+END_SRC
 
+~std::org::table-recalc~
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (defun std::org::table-recalc ()
+      "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
+  by default the entire table is recalculated, while with a prefix arg recalculates
+  only the current cell."
+      (interactive)
+      (setq current-prefix-arg (not current-prefix-arg))
+      (call-interactively #'org-table-recalculate)))
+#+END_SRC
+
+~std::org::table-switch-left~
+~std::org::table-switch-right~
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (defun std::org::table-switch-right ()
+      "Switch content of current table cell with the cell to the right."
+      (interactive)
+      (when (org-at-table-p)
+        (std::org::table-switch (org-table-current-line) (1+ (org-table-current-column)))))
+
+    (defun std::org::table-switch-left ()
+      "Switch content of current table cell with the cell to the left."
+      (interactive)
+      (when (org-at-table-p)
+        (std::org::table-switch (org-table-current-line) (1- (org-table-current-column)))))
+
+    (defun std::org::table-switch (x2 y2)
+      (let* ((p  (point))
+             (x1 (org-table-current-line))
+             (y1 (org-table-current-column))
+             (t1 (org-table-get x1 y1))
+             (t2 (org-table-get x2 y2)))
+        (org-table-put x1 y1 t2)
+        (org-table-put x2 y2 t1 t)
+        (goto-char p))))
+#+END_SRC
+
+~std::org::plot-table~
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (defun std::org::plot-table ()
+      "Plot table at point and clear image cache.
+  The cache clearing will update tables visible as inline images."
+      (interactive)
+      (save-excursion
+        (org-plot/gnuplot)
+        (clear-image-cache))))
+#+END_SRC
+
 *** Settings
 **** Prerequisites
 
@@ -500,24 +551,30 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
     (add-to-list 'org-agenda-files (concat org-directory "NT.org"))
 
-    (pcase (system-name)
-      ("a-laptop"  (add-to-list 'org-agenda-files (concat org-directory "Privat.org")))
-      ("nt-laptop" (message "TODO")))
+    (when (string= "a-laptop" (system-name))
+      (add-to-list 'org-agenda-files (concat org-directory "Privat.org")))
 
     (setq
-     org-agenda-skip-scheduled-if-deadline-is-shown t
-     org-agenda-span                                14
-     org-agenda-window-frame-fractions              '(0.7 . 0.7)
-     org-agenda-window-setup                        'current-window
-     org-deadline-warning-days                      10
-     org-extend-today-until                         2))
+     org-agenda-skip-scheduled-if-deadline-is-shown   t
+     org-agenda-skip-scheduled-if-done                nil
+     org-agenda-skip-scheduled-delay-if-deadline      nil
+     org-agenda-skip-additional-timestamps-same-entry nil
+     org-agenda-skip-deadline-prewarning-if-scheduled t
+     org-agenda-span                                 14
+     org-agenda-inhibit-startup                      t
+     org-agenda-window-frame-fractions               '(0.7 . 0.7)
+     org-agenda-window-setup                         'only-window
+     org-deadline-warning-days                       7
+     org-extend-today-until                          2))
 #+END_SRC
 
 **** Habits
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org-habit
-    (setq org-habit-graph-column 70
+  (after! org-habit
+    (setq org-habit-graph-column               70
+          org-habit-preceding-days             21
+          org-habit-following-days             7
           org-habit-show-habits-only-for-today nil))
 #+END_SRC
 
@@ -540,10 +597,19 @@ Also use ascii bullets for simple lists
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (setq org-capture-templates
-          `(("t" "Idee/Todo" entry
-             ,(std::org::capture-std-target)
-             "** [TODO] %?\n %U"))))
+    (setq
+     org-capture-templates
+     `(("t" "Idee/Todo" entry
+        ,(std::org::capture-std-target)
+        "** [TODO] %?\n %U"))))
+#+END_SRC
+
+**** Tables
+
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (setq org-table-auto-blank-field        nil
+          org-table-use-standard-references t))
 #+END_SRC
 
 **** Other/Sort later
@@ -551,20 +617,31 @@ Also use ascii bullets for simple lists
 #+BEGIN_SRC emacs-lisp
   (after! org
     (setq
-     calendar-date-style            'european
-     org-tags-column                85
-     org-src-window-setup           'other-window
-     org-log-done                   'time
-     org-ellipsis                   "  "
-     org-log-into-drawer            t
-     org-table-use-standard-references nil
-     org-cycle-emulate-tab          t
-     org-cycle-global-at-bob        nil
-     org-M-RET-may-split-line       nil
-     org-fontify-whole-heading-line nil
-     org-catch-invisible-edits      'error
-     org-refile-targets             '((nil . (:maxlevel . 10)))
-     org-footnote-auto-adjust       t)
+     calendar-date-style                     'european
+     org-tags-column                         85
+     org-closed-keep-when-no-todo            nil
+     org-use-fast-todo-selection             t
+     org-enforce-todo-dependencies           t
+     org-enforce-todo-checkbox-dependencies  t
+     org-src-window-setup                    'other-window
+     org-list-demote-modify-bullet           '(("+" . "-") ("-" . "+") ("*" . "+"))
+     org-list-indent-offset                  1
+     org-log-done                            'time
+     org-ellipsis                            " "
+     org-footnote-section                    "Footnotes"
+     org-log-into-drawer                     t
+     org-table-use-standard-references       nil
+     org-cycle-emulate-tab                   t
+     org-cycle-global-at-bob                 nil
+     org-M-RET-may-split-line                nil
+     org-fontify-whole-heading-line          nil
+     org-catch-invisible-edits               'show
+     org-refile-targets                      '((nil . (:maxlevel . 10)))
+     org-footnote-auto-adjust                t
+     org-show-context-detail                 '((agenda . local)
+                                               (bookmark-jump . lineage)
+                                               (isearch . lineage)
+                                               (default . ancestors)))
 
     (setq-default
      org-display-custom-times nil
@@ -583,14 +660,17 @@ Also use ascii bullets for simple lists
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (shell      . t)))
+    (defmacro std::org::use-babel-use-languages (&rest langs)
+      (-let [forms nil]
+        (dolist (lang langs)
+          (push
+           `(progn
+              (autoload ,(intern (concat "org-babel-execute:" lang)) ,(concat "ob-" lang))
+              (autoload ,(intern (concat "org-babel-expand-body:" lang)) ,(concat "ob-" lang)))
+           forms))
+        `(progn ,@forms)))
 
-    (with-eval-after-load 'python
-      org-babel-load-languages
-      '((python     . t))))
+    (std::org::use-babel-use-languages "emacs-lisp" "sh" "python" "shell"))
 #+END_SRC
 
 *** Font Locking
@@ -715,57 +795,27 @@ A small bit of custom font locking for '==>'
 **** Tables
 
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'org
-    (defun std::org::table-recalc ()
-      "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
-  by default the entire table is recalculated, while with a prefix arg recalculates
-  only the current cell."
-      (interactive)
-      (setq current-prefix-arg (not current-prefix-arg))
-      (call-interactively #'org-table-recalculate))
-
-    (defun std::org::table-switch-right ()
-      "Switch content of current table cell with the cell to the right."
-      (interactive)
-      (when (org-at-table-p)
-        (std::org::table-switch (org-table-current-line) (1+ (org-table-current-column)))))
-
-    (defun std::org::table-switch-left ()
-      "Switch content of current table cell with the cell to the left."
-      (interactive)
-      (when (org-at-table-p)
-        (std::org::table-switch (org-table-current-line) (1- (org-table-current-column)))))
-
-    (defun std::org::table-switch (x2 y2)
-      (let* ((p  (point))
-             (x1 (org-table-current-line))
-             (y1 (org-table-current-column))
-             (t1 (org-table-get x1 y1))
-             (t2 (org-table-get x2 y2)))
-        (org-table-put x1 y1 t2)
-        (org-table-put x2 y2 t1 t)
-        (goto-char p)))
-
+  (after! org
     ;; TODO: rebind clock
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
 
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
-      "qt"  #'org-table-create-or-convert-from-region
-      "qb"  #'org-table-blank-field
-      "qd"  #'org-table-delete-column
-      "qc"  #'org-table-insert-column
-      "qr"  #'org-table-insert-row
-      "q-"  #'org-table-insert-hline
-      "q0"  #'org-table-sort-lines
-      "qy"  #'org-table-copy-region
-      "qx"  #'org-table-cut-region
-      "qp"  #'org-table-paste-rectangle
-      "qo"  #'org-table-toggle-coordinate-overlays
-      "qf"  #'std::org::table-recalc
-      "q#"  #'org-table-rotate-recalc-marks
-      "qg"  #'org-plot/gnuplot
-      "qsl" #'std::org::table-switch-right
-      "qsh" #'std::org::table-switch-left)
+      "t"   nil
+      "tb"  #'org-table-blank-field
+      "ty"  #'org-table-copy-region
+      "tt"  #'org-table-create-or-convert-from-region
+      "tx"  #'org-table-cut-region
+      "te"  #'org-table-edit-field
+      "tv"  #'org-table-eval-formula
+      "t-"  #'org-table-insert-hline
+      "tp"  #'org-table-paste-rectangle
+      "t#"  #'org-table-rotate-recalc-marks
+      "t0"  #'org-table-sort-lines
+      "to"  #'org-table-toggle-coordinate-overlays
+      "tg"  #'std::org::plot-table
+      "tf"  #'std::org::table-recalc
+      "tsl" #'std::org::table-switch-right
+      "tsh" #'std::org::table-switch-left)
 
     (evil-leader/set-key-for-mode 'org-mode
       "+" #'org-table-sum
@@ -786,6 +836,14 @@ A small bit of custom font locking for '==>'
       "zo" #'org-toggle-ordered-property))
 #+END_SRC
 
+**** Agenda
+
+#+BEGIN_SRC emacs-lisp
+  (after! org-agenda
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "zh" #'org-habit-toggle-habits))
+#+END_SRC
+
 **** Other
 
 #+BEGIN_SRC emacs-lisp
@@ -800,12 +858,14 @@ A small bit of custom font locking for '==>'
       "C-f" #'org-footnote-action
       "C-o" #'org-open-at-point
       "C-e" #'org-edit-special
+      "C-t" #'org-set-tags-command
       "P"   #'org-priority)
 
     (evil-define-key 'normal org-mode-map
       "-" #'org-cycle-list-bullet
       "t" #'org-todo)
 
+    (define-key org-mode-map [remap org-open-at-point] #'newline-and-indent)
     (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
 #+END_SRC
