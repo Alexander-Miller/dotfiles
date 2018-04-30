@@ -840,6 +840,9 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org-agenda
+    (evil-define-key 'evilified org-agenda-mode-map (kbd "J") #'std::quick-forward)
+    (evil-define-key 'evilified org-agenda-mode-map (kbd "K") #'std::quick-backward)
+
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
       "zh" #'org-habit-toggle-habits))
 #+END_SRC
