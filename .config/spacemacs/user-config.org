@@ -868,7 +868,6 @@ A small bit of custom font locking for '==>'
       "-" #'org-cycle-list-bullet
       "t" #'org-todo)
 
-    (define-key org-mode-map [remap org-open-at-point] #'newline-and-indent)
     (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
 #+END_SRC
@@ -1172,7 +1171,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
   (after! magit
     (setq magit-repository-directories  '(("~/Documents/git/" . 1))
-          magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1))
+          magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
 
 ** Ranger
@@ -1515,7 +1514,6 @@ A fallback in case evil's own folding is not sufficient
 #+END_SRC
 
 ** Eros
-
 *** Functions
 
 Evaluate last s-expr on the right spot, calling into eros if it's on.
@@ -1655,7 +1653,7 @@ Emacs style line start/end jump
 
 Splitting and joining lines
 #+BEGIN_SRC emacs-lisp
-  (define-key evil-normal-state-map (kbd "C-j") #'electric-newline-and-maybe-indent)
+  (define-key evil-normal-state-map (kbd "C-j") #'newline-and-indent)
   (evil-leader/set-key "C-j" #'evil-join)
 #+END_SRC
 
