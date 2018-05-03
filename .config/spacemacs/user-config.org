@@ -1258,15 +1258,11 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (when t
-      (add-to-list 'load-path "/home/a/Documents/git/treemacs")
       (use-package treemacs
         :load-path "/home/a/Documents/git/treemacs/src/elisp"
         :defer t
         :config
         (progn
-          (use-package treemacs-evil
-            :load-path "/home/a/Documents/git/treemacs/src/elisp"
-            :demand t)
           (setq treemacs-follow-after-init          t
                 treemacs-width                      35
                 treemacs-indentation                2
@@ -1283,22 +1279,20 @@ for easy deactivation.
             (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
         :bind
         (:map global-map
-              ([f8]        . treemacs-toggle)
-              ("<C-M-tab>" . treemacs-toggle)
               ("M-0"       . treemacs-select-window)
               ("C-c 1"     . treemacs-delete-other-windows)
               :map spacemacs-default-map
-              ("ft"    . treemacs-toggle)
-              ("fT"    . treemacs)
+              ("ft"    . treemacs)
               ("f C-t" . treemacs-find-file)))
+
+      (use-package treemacs-evil
+        :load-path "/home/a/Documents/git/treemacs/src/elisp"
+        :after treemacs)
+
       (use-package treemacs-projectile
         :load-path "/home/a/Documents/git/treemacs/src/elisp"
-        :config
-        (setq treemacs-header-function #'treemacs-projectile-create-header)
-        :bind
-        (:map spacemacs-default-map
-              ("fP" . treemacs-projectile)
-              ("fp" . treemacs-projectile-toggle))))
+        :after treemacs))
+#+END_SRC
 #+END_SRC
 
 * Single Package Configurations
