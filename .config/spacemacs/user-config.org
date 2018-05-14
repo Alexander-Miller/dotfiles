@@ -1258,40 +1258,43 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (when t
-      (use-package treemacs
-        :load-path "/home/a/Documents/git/treemacs/src/elisp"
-        :defer t
-        :config
-        (progn
-          (setq treemacs-follow-after-init          t
-                treemacs-width                      35
-                treemacs-indentation                2
-                treemacs-collapse-dirs              3
-                treemacs-silent-refresh             nil
-                treemacs-change-root-without-asking nil
-                treemacs-sorting                    'alphabetic-desc
-                treemacs-show-hidden-files          t
-                treemacs-never-persist              nil
-                treemacs-goto-tag-strategy          'refetch-index)
-          (treemacs-follow-mode t)
-          (treemacs-filewatch-mode t)
-          (after! winum
-            (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
-        :bind
-        (:map global-map
-              ("M-0"       . treemacs-select-window)
-              ("C-c 1"     . treemacs-delete-other-windows)
-              :map spacemacs-default-map
-              ("ft"    . treemacs)
-              ("f C-t" . treemacs-find-file)))
+    (use-package treemacs
+      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :defer t
+      :init
+      (after! winum
+        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+      :config
+      (progn
+        (setq treemacs-follow-after-init          t
+              treemacs-width                      35
+              treemacs-indentation                2
+              treemacs-collapse-dirs              3
+              treemacs-silent-refresh             nil
+              treemacs-change-root-without-asking nil
+              treemacs-sorting                    'alphabetic-desc
+              treemacs-show-hidden-files          t
+              treemacs-never-persist              nil
+              treemacs-goto-tag-strategy          'refetch-index)
+        (treemacs-follow-mode t)
+        (treemacs-filewatch-mode t))
+      :bind
+      (:map global-map
+            ("M-0"       . treemacs-select-window)
+            ("C-c 1"     . treemacs-delete-other-windows)
+            :map spacemacs-default-map
+            ("ft"    . treemacs)
+            ("f C-t" . treemacs-find-file)))
 
-      (use-package treemacs-evil
-        :load-path "/home/a/Documents/git/treemacs/src/elisp"
-        :after treemacs)
+    (use-package treemacs-evil
+      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :after treemacs)
 
-      (use-package treemacs-projectile
-        :load-path "/home/a/Documents/git/treemacs/src/elisp"
-        :after treemacs))
+    (use-package treemacs-projectile
+      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :after treemacs))
+#+END_SRC
+
 #+END_SRC
 #+END_SRC
 
