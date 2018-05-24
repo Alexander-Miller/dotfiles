@@ -1315,15 +1315,26 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
-    (define-key ledger-mode-map [remap save-buffer] #'std::ledger::save))
+    (define-key ledger-mode-map [remap save-buffer] #'std::ledger::save)
+
+    (spacemacs/set-leader-keys-for-major-mode 'ledger-mode
+      "s" #'ledger-sort-buffer
+      "S" #'ledger-sort-region
+      "o" #'ledger-occur-mode
+      "y" #'ledger-copy-transaction-at-point
+      "d" #'ledger-delete-current-transaction
+      "r" #'ledger-report
+      "R" #'ledger-reconcile))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
-    (setq ledger-default-date-format      ledger-iso-date-format
-          ledger-clear-whole-transactions t))
+    (setq ledger-default-date-format           ledger-iso-date-format
+          ledger-post-amount-alignment-column  60
+          ledger-post-account-alignment-column 2
+          ledger-clear-whole-transactions      t))
 #+END_SRC
 
 * Single Package Configurations
