@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: progn
+#key: p
+# --
+(progn $0)
