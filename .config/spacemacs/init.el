@@ -15,6 +15,7 @@
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
      emacs-lisp
+     finance
      git
      helm
      html
