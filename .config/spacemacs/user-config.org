@@ -1587,7 +1587,7 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 Turn off unwanted segments
 #+BEGIN_SRC emacs-lisp
   (spacemacs/toggle-mode-line-minor-modes-off)
-  (spaceline-toggle-purpose-off)
+  (spaceline-toggle-anzu-off)
 #+END_SRC
 
 Don't use Spacemacs' evil state highlighter
