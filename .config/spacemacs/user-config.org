@@ -1468,8 +1468,9 @@ Hoping it'll help with the issue of the extra newline in snippets
     :evil-leader "TW")
 
   (after! writeroom-mode
-    (setq writeroom-width              120
-          writeroom-extra-line-spacing 0))
+    (setq writeroom-width                120
+          writeroom-extra-line-spacing   0
+          writeroom-bottom-divider-width 0))
 #+END_SRC
 
 ** Vimish fold
