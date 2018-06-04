@@ -1332,9 +1332,49 @@ for easy deactivation.
         (goto-char p))))
 #+END_SRC
 
+~std::ledger::window-setup~
+#+BEGIN_SRC emacs-lisp
+  (defun std::ledger::window-setup ()
+    (interactive)
+    (require 'calendar)
+    (let* ((months '((1 . "Januar")
+                     (2 . "Februar")
+                     (3 . "März")
+                     (4 . "April")
+                     (5 . "Mai")
+                     (6 . "Juni")
+                     (7 . "Juli")
+                     (8 . "August")
+                     (9 . "September")
+                     (10 . "Oktober")
+                     (11 . "November")
+                     (12 . "Dezemper")))
+           (date (calendar-current-date))
+           (year (caddr (calendar-current-date)))
+           (month-num (car date))
+           (month (alist-get month-num months))
+           (path-template "~/Documents/Org/Ledger/%s/%s.ledger")
+           (path (format path-template year month)))
+      (unless (file-exists-p path)
+        (if (/= 1 month-num)
+            (setq path (format path-template
+                               year (alist-get (1- month-num) months)))
+          (setq year (1- year)
+                path (format path-template
+                             year (alist-get 12 months)) )))
+      (delete-other-windows)
+      (find-file path)
+      (split-window-right)
+      (other-window 1)
+      (find-file "~/Documents/Org/Ledger/Ledger.ledger")))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
+  (spacemacs/set-leader-keys
+    "oll" #'std::ledger::window-setup)
+
   (after! ledger-mode
     (define-key ledger-mode-map [remap save-buffer] #'std::ledger::save)
 
