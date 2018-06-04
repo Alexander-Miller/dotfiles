@@ -1,0 +1,8 @@
+--exchange €
+--effective
+--ansi
+--explicit
+--pedantic
+--check-payees
+--date-format %Y-%m-%d
+--input-date-format %Y-%m-%d
