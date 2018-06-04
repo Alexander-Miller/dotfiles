@@ -66,7 +66,7 @@
    dotspacemacs-elpa-timeout                       10
    dotspacemacs-use-spacelpa                       nil
    dotspacemacs-check-for-update                   t
-   dotspacemacs-mode-line-theme                    '(spacemacs :separator-scale 1.1)
+   dotspacemacs-mode-line-theme                    '(spacemacs :separator wave :separator-scale 1.8)
    dotspacemacs-editing-style                      'vim
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
