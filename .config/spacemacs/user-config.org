@@ -1327,7 +1327,7 @@ for easy deactivation.
       (interactive)
       (-let [p (point)]
         (when (buffer-modified-p)
-          (ledger-mode-clean-buffer)
+          (with-demoted-errors (ledger-mode-clean-buffer))
           (save-buffer))
         (goto-char p))))
 #+END_SRC
