@@ -50,6 +50,7 @@
                                            :repo "Alexander-Miller/morning-star-theme"))
      pfuture
      ht
+     multi-compile
      evil-goggles
      rainbow-mode
      shackle

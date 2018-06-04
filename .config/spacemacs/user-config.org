@@ -1747,6 +1747,40 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
   (setq nameless-prefix ".")
 #+END_SRC
 
+
+** Multi-Compile
+*** Functions
+
+~std::multi-compile~
+#+BEGIN_SRC emacs-lisp
+  (defun std::multi-compile ()
+    (interactive)
+    (-let [default-directory
+            (condition-case _
+                (projectile-project-root)
+              (error (--if-let (buffer-file-name)
+                         (if (f-directory? it)
+                             it
+                           (f-parent it))
+                       "~/")))]
+      (call-interactively #'multi-compile-run)))
+
+  (spacemacs/set-leader-keys
+    "pc" #'std::multi-compile)
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (after! multi-compile
+    (setq multi-compile-alist
+          '((emacs-lisp-mode ("Test" . "make test")
+                             ("Lint" . "make lint")
+                             ("Compile" . "make compile")
+                             ("Clean" . "make clean")))
+          multi-compile-completion-system 'helm))
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
