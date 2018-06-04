@@ -1369,6 +1369,14 @@ for easy deactivation.
       (find-file "~/Documents/Org/Ledger/Ledger.ledger")))
 #+END_SRC
 
+~std::ledger::set-accounts-file~
+#+BEGIN_SRC emacs-lisp
+  (after! ledger-mode
+    (defun std::ledger::set-accounts-file ()
+      (when (s-starts-with? (f-expand "~/Documents/Org/Ledger") (buffer-file-name))
+        (setq-local ledger-accounts-file "~/Documents/Org/Ledger/Ledger.ledger"))))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -1390,12 +1398,21 @@ for easy deactivation.
 
 *** Settings
 
+General settings.
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
     (setq ledger-default-date-format           ledger-iso-date-format
-          ledger-post-amount-alignment-column  60
+          ledger-post-amount-alignment-column  62
           ledger-post-account-alignment-column 2
-          ledger-clear-whole-transactions      t))
+          ledger-clear-whole-transactions      t
+          company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
+#+END_SRC
+
+Set accounts file only in proper files
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ledger-mode-hook #'std::ledger::set-accounts-file)
+#+END_SRC
+
 #+END_SRC
 
 * Single Package Configurations
