@@ -680,17 +680,17 @@ Also use ascii bullets for simple lists
 *** Babel Languages
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (defmacro std::org::use-babel-use-languages (&rest langs)
-      (-let [forms nil]
-        (dolist (lang langs)
-          (push
-           `(progn
-              (autoload ,(intern (concat "org-babel-execute:" lang)) ,(concat "ob-" lang))
-              (autoload ,(intern (concat "org-babel-expand-body:" lang)) ,(concat "ob-" lang)))
-           forms))
-        `(progn ,@forms)))
+  (defmacro std::org::use-babel-use-languages (&rest langs)
+    (-let [forms nil]
+      (dolist (lang langs)
+        (push
+         `(progn
+            (autoload ',(intern (concat "org-babel-execute:" lang)) ,(concat "ob-" lang))
+            (autoload ',(intern (concat "org-babel-expand-body:" lang)) ,(concat "ob-" lang)))
+         forms))
+      `(progn ,@forms)))
 
+  (after! org
     (std::org::use-babel-use-languages "emacs-lisp" "sh" "python" "shell"))
 #+END_SRC
 
