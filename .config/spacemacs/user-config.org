@@ -1413,6 +1413,92 @@ Set accounts file only in proper files
   (add-hook 'ledger-mode-hook #'std::ledger::set-accounts-file)
 #+END_SRC
 
+** Purpose
+
+*** Settings
+**** Shackle Integration
+
+#+BEGIN_SRC emacs-lisp
+  (defun maybe-display-shackle (buffer alist)
+    (and (shackle-display-buffer-condition buffer alist)
+         (shackle-display-buffer-action buffer alist)))
+
+  (setq purpose-action-sequences
+        '((switch-to-buffer
+           . (purpose-display-reuse-window-buffer
+              purpose-display-reuse-window-purpose
+              maybe-display-shackle
+              purpose-display-maybe-same-window
+              purpose-display-maybe-other-window
+              purpose-display-maybe-other-frame
+              purpose-display-maybe-pop-up-window
+              purpose-display-maybe-pop-up-frame))
+
+          (prefer-same-window
+           . (purpose-display-maybe-same-window
+              maybe-display-shackle
+              purpose-display-reuse-window-buffer
+              purpose-display-reuse-window-purpose
+              purpose-display-maybe-other-window
+              purpose-display-maybe-other-frame
+              purpose-display-maybe-pop-up-window
+              purpose-display-maybe-pop-up-frame))
+
+          (force-same-window
+           . (purpose-display-maybe-same-window
+              maybe-display-shackle))
+
+          (prefer-other-window
+
+           . (purpose-display-reuse-window-buffer
+              purpose-display-reuse-window-purpose
+              maybe-display-shackle
+              purpose-display-maybe-other-window
+              purpose-display-maybe-pop-up-window
+              purpose-display-maybe-other-frame
+              purpose-display-maybe-pop-up-frame
+              purpose-display-maybe-same-window))
+
+          (prefer-other-frame
+           . (purpose-display-reuse-window-buffer-other-frame
+              purpose-display-reuse-window-purpose-other-frame
+              maybe-display-shackle
+              purpose-display-maybe-other-frame
+              purpose-display-maybe-pop-up-frame
+              purpose-display-maybe-other-window
+              purpose-display-maybe-pop-up-window
+              purpose-display-reuse-window-buffer
+              purpose-display-reuse-window-purpose
+              purpose-display-maybe-same-window))))
+#+END_SRC
+
+**** Custom Purposes
+
+#+BEGIN_SRC emacs-lisp
+  (setq purpose-user-mode-purposes
+        '((flycheck-error-list-mode . bottom)
+          (messages-buffer-mode     . bottom)
+          (compilation-mode         . bottom)))
+
+  (purpose-compile-user-configuration)
+#+END_SRC
+
+**** Shackle-friendly Functions
+
+~std::pop-to-messages-buffer~
+#+BEGIN_SRC emacs-lisp
+  (defun std::pop-to-messages-buffer (&optional arg)
+    "Same as the spacemacs builtin, but uses `pop-to-buffer'.
+  This ensures that shackle's (or purpose's) rules apply to the new window."
+    (interactive "P")
+    (with-current-buffer (messages-buffer)
+      (goto-char (point-max))
+      (if arg
+          (switch-to-buffer-other-window (current-buffer))
+        (pop-to-buffer (current-buffer)))))
+
+  (spacemacs/set-leader-keys
+    "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
 * Single Package Configurations
@@ -1476,19 +1562,20 @@ Replace popwin
           ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
           ("*helm org inbuffer*"    :select t   :align right :size 0.4)
           (flycheck-error-list-mode :select nil :align below :size 0.25)
+          (compilation-mode         :select nil :align below :size 0.25)
+          (messages-buffer-mode     :select t   :align below :size 0.25)
           (ert-results-mode         :select t   :align below :size 0.5)
           (calendar-mode            :select t   :align below :size 0.25)
           (racer-help-mode          :select t   :align right :size 0.5)
           (help-mode                :select t   :align right :size 0.5)
           (helpful-mode             :select t   :align right :size 0.5)
-          (compilation-mode         :select t   :align right :size 0.5)
           ("*Org Select*"           :select t   :align below :size 0.33)
           ("*Org Note*"             :select t   :align below :size 0.33)
           ("*Org Links*"            :select t   :align below :size 0.2)
           (" *Org todo*"            :select t   :align below :size 0.2)
           ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
           ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
-          ("*Org Src.*"             :select t   :align below :size 0.5  :regexp t)))
+          ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)))
 #+END_SRC
 
 ** Yasnippet
