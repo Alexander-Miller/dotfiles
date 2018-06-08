@@ -2083,6 +2083,11 @@ Dash.el highlighting
     (dash-enable-font-lock))
 #+END_SRC
 
+Use firefox to open urls.
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function #'browse-url-firefox)
+#+END_SRC
+
 ** Desktop Restoration
 *** Settings
 
