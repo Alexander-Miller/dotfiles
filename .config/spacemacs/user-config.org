@@ -184,11 +184,11 @@ Insert retangle before both quitting emacs and reloading the config.
    evil-resize-state-cursor   '("#ffdb1a" box))
 
   (setq spacemacs-evil-cursors
-        '(("normal"       "#ab3737"  box)
-          ("insert"       "#33aa33"  (bar . 2))
-          ("emacs"        "#339999"        box)
-          ("hybrid"       "#339999"        (bar . 2))
-          ("replace"      "#993333"       (hbar . 2))
+        '(("normal"       "#ab3737"         box)
+          ("insert"       "#33aa33"         (bar . 2))
+          ("emacs"        "#339999"         box)
+          ("hybrid"       "#339999"         (bar . 2))
+          ("replace"      "#993333"         (hbar . 2))
           ("evilified"    "LightGoldenrod3" box)
           ("visual"       "gray"            (hbar . 2))
           ("motion"       "plum3"           box)
@@ -1135,57 +1135,6 @@ Add *company-dabbrev-code* to front row of completion backends.
     (apply #'std::def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  std::magit-key-maps))
 #+END_SRC
 
-** Elm
-*** Functions
-
-#+BEGIN_SRC emacs-lisp
-  (after! elm-mode
-    (defun std::format-and-save-elm-buffer ()
-      "Format an elm buffer and then save it."
-      (interactive)
-      (elm-mode-format-buffer)
-      (save-buffer)))
-#+END_SRC
-
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (after! elm-mode
-    (defun std::elm-mode-hook ()
-      (setq-local company-backends
-                  '((company-elm company-dabbrev-code company-files :with company-yasnippet))))
-
-    (add-hook 'elm-mode-hook #'std::elm-mode-hook t))
-#+END_SRC
-
-*** Keybinds
-
-#+BEGIN_SRC emacs-lisp
-  (after! elm-mode
-    (spacemacs/set-leader-keys-for-major-mode 'elm-mode
-      "R"   nil
-      "h"   nil
-      "="   nil
-      "em"  #'elm-preview-main
-      "eb"  #'elm-preview-buffer
-      "d"   #'elm-oracle-doc-at-point
-      "t"   #'elm-oracle-type-at-point
-      "=="  #'elm-mode-format-buffer
-      "C-t" #'elm-mode-generate-tags)
-
-    (which-key-add-major-mode-key-based-replacements 'elm-mode
-      ",e" "preview")
-
-    (spacemacs/set-leader-keys
-      "fs" #'std::format-and-save-elm-buffer)
-
-    (define-key elm-package-mode-map (kbd "J")       #'std::quick-forward)
-    (define-key elm-package-mode-map (kbd "K")       #'std::quick-backward)
-    (define-key elm-package-mode-map (kbd "q")       #'kill-buffer-and-window)
-    (define-key elm-mode-map         (kbd "C-x C-s") #'std::format-and-save-elm-buffer)
-    (define-key elm-mode-map         (kbd "M-.")     #'elm-mode-goto-tag-at-point))
-#+END_SRC
-
 ** Git
 *** Settings
 
@@ -1414,73 +1363,74 @@ Set accounts file only in proper files
 #+END_SRC
 
 ** Purpose
-
 *** Settings
 **** Shackle Integration
 
 #+BEGIN_SRC emacs-lisp
-  (defun maybe-display-shackle (buffer alist)
-    (and (shackle-display-buffer-condition buffer alist)
-         (shackle-display-buffer-action buffer alist)))
+  (after! window-purpose
+    (defun maybe-display-shackle (buffer alist)
+      (and (shackle-display-buffer-condition buffer alist)
+           (shackle-display-buffer-action buffer alist)))
 
-  (setq purpose-action-sequences
-        '((switch-to-buffer
-           . (purpose-display-reuse-window-buffer
-              purpose-display-reuse-window-purpose
-              maybe-display-shackle
-              purpose-display-maybe-same-window
-              purpose-display-maybe-other-window
-              purpose-display-maybe-other-frame
-              purpose-display-maybe-pop-up-window
-              purpose-display-maybe-pop-up-frame))
+    (setq purpose-action-sequences
+          '((switch-to-buffer
+             . (purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                maybe-display-shackle
+                purpose-display-maybe-same-window
+                purpose-display-maybe-other-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-pop-up-frame))
 
-          (prefer-same-window
-           . (purpose-display-maybe-same-window
-              maybe-display-shackle
-              purpose-display-reuse-window-buffer
-              purpose-display-reuse-window-purpose
-              purpose-display-maybe-other-window
-              purpose-display-maybe-other-frame
-              purpose-display-maybe-pop-up-window
-              purpose-display-maybe-pop-up-frame))
+            (prefer-same-window
+             . (purpose-display-maybe-same-window
+                maybe-display-shackle
+                purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                purpose-display-maybe-other-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-pop-up-frame))
 
-          (force-same-window
-           . (purpose-display-maybe-same-window
-              maybe-display-shackle))
+            (force-same-window
+             . (purpose-display-maybe-same-window
+                maybe-display-shackle))
 
-          (prefer-other-window
+            (prefer-other-window
 
-           . (purpose-display-reuse-window-buffer
-              purpose-display-reuse-window-purpose
-              maybe-display-shackle
-              purpose-display-maybe-other-window
-              purpose-display-maybe-pop-up-window
-              purpose-display-maybe-other-frame
-              purpose-display-maybe-pop-up-frame
-              purpose-display-maybe-same-window))
+             . (purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                maybe-display-shackle
+                purpose-display-maybe-other-window
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-frame
+                purpose-display-maybe-same-window))
 
-          (prefer-other-frame
-           . (purpose-display-reuse-window-buffer-other-frame
-              purpose-display-reuse-window-purpose-other-frame
-              maybe-display-shackle
-              purpose-display-maybe-other-frame
-              purpose-display-maybe-pop-up-frame
-              purpose-display-maybe-other-window
-              purpose-display-maybe-pop-up-window
-              purpose-display-reuse-window-buffer
-              purpose-display-reuse-window-purpose
-              purpose-display-maybe-same-window))))
+            (prefer-other-frame
+             . (purpose-display-reuse-window-buffer-other-frame
+                purpose-display-reuse-window-purpose-other-frame
+                maybe-display-shackle
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-frame
+                purpose-display-maybe-other-window
+                purpose-display-maybe-pop-up-window
+                purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                purpose-display-maybe-same-window)))))
 #+END_SRC
 
 **** Custom Purposes
 
 #+BEGIN_SRC emacs-lisp
-  (setq purpose-user-mode-purposes
-        '((flycheck-error-list-mode . bottom)
-          (messages-buffer-mode     . bottom)
-          (compilation-mode         . bottom)))
+  (after! window-purpose
+    (setq purpose-user-mode-purposes
+          '((flycheck-error-list-mode . bottom)
+            (messages-buffer-mode     . bottom)
+            (compilation-mode         . bottom)))
 
-  (purpose-compile-user-configuration)
+    (purpose-compile-user-configuration))
 #+END_SRC
 
 **** Shackle-friendly Functions
@@ -1501,10 +1451,55 @@ Set accounts file only in proper files
     "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
+** Email
+*** Functions
+
+#+BEGIN_SRC emacs-lisp
+  (after! mu4e
+    (defun std::mail::find-thunderbird-imap-dir ()
+      (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
+        (when (f-exists? dot-thunderbird)
+          (-when-let (maildir (--find (member "ImapMail" (directory-files it))
+                                      (directory-files dot-thunderbird :full)))
+            (f-join dot-thunderbird maildir "ImapMail"))))))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (after! mu4e
+    (setq mu4e-use-fancy-chars nil
+          mu4e-maildir (std::mail::find-thunderbird-imap-dir))
+
+    (add-to-list 'mu4e-bookmarks
+                 (make-mu4e-bookmark
+                  :name "Github Messages"
+                  :query "github"
+                  :key ?g)))
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (after! mu4e
+    (define-key mu4e-main-mode-map (kbd "u") #'mu4e-update-index))
+#+END_SRC
+
+** Colors
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
+  (add-hook 'conf-mode-hook       #'rainbow-mode)
+  (add-hook 'help-mode-hook       #'rainbow-mode)
+  (add-hook 'css-mode-hook        #'rainbow-mode)
+#+END_SRC
+
 * Single Package Configurations
 ** Swiper
 *** Functions
 
+~std::swipe-symbol-at-point~
 #+BEGIN_SRC emacs-lisp
   (defun std::swipe-symbol-at-point ()
     (interactive)
@@ -1534,7 +1529,7 @@ Set accounts file only in proper files
 ** dired+
 
 #+BEGIN_SRC emacs-lisp
-  (after! dired
+  (after! ranger
     (require 'dired+))
 #+END_SRC
 
@@ -1600,14 +1595,15 @@ Smartparens is disabled while yasnippet is expanding and editing a snippet. What
 I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
 #+BEGIN_SRC emacs-lisp
   (after! yasnippet
-    (unless (bound-and-true-p std::yasnippet::smartparens-restored)
-      (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
-          (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
-        (error "Smartparens no longer disabled before yasnippet starts."))
-      (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
-          (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
-        (error "Smartparens no longer restored after yasnippet ends.")))
-    (defvar std::yasnippet::smartparens-restored t))
+    (after! smartparens
+      (unless (bound-and-true-p std::yasnippet::smartparens-restored)
+        (defvar std::yasnippet::smartparens-restored t)
+        (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
+            (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
+          (error "Smartparens no longer disabled before yasnippet starts."))
+        (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
+            (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
+          (error "Smartparens no longer restored after yasnippet ends.")))))
 #+END_SRC
 
 *** Enable Whitespace mode
@@ -1686,6 +1682,7 @@ A fallback in case evil's own folding is not sufficient
   (evil-goggles-mode t)
   (setq evil-goggles-duration                     0.15
         evil-goggles-pulse                        nil
+        evil-goggles-enable-change                t
         evil-goggles-enable-delete                t
         evil-goggles-enable-indent                t
         evil-goggles-enable-yank                  t
@@ -1781,12 +1778,33 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
           multi-compile-completion-system 'helm))
 #+END_SRC
 
+** Avy
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (after! avy
+    (setq avy-all-windows nil))
+#+END_SRC
+
+** Framey
+
+#+BEGIN_SRC emacs-lisp
+  (-let [framey-dir (expand-file-name "~/Documents/git/framey")]
+    (when (f-exists? framey-dir)
+      (use-package framey
+        :load-path "~/Documents/git/framey"
+        :defer t)
+      (autoload #'framey-mode "framey")
+      (after! helm (framey-mode))))
+#+END_SRC
+
 * Modeline
 
 Turn off unwanted segments
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/toggle-mode-line-minor-modes-off)
-  (spaceline-toggle-anzu-off)
+  (after! spaceline-segments
+    (spacemacs/toggle-mode-line-minor-modes-off)
+    (spaceline-toggle-anzu-off))
 #+END_SRC
 
 Don't use Spacemacs' evil state highlighter
@@ -1856,10 +1874,10 @@ Then single characters, like those used for prettify-symbols
 Use visual lines
 #+BEGIN_SRC emacs-lisp
   (std::def-key-for-maps
-   (kbd "j") #'evil-next-visual-line
+   (kbd "j") #'evil-next-line
    evil-normal-state-map evil-visual-state-map evil-motion-state-map)
   (std::def-key-for-maps
-   (kbd "k") #'evil-previous-visual-line
+   (kbd "k") #'evil-previous-line
    evil-normal-state-map evil-visual-state-map evil-motion-state-map)
 #+END_SRC
 
@@ -1914,7 +1932,8 @@ Find definition
 Quitting with *q*
 #+BEGIN_SRC emacs-lisp
   (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
-  (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window)
+  (after! flycheck
+    (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
   (after! Man-mode
     (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
 #+END_SRC
@@ -1934,6 +1953,14 @@ Newline in normal state
   (define-key evil-normal-state-map (kbd "<RET>") #'newline-and-indent)
 #+END_SRC
 
+** Line numbers
+
+#+BEGIN_SRC emacs-lisp
+  (setq display-line-numbers-widen       nil
+        display-line-numbers-width-start nil
+        display-line-numbers-grow-only   t)
+#+END_SRC
+
 ** Smooth Scrolling
 
 No more jumpy recenter
@@ -1950,7 +1977,6 @@ No more jumpy recenter
 On
 #+BEGIN_SRC emacs-lisp
   (global-subword-mode t)
-  (blink-cursor-mode t)
   (mouse-avoidance-mode 'banish)
   (desktop-save-mode t)
   (eros-mode t)
@@ -1968,10 +1994,7 @@ Off
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
   (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
   (add-hook 'emacs-lisp-mode-hook #'nameless-mode)
-  (add-hook 'conf-mode-hook       #'rainbow-mode)
-  (add-hook 'help-mode-hook       #'rainbow-mode)
   (add-hook 'org-mode-hook        #'smartparens-mode)
 #+END_SRC
 
