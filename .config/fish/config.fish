@@ -1,9 +1,9 @@
 #!/usr/bin/fish
 set -g  fish_key_bindings fish_user_key_bindings
-set -x  RUST_SRC_PATH     $HOME/Documents/git/rust/src
-set -x  XDG_CONFIG_HOME   $HOME/.config
-set -x  SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
-set -x  EDITOR            "emacsclient -c -n"
+set -Ux RUST_SRC_PATH     $HOME/Documents/git/rust/src
+set -Ux XDG_CONFIG_HOME   $HOME/.config
+set -Ux SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
+set -Ux EDITOR            "emacsclient -c -n"
 set -e  fish_greeting
 set -eU fish_user_paths
 
