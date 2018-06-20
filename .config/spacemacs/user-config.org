@@ -1932,11 +1932,14 @@ Find definition
 
 Quitting with *q*
 #+BEGIN_SRC emacs-lisp
-  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
-  (after! flycheck
-    (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
-  (after! Man-mode
-    (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
+  (after! evil
+    (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
+    (after! flycheck
+      (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
+    (after! Man-mode
+      (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
+    (after! helpful
+      (evil-define-key '(normal motion) helpful-mode-map (kbd "q") #'framey-quit-window)))
 #+END_SRC
 
 Killing a buffer alongside its window
