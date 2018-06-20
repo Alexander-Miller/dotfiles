@@ -1098,6 +1098,7 @@ Add *company-dabbrev-code* to front row of completion backends.
      magit-save-repository-buffers              'dontask
      git-commit-summary-max-length              120
      magit-fetch-arguments                      '("--prune")
+     magit-rebase-arguments                     '("--autostash")
      magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
 
   (after! git-gutter
