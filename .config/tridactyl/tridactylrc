@@ -1,0 +1,29 @@
+" -*- mode: tridactylrc -*- "
+
+sanitise tridactyllocal tridactylsync
+
+set hintchars asdfqwejkln
+" ?? "
+set hinfiltermode vimperator-reflow
+set smoothscroll false
+
+bind j scrollline 10
+bind J scrollline 20
+bind k scrollline -10
+bind K scrollline -20
+
+bind h tabprev
+bind l tabnext
+bind H followpage previous
+bind L followpage next
+
+bind q tabclose
+bind <C-ö> buffer #
+
+bind <C-i> forward
+bind <C-o> back
+
+bind d hint -b
+bind D hint
+
+bind ZZ qall
