@@ -279,22 +279,24 @@ Syntax highlighting for symbols and function symbols
 #+END_SRC
 
 *** Functions
-**** ~std::elisp::repl-buffer~
+**** ~std::elisp::ielm~
 The elisp repl window refuses to be controlled by shackle, so we'll
 do it manually.
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::elisp::repl-buffer (&optional arg)
-    (interactive "P")
-    (let* ((w (get-buffer-window))
-           (h (window-height w)))
-      (split-window-below)
-      (other-window 1)
-      (-if-let (repl-buf (get-buffer "*ielm*"))
-          (switch-to-buffer repl-buf)
-        (ielm))
-      (set-window-text-height (get-buffer-window) (round (* 0.33 h)))
-      (when arg (select-window w))))
+  (defun std::elisp::ielm ()
+    "Interactively evaluate Emacs Lisp expressions.
+  Switches to the buffer `*ielm*', or creates it if it does not exist.
+  See `inferior-emacs-lisp-mode' for details."
+    (interactive)
+    (require 'ielm)
+    (let (old-point)
+      (unless (comint-check-proc "*ielm*")
+        (with-current-buffer (get-buffer-create "*ielm*")
+          (unless (zerop (buffer-size)) (setq old-point (point)))
+          (inferior-emacs-lisp-mode)))
+      (pop-to-buffer "*ielm*")
+      (when old-point (push-mark old-point))))
 #+END_SRC
 
 **** ~std::elisp::fold-all-top-level-forms~
@@ -314,7 +316,7 @@ do it manually.
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "'" #'std::elisp::repl-buffer
+    "'" #'std::elisp::ielm
     "C" #'std::elisp::fold-all-top-level-forms)
 #+END_SRC
 
@@ -1527,7 +1529,8 @@ Set accounts file only in proper files
     (setq purpose-user-mode-purposes
           '((flycheck-error-list-mode . bottom)
             (messages-buffer-mode     . bottom)
-            (compilation-mode         . bottom)))
+            (compilation-mode         . bottom)
+            (inferior-emacs-lisp-mode . bottom)))
 
     (purpose-compile-user-configuration))
 #+END_SRC
@@ -1651,6 +1654,7 @@ Replace popwin
           (flycheck-error-list-mode :select nil :align below :size 0.25)
           (compilation-mode         :select nil :align below :size 0.25)
           (messages-buffer-mode     :select t   :align below :size 0.25)
+          (inferior-emacs-lisp-mode :select t   :align below :size 0.25)
           (ert-results-mode         :select t   :align below :size 0.5)
           (calendar-mode            :select t   :align below :size 0.25)
           (racer-help-mode          :select t   :align right :size 0.5)
