@@ -133,6 +133,20 @@ As shown in the spacemacs FAQ
        ,@body))
 #+END_SRC
 
+** keybind!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro keybind! (keymap &rest keybinds)
+    (declare (indent 1))
+    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    (-let [bind-forms nil]
+      (while keybinds
+        (-let [(key func . rest) keybinds]
+          (push `(define-key ,keymap (kbd ,key) ,func) bind-forms)
+          (setq keybinds rest)))
+      `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
 * Config tangle & compilation
 
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
@@ -1145,58 +1159,142 @@ Add *company-dabbrev-code* to front row of completion backends.
           magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+END_SRC
 
-** Ranger
-*** Functions
+** Dired
+*** Variables
 
-~std::deer-new-frame~
 #+BEGIN_SRC emacs-lisp
-  (defun std::deer-new-frame ()
-    (interactive)
-    (let ((frame (make-frame-command)))
-      (select-frame frame)
-      (deer)
-      (delete-other-windows)))
+  (defvar std::dired::saved-positions nil)
+  (defvar std::dired::saved-window-config nil)
 #+END_SRC
 
-~std::deer-kill-frame~
+*** Evil State
+
+A dired evil state to get rid of the cursor and to have a single keymap
+
 #+BEGIN_SRC emacs-lisp
-  (after! ranger
-    (defun std::deer-delete-frame ()
-      (interactive)
-      (ranger-close)
-      (when (> (cl-list-length (frame-list)) 1)
-        (delete-frame))))
+  (after! dired
+    (evil-define-state dired
+      "Dired state"
+      :cursor '(bar . 0)
+      :enable (motion)))
+#+END_SRC
+
+*** Functions
+
+~std::dired~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired ()
+    (interactive)
+    (setq std::dired::saved-window-config (current-window-configuration))
+    (delete-other-windows)
+    (if std::dired::saved-positions
+        (-let [(left . right) std::dired::saved-positions]
+          (dired left)
+          (save-selected-window
+            (split-window-right-and-focus)
+            (dired right)))
+      (let ((left) (right))
+        (dired-jump)
+        (setq left default-directory)
+        (save-selected-window
+          (split-window-right-and-focus)
+          (dired-jump)
+          (setq right default-directory))
+        (setq std::dired::saved-positions (cons left right)))))
+#+END_SRC
+
+~std::dired::quit~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::quit ()
+    (interactive)
+    (let ((left) (right))
+      (winum-select-window-1)
+      (setq left default-directory)
+      (winum-select-window-2)
+      (setq right default-directory)
+      (setq std::dired::saved-positions (cons left right)))
+    (set-window-configuration std::dired::saved-window-config)
+    (--each (buffer-list)
+        (when (eq 'dired-mode (buffer-local-value 'major-mode it))
+             (kill-buffer it))))
+#+END_SRC
+
+~std::dired::mode-hook~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::mode-hook ()
+    (dired-hide-details-mode -1)
+    (hl-line-mode)
+    (evil-dired-state))
+#+END_SRC
+
+~std::dired::mark-up~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::mark-up ()
+    (interactive)
+    (call-interactively #'dired-mark)
+    (previous-line 2))
+#+END_SRC
+
+~std::dired::open-externally~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::open-externally ()
+    (interactive)
+    (call-process-shell-command
+     (format "xdg-open %s &"
+             (shell-quote-argument (dired-get-filename)))))
+#+END_SRC
+
+~std::dired::finish-wdired~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::finish-wdired ()
+    (interactive)
+    (wdired-finish-edit)
+    (evil-dired-state))
+#+END_SRC
+
+~std::dired::abort-wdired~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::abort-wdired ()
+    (interactive)
+    (wdired-abort-changes)
+    (evil-dired-state))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! ranger
-    (setq ranger-cleanup-eagerly    t
-          ranger-cleanup-on-disable t
-          ranger-deer-show-details  t
-          ranger-dont-show-binary   t
-          ranger-hide-cursor        t
-          ranger-listing-dir-first  t
-          ranger-modify-header      t
-          ranger-map-style          'dired
-          ranger-override-dired     t
-          ranger-tabs-style         'normal
-          ranger-show-hidden        t))
+  (add-hook 'dired-mode-hook #'std::dired::mode-hook)
+
+  (after! dired
+    (require 'dired+))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
-    "ad" #'std::deer-new-frame)
+  (after! dired
+    (spacemacs/set-leader-keys "ad" #'std::dired)
 
-  (after! ranger
-    (evil-define-key 'motion ranger-mode-map (kbd "q") #'std::deer-delete-frame))
+    (keybind! evil-dired-state-map
+      "o"     nil
+      ","     nil
+      ", C-e" #'wdired-change-to-wdired-mode
+      "("     #'global-dired-hide-details-mode
+      "ox"    #'std::dired::open-externally
+      "q"     #'std::dired::quit
+      "J"     #'std::quick-forward
+      "K"     #'std::quick-backward
+      "M-j"   #'dired-mark
+      "M-k"   #'std::dired::mark-up
+      "l"     #'dired-find-file
+      "h"     #'diredp-up-directory)
+
+    (keybind! wdired-mode-map
+      "C-c C-c" #'std::dired::finish-wdired
+      "C-c C-k" #'std::dired::abort-wdired))
 #+END_SRC
 
 ** Clojure
-
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
@@ -1331,7 +1429,7 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys
-    "oll" #'std::ledger::window-setup)
+    "aL" #'std::ledger::window-setup)
 
   (after! ledger-mode
     (define-key ledger-mode-map [remap save-buffer] #'std::ledger::save)
@@ -1525,13 +1623,6 @@ Set accounts file only in proper files
    (kbd "C-M-s")
    #'std::swipe-symbol-at-point
    evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
-#+END_SRC
-
-** dired+
-
-#+BEGIN_SRC emacs-lisp
-  (after! ranger
-    (require 'dired+))
 #+END_SRC
 
 ** Eyebrowse
@@ -1960,8 +2051,8 @@ Newline in normal state
 ** Line numbers
 
 #+BEGIN_SRC emacs-lisp
-  (setq display-line-numbers-widen       nil
-        display-line-numbers-width-start nil
+  (setq display-line-numbers-widen       t
+        display-line-numbers-width-start t
         display-line-numbers-grow-only   t)
 #+END_SRC
 

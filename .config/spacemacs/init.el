@@ -26,7 +26,6 @@
      mu4e
      org
      python
-     ranger
      rust
      syntax-checking
      shell
