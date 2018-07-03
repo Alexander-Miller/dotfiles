@@ -51,6 +51,8 @@
                                            :repo "Alexander-Miller/morning-star-theme"))
      (dired+ :location (recipe :fetcher github
                                :repo "emacsmirror/dired-plus"))
+     (tridactylrc-mode :location (recipe :fetcher github
+                                         :repo "Alexander-Miller/tridactylrc-mode"))
      multi-compile
      ht
      pfuture
