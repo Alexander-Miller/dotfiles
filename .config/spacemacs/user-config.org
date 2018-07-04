@@ -1364,6 +1364,10 @@ for easy deactivation.
 
     (use-package treemacs-projectile
       :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :after treemacs)
+
+    (use-package treemacs-magit
+      :load-path "/home/a/Documents/git/treemacs/src/elisp"
       :after treemacs))
 #+END_SRC
 
