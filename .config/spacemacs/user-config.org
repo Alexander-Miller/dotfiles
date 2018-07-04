@@ -1291,9 +1291,10 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "l"     #'dired-find-file
       "h"     #'diredp-up-directory)
 
-    (keybind! wdired-mode-map
-      "C-c C-c" #'std::dired::finish-wdired
-      "C-c C-k" #'std::dired::abort-wdired))
+    (after! wdired
+      (keybind! wdired-mode-map
+        "C-c C-c" #'std::dired::finish-wdired
+        "C-c C-k" #'std::dired::abort-wdired)))
 #+END_SRC
 
 ** Clojure
