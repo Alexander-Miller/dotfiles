@@ -45,15 +45,6 @@ Load used libraries to somewhat reduce the amount of warnings.
     "feo" #'std::edit-org-user-config)
 #+END_SRC
 
-** std::def-key-for-maps
-
-#+BEGIN_SRC emacs-lisp
-(defun std::def-key-for-maps (key cmd &rest keymaps)
-  "Bind KEY to CMD for all keymaps in MAPS."
-  (dolist (keymap keymaps)
-    (define-key keymap key cmd)))
-#+END_SRC
-
 ** std::org-files
 
 #+BEGIN_SRC emacs-lisp
@@ -136,13 +127,18 @@ As shown in the spacemacs FAQ
 ** keybind!
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro keybind! (keymap &rest keybinds)
+  (defmacro keybind! (keymaps &rest keybinds)
     (declare (indent 1))
     (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
     (-let [bind-forms nil]
       (while keybinds
         (-let [(key func . rest) keybinds]
-          (push `(define-key ,keymap (kbd ,key) ,func) bind-forms)
+          (dolist (keymap keymaps)
+            (push `(define-key ,keymap (kbd ,key) ,func) bind-forms))
           (setq keybinds rest)))
       `(progn ,@(nreverse bind-forms))))
 #+END_SRC
@@ -415,29 +411,21 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 
     (defun std::company::off (arg)
       "Use default keys when company is not active. ARG is ignored."
-      (std::def-key-for-maps
-       (kbd "C-j") #'electric-newline-and-maybe-indent
-       evil-normal-state-map evil-insert-state-map)
-      (std::def-key-for-maps
-       (kbd "C-k") #'kill-line
-       evil-normal-state-map evil-insert-state-map)
-      (std::def-key-for-maps
-       (kbd "C-l") #'yas-expand
-       evil-insert-state-map))
+      (keybind! (evil-normal-state-map evil-insert-state-map)
+        "C-j" #'electric-newline-and-maybe-indent
+        "C-k" #'kill-line)
+      (keybind! evil-insert-state-map
+        "C-l" #'yas-expand))
 
     (defun std::company::on (arg)
       "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."
-      (std::def-key-for-maps
-       (kbd "C-j") #'company-select-next
-       evil-normal-state-map evil-insert-state-map)
-      (std::def-key-for-maps
-       (kbd "C-k") #'company-select-previous
-       evil-normal-state-map evil-insert-state-map)
-      (std::def-key-for-maps
-       (kbd "C-l") #'company-quickhelp-manual-begin
-       evil-insert-state-map))
+      (keybind! (evil-normal-state-map evil-insert-state-map)
+        "C-j" #'company-select-next
+        "C-k" #'company-select-previous)
+      (keybind! evil-insert-state-map
+        "C-l" #'company-quickhelp-manual-begin))
 
     (add-hook 'company-completion-started-hook   #'std::company::on)
     (add-hook 'company-completion-finished-hook  #'std::company::off)
@@ -1125,31 +1113,30 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (after! magit
-    (defvar std::magit-key-maps
-      (list
-       magit-mode-map
-       magit-status-mode-map
-       magit-log-mode-map
-       magit-diff-mode-map
-       magit-branch-section-map
-       magit-untracked-section-map
-       magit-file-section-map
-       magit-status-mode-map
-       magit-hunk-section-map
-       magit-stash-section-map
-       magit-stashes-section-map
-       magit-staged-section-map
-       magit-unstaged-section-map))
-
-    (apply #'std::def-key-for-maps (kbd "J")   #'std::quick-forward              std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd "K")   #'std::quick-backward             std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd "M-j") #'magit-section-forward-sibling   std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd "M-k") #'magit-section-backward-sibling  std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd ",u")  #'magit-section-up                std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd ",1")  #'magit-section-show-level-1-all  std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd ",2")  #'magit-section-show-level-2-all  std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd ",3")  #'magit-section-show-level-3-all  std::magit-key-maps)
-    (apply #'std::def-key-for-maps (kbd ",4")  #'magit-section-show-level-4-all  std::magit-key-maps))
+    (keybind!
+        (magit-mode-map
+         magit-status-mode-map
+         magit-log-mode-map
+         magit-diff-mode-map
+         magit-branch-section-map
+         magit-untracked-section-map
+         magit-file-section-map
+         magit-status-mode-map
+         magit-hunk-section-map
+         magit-stash-section-map
+         magit-stashes-section-map
+         magit-staged-section-map
+         magit-unstaged-section-map)
+      "J"   #'std::quick-forward
+      "K"   #'std::quick-backward
+      "M-j" #'magit-section-forward-sibling
+      "M-k" #'magit-section-backward-sibling
+      ",u"  #'magit-section-up
+      ",u"  #'magit-section-up
+      ",1"  #'magit-section-show-level-1-all
+      ",2"  #'magit-section-show-level-2-all
+      ",3"  #'magit-section-show-level-3-all
+      ",4"  #'magit-section-show-level-4-all))
 #+END_SRC
 
 ** Git
@@ -1671,10 +1658,9 @@ Set accounts file only in proper files
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-s") #'swiper)
-  (std::def-key-for-maps
-   (kbd "C-M-s")
-   #'std::swipe-symbol-at-point
-   evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
+
+  (keybind! (evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
+    "C-M-s" #'std::swipe-symbol-at-point)
 #+END_SRC
 
 ** Eyebrowse
@@ -2020,12 +2006,9 @@ Then single characters, like those used for prettify-symbols
 
 Use visual lines
 #+BEGIN_SRC emacs-lisp
-  (std::def-key-for-maps
-   (kbd "j") #'evil-next-line
-   evil-normal-state-map evil-visual-state-map evil-motion-state-map)
-  (std::def-key-for-maps
-   (kbd "k") #'evil-previous-line
-   evil-normal-state-map evil-visual-state-map evil-motion-state-map)
+  (keybind! (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
+    "j" #'evil-next-line
+    "k" #'evil-previous-line)
 #+END_SRC
 
 Quick line jumping
