@@ -1167,6 +1167,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
   (defvar std::dired::saved-positions nil)
   (defvar std::dired::saved-window-config nil)
+  (defvar std::dired::cache-file (f-join user-emacs-directory ".cache" "std-dired-cache"))
 #+END_SRC
 
 *** Evil State
@@ -1189,20 +1190,17 @@ A dired evil state to get rid of the cursor and to have a single keymap
     (interactive)
     (setq std::dired::saved-window-config (current-window-configuration))
     (delete-other-windows)
-    (if std::dired::saved-positions
-        (-let [(left . right) std::dired::saved-positions]
-          (dired left)
-          (save-selected-window
-            (split-window-right-and-focus)
-            (dired right)))
-      (let ((left) (right))
-        (dired-jump)
-        (setq left default-directory)
-        (save-selected-window
-          (split-window-right-and-focus)
-          (dired-jump)
-          (setq right default-directory))
-        (setq std::dired::saved-positions (cons left right)))))
+    (unless std::dired::saved-positions
+      (-let [(left right)
+             (->> std::dired::cache-file
+                  (f-read)
+                  (s-split "\n"))]
+        (setf std::dired::saved-positions (cons left right))))
+    (-let [(left . right) std::dired::saved-positions]
+      (dired left)
+      (save-selected-window
+        (split-window-right-and-focus)
+        (dired right))))
 #+END_SRC
 
 ~std::dired::quit~
@@ -1214,7 +1212,10 @@ A dired evil state to get rid of the cursor and to have a single keymap
       (setq left default-directory)
       (winum-select-window-2)
       (setq right default-directory)
-      (setq std::dired::saved-positions (cons left right)))
+      (setq std::dired::saved-positions (cons left right))
+      (unless (f-exists? std::dired::cache-file)
+        (f-touch std::dired::cache-file))
+      (f-write (format "%s\n%s" left right) 'utf-8 std::dired::cache-file))
     (set-window-configuration std::dired::saved-window-config)
     (--each (buffer-list)
         (when (eq 'dired-mode (buffer-local-value 'major-mode it))
@@ -1262,13 +1263,48 @@ A dired evil state to get rid of the cursor and to have a single keymap
     (evil-dired-state))
 #+END_SRC
 
+~std::dired::filesize~
+#+BEGIN_SRC emacs-lisp
+  (defun std::dired::filesize ()
+    (interactive)
+    (let* ((file (dired-filename-at-point))
+           (cmd (if (f-directory? file) "du -sh %s" "ls -sh %s"))
+           (output (->> file
+                        (shell-quote-argument)
+                        (format cmd)
+                        (shell-command-to-string)
+                        (s-trim))))
+      (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
+        (message
+         "%s : %s"
+         (propertize file 'face 'font-lock-keyword-face)
+         (propertize size 'face 'font-lock-string-face)))))
+#+END_SRC
+
+**** Goto
+
+~std::dired::goto-videos~
+#+BEGIN_SRC emacs-lisp
+(defun std::dired::goto-variables ()
+  (interactive)
+  (dired "~/Videos/"))
+#+END_SRC
+
+~std::dired::goto-home~
+#+BEGIN_SRC emacs-lisp
+(defun std::dired::goto-home ()
+  (interactive)
+  (dired "~/"))
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
   (after! dired
-    (require 'dired+))
+    (require 'dired+)
+    (setq dired-listing-switches "-alh"))
 #+END_SRC
 
 *** Keybinds
@@ -1280,8 +1316,16 @@ A dired evil state to get rid of the cursor and to have a single keymap
     (keybind! evil-dired-state-map
       "o"     nil
       ","     nil
+      "c"     nil
+      "gv"    #'std::dired::goto-variables
+      "gh"    #'std::dired::goto-home
+      "gr"    #'revert-buffer
+      "y"     #'dired-do-copy
+      "cd"    #'dired-create-directory
       ", C-e" #'wdired-change-to-wdired-mode
       "("     #'global-dired-hide-details-mode
+      "D"     #'dired-do-delete
+      "I"     #'std::dired::filesize
       "ox"    #'std::dired::open-externally
       "q"     #'std::dired::quit
       "J"     #'std::quick-forward
@@ -1665,6 +1709,8 @@ Replace popwin
           (racer-help-mode          :select t   :align right :size 0.5)
           (help-mode                :select t   :align right :size 0.5)
           (helpful-mode             :select t   :align right :size 0.5)
+          (" *Deletions*"           :select t   :align below :size 0.25)
+          (" *Marked Files*"        :select t   :align below :size 0.25)
           ("*Org Select*"           :select t   :align below :size 0.33)
           ("*Org Note*"             :select t   :align below :size 0.33)
           ("*Org Links*"            :select t   :align below :size 0.2)
