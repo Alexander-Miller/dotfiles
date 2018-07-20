@@ -8,6 +8,7 @@ Load used libraries to somewhat reduce the amount of warnings.
   (require 'dash)
   (require 'f)
   (require 's)
+  (require 'evil)
 #+END_SRC
 
 * Utility Functions
@@ -41,7 +42,7 @@ Load used libraries to somewhat reduce the amount of warnings.
     (interactive)
     (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
 
-  (evil-leader/set-key
+  (spacemacs/set-leader-keys
     "feo" #'std::edit-org-user-config)
 #+END_SRC
 
@@ -1170,6 +1171,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+END_SRC
 
 *** Functions
+**** Top level
 
 ~std::dired~
 #+BEGIN_SRC emacs-lisp
@@ -1190,98 +1192,94 @@ A dired evil state to get rid of the cursor and to have a single keymap
         (dired right))))
 #+END_SRC
 
-~std::dired::quit~
+**** Dired Internal
+
 #+BEGIN_SRC emacs-lisp
-  (defun std::dired::quit ()
-    (interactive)
-    (let ((left) (right))
-      (winum-select-window-1)
-      (setq left default-directory)
-      (winum-select-window-2)
-      (setq right default-directory)
-      (setq std::dired::saved-positions (cons left right))
-      (unless (f-exists? std::dired::cache-file)
-        (f-touch std::dired::cache-file))
-      (f-write (format "%s\n%s" left right) 'utf-8 std::dired::cache-file))
-    (set-window-configuration std::dired::saved-window-config)
-    (--each (buffer-list)
+  (after! dired+
+
+    (defun std::dired::quit ()
+      (interactive)
+      (let ((left) (right))
+        (winum-select-window-1)
+        (setq left default-directory)
+        (winum-select-window-2)
+        (setq right default-directory)
+        (setq std::dired::saved-positions (cons left right))
+        (unless (f-exists? std::dired::cache-file)
+          (f-touch std::dired::cache-file))
+        (f-write (format "%s\n%s" left right) 'utf-8 std::dired::cache-file))
+      (set-window-configuration std::dired::saved-window-config)
+      (--each (buffer-list)
         (when (eq 'dired-mode (buffer-local-value 'major-mode it))
-             (kill-buffer it))))
+          (kill-buffer it))))
+
+    (defun std::dired::mark-up ()
+      (interactive)
+      (call-interactively #'dired-mark)
+      (previous-line 2))
+
+    (defun std::dired::open-externally ()
+      (interactive)
+      (call-process-shell-command
+       (format "xdg-open %s &"
+               (shell-quote-argument (dired-get-filename)))))
+
+    (defun std::dired::filesize ()
+      (interactive)
+      (let* ((file (dired-filename-at-point))
+             (cmd (if (f-directory? file) "du -sh %s" "ls -sh %s"))
+             (output (->> file
+                          (shell-quote-argument)
+                          (format cmd)
+                          (shell-command-to-string)
+                          (s-trim))))
+        (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
+          (message
+           "%s : %s"
+           (propertize file 'face 'font-lock-keyword-face)
+           (propertize size 'face 'font-lock-string-face)))))
+    )
 #+END_SRC
 
-~std::dired::mode-hook~
+**** Mode hook
+
 #+BEGIN_SRC emacs-lisp
-  (defun std::dired::mode-hook ()
-    (dired-hide-details-mode -1)
-    (hl-line-mode)
-    (evil-dired-state))
+  (after! dired+
+    (defun std::dired::mode-hook ()
+      (dired-hide-details-mode -1)
+      (hl-line-mode)
+      (evil-dired-state)))
 #+END_SRC
 
-~std::dired::mark-up~
-#+BEGIN_SRC emacs-lisp
-  (defun std::dired::mark-up ()
-    (interactive)
-    (call-interactively #'dired-mark)
-    (previous-line 2))
-#+END_SRC
-
-~std::dired::open-externally~
-#+BEGIN_SRC emacs-lisp
-  (defun std::dired::open-externally ()
-    (interactive)
-    (call-process-shell-command
-     (format "xdg-open %s &"
-             (shell-quote-argument (dired-get-filename)))))
-#+END_SRC
-
-~std::dired::finish-wdired~
-#+BEGIN_SRC emacs-lisp
-  (defun std::dired::finish-wdired ()
-    (interactive)
-    (wdired-finish-edit)
-    (evil-dired-state))
-#+END_SRC
-
-~std::dired::abort-wdired~
-#+BEGIN_SRC emacs-lisp
-  (defun std::dired::abort-wdired ()
-    (interactive)
-    (wdired-abort-changes)
-    (evil-dired-state))
-#+END_SRC
-
-~std::dired::filesize~
-#+BEGIN_SRC emacs-lisp
-  (defun std::dired::filesize ()
-    (interactive)
-    (let* ((file (dired-filename-at-point))
-           (cmd (if (f-directory? file) "du -sh %s" "ls -sh %s"))
-           (output (->> file
-                        (shell-quote-argument)
-                        (format cmd)
-                        (shell-command-to-string)
-                        (s-trim))))
-      (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
-        (message
-         "%s : %s"
-         (propertize file 'face 'font-lock-keyword-face)
-         (propertize size 'face 'font-lock-string-face)))))
-#+END_SRC
-
-**** Goto
-
-~std::dired::goto-videos~
-#+BEGIN_SRC emacs-lisp
-(defun std::dired::goto-variables ()
-  (interactive)
-  (dired "~/Videos/"))
-#+END_SRC
+**** Gotos
 
 ~std::dired::goto-home~
 #+BEGIN_SRC emacs-lisp
-(defun std::dired::goto-home ()
-  (interactive)
-  (dired "~/"))
+  (after! dired+
+
+    (defun std::dired::goto-videos ()
+      (interactive)
+      (dired "~/Videos/"))
+
+    (defun std::dired::goto-home ()
+      (interactive)
+      (dired "~/")))
+#+END_SRC
+
+**** Wdired
+
+#+BEGIN_SRC emacs-lisp
+  (after! wdired
+
+    (defun std::dired::finish-wdired ()
+      (interactive)
+      (wdired-finish-edit)
+      (evil-dired-state))
+
+    (defun std::dired::abort-wdired ()
+      (interactive)
+      (wdired-abort-changes)
+      (evil-dired-state)))
 #+END_SRC
 
 *** Settings
@@ -1297,14 +1295,15 @@ A dired evil state to get rid of the cursor and to have a single keymap
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! dired
-    (spacemacs/set-leader-keys "ad" #'std::dired)
+  (spacemacs/set-leader-keys "ad" #'std::dired)
+
+  (after! dired+
 
     (keybind! evil-dired-state-map
       "o"     nil
       ","     nil
       "c"     nil
-      "gv"    #'std::dired::goto-variables
+      "gv"    #'std::dired::goto-videos
       "gh"    #'std::dired::goto-home
       "gr"    #'revert-buffer
       "y"     #'dired-do-copy
