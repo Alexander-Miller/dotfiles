@@ -1,3 +1,4 @@
+# -*- mode: fish -*-
 --exchange €
 --effective
 --ansi
@@ -6,3 +7,5 @@
 --check-payees
 --date-format %Y-%m-%d
 --input-date-format %Y-%m-%d
+--sort date
+--file ~/Documents/Org/Ledger/Ledger.ledger

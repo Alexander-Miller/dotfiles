@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: tag-date
+#key: d
+# --
+; [=${1:yyyy}-${2:mm}-${3:dd}]$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: euro
+#key: e
+# --
+${1:xx},${2:yy} €$0

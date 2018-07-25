@@ -51,12 +51,14 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
   (defun std::org-files ()
     (interactive)
+    (require 'helm)
     (helm :prompt "Org File: "
           :buffer "*helm org files*"
           :sources (helm-build-sync-source "Org Files"
                      :candidates (--map (cons (f-filename it) it) (f-files org-directory))
                      :action #'find-file-existing
                      :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
+
   (spacemacs/set-leader-keys
     "aof" #'std::org-files)
 #+END_SRC
@@ -138,10 +140,26 @@ As shown in the spacemacs FAQ
     (-let [bind-forms nil]
       (while keybinds
         (-let [(key func . rest) keybinds]
-          (dolist (keymap keymaps)
-            (push `(define-key ,keymap (kbd ,key) ,func) bind-forms))
+          (-let [key (if (vectorp key) key `(kbd ,key))]
+            (dolist (keymap keymaps)
+              (push `(define-key ,keymap ,key ,func) bind-forms)))
           (setq keybinds rest)))
       `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+
+** set-local!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro set-local! (&rest binds)
+    (cl-assert (= 0 (% (length binds) 2)))
+    (-let [pairs nil]
+      (while binds
+        (push (cons (pop binds) (pop binds)) pairs))
+      `(progn
+         ,@(--map
+            `(setq-local ,(car it) ,(cdr it))
+            (nreverse pairs)))))
 #+END_SRC
 
 * Config tangle & compilation
@@ -1402,8 +1420,49 @@ for easy deactivation.
 #+END_SRC
 
 ** Finance
-*** Functions
+*** Variables
 
+#+BEGIN_SRC emacs-lisp
+  (defvar std::ledger::save-window-config nil)
+  (defconst std::ledger::dir (expand-file-name "~/Documents/Org/Ledger"))
+  (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
+                                  (4 . "April")    (5 . "Mai")       (6 . "Juni")
+                                  (7 . "Juli")     (8 . "August")    (9 . "September")
+                                  (10 . "Oktober") (11 . "November") (12 . "Dezemper")))
+#+END_SRC
+
+*** Functions
+**** Top Level
+~std::ledger~
+#+BEGIN_SRC emacs-lisp
+  (defun std::ledger ()
+    (interactive)
+    (require 'calendar)
+    (let* ((date (calendar-current-date))
+           (year (cl-third (calendar-current-date)))
+           (main-file (format "%s/Ledger.ledger" std::ledger::dir))
+           (year-file (format "%s/%s.ledger" std::ledger::dir year)))
+      (setf std::ledger::save-window-config (current-window-configuration))
+      (delete-other-windows)
+      (find-file year-file)
+      (split-window-right)
+      (save-selected-window
+        (other-window 1)
+        (find-file main-file))
+      (std::ledger::goto-current-month)))
+#+END_SRC
+
+~std::ledger::mode-hook~
+#+BEGIN_SRC emacs-lisp
+  (defun std::ledger::mode-hook ()
+    (outline-minor-mode)
+    (set-local!
+     ledger-accounts-file     (format "%s/Ledger.ledger" std::ledger::dir)
+     outline-regexp           (rx bol ";;; ")
+     imenu-generic-expression `(("Monat" ,(rx ";;; " (group-n 2 (1+ alnum)) eol) 2))))
+#+END_SRC
+
+**** Internal
 ~std::ledger::save~
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
@@ -1412,78 +1471,79 @@ for easy deactivation.
       (interactive)
       (-let [p (point)]
         (when (buffer-modified-p)
-          (with-demoted-errors (ledger-mode-clean-buffer))
-          (save-buffer))
+          (unwind-protect (ledger-mode-clean-buffer)
+            (save-buffer)))
         (goto-char p))))
 #+END_SRC
 
-~std::ledger::window-setup~
-#+BEGIN_SRC emacs-lisp
-  (defun std::ledger::window-setup ()
-    (interactive)
-    (require 'calendar)
-    (let* ((months '((1 . "Januar")
-                     (2 . "Februar")
-                     (3 . "März")
-                     (4 . "April")
-                     (5 . "Mai")
-                     (6 . "Juni")
-                     (7 . "Juli")
-                     (8 . "August")
-                     (9 . "September")
-                     (10 . "Oktober")
-                     (11 . "November")
-                     (12 . "Dezemper")))
-           (date (calendar-current-date))
-           (year (caddr (calendar-current-date)))
-           (month-num (car date))
-           (month (alist-get month-num months))
-           (path-template "~/Documents/Org/Ledger/%s/%s.ledger")
-           (path (format path-template year month)))
-      (unless (file-exists-p path)
-        (if (/= 1 month-num)
-            (setq path (format path-template
-                               year (alist-get (1- month-num) months)))
-          (setq year (1- year)
-                path (format path-template
-                             year (alist-get 12 months)) )))
-      (delete-other-windows)
-      (find-file path)
-      (split-window-right)
-      (other-window 1)
-      (find-file "~/Documents/Org/Ledger/Ledger.ledger")))
-#+END_SRC
-
-~std::ledger::set-accounts-file~
+~std::ledger::finish~
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
-    (defun std::ledger::set-accounts-file ()
-      (when (s-starts-with? (f-expand "~/Documents/Org/Ledger") (buffer-file-name))
-        (setq-local ledger-accounts-file "~/Documents/Org/Ledger/Ledger.ledger"))))
+    (defun std::ledger::finish ()
+      (interactive)
+      (--each (--filter (eq 'ledger-mode (with-current-buffer it major-mode))
+                        (buffer-list))
+        (with-current-buffer it
+          (save-buffer)
+          (kill-buffer)))
+      (when std::ledger::save-window-config
+        (set-window-configuration std::ledger::save-window-config))))
+#+END_SRC
+
+~std::ledger::magic-tab~
+#+BEGIN_SRC emacs-lisp
+  (after! ledger-mode
+    (defun std::ledger::magic-tab ()
+      (interactive)
+      (if (s-matches? outline-regexp (thing-at-point 'line t))
+          (outline-toggle-children)
+        (ledger-magic-tab))))
+#+END_SRC
+
+~std::ledger::goto-current-month~
+#+BEGIN_SRC emacs-lisp
+  (after! ledger-mode
+    (defun std::ledger::goto-current-month ()
+      (interactive)
+      (-let [month (-> (calendar-current-date)
+                       (car)
+                       (alist-get std::ledger::months))]
+        (save-match-data
+          (-let [start (point)]
+            (goto-char 0)
+            (unless (search-forward (format ";;; %s" month) nil :no-error)
+              (message "'%s' not found." month)
+              (goto-char start)))))))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
   (spacemacs/set-leader-keys
-    "aL" #'std::ledger::window-setup)
+    "aL" #'std::ledger)
 
   (after! ledger-mode
-    (define-key ledger-mode-map [remap save-buffer] #'std::ledger::save)
+
+    (keybind! ledger-mode-map
+      "M-j"   #'evil-ledger-forward-xact
+      "M-k"   #'evil-ledger-backward-xact
+      "<tab>" #'std::ledger::magic-tab
+      [remap save-buffer] #'std::ledger::save)
 
     (spacemacs/set-leader-keys-for-major-mode 'ledger-mode
-      "s" #'ledger-sort-buffer
-      "S" #'ledger-sort-region
-      "o" #'ledger-occur-mode
-      "y" #'ledger-copy-transaction-at-point
-      "d" #'ledger-delete-current-transaction
-      "r" #'ledger-report
-      "R" #'ledger-reconcile))
+      "C-w" #'std::ledger::finish
+      "c"   #'std::ledger::goto-current-month
+      "s"   #'ledger-sort-buffer
+      "S"   #'ledger-sort-region
+      "o"   #'ledger-occur-mode
+      "y"   #'ledger-copy-transaction-at-point
+      "d"   #'ledger-delete-current-transaction
+      "r"   #'ledger-report
+      "R"   #'ledger-reconcile))
 #+END_SRC
 
 *** Settings
 
-General settings.
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
     (setq ledger-default-date-format           ledger-iso-date-format
@@ -1491,11 +1551,8 @@ General settings.
           ledger-post-account-alignment-column 2
           ledger-clear-whole-transactions      t
           company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
-#+END_SRC
 
-Set accounts file only in proper files
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ledger-mode-hook #'std::ledger::set-accounts-file)
+  (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 #+END_SRC
 
 ** Purpose
