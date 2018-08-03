@@ -38,7 +38,8 @@
      yaml)
    dotspacemacs-additional-packages
    '(company-flx
-     dired+
+     (dired+ :location (recipe :fetcher github
+                               :repo "emacsmirror/dired-plus"))
      dash-functional ;; for local company-box
      el-mock
      eros
@@ -49,8 +50,6 @@
                                            :repo "Alexander-Miller/i3wm-config-mode"))
      (morning-star-theme :location (recipe :fetcher github
                                            :repo "Alexander-Miller/morning-star-theme"))
-     (dired+ :location (recipe :fetcher github
-                               :repo "emacsmirror/dired-plus"))
      (tridactylrc-mode :location (recipe :fetcher github
                                          :repo "Alexander-Miller/tridactylrc-mode"))
      multi-compile
@@ -72,7 +71,7 @@
    dotspacemacs-emacs-dumper-dump-file             "spacemacs.pdmp"
    dotspacemacs-elpa-https                         t
    dotspacemacs-elpa-timeout                       10
-   dotspacemacs-gc-cons                            '(800000 0.1)
+   dotspacemacs-gc-cons                            '(1600000 0.25)
    dotspacemacs-use-spacelpa                       nil
    dotspacemacs-verify-spacelpa-archives           nil
    dotspacemacs-check-for-update                   nil
@@ -136,7 +135,7 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (load-file (concat (getenv "SPACEMACSDIR") "/user-config.elc")))
+  (load-file (concat *SPACEMACSDIR* "/user-config.elc")))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
