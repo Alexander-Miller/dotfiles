@@ -547,7 +547,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Prerequisites
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default org-directory          "~/Dropbox/Org/"
+  (setq-default org-directory          "~/Documents/Org/"
                 org-default-notes-file (concat org-directory "Capture.org"))
 #+END_SRC
 
