@@ -3,7 +3,7 @@
 function i3lock_wrapper --description "Sets a blurred screenshot of the current desktop as i3lock background."
 
     set tmpfile (mktemp --tmpdir i3lock-wrapper-XXXXXXXXXX.png)
-    scrot $tmpfile
+    maim $tmpfile
     mogrify -resize 10% -resize 1000% $tmpfile
 
     set -l DEBUG TRUE
