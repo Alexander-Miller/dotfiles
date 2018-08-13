@@ -180,7 +180,7 @@ modified.
            (org-file (file-chase-links (concat dir "/user-config.org"))))
       (when (or (called-interactively-p 'interactive)
                 (not (file-exists-p el-file))
-                (file-newer-than-file-p el-file org-file))
+                (file-newer-than-file-p org-file el-file))
         (condition-case e
             (progn
               (org-babel-tangle-file org-file el-file "emacs-lisp")
