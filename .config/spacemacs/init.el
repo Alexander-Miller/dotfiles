@@ -2,6 +2,7 @@
 
 (defun dotspacemacs/layers ()
   (setq-default
+   *SPACEMACSDIR*                         (getenv "SPACEMACSDIR")
    dotspacemacs-distribution              'spacemacs
    dotspacemacs-enable-lazy-installation  'unused
    dotspacemacs-ask-for-lazy-installation t

@@ -7,6 +7,7 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
   (require 'dash)
   (require 'f)
+  (require 'cl-lib)
   (require 's)
   (require 'evil)
 #+END_SRC
@@ -57,7 +58,7 @@ Load used libraries to somewhat reduce the amount of warnings.
           :sources (helm-build-sync-source "Org Files"
                      :candidates (--map (cons (f-filename it) it) (f-files org-directory))
                      :action #'find-file-existing
-                     :filtered-candidate-transformer 'helm-fuzzy-highlight-matches)))
+                     :filtered-candidate-transformer #'helm-fuzzy-highlight-matches)))
 
   (spacemacs/set-leader-keys
     "aof" #'std::org-files)
@@ -151,7 +152,7 @@ As shown in the spacemacs FAQ
 
 #+BEGIN_SRC emacs-lisp
   (defmacro set-local! (&rest binds)
-    (cl-assert (= 0 (% (length binds) 2)))
+    (cl-assert (cl-evenp (length binds)))
     (-let [pairs nil]
       (while binds
         (push (cons (pop binds) (pop binds)) pairs))
@@ -1312,7 +1313,9 @@ A dired evil state to get rid of the cursor and to have a single keymap
 
   (after! dired
     (require 'dired+)
-    (setq dired-listing-switches "-alh"))
+    (setq dired-listing-switches "-alh")
+    (unless (file-exists-p std::dired::cache-file)
+      (f-touch std::dired::cache-file)))
 #+END_SRC
 
 *** Keybinds
@@ -2181,7 +2184,6 @@ No more jumpy recenter
 On
 #+BEGIN_SRC emacs-lisp
   (global-subword-mode t)
-  (mouse-avoidance-mode 'banish)
   (desktop-save-mode t)
   (eros-mode t)
 #+END_SRC
