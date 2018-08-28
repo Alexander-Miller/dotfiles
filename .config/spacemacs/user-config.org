@@ -1706,6 +1706,14 @@ Replace popwin
 #+END_SRC
 
 ** Yasnippet
+*** Functions
+
+~std::yasnippet::activate-fundamental-mode~
+#+BEGIN_SRC emacs-lisp
+  (defun std::yasnippet::activate-fundamental-mode ()
+    (yas-activate-extra-mode 'fundamental-mode))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -1719,6 +1727,8 @@ Replace popwin
   (after! yasnippet
     (autoload #'f-join "f.el")
     (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
+
+  (add-hook 'yas-minor-mode-hook #'std::yasnippet::activate-fundamental-mode)
 #+END_SRC
 
 *** Enable Smartparens

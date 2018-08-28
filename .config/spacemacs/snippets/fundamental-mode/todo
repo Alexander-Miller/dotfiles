@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: todo
+#key: T
+# --
+TODO(`(format-time-string "%Y/%m/%d")`): $0
