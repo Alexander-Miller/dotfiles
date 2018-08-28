@@ -1096,6 +1096,44 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 ** Flycheck
+*** Functions
+
+~std::flycheck::next-error~
+#+BEGIN_SRC emacs-lisp
+  (defun std::flycheck::next-error ()
+    "Move to the next flycheck error.
+  Start searching from the top if point is part the last error."
+    (interactive)
+    (-let [it (flycheck-next-error-pos 1)]
+      (if (and it
+               (not (and (equal (point) (1- (point-min)))
+                         (equal (1- (point-min)) it))))
+          (goto-char it)
+        (--if-let (save-excursion
+                    (goto-char (point-min))
+                    (flycheck-next-error-pos 1))
+            (goto-char it)
+          (message "No more Flycheck errors.")))))
+#+END_SRC
+
+~std::flycheck::previous-error~
+#+BEGIN_SRC emacs-lisp
+  (defun std::flycheck::previous-error ()
+    "Move to the previous flycheck error.
+  Start searching from the bottom if point is part the first error."
+    (interactive)
+    (-let [it (flycheck-next-error-pos -1)]
+      (if (and it
+               (not (and (equal (point) (point-min))
+                         (equal (point-min) it))))
+          (goto-char it)
+        (--if-let (save-excursion
+                    (goto-char (point-max))
+                    (flycheck-next-error-pos -1))
+            (goto-char it)
+          (message "No more Flycheck errors.")))))
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
@@ -1114,8 +1152,8 @@ Add *company-dabbrev-code* to front row of completion backends.
       "ee"    #'flycheck-buffer
       "e C-e" #'flycheck-mode)
 
-    (define-key evil-normal-state-map (kbd "C-.") #'spacemacs/next-error)
-    (define-key evil-normal-state-map (kbd "C-,") #'spacemacs/previous-error))
+    (define-key evil-normal-state-map (kbd "C-.") #'std::flycheck::next-error)
+    (define-key evil-normal-state-map (kbd "C-,") #'std::flycheck::previous-error))
 #+END_SRC
 
 ** Version Control
