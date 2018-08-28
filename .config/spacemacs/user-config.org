@@ -1944,14 +1944,6 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
     "ee" #'std::eval-last-sexp)
 #+END_SRC
 
-** Nameless
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq nameless-prefix ".")
-#+END_SRC
-
-
 ** Multi-Compile
 *** Functions
 
@@ -2200,7 +2192,6 @@ Off
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
   (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
-  (add-hook 'emacs-lisp-mode-hook #'nameless-mode)
   (add-hook 'org-mode-hook        #'smartparens-mode)
 #+END_SRC
 
