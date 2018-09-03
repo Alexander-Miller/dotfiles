@@ -2,4 +2,4 @@
 #name: tag-date
 #key: d
 # --
-; [=${1:yyyy}-${2:mm}-${3:dd}]$0
+; [=${1:`(format-time-string "%Y")`}-${2:`(format-time-string "%m")`}-${3:`(format-time-string "%d")`}]$0
