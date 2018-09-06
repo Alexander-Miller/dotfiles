@@ -161,6 +161,13 @@ As shown in the spacemacs FAQ
             (nreverse pairs)))))
 #+END_SRC
 
+** format!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro format! (str)
+    `(s-lex-format ,str))
+#+END_SRC
+
 * Config tangle & compilation
 
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
@@ -1485,13 +1492,15 @@ for easy deactivation.
     (require 'calendar)
     (let* ((date (calendar-current-date))
            (year (cl-third (calendar-current-date)))
-           (main-file (format "%s/Ledger.ledger" std::ledger::dir))
-           (year-file (format "%s/%s.ledger" std::ledger::dir year)))
+           (main-file (format! "${std::ledger::dir}/Ledger.ledger"))
+           (year-file (format! "${std::ledger::dir}/${year}.ledger")))
       (setf std::ledger::save-window-config (current-window-configuration))
       (delete-other-windows)
       (find-file year-file)
       (split-window-right)
       (save-selected-window
+        (-let [full-width (* 2 (window-width))]
+          (shrink-window-horizontally (- (/ full-width 7))))
         (other-window 1)
         (find-file main-file))
       (std::ledger::goto-current-month)))
@@ -1501,6 +1510,7 @@ for easy deactivation.
 #+BEGIN_SRC emacs-lisp
   (defun std::ledger::mode-hook ()
     (outline-minor-mode)
+    (smartparens-mode)
     (set-local!
      ledger-accounts-file     (format "%s/Ledger.ledger" std::ledger::dir)
      outline-regexp           (rx bol ";;; ")
@@ -1561,6 +1571,16 @@ for easy deactivation.
               (goto-char start)))))))
 #+END_SRC
 
+~std::ledger::post-align-dwim~
+#+BEGIN_SRC emacs-lisp
+  (after! ledger-mode
+    (defun std::ledger::post-align-dwim ()
+      "`ledger-post-align-dwim' and fontify xact at point."
+      (interactive)
+      (ledger-post-align-dwim)
+      (ledger-fontify-xact-at (point))))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -1572,6 +1592,7 @@ for easy deactivation.
     (keybind! ledger-mode-map
       "M-j"   #'evil-ledger-forward-xact
       "M-k"   #'evil-ledger-backward-xact
+      "M-q"   #'std::ledger::post-align-dwim
       "<tab>" #'std::ledger::magic-tab
       [remap save-buffer] #'std::ledger::save)
 
