@@ -192,7 +192,7 @@ modified.
             (progn
               (org-babel-tangle-file org-file el-file "emacs-lisp")
               (byte-recompile-file el-file t 0 nil))
-          (error (shell-command (format "notify-send 'ERROR' '%s'" e)))))))
+          (error (shell-command (format! "notify-send 'ERROR' '${e}'")))))))
 #+END_SRC
 
 Advice to insert reload before spacemacs' layer syncing.
@@ -1275,7 +1275,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
         (setq std::dired::saved-positions (cons left right))
         (unless (f-exists? std::dired::cache-file)
           (f-touch std::dired::cache-file))
-        (f-write (format "%s\n%s" left right) 'utf-8 std::dired::cache-file))
+        (f-write (format! "${left}\n${right}") 'utf-8 std::dired::cache-file))
       (set-window-configuration std::dired::saved-window-config)
       (--each (buffer-list)
         (when (eq 'dired-mode (buffer-local-value 'major-mode it))
@@ -1512,7 +1512,7 @@ for easy deactivation.
     (outline-minor-mode)
     (smartparens-mode)
     (set-local!
-     ledger-accounts-file     (format "%s/Ledger.ledger" std::ledger::dir)
+     ledger-accounts-file     (format! "${std::ledger::dir}/Ledger.ledger")
      outline-regexp           (rx bol ";;; ")
      imenu-generic-expression `(("Monat" ,(rx ";;; " (group-n 2 (1+ alnum)) eol) 2))))
 #+END_SRC
@@ -1566,7 +1566,7 @@ for easy deactivation.
         (save-match-data
           (-let [start (point)]
             (goto-char 0)
-            (unless (search-forward (format ";;; %s" month) nil :no-error)
+            (unless (search-forward (format! ";;; ${month}") nil :no-error)
               (message "'%s' not found." month)
               (goto-char start)))))))
 #+END_SRC
