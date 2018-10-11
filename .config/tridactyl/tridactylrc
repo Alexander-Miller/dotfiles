@@ -16,6 +16,7 @@ bind h tabprev
 bind l tabnext
 bind H followpage previous
 bind L followpage next
+unbind <C-f>
 
 bind q tabclose
 bind <C-ö> buffer #
