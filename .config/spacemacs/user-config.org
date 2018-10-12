@@ -1424,7 +1424,7 @@ for easy deactivation.
 #+BEGIN_SRC emacs-lisp
   (when t
     (use-package treemacs
-      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :load-path "~/Documents/git/treemacs/src/elisp"
       :defer t
       :init
       (after! winum
@@ -1452,15 +1452,15 @@ for easy deactivation.
             ("f C-t" . treemacs-find-file)))
 
     (use-package treemacs-evil
-      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :load-path "~/Documents/git/treemacs/src/elisp"
       :after treemacs)
 
     (use-package treemacs-projectile
-      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :load-path "~/Documents/git/treemacs/src/elisp"
       :after treemacs)
 
     (use-package treemacs-magit
-      :load-path "/home/a/Documents/git/treemacs/src/elisp"
+      :load-path "~/Documents/git/treemacs/src/elisp"
       :after treemacs))
 #+END_SRC
 
