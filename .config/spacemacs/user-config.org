@@ -104,17 +104,16 @@ As shown in the spacemacs FAQ
     (let ((url (s-trim (current-kill 0)))
           (regex (rx bol (1+ any) "RETACC-" (1+ num) eol))
           (ticket-num))
-      (unless (--any? (eq (car it) :item)
+      (unless (--any? (eq (car it) :table)
                       (org-context))
-        (user-error "Not in a list."))
+        (user-error "Not in a table."))
       (if (s-matches? regex url)
           (setq ticket-num (substring url (s-index-of "RETACC" url)))
         (user-error (format "Clipboard content '%s' is not a RETACC Jira Url."
                             (propertize url 'face 'font-lock-string-face))))
       (evil-normal-state)
-      (end-of-line)
-      (org-meta-return)
-      (insert (format "[[%s][%s]]" url ticket-num))))
+      (insert (format "[[%s][%s]]" url ticket-num))
+      (org-ctrl-c-ctrl-c)))
 #+END_SRC
 
 ** after!
