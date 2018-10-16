@@ -3,6 +3,7 @@
 (defun dotspacemacs/layers ()
   (setq-default
    *SPACEMACSDIR*                         (getenv "SPACEMACSDIR")
+   *ORGDIR*                               "~/Documents/Org"
    dotspacemacs-distribution              'spacemacs
    dotspacemacs-enable-lazy-installation  'unused
    dotspacemacs-ask-for-lazy-installation t
@@ -18,6 +19,7 @@
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
      colors
+     (elfeed :variables rmh-elfeed-org-files (list (format "%s/Elfeed.org" *ORGDIR*)))
      emacs-lisp
      finance
      git
@@ -81,7 +83,7 @@
    dotspacemacs-mode-line-theme                    '(spacemacs :separator wave :separator-scale 1.8)
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
-   dotspacemacs-startup-buffer-responsive          t
+   dotspacemacs-startup-buffer-responsive          nil
    dotspacemacs-startup-lists                      '((recents . 5) (projects . 7))
    dotspacemacs-initial-scratch-message            nil
    dotspacemacs-scratch-mode                       'emacs-lisp-mode
