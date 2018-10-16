@@ -668,6 +668,18 @@ Also use ascii bullets for simple lists
           org-table-use-standard-references t))
 #+END_SRC
 
+**** Source Blocks & Tangling
+
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (setq org-edit-src-auto-save-idle-delay           10
+          org-edit-src-turn-on-auto-save              nil
+          org-src-fontify-natively                    t
+          org-src-preserve-indentation                nil
+          org-src-ask-before-returning-to-edit-buffer nil
+          org-src-window-setup                        'other-window))
+#+END_SRC
+
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
@@ -679,7 +691,7 @@ Also use ascii bullets for simple lists
      org-use-fast-todo-selection             t
      org-enforce-todo-dependencies           t
      org-enforce-todo-checkbox-dependencies  t
-     org-src-window-setup                    'other-window
+     org-export-use-babel                    t
      org-list-demote-modify-bullet           '(("+" . "-") ("-" . "+") ("*" . "+"))
      org-list-indent-offset                  1
      org-log-done                            'time
@@ -709,7 +721,6 @@ Also use ascii bullets for simple lists
   ;;  org-hide-emphasis-markers      t
   ;;  org-list-indent-offset         1
   ;;  org-list-allow-alphabetical    nil
-  ;;  org-src-fontify-natively       t
 #+END_SRC
 
 *** Babel Languages
@@ -895,6 +906,8 @@ A small bit of custom font locking for '==>'
 **** Agenda
 
 #+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f12>") #'org-agenda-list)
+
   (after! org-agenda
     (evil-define-key 'evilified org-agenda-mode-map (kbd "J") #'std::quick-forward)
     (evil-define-key 'evilified org-agenda-mode-map (kbd "K") #'std::quick-backward)
@@ -903,11 +916,22 @@ A small bit of custom font locking for '==>'
       "zh" #'org-habit-toggle-habits))
 #+END_SRC
 
+**** Source Blocks & Tangling
+
+#+BEGIN_SRC emacs-lisp
+  (after! org
+    (keybind! org-src-mode-map
+      [remap save-buffer] #'ignore
+      "C-c C-c" #'org-edit-src-exit)
+
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "bt" #'org-babel-tangle
+      "bv" #'org-babel-tangle-file))
+#+END_SRC
+
 **** Other
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f12>") #'org-agenda-list)
-
   (after! org
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "0"   #'org-sort
@@ -922,10 +946,7 @@ A small bit of custom font locking for '==>'
 
     (evil-define-key 'normal org-mode-map
       "-" #'org-cycle-list-bullet
-      "t" #'org-todo)
-
-    (define-key org-src-mode-map (kbd "C-x C-s") #'ignore)
-    (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))
+      "t" #'org-todo))
 #+END_SRC
 
 ** Shell Scripts
