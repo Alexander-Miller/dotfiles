@@ -1698,7 +1698,7 @@ for easy deactivation.
     (defun std::mail::find-thunderbird-imap-dir ()
       (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
         (when (f-exists? dot-thunderbird)
-          (-when-let (maildir (--find (member "ImapMail" (directory-files it))
+          (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
                                       (directory-files dot-thunderbird :full)))
             (f-join dot-thunderbird maildir "ImapMail"))))))
 #+END_SRC
