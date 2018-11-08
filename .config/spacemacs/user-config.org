@@ -2067,13 +2067,10 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 ** Framey
 
 #+BEGIN_SRC emacs-lisp
-  (-let [framey-dir (expand-file-name "~/Documents/git/framey")]
-    (when (f-exists? framey-dir)
-      (use-package framey
-        :load-path "~/Documents/git/framey"
-        :defer t)
-      (autoload #'framey-mode "framey")
-      (after! helm (framey-mode))))
+  (after! helm (framey-mode))
+
+  (after! framey
+    (setq framey-show-modeline nil))
 #+END_SRC
 
 * Modeline

@@ -55,6 +55,8 @@
                                            :repo "Alexander-Miller/morning-star-theme"))
      (tridactylrc-mode :location (recipe :fetcher github
                                          :repo "Alexander-Miller/tridactylrc-mode"))
+     (framey :location (recipe :fetcher github
+                               :repo "Alexander-Miller/framey"))
      multi-compile
      ht
      pfuture
