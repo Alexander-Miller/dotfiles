@@ -1335,7 +1335,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+BEGIN_SRC emacs-lisp
   (after! dired+
     (defun std::dired::mode-hook ()
-      (dired-hide-details-mode -1)
+      (setq diredp-hide-details-initially-flag t)
       (hl-line-mode)
       (evil-dired-state)))
 #+END_SRC
