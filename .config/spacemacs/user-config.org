@@ -672,7 +672,7 @@ Also use ascii bullets for simple lists
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (setq org-edit-src-auto-save-idle-delay           10
+    (setq org-edit-src-auto-save-idle-delay           0
           org-edit-src-turn-on-auto-save              nil
           org-src-fontify-natively                    t
           org-src-preserve-indentation                nil
