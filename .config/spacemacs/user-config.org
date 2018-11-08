@@ -1315,19 +1315,19 @@ A dired evil state to get rid of the cursor and to have a single keymap
 
     (defun std::dired::filesize ()
       (interactive)
-      (let* ((file (dired-filename-at-point))
-             (cmd (if (f-directory? file) "du -sh %s" "ls -sh %s"))
-             (output (->> file
-                          (shell-quote-argument)
-                          (format cmd)
-                          (shell-command-to-string)
-                          (s-trim))))
-        (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
-          (message
-           "%s : %s"
-           (propertize file 'face 'font-lock-keyword-face)
-           (propertize size 'face 'font-lock-string-face)))))
-    )
+      (-if-let (file (dired-get-filename nil :no-error))
+          (let* ((cmd (if (f-directory? file) "du -sh \"%s\"" "ls -sh \"%s\""))
+                 (output (->> file
+                              (format cmd)
+                              ;; (shell-quote-argument)
+                              (shell-command-to-string)
+                              (s-trim))))
+            (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
+              (message
+               "%s : %s"
+               (propertize file 'face 'font-lock-keyword-face)
+               (propertize size 'face 'font-lock-string-face))))
+        (message (propertize "---" 'face 'font-lock-string-face)))))
 #+END_SRC
 
 **** Mode hook
