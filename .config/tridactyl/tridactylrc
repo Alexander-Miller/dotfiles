@@ -26,5 +26,6 @@ bind <C-o> back
 
 bind d hint -b
 bind D hint
+bind yd hint -y
 
 bind ZZ qall
