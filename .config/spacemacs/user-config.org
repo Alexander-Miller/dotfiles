@@ -606,7 +606,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (setq-default org-todo-keywords '((sequence "[TODO]" "|" "[DONE]"))))
+    (setq-default org-todo-keywords '((sequence "»TODO«" "|" "»DONE«"))))
 #+END_SRC
 
 **** No `special` behaviour.
