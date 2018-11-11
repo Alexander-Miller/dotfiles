@@ -116,6 +116,27 @@ As shown in the spacemacs FAQ
       (org-ctrl-c-ctrl-c)))
 #+END_SRC
 
+** std::packman-pkg-info
+
+#+BEGIN_SRC emacs-lisp
+  (defun std::pacman-pkg-info ()
+    (interactive)
+    (let* ((completions (->> "pacman -Q"
+                             (shell-command-to-string)
+                             (s-trim)
+                             (s-lines)
+                             (--map (car (s-split " " it :no-nulls)))))
+           (name (completing-read "Package: " completions)))
+      (switch-to-buffer (get-buffer-create "*Package Info*"))
+      (erase-buffer)
+      (-> (format! "pacman -Qi ${name}")
+          (shell-command-to-string)
+          (s-trim)
+          (insert))
+      (goto-char 0)
+      (conf-mode)))
+#+END_SRC
+
 ** after!
 
 #+BEGIN_SRC emacs-lisp
