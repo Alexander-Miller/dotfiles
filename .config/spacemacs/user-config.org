@@ -1307,6 +1307,22 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+BEGIN_SRC emacs-lisp
   (after! dired+
 
+    (defmacro std::dired::dwim-target-wrap (command)
+      (let* ((command (cadr command))
+             (command-name (symbol-name command))
+             (format-name (s-replace "dired-" "dired::" (symbol-name command)))
+             (new-name (format (if (s-starts-with? "dired" format-name)
+                                   "std::%s"
+                                 "std::dired::%s")
+                               format-name)))
+        (-let [name (intern new-name)]
+          `(progn
+             (defun ,name (&optional arg)
+               (format "Run %s. Set `dired-dwim-target' to t with a prefix arg." ,command-name)
+               (interactive "P")
+               (-let [dired-dwim-target arg] (,command)))
+             #',name))))
+
     (defun std::dired::quit ()
       (interactive)
       (let ((left) (right))
@@ -1411,6 +1427,10 @@ A dired evil state to get rid of the cursor and to have a single keymap
 
   (after! dired+
 
+    (std::dired::dwim-target-wrap #'dired-do-copy)
+    (std::dired::dwim-target-wrap #'dired-do-rename)
+    (std::dired::dwim-target-wrap #'dired-do-symlink)
+
     (keybind! evil-dired-state-map
       "o"     nil
       ","     nil
@@ -1419,7 +1439,9 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "gv"    #'std::dired::goto-videos
       "gh"    #'std::dired::goto-home
       "gr"    #'revert-buffer
-      "y"     #'dired-do-copy
+      "y"     #'std::dired::do-copy
+      "R"     #'std::dired::do-rename
+      "S"     #'std::dired::do-symlink
       "cd"    #'dired-create-directory
       ", C-e" #'wdired-change-to-wdired-mode
       "("     #'global-dired-hide-details-mode
