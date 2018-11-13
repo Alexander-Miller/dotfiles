@@ -1541,6 +1541,7 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (defvar std::ledger::save-window-config nil)
+  (defconst std::ledger::month-separator-pattern (rx ";;; " (group-n 2 (1+ alnum)) eol))
   (defconst std::ledger::dir (expand-file-name "~/Documents/Org/Ledger"))
   (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
                                   (4 . "April")    (5 . "Mai")       (6 . "Juni")
@@ -1550,6 +1551,7 @@ for easy deactivation.
 
 *** Functions
 **** Top Level
+
 ~std::ledger~
 #+BEGIN_SRC emacs-lisp
   (defun std::ledger ()
@@ -1576,13 +1578,15 @@ for easy deactivation.
   (defun std::ledger::mode-hook ()
     (outline-minor-mode)
     (smartparens-mode)
+    (evil-ledger-mode)
     (set-local!
      ledger-accounts-file     (format! "${std::ledger::dir}/Ledger.ledger")
      outline-regexp           (rx bol ";;; ")
-     imenu-generic-expression `(("Monat" ,(rx ";;; " (group-n 2 (1+ alnum)) eol) 2))))
+     imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
 #+END_SRC
 
 **** Internal
+
 ~std::ledger::save~
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
@@ -1646,6 +1650,28 @@ for easy deactivation.
       (ledger-fontify-xact-at (point))))
 #+END_SRC
 
+~std::ledger::forward~ & ~std::ledger::backward~
+#+BEGIN_SRC emacs-lisp
+  (after! ledger-mode
+    (defun std::ledger::forward ()
+      (interactive)
+      (if (s-matches? std::ledger::month-separator-pattern
+                      (thing-at-point 'line))
+          (save-match-data
+            (end-of-line)
+            (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (call-interactively #'evil-ledger-forward-xact)))
+
+    (defun std::ledger::backward ()
+      (interactive)
+      (if (s-matches? std::ledger::month-separator-pattern
+                      (thing-at-point 'line))
+          (save-match-data
+            (beginning-of-line)
+            (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (call-interactively #'evil-ledger-backward-xact))))
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -1655,8 +1681,8 @@ for easy deactivation.
   (after! ledger-mode
 
     (keybind! ledger-mode-map
-      "M-j"   #'evil-ledger-forward-xact
-      "M-k"   #'evil-ledger-backward-xact
+      "M-j"   #'std::ledger::forward
+      "M-k"   #'std::ledger::backward
       "M-q"   #'std::ledger::post-align-dwim
       "<tab>" #'std::ledger::magic-tab
       [remap save-buffer] #'std::ledger::save)
