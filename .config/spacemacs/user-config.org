@@ -1415,6 +1415,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "o"     nil
       ","     nil
       "c"     nil
+      "RET"   #'dired-find-file
       "gv"    #'std::dired::goto-videos
       "gh"    #'std::dired::goto-home
       "gr"    #'revert-buffer
