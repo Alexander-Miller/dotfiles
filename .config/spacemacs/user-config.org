@@ -1656,6 +1656,7 @@ for easy deactivation.
 #+BEGIN_SRC emacs-lisp
   (after! ledger-mode
     (setq ledger-default-date-format           ledger-iso-date-format
+          ledger-mode-should-check-version     nil
           ledger-post-amount-alignment-column  62
           ledger-post-account-alignment-column 2
           ledger-clear-whole-transactions      t
