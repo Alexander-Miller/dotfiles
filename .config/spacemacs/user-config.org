@@ -2433,6 +2433,13 @@ Use firefox to open urls.
   (setq browse-url-browser-function #'browse-url-firefox)
 #+END_SRC
 
+Simple title that won't cost performance.
+#+BEGIN_SRC emacs-lisp
+  (defun spacemacs/title-prepare (&rest _args)
+    ""
+    "Emacs")
+#+END_SRC
+
 ** Desktop Restoration
 *** Settings
 
