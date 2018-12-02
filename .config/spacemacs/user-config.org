@@ -285,7 +285,8 @@ Insert retangle before both quitting emacs and reloading the config.
         evil-lisp-state-enter-lisp-state-on-command nil)
 
   (after! evil-escape
-    (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode))
+    (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
+    (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
 #+END_SRC
 
 ** Elisp
