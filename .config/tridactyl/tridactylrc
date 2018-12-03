@@ -7,6 +7,8 @@ set hintchars asdfqwejkln
 set hinfiltermode vimperator-reflow
 set smoothscroll false
 
+setpref browser.fullscreen.autohide false
+
 bind j scrollline 10
 bind J scrollline 20
 bind k scrollline -10
