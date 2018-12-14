@@ -753,13 +753,13 @@ Also use ascii bullets for simple lists
 **** Source Blocks & Tangling
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (setq org-edit-src-auto-save-idle-delay           0
-          org-edit-src-turn-on-auto-save              nil
-          org-src-fontify-natively                    t
-          org-src-preserve-indentation                nil
-          org-src-ask-before-returning-to-edit-buffer nil
-          org-src-window-setup                        'other-window))
+(after! org
+  (setq org-edit-src-auto-save-idle-delay           0
+        org-edit-src-turn-on-auto-save              nil
+        org-src-fontify-natively                    t
+        org-src-preserve-indentation                t
+        org-src-ask-before-returning-to-edit-buffer nil
+        org-src-window-setup                        'other-window))
 #+END_SRC
 
 **** Other/Sort later
