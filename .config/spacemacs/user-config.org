@@ -1300,8 +1300,9 @@ A dired evil state to get rid of the cursor and to have a single keymap
              (->> std::dired::cache-file
                   (f-read)
                   (s-split "\n"))]
-        (setf std::dired::saved-positions (cons left right))))
-    (-let [(left . right) std::dired::saved-positions]
+        (setf std::dired::saved-positions (list left right))))
+    (-let [(left right) (--map (if (file-exists-p it) it "~")
+                               std::dired::saved-positions)]
       (dired left)
       (save-selected-window
         (split-window-right-and-focus)
@@ -1317,10 +1318,10 @@ A dired evil state to get rid of the cursor and to have a single keymap
       (interactive)
       (let ((left) (right))
         (winum-select-window-1)
-        (setq left default-directory)
+        (setf left default-directory)
         (winum-select-window-2)
-        (setq right default-directory)
-        (setq std::dired::saved-positions (cons left right))
+        (setf right default-directory
+              std::dired::saved-positions (list left right))
         (unless (f-exists? std::dired::cache-file)
           (f-touch std::dired::cache-file))
         (f-write (format! "${left}\n${right}") 'utf-8 std::dired::cache-file))
