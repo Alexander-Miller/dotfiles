@@ -728,6 +728,11 @@ Also use ascii bullets for simple lists
      org-catch-invisible-edits               'show
      org-refile-targets                      '((nil . (:maxlevel . 10)))
      org-footnote-auto-adjust                t
+     org-file-apps                           '((auto-mode . emacs)
+                                               ("\\.mm\\'" . default)
+                                               ("\\.eml\\'" . "thunderbird \"%s\"")
+                                               ("\\.x?html?\\'" . default)
+                                               ("\\.pdf\\'" . default))
      org-show-context-detail                 '((agenda . local)
                                                (bookmark-jump . lineage)
                                                (isearch . lineage)
