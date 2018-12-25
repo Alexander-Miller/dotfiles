@@ -5,6 +5,7 @@
 
 Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
+  (setq-local lexical-binding t)
   (require 'dash)
   (require 'f)
   (require 'cl-lib)
@@ -2153,16 +2154,90 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 
 * Modeline
 
-Turn off unwanted segments
+A custom mode-line based on doom
 #+BEGIN_SRC emacs-lisp
-  (after! spaceline-segments
-    (spacemacs/toggle-mode-line-minor-modes-off)
-    (spaceline-toggle-anzu-off))
-#+END_SRC
+  (require 'powerline)
+  (require 'spaceline)
+  (require 'inline)
+  (with-no-warnings
+    (require 'doom-modeline))
 
-Don't use Spacemacs' evil state highlighter
-#+BEGIN_SRC emacs-lisp
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (declare-function winum-get-number "winum")
+  (declare-function eyebrowse--get "eyebrowse")
+
+  (defconst std::modeline::length-xpm
+    (propertize " " 'display (pl/make-xpm "test" nil "blue" (--map (prog1 (list [1]) (ignore it)) (number-sequence 1 30)))))
+
+  (defface std::modeline::num-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
+
+  (defface std::modeline::major-mode-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
+
+  (define-inline std::num-to-unicode (n)
+    (inline-letevals (n)
+      (inline-quote
+       (pcase ,n
+         (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
+         (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
+
+  (doom-modeline-def-segment std::modeline::window-number
+    (--when-let (winum-get-number)
+      (propertize (std::num-to-unicode it)
+                  'face 'std::modeline::num-face)))
+
+  (doom-modeline-def-segment std::modeline::desktop-number
+    (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
+                'face 'std::modeline::num-face))
+
+  (doom-modeline-def-segment std::modeline::buffer-id
+    (propertize (buffer-name)
+                'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+
+  (doom-modeline-def-segment std::modeline::length-glyph
+    std::modeline::length-xpm)
+
+  (defconst std::modeline::major-mode-local-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map [mode-line down-mouse-1]
+        `(menu-item ,(purecopy "Menu Bar") ignore
+                    :filter (lambda (_) (mouse-menu-major-mode-map))))
+      (define-key map [mode-line mouse-2] 'describe-mode)
+      (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
+      map))
+
+  (doom-modeline-def-segment std::modeline::major-mode
+    (propertize (format-mode-line mode-name)
+                'mouse-face 'mode-line-highlight
+                'local-map std::modeline::major-mode-local-map
+                'face 'std::modeline::major-mode-face))
+
+  (defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'spaceline-flycheck-info)))
+  (defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'spaceline-flycheck-warning)))
+  (defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'spaceline-flycheck-error)))
+
+  (doom-modeline-def-segment std::modeline::flycheck
+    (when (bound-and-true-p flycheck-mode)
+      (with-no-warnings
+        (let* ((count    (flycheck-count-errors flycheck-current-errors))
+               (warnings (alist-get 'warning count))
+               (errors   (alist-get 'error count)))
+          (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
+                  (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
+
+  (doom-modeline-def-modeline 'std
+                              '(""  std::modeline::length-glyph
+                                " " std::modeline::window-number
+                                " " std::modeline::desktop-number
+                                " " std::modeline::buffer-id
+                                " " std::modeline::major-mode
+                                " " std::modeline::flycheck))
+
+  (doom-modeline-set-modeline 'std :global-default)
 #+END_SRC
 
 * Fonts

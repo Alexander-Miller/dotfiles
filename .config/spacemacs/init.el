@@ -44,6 +44,7 @@
      (dired+ :location (recipe :fetcher github
                                :repo "emacsmirror/dired-plus"))
      dash-functional ;; for local company-box
+     doom-modeline
      el-mock
      eros
      flx
@@ -82,7 +83,7 @@
    dotspacemacs-check-for-update                   nil
    dotspacemacs-elpa-subdirectory                  'emacs-version
    dotspacemacs-editing-style                      'vim
-   dotspacemacs-mode-line-theme                    '(spacemacs :separator wave :separator-scale 1.8)
+   dotspacemacs-mode-line-theme                    'vanilla
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
    dotspacemacs-startup-buffer-responsive          nil
