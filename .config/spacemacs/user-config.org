@@ -2238,6 +2238,25 @@ A custom mode-line based on doom
                                 " " std::modeline::flycheck))
 
   (doom-modeline-set-modeline 'std :global-default)
+
+  (after! magit
+
+    (doom-modeline-def-segment std::modeline::buffer-process
+      mode-line-process)
+
+
+    (doom-modeline-def-modeline 'magit
+      '(""  std::modeline::length-glyph
+        " " std::modeline::window-number
+        " " std::modeline::desktop-number
+        " " std::modeline::buffer-id
+        " " std::modeline::major-mode
+        " " std::modeline::buffer-process))
+
+    (defun std::modeline::magit-modeline ()
+      (doom-modeline-set-modeline 'magit nil))
+
+    (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
 #+END_SRC
 
 * Fonts
