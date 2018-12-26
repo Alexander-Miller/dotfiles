@@ -2154,7 +2154,10 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 
 * Modeline
 
-A custom mode-line based on doom
+A simple mode-line implementation based on doom.
+
+** Default
+
 #+BEGIN_SRC emacs-lisp
   (require 'powerline)
   (require 'spaceline)
@@ -2238,7 +2241,11 @@ A custom mode-line based on doom
                                 " " std::modeline::flycheck))
 
   (doom-modeline-set-modeline 'std :global-default)
+#+END_SRC
 
+** Magit
+
+#+BEGIN_SRC emacs-lisp
   (after! magit
 
     (doom-modeline-def-segment std::modeline::buffer-process
@@ -2257,6 +2264,22 @@ A custom mode-line based on doom
       (doom-modeline-set-modeline 'magit nil))
 
     (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
+#+END_SRC
+
+** Treemacs
+
+#+BEGIN_SRC emacs-lisp
+  (after! treemacs
+
+    (doom-modeline-def-modeline 'treemacs
+      '(""  std::modeline::length-glyph
+        " " std::modeline::desktop-number
+        " " std::modeline::major-mode))
+
+    (defun std::modeline::treemacs-modeline ()
+      (doom-modeline-set-modeline 'treemacs nil))
+
+    (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
 #+END_SRC
 
 * Fonts
