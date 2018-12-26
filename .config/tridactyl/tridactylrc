@@ -2,6 +2,8 @@
 
 sanitise tridactyllocal tridactylsync
 
+colors MorningStar
+
 set hintchars asdfqwejkln
 " ?? "
 set hinfiltermode vimperator-reflow
