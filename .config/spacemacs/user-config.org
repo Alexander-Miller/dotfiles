@@ -2225,9 +2225,9 @@ A simple mode-line implementation based on doom.
                 'local-map std::modeline::major-mode-local-map
                 'face 'std::modeline::major-mode-face))
 
-  (defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'spaceline-flycheck-info)))
-  (defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'spaceline-flycheck-warning)))
-  (defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'spaceline-flycheck-error)))
+  (defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'doom-modeline-info)))
+  (defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'doom-modeline-warning)))
+  (defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'doom-modeline-urgent)))
 
   (doom-modeline-def-segment std::modeline::flycheck
     (when (bound-and-true-p flycheck-mode)
