@@ -1533,16 +1533,21 @@ for easy deactivation.
             ("f C-t" . treemacs-find-file)))
 
     (use-package treemacs-evil
-      :load-path "~/Documents/git/treemacs/src/elisp"
-      :after treemacs)
+      :load-path "~/Documents/git/treemacs/src/extra"
+      :after treemacs evil)
 
     (use-package treemacs-projectile
-      :load-path "~/Documents/git/treemacs/src/elisp"
-      :after treemacs)
+      :load-path "~/Documents/git/treemacs/src/extra"
+      :after treemacs projectile)
+
+    (use-package treemacs-icons-dired
+      :after treemacs dired
+      :load-path "~/Documents/git/treemacs/src/extra"
+      :config (treemacs-icons-dired-mode))
 
     (use-package treemacs-magit
-      :load-path "~/Documents/git/treemacs/src/elisp"
-      :after treemacs))
+      :load-path "~/Documents/git/treemacs/src/extra"
+      :after treemacs magit))
 #+END_SRC
 
 ** Finance
