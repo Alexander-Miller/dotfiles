@@ -1861,6 +1861,15 @@ for easy deactivation.
   (add-hook 'css-mode-hook        #'rainbow-mode)
 #+END_SRC
 
+** Elfeed
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (after! elfeed
+    (setf elfeed-db-directory  (format! "${*ORGDIR*}/Elfeed-DB")
+          elfeed-search-filter "@6-months-ago"))
+#+END_SRC
+
 * Single Package Configurations
 ** Swiper
 *** Functions
