@@ -1365,6 +1365,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+BEGIN_SRC emacs-lisp
   (after! dired+
     (defun std::dired::mode-hook ()
+      (require 'dired+)
       (setq diredp-hide-details-initially-flag t)
       (hl-line-mode)
       (evil-dired-state)))
@@ -1407,8 +1408,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
   (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
   (after! dired
-    (require 'dired+)
-    (setq dired-listing-switches "-alh")
+    (setf dired-listing-switches "-alh --group-directories-first")
     (unless (file-exists-p std::dired::cache-file)
       (f-touch std::dired::cache-file)))
 #+END_SRC
