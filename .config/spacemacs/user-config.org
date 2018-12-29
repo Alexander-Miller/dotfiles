@@ -14,6 +14,58 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+END_SRC
 
 * Utility Functions
+** after!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro after! (feature &rest body)
+    "Run BODY after loading FEATURE.
+  Same as `with-eval-after-load', but there is no need to quote FEATURE."
+    (declare (debug (sexp body)) (indent 1))
+    `(with-eval-after-load ,(if (stringp feature) feature `(quote ,feature))
+       ,@body))
+#+END_SRC
+
+** keybind!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro keybind! (keymaps &rest keybinds)
+    (declare (indent 1))
+    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
+    (-let [bind-forms nil]
+      (while keybinds
+        (-let [(key func . rest) keybinds]
+          (-let [key (if (vectorp key) key `(kbd ,key))]
+            (dolist (keymap keymaps)
+              (push `(define-key ,keymap ,key ,func) bind-forms)))
+          (setq keybinds rest)))
+      `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+** set-local!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro set-local! (&rest binds)
+    (cl-assert (cl-evenp (length binds)))
+    (-let [pairs nil]
+      (while binds
+        (push (cons (pop binds) (pop binds)) pairs))
+      `(progn
+         ,@(--map
+            `(setq-local ,(car it) ,(cdr it))
+            (nreverse pairs)))))
+#+END_SRC
+
+** format!
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro format! (str)
+    `(s-lex-format ,str))
+#+END_SRC
+
 ** std::what-face
 
 #+BEGIN_SRC emacs-lisp
@@ -136,58 +188,6 @@ As shown in the spacemacs FAQ
           (insert))
       (goto-char 0)
       (conf-mode)))
-#+END_SRC
-
-** after!
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro after! (feature &rest body)
-    "Run BODY after loading FEATURE.
-  Same as `with-eval-after-load', but there is no need to quote FEATURE."
-    (declare (debug (sexp body)) (indent 1))
-    `(with-eval-after-load ,(if (stringp feature) feature `(quote ,feature))
-       ,@body))
-#+END_SRC
-
-** keybind!
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro keybind! (keymaps &rest keybinds)
-    (declare (indent 1))
-    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    (unless (listp keymaps)
-      (setq keymaps (list keymaps)))
-    (unless (listp keymaps)
-      (setq keymaps (list keymaps)))
-    (-let [bind-forms nil]
-      (while keybinds
-        (-let [(key func . rest) keybinds]
-          (-let [key (if (vectorp key) key `(kbd ,key))]
-            (dolist (keymap keymaps)
-              (push `(define-key ,keymap ,key ,func) bind-forms)))
-          (setq keybinds rest)))
-      `(progn ,@(nreverse bind-forms))))
-#+END_SRC
-
-** set-local!
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro set-local! (&rest binds)
-    (cl-assert (cl-evenp (length binds)))
-    (-let [pairs nil]
-      (while binds
-        (push (cons (pop binds) (pop binds)) pairs))
-      `(progn
-         ,@(--map
-            `(setq-local ,(car it) ,(cdr it))
-            (nreverse pairs)))))
-#+END_SRC
-
-** format!
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro format! (str)
-    `(s-lex-format ,str))
 #+END_SRC
 
 * Config tangle & compilation
