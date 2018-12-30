@@ -25,14 +25,13 @@ Load used libraries to somewhat reduce the amount of warnings.
        ,@body))
 #+END_SRC
 
-** keybind!
+** keybinds
 
+~keybind!~
 #+BEGIN_SRC emacs-lisp
   (defmacro keybind! (keymaps &rest keybinds)
     (declare (indent 1))
     (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    (unless (listp keymaps)
-      (setq keymaps (list keymaps)))
     (unless (listp keymaps)
       (setq keymaps (list keymaps)))
     (-let [bind-forms nil]
@@ -43,6 +42,32 @@ Load used libraries to somewhat reduce the amount of warnings.
               (push `(define-key ,keymap ,key ,func) bind-forms)))
           (setq keybinds rest)))
       `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+~evil-keybind!~
+#+BEGIN_SRC emacs-lisp
+  (defmacro evil-keybind! (state keymaps &rest keybinds)
+    (declare (indent 2))
+    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
+    (-let [bind-forms nil]
+      (while keybinds
+        (-let [(key func . rest) keybinds]
+          (-let [key (if (vectorp key) key `(kbd ,key))]
+            (dolist (keymap keymaps)
+              (push `(evil-define-key ,state ,keymap ,key ,func) bind-forms)))
+          (setq keybinds rest)))
+      `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+~leader-keybind!~
+#+BEGIN_SRC emacs-lisp
+  (defmacro leader-keybind! (mode &rest keybinds)
+    (declare (indent 1))
+    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    `(spacemacs/set-leader-keys-for-major-mode ,mode
+       ,@keybinds))
 #+END_SRC
 
 ** set-local!
@@ -961,7 +986,11 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+
+    (keybind! org-mode-map
+      "M-q" #'fill-paragraph)
+
+    (leader-keybind! 'org-mode
       "0"   #'org-sort
       "#"   #'org-update-statistics-cookies
       "C-y" #'org-copy-visible
@@ -972,7 +1001,7 @@ A small bit of custom font locking for '==>'
       "C-t" #'org-set-tags-command
       "P"   #'org-priority)
 
-    (evil-define-key 'normal org-mode-map
+    (evil-keybind! 'normal org-mode-map
       "-" #'org-cycle-list-bullet
       "t" #'org-todo))
 #+END_SRC
