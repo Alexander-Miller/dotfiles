@@ -77,7 +77,6 @@ Load used libraries to somewhat reduce the amount of warnings.
 ~leader-keybind!~
 #+BEGIN_SRC emacs-lisp
   (defmacro leader-keybind! (&rest keybinds)
-    (declare (indent 1))
     (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
     `(spacemacs/set-leader-keys
        ,@keybinds))
@@ -151,8 +150,7 @@ Load used libraries to somewhat reduce the amount of warnings.
     (interactive)
     (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
 
-  (spacemacs/set-leader-keys
-    "feo" #'std::edit-org-user-config)
+  (leader-keybind! "feo" #'std::edit-org-user-config)
 #+END_SRC
 
 ** std::org-files
@@ -168,8 +166,7 @@ Load used libraries to somewhat reduce the amount of warnings.
                      :action #'find-file-existing
                      :filtered-candidate-transformer #'helm-fuzzy-highlight-matches)))
 
-  (spacemacs/set-leader-keys
-    "aof" #'std::org-files)
+  (leader-keybind! "aof" #'std::org-files)
 #+END_SRC
 
 ** std::evil-paste
@@ -420,7 +417,7 @@ do it manually.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
+  (mode-leader-keybind! 'emacs-lisp-mode
     "'" #'std::elisp::ielm
     "C" #'std::elisp::fold-all-top-level-forms)
 #+END_SRC
@@ -841,7 +838,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "rr" #'org-reveal
       "rb" #'outline-show-branches
       "rc" #'outline-show-children
@@ -852,7 +849,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "u"   #'outline-up-heading
       "M-u" #'helm-org-parent-headings
       "j"   #'org-next-visible-heading
@@ -865,7 +862,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "s"  nil
       "ss" #'org-schedule
       "st" #'org-time-stamp
@@ -876,7 +873,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "wi" #'org-tree-to-indirect-buffer
       "wm" #'org-mark-subtree
       "wd" #'org-cut-subtree
@@ -908,7 +905,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "7"   #'org-sparse-tree
       "8"   #'org-occur
       "M-j" #'next-error
@@ -919,10 +916,8 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    ;;Spacemacs default *,n* needs to be removed first
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode "n" nil)
-
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
+      "n"  nil
       "nb" #'org-narrow-to-block
       "ne" #'org-narrow-to-element
       "ns" #'org-narrow-to-subtree
@@ -933,7 +928,7 @@ A small bit of custom font locking for '==>'
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "if" #'org-footnote-new
       "il" #'org-insert-link
       "in" #'org-add-note
@@ -949,7 +944,7 @@ A small bit of custom font locking for '==>'
     ;; TODO: rebind clock
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
 
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "t"   nil
       "tb"  #'org-table-blank-field
       "ty"  #'org-table-copy-region
@@ -965,18 +960,16 @@ A small bit of custom font locking for '==>'
       "tg"  #'std::org::plot-table
       "tf"  #'std::org::table-recalc
       "tsl" #'std::org::table-switch-right
-      "tsh" #'std::org::table-switch-left)
-
-    (evil-leader/set-key-for-mode 'org-mode
-      "+" #'org-table-sum
-      "?" #'org-table-field-info))
+      "tsh" #'std::org::table-switch-left
+      "+"   #'org-table-sum
+      "?"   #'org-table-field-info))
 #+END_SRC
 
 **** Toggles
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "zh" #'org-toggle-heading
       "zl" #'org-toggle-link-display
       "zx" #'org-toggle-checkbox
@@ -992,10 +985,11 @@ A small bit of custom font locking for '==>'
   (global-set-key (kbd "<f12>") #'org-agenda-list)
 
   (after! org-agenda
-    (evil-define-key 'evilified org-agenda-mode-map (kbd "J") #'std::quick-forward)
-    (evil-define-key 'evilified org-agenda-mode-map (kbd "K") #'std::quick-backward)
+    (evil-keybind! 'evilified org-agenda-mode-map
+      "J" #'std::quick-forward
+      "K" #'std::quick-backward)
 
-    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+    (mode-leader-keybind! 'org-agenda-mode
       "zh" #'org-habit-toggle-habits))
 #+END_SRC
 
@@ -1007,7 +1001,7 @@ A small bit of custom font locking for '==>'
       [remap save-buffer] #'ignore
       "C-c C-c" #'org-edit-src-exit)
 
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (mode-leader-keybind! 'org-mode
       "bt" #'org-babel-tangle
       "bv" #'org-babel-tangle-file))
 #+END_SRC
@@ -1115,12 +1109,14 @@ A small bit of custom font locking for '==>'
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
+  (leader-keybind!
     "hi"  #'std::helm-semantic-or-imenu
     "saa" #'helm-do-ag-this-file)
+
   (after! helm
-    (define-key helm-map (kbd "M-j") #'helm-next-source)
-    (define-key helm-map (kbd "M-k") #'helm-previous-source))
+    (keybind! helm-map
+      "M-j" #'helm-next-source
+      "M-k" #'helm-previous-source))
 #+END_SRC
 
 ** Rust
@@ -1147,7 +1143,7 @@ A small bit of custom font locking for '==>'
     (evil-define-key 'insert racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'kill-buffer-and-window)
 
-    (spacemacs/set-leader-keys-for-major-mode 'rust-mode
+    (mode-leader-keybind! 'rust-mode
       "f"   #'rust-format-buffer
       "a"   #'rust-beginning-of-defun
       "e"   #'rust-end-of-defun
@@ -1194,7 +1190,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 #+BEGIN_SRC emacs-lisp
   (after! projectile
-    (spacemacs/set-leader-keys
+    (leader-keybind!
       "pg"  nil
       "pt"  #'projectile-find-tag
       "psa" #'helm-projectile-ag
@@ -1745,8 +1741,7 @@ for easy deactivation.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys
-    "aL" #'std::ledger)
+  (leader-keybind! "aL" #'std::ledger)
 
   (after! ledger-mode
 
@@ -1757,7 +1752,7 @@ for easy deactivation.
       "<tab>" #'std::ledger::magic-tab
       [remap save-buffer] #'std::ledger::save)
 
-    (spacemacs/set-leader-keys-for-major-mode 'ledger-mode
+    (mode-leader-keybind! 'ledger-mode
       "C-w" #'std::ledger::finish
       "c"   #'std::ledger::goto-current-month
       "s"   #'ledger-sort-buffer
@@ -1869,8 +1864,7 @@ for easy deactivation.
           (switch-to-buffer-other-window (current-buffer))
         (pop-to-buffer (current-buffer)))))
 
-  (spacemacs/set-leader-keys
-    "bm" #'std::pop-to-messages-buffer)
+  (leader-keybind! "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
 ** Email
@@ -2201,8 +2195,7 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
-  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode
-    "ee" #'std::eval-last-sexp)
+  (mode-leader-keybind! 'emacs-lisp-mode "ee" #'std::eval-last-sexp)
 #+END_SRC
 
 ** Multi-Compile
@@ -2222,8 +2215,7 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
                        "~/")))]
       (call-interactively #'multi-compile-run)))
 
-  (spacemacs/set-leader-keys
-    "pc" #'std::multi-compile)
+  (leader-keybind! "pc" #'std::multi-compile)
 #+END_SRC
 
 *** Settings
@@ -2532,7 +2524,7 @@ Quitting with *q*
 
 Killing a buffer alongside its window
 #+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys "b C-d" #'kill-buffer-and-window)
+  (leader-keybind! "b C-d" #'kill-buffer-and-window)
 #+END_SRC
 
 Same comment keybind as in eclipse
