@@ -2226,6 +2226,15 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
     (setq framey-show-modeline nil))
 #+END_SRC
 
+** tridactylrc
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (after! tridactylrc-mode
+    (after! highlight-numbers
+      (ht-set! highlight-numbers-modelist 'tridactylrc-mode 'do-not-use)))
+#+END_SRC
+
 * Modeline
 
 A simple mode-line implementation based on doom.
