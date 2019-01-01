@@ -17,12 +17,25 @@ Load used libraries to somewhat reduce the amount of warnings.
 ** after!
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro after! (feature &rest body)
+  (defmacro after! (features &rest body)
     "Run BODY after loading FEATURE.
-  Same as `with-eval-after-load', but there is no need to quote FEATURE."
+  Same as `with-eval-after-load', but there is no need to quote FEATURES."
     (declare (debug (sexp body)) (indent 1))
-    `(with-eval-after-load ,(if (stringp feature) feature `(quote ,feature))
-       ,@body))
+    (setf features (if (listp features) (nreverse features) (list features)))
+    (let* ((module (pop features))
+           (form `(with-eval-after-load
+                      ,(if (stringp module)
+                           module
+                         `(quote ,module))
+                    ,@body)))
+      (while features
+        (-let [module (pop features)]
+          (setf form `(with-eval-after-load
+                          ,(if (stringp module)
+                               module
+                             `(quote ,module))
+                        ,form))))
+      form))
 #+END_SRC
 
 ** keybinds
@@ -2033,16 +2046,15 @@ Replace popwin
 Smartparens is disabled while yasnippet is expanding and editing a snippet. Whatever this was a workaround for
 I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
 #+BEGIN_SRC emacs-lisp
-  (after! yasnippet
-    (after! smartparens
-      (unless (bound-and-true-p std::yasnippet::smartparens-restored)
-        (defvar std::yasnippet::smartparens-restored t)
-        (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
-            (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
-          (error "Smartparens no longer disabled before yasnippet starts."))
-        (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
-            (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
-          (error "Smartparens no longer restored after yasnippet ends.")))))
+  (after! (yasnippet smartparens)
+    (unless (bound-and-true-p std::yasnippet::smartparens-restored)
+      (defvar std::yasnippet::smartparens-restored t)
+      (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
+          (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
+        (error "Smartparens no longer disabled before yasnippet starts."))
+      (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
+          (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
+        (error "Smartparens no longer restored after yasnippet ends."))))
 #+END_SRC
 
 *** Enable Whitespace mode
@@ -2230,9 +2242,8 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! tridactylrc-mode
-    (after! highlight-numbers
-      (ht-set! highlight-numbers-modelist 'tridactylrc-mode 'do-not-use)))
+  (after! (tridactylrc-mode highlight-numbers)
+    (ht-set! highlight-numbers-modelist 'tridactylrc-mode 'do-not-use))
 #+END_SRC
 
 * Modeline
@@ -2481,14 +2492,13 @@ Find definition
 
 Quitting with *q*
 #+BEGIN_SRC emacs-lisp
-  (after! evil
-    (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
-    (after! flycheck
-      (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
-    (after! Man-mode
-      (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
-    (after! helpful
-      (evil-define-key '(normal motion) helpful-mode-map (kbd "q") #'framey-quit-window)))
+  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
+  (after! flycheck
+    (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
+  (after! Man-mode
+    (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
+  (after! helpful
+    (evil-define-key '(normal motion) helpful-mode-map (kbd "q") #'framey-quit-window))
 #+END_SRC
 
 Killing a buffer alongside its window
