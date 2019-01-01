@@ -104,6 +104,14 @@ Load used libraries to somewhat reduce the amount of warnings.
     `(s-lex-format ,str))
 #+END_SRC
 
+** idle!
+
+#+begin_src emacs-lisp
+  (defmacro idle! (time repeat &rest body)
+    (declare (indent 2))
+    `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
+#+end_src
+
 ** std::what-face
 
 #+BEGIN_SRC emacs-lisp
@@ -2375,6 +2383,18 @@ A simple mode-line implementation based on doom.
 
     (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
 #+END_SRC
+
+** Alignment for Pre-Existing Buffers
+
+#+begin_src emacs-lisp
+  (idle! 2 :no-repeat
+    (dolist (buffer '("*Messages*" "*spacemacs*" "*Compile-Log*"))
+      (when (get-buffer buffer)
+        (with-current-buffer buffer
+          (setq-local mode-line-format (default-value 'mode-line-format))
+          (powerline-set-selected-window)
+          (powerline-reset)))))
+#+end_src
 
 * Fonts
 ** Functions
