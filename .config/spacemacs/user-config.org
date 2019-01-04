@@ -1945,12 +1945,23 @@ for easy deactivation.
               (elfeed-show-visit)))))))
 #+END_SRC
 
+~std::elfeed::ignore-entry~
+#+begin_src emacs-lisp
+  (after! elfeed
+    (defun std::elfeed::ignore-entry ()
+      (interactive)
+      (-let [entries (elfeed-search-selected)]
+        (elfeed-tag entries 'ignore)
+        (mapc #'elfeed-search-update-entry entries)
+        (elfeed-search-update :force))))
+#+end_src
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
   (after! elfeed
     (setf elfeed-db-directory  (format! "${*ORGDIR*}/Elfeed-DB")
-          elfeed-search-filter "@6-months-ago"))
+          elfeed-search-filter "@6-months-ago -ignore"))
 #+END_SRC
 
 *** Keybinds
@@ -1960,6 +1971,7 @@ for easy deactivation.
     (keybind! elfeed-search-mode-map
       "J" #'std::quick-forward
       "K" #'std::quick-backward
+      "i" #'std::elfeed::ignore-entry
       [remap elfeed-search-browse-url] #'std::elfeed::visit-entry-dwim))
 #+END_SRC
 
