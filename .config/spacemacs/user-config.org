@@ -1902,7 +1902,13 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (after! mu4e
-    (define-key mu4e-main-mode-map (kbd "u") #'mu4e-update-index))
+
+    (keybind! mu4e-main-mode-map
+      "u" #'mu4e-update-index)
+
+    (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map)
+      "J" #'std::quick-forward
+      "K" #'std::quick-backward))
 #+END_SRC
 
 ** Colors
