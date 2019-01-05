@@ -1612,7 +1612,7 @@ for easy deactivation.
 #+BEGIN_SRC emacs-lisp
   (defvar std::ledger::save-window-config nil)
   (defconst std::ledger::month-separator-pattern (rx ";;; " (group-n 2 (1+ alnum)) eol))
-  (defconst std::ledger::dir (expand-file-name "~/Documents/Org/Ledger"))
+  (defconst std::ledger::dir (expand-file-name (format! "${*ORGDIR*}/Ledger")))
   (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
                                   (4 . "April")    (5 . "Mai")       (6 . "Juni")
                                   (7 . "Juli")     (8 . "August")    (9 . "September")
@@ -1627,6 +1627,9 @@ for easy deactivation.
   (defun std::ledger ()
     (interactive)
     (require 'calendar)
+    (-let [pcmds (format! "${*ORGDIR*}/Ledger/ledger.el")]
+      (when (file-exists-p pcmds)
+        (load-file pcmds)))
     (let* ((date (calendar-current-date))
            (year (cl-third (calendar-current-date)))
            (main-file (format! "${std::ledger::dir}/Ledger.ledger"))
@@ -1678,8 +1681,9 @@ for easy deactivation.
       (--each (--filter (eq 'ledger-mode (with-current-buffer it major-mode))
                         (buffer-list))
         (with-current-buffer it
-          (save-buffer)
-          (kill-buffer)))
+          (when (buffer-file-name)
+            (save-buffer)
+            (kill-buffer))))
       (when std::ledger::save-window-config
         (set-window-configuration std::ledger::save-window-config))))
 #+END_SRC
@@ -1708,16 +1712,6 @@ for easy deactivation.
             (unless (search-forward (format! ";;; ${month}") nil :no-error)
               (message "'%s' not found." month)
               (goto-char start)))))))
-#+END_SRC
-
-~std::ledger::post-align-dwim~
-#+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::post-align-dwim ()
-      "`ledger-post-align-dwim' and fontify xact at point."
-      (interactive)
-      (ledger-post-align-dwim)
-      (ledger-fontify-xact-at (point))))
 #+END_SRC
 
 ~std::ledger::forward~ & ~std::ledger::backward~
@@ -1752,13 +1746,14 @@ for easy deactivation.
     (keybind! ledger-mode-map
       "M-j"   #'std::ledger::forward
       "M-k"   #'std::ledger::backward
-      "M-q"   #'std::ledger::post-align-dwim
       "<tab>" #'std::ledger::magic-tab
+      "M-q"   #'ledger-post-align-dwim
       [remap save-buffer] #'std::ledger::save)
 
     (mode-leader-keybind! 'ledger-mode
       "C-w" #'std::ledger::finish
       "c"   #'std::ledger::goto-current-month
+      "L"   #'std::ledger::parse-csv
       "s"   #'ledger-sort-buffer
       "S"   #'ledger-sort-region
       "o"   #'ledger-occur-mode
