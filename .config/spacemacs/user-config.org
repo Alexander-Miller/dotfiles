@@ -558,6 +558,13 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
 ** Org
 *** Functions
 
+~std::org::mode-hook~
+#+begin_src emacs-lisp
+  (defun std::org::mode-hook ()
+    (hl-todo-mode -1))
+  (add-hook 'org-mode-hook #'std::org::mode-hook)
+#+END_SRC
+
 ~org-switch-to-buffer-other-window~
 Org thinks it's a good idea to disable ~display-buffer-alist~ when displaying its buffers. I don't.
 I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions.
