@@ -11,6 +11,7 @@ Load used libraries to somewhat reduce the amount of warnings.
   (require 'cl-lib)
   (require 's)
   (require 'evil)
+  (require 'helm)
 #+END_SRC
 
 * Utility Functions
@@ -158,7 +159,6 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
   (defun std::org-files ()
     (interactive)
-    (require 'helm)
     (helm :prompt "Org File: "
           :buffer "*helm org files*"
           :sources (helm-build-sync-source "Org Files"
