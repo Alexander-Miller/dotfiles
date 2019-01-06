@@ -1558,11 +1558,11 @@ Flycheck should be turned on for treemacs, but not all elisp files.
   (add-hook 'find-file-hook #'std::elisp::treemacs-flycheck-activate)
 #+END_SRC
 
-Load up the local repository. Settings are mostly default, minor modes are on. Everyting's wrapped up in a single when
+Load up the local repository. Settings are mostly default, minor modes are on. Everything's wrapped up in a single when
 for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
-  (when t
+  (when (file-exists-p "~/Documents/git/treemacs/")
     (use-package treemacs
       :load-path "~/Documents/git/treemacs/src/elisp"
       :defer t
@@ -1593,14 +1593,14 @@ for easy deactivation.
 
     (use-package treemacs-evil
       :load-path "~/Documents/git/treemacs/src/extra"
-      :after treemacs evil)
+      :after treemacs)
 
     (use-package treemacs-projectile
       :load-path "~/Documents/git/treemacs/src/extra"
       :after treemacs projectile)
 
     (use-package treemacs-icons-dired
-      :after treemacs dired
+      :after dired+
       :load-path "~/Documents/git/treemacs/src/extra"
       :config (treemacs-icons-dired-mode))
 
