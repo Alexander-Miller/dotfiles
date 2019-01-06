@@ -1963,7 +1963,13 @@ for easy deactivation.
 #+BEGIN_SRC emacs-lisp
   (after! elfeed
     (setf elfeed-db-directory  (format! "${*ORGDIR*}/Elfeed-DB")
-          elfeed-search-filter "@6-months-ago -ignore"))
+          elfeed-search-filter "@6-months-ago -ignore"
+          elfeed-search-face-alist
+          '((unread   elfeed-search-unread-title-face)
+            (vids     font-lock-constant-face)
+            (blog     font-lock-doc-face)
+            (reddit   font-lock-variable-name-face)
+            (webcomic font-lock-builtin-face))))
 #+END_SRC
 
 *** Keybinds
