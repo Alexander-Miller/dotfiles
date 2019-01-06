@@ -766,10 +766,6 @@ Also use ascii bullets for simple lists
 
 #+BEGIN_SRC emacs-lisp
   (after! org
-
-    ;; load easy templates
-    (require 'org-tempo)
-
     (setq
      calendar-date-style                     'european
      org-tags-column                         85

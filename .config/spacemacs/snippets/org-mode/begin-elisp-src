@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-elisp-src
+#key: <el
+# --
+#+BEGIN_SRC emacs-lisp
+$0
+#+END_SRC
