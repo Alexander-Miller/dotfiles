@@ -121,6 +121,18 @@ Load used libraries to somewhat reduce the amount of warnings.
     `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
 #+end_src
 
+** notify!
+
+#+BEGIN_SRC emacs-lisp
+  (cl-defmacro notify! (title txt &key icon)
+    (-let [icon-arg
+           (pcase icon
+             ((pred null) "--icon=emacs")
+             ((pred stringp) (format! "--icon=${icon}"))
+             ((guard (eq nil icon) "")))]
+      `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg))))
+#+END_SRC
+
 ** std::what-face
 
 #+BEGIN_SRC emacs-lisp
@@ -2423,6 +2435,16 @@ A simple mode-line implementation based on doom.
           (powerline-set-selected-window)
           (powerline-reset)))))
 #+end_src
+
+** Disable git notifications
+
+Get rid of the timer to fetch github notifications, and do let me know if the timer isn't there in case the api changes.
+#+BEGIN_SRC emacs-lisp
+  (idle! 3 :no-repeat
+    (--if-let (--first (eq #'doom-modeline--github-fetch-notifications (timer--function it)) timer-list)
+        (cancel-timer it)
+      (notify! "[Modeline]" "Doom github timer not found.")))
+#+END_SRC
 
 * Fonts
 ** Functions
