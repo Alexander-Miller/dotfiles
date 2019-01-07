@@ -518,7 +518,7 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
     (defun std::company::off (arg)
       "Use default keys when company is not active. ARG is ignored."
       (keybind! (evil-normal-state-map evil-insert-state-map)
-        "C-j" #'electric-newline-and-maybe-indent
+        "C-j" #'newline-and-indent
         "C-k" #'kill-line)
       (keybind! evil-insert-state-map
         "C-l" #'yas-expand))
