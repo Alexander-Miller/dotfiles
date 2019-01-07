@@ -11,6 +11,7 @@ set smoothscroll false
 
 setpref browser.fullscreen.autohide false
 setpref browser.ctrlTab.recentlyUsedOrder false
+setpref browser.search.suggest.enabled false
 
 bind j scrollline 10
 bind J scrollline 20
