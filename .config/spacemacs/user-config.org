@@ -1937,6 +1937,7 @@ for easy deactivation.
                 (message "Opening %s with height ≤ %s with mpv..."
                          (propertize (elfeed-entry-link entry) 'face 'font-lock-string-face)
                          (propertize quality 'face 'font-lock-keyword-face))
+                (elfeed-untag entry 'unread)
                 (start-process "elfeed-mpv" nil "mpv" arg (elfeed-entry-link entry)))
             (if (eq major-mode 'elfeed-search-mode)
                 (elfeed-search-browse-url)
