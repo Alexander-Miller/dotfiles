@@ -1898,7 +1898,8 @@ for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
   (after! mu4e
-    (setq mu4e-use-fancy-chars nil
+    (setq mu4e-confirm-quit nil
+          mu4e-use-fancy-chars nil
           mu4e-maildir (std::mail::find-thunderbird-imap-dir))
 
     (add-to-list 'mu4e-bookmarks
