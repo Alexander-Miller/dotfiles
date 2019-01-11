@@ -40,7 +40,8 @@
      vimscript
      yaml)
    dotspacemacs-additional-packages
-   '(company-flx
+   '(buttercup
+     company-flx
      (dired+ :location (recipe :fetcher github
                                :repo "emacsmirror/dired-plus"))
      dash-functional ;; for local company-box
