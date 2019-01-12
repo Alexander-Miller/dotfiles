@@ -127,12 +127,14 @@ Load used libraries to somewhat reduce the amount of warnings.
 
 #+BEGIN_SRC emacs-lisp
 (cl-defmacro notify! (title &optional (txt "") &key icon)
+  (declare (indent 1))
   (-let [icon-arg
          (pcase icon
            ((pred null) "--icon=emacs")
            ((pred stringp) (format! "--icon=${icon}"))
            ((guard (eq nil icon) "")))]
-    `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg))))
+    `(prog1 t
+       (shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil))))
 #+END_SRC
 
 ** std::what-face
