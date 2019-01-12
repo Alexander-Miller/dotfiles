@@ -117,22 +117,22 @@ Load used libraries to somewhat reduce the amount of warnings.
 
 ** idle!
 
-#+begin_src emacs-lisp
-  (defmacro idle! (time repeat &rest body)
-    (declare (indent 2))
-    `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
-#+end_src
+#+BEGIN_SRC emacs-lisp
+(defmacro idle! (time repeat &rest body)
+  (declare (indent 2))
+  `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
+#+END_SRC
 
 ** notify!
 
 #+BEGIN_SRC emacs-lisp
-  (cl-defmacro notify! (title txt &key icon)
-    (-let [icon-arg
-           (pcase icon
-             ((pred null) "--icon=emacs")
-             ((pred stringp) (format! "--icon=${icon}"))
-             ((guard (eq nil icon) "")))]
-      `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg))))
+(cl-defmacro notify! (title &optional (txt "") &key icon)
+  (-let [icon-arg
+         (pcase icon
+           ((pred null) "--icon=emacs")
+           ((pred stringp) (format! "--icon=${icon}"))
+           ((guard (eq nil icon) "")))]
+    `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg))))
 #+END_SRC
 
 ** std::what-face
