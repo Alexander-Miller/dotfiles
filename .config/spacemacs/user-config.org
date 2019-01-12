@@ -60,17 +60,19 @@ Load used libraries to somewhat reduce the amount of warnings.
 
 ~evil-keybind!~
 #+BEGIN_SRC emacs-lisp
-  (defmacro evil-keybind! (state keymaps &rest keybinds)
+  (defmacro evil-keybind! (states keymaps &rest keybinds)
     (declare (indent 2))
     (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
     (unless (listp keymaps)
-      (setq keymaps (list keymaps)))
+      (setf keymaps (list keymaps)))
+    (unless (listp states)
+      (setf states (list states)))
     (-let [bind-forms nil]
       (while keybinds
         (-let [(key func . rest) keybinds]
           (-let [key (if (vectorp key) key `(kbd ,key))]
             (dolist (keymap keymaps)
-              (push `(evil-define-key ,state ,keymap ,key ,func) bind-forms)))
+              (push `(evil-define-key ',states ,keymap ,key ,func) bind-forms)))
           (setq keybinds rest)))
       `(progn ,@(nreverse bind-forms))))
 #+END_SRC
@@ -1397,64 +1399,59 @@ A dired evil state to get rid of the cursor and to have a single keymap
 **** Dired Internal
 
 #+BEGIN_SRC emacs-lisp
-  (after! dired+
+(after! dired+
 
-    (defun std::dired::quit ()
-      (interactive)
-      (let ((left) (right))
-        (winum-select-window-1)
-        (setf left default-directory)
-        (winum-select-window-2)
-        (setf right default-directory
-              std::dired::saved-positions (list left right))
-        (unless (f-exists? std::dired::cache-file)
-          (f-touch std::dired::cache-file))
-        (f-write (format! "${left}\n${right}") 'utf-8 std::dired::cache-file))
-      (set-window-configuration std::dired::saved-window-config)
-      (--each (buffer-list)
-        (when (eq 'dired-mode (buffer-local-value 'major-mode it))
-          (kill-buffer it))))
+  (defhydra std::dired-goto-hydra (:exit t :hint nil)
+    ("h" (lambda () (interactive) (dired "~"))           "$HOME")
+    ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
+    ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
+    ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
+    ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
+    ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
+    ("q" nil "cancel"))
 
-    (defun std::dired::mark-up ()
-      (interactive)
-      (call-interactively #'dired-mark)
-      (previous-line 2))
+  (defun std::dired::quit ()
+    (interactive)
+    (let ((left) (right))
+      (winum-select-window-1)
+      (setf left default-directory)
+      (winum-select-window-2)
+      (setf right default-directory
+            std::dired::saved-positions (list left right))
+      (unless (f-exists? std::dired::cache-file)
+        (f-touch std::dired::cache-file))
+      (f-write (format! "${left}\n${right}") 'utf-8 std::dired::cache-file))
+    (set-window-configuration std::dired::saved-window-config)
+    (--each (buffer-list)
+      (when (eq 'dired-mode (buffer-local-value 'major-mode it))
+        (kill-buffer it))))
 
-    (defun std::dired::open-externally ()
-      (interactive)
-      (call-process-shell-command
-       (format "xdg-open %s &"
-               (shell-quote-argument (dired-get-filename)))))
+  (defun std::dired::mark-up ()
+    (interactive)
+    (call-interactively #'dired-mark)
+    (previous-line 2))
 
-    (defun std::dired::filesize ()
-      (interactive)
-      (-if-let (file (dired-get-filename nil :no-error))
-          (let* ((cmd (if (f-directory? file) "du -sh \"%s\"" "ls -sh \"%s\""))
-                 (output (->> file
-                              (format cmd)
-                              ;; (shell-quote-argument)
-                              (shell-command-to-string)
-                              (s-trim))))
-            (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
-              (message
-               "%s : %s"
-               (propertize file 'face 'font-lock-keyword-face)
-               (propertize size 'face 'font-lock-string-face))))
-        (message (propertize "---" 'face 'font-lock-string-face)))))
-#+END_SRC
+  (defun std::dired::open-externally ()
+    (interactive)
+    (call-process-shell-command
+     (format "xdg-open %s &"
+             (shell-quote-argument (dired-get-filename)))))
 
-**** Gotos
-
-#+BEGIN_SRC emacs-lisp
-  (after! dired+
-
-    (defun std::dired::goto-videos ()
-      (interactive)
-      (dired "~/Videos/"))
-
-    (defun std::dired::goto-home ()
-      (interactive)
-      (dired "~/")))
+  (defun std::dired::filesize ()
+    (interactive)
+    (-if-let (file (dired-get-filename nil :no-error))
+        (let* ((cmd (if (f-directory? file) "du -sh \"%s\"" "ls -sh \"%s\""))
+               (output (->> file
+                            (format cmd)
+                            ;; (shell-quote-argument)
+                            (shell-command-to-string)
+                            (s-trim))))
+          (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
+            (message
+             "%s : %s"
+             (propertize file 'face 'font-lock-keyword-face)
+             (propertize size 'face 'font-lock-string-face))))
+      (message (propertize "---" 'face 'font-lock-string-face)))))
 #+END_SRC
 
 **** Wdired
@@ -1516,8 +1513,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
       ","     nil
       "c"     nil
       "RET"   #'dired-find-file
-      "gv"    #'std::dired::goto-videos
-      "gh"    #'std::dired::goto-home
+      "gh"    #'std::dired-goto-hydra/body
       "gr"    #'revert-buffer
       "y"     #'std::dired::do-copy
       "R"     #'std::dired::do-rename
@@ -1534,7 +1530,9 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "M-j"   #'dired-mark
       "M-k"   #'std::dired::mark-up
       "l"     #'dired-find-file
-      "h"     #'diredp-up-directory)
+      "h"     #'diredp-up-directory
+      "Z"     #'dired-do-compress
+      "M-z"   #'dired-do-compress-to)
 
     (after! wdired
       (keybind! wdired-mode-map
