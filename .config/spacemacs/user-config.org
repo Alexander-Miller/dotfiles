@@ -349,13 +349,13 @@ Insert retangle before both quitting emacs and reloading the config.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq evil-move-beyond-eol t
-        evil-want-fine-undo  t
-        evil-lisp-state-enter-lisp-state-on-command nil)
+(setq evil-move-beyond-eol t
+      evil-want-fine-undo  t
+      evil-lisp-state-enter-lisp-state-on-command nil)
 
-  (after! evil-escape
-    (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
-    (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
+(after! evil-escape
+  (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
+  (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
 #+END_SRC
 
 ** Elisp
@@ -2585,6 +2585,18 @@ Same comment keybind as in eclipse
 Newline in normal state
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-map (kbd "<RET>") #'newline-and-indent)
+#+END_SRC
+
+Fill region
+#+BEGIN_SRC emacs-lisp
+(keybind! global-map
+  "C-q" #'fill-region)
+#+END_SRC
+
+More accessible avy
+#+BEGIN_SRC emacs-lisp
+(evil-keybind! (normal motion visual) global-map
+  "ü" #'evil-avy-goto-char-2)
 #+END_SRC
 
 ** Line numbers
