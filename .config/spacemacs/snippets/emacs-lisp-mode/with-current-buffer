@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: with-current-buffer
+#key: wcb
+# --
+(with-current-buffer ${1:buffer}
+  $0)
