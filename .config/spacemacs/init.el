@@ -142,7 +142,8 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (load-file (concat *SPACEMACSDIR* "/user-config.elc")))
+  (load-file (concat *SPACEMACSDIR* "/user-config.elc"))
+  (spacemacs/switch-to-scratch-buffer))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
