@@ -7,6 +7,7 @@ colors MorningStar
 set hintchars asdfqwejkln
 " ?? "
 set hinfiltermode vimperator-reflow
+set hintnames short
 set smoothscroll false
 set editorcmd emacsclient -nc %f
 
@@ -33,6 +34,12 @@ bind <C-o> back
 
 bind d hint -b
 bind D hint
-bind yd hint -y
+bind <C-d> hint -qb
+bind ,y hint -y
+bind ,i hint -I
+bind ,, hint -;
+bind ,p hint -p
+bind ,s hint -a
+bind ,S hint -A
 
 bind ZZ qall
