@@ -1869,17 +1869,20 @@ for easy deactivation.
 
 ~std::pop-to-messages-buffer~
 #+BEGIN_SRC emacs-lisp
-  (defun std::pop-to-messages-buffer (&optional arg)
-    "Same as the spacemacs builtin, but uses `pop-to-buffer'.
+(defun std::pop-to-messages-buffer (&optional arg)
+  "Same as the spacemacs builtin, but uses `pop-to-buffer'.
   This ensures that shackle's (or purpose's) rules apply to the new window."
-    (interactive "P")
-    (with-current-buffer (messages-buffer)
-      (goto-char (point-max))
-      (if arg
-          (switch-to-buffer-other-window (current-buffer))
-        (pop-to-buffer (current-buffer)))))
+  (interactive "P")
+  (-let [buf (messages-buffer)]
+    (--if-let (get-buffer-window buf)
+        (delete-window it)
+      (with-current-buffer (messages-buffer)
+        (goto-char (point-max))
+        (if arg
+            (switch-to-buffer-other-window (current-buffer))
+          (pop-to-buffer (current-buffer)))))))
 
-  (leader-keybind! "bm" #'std::pop-to-messages-buffer)
+(leader-keybind! "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
 ** Email
