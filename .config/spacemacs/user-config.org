@@ -1408,6 +1408,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
     ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
     ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
     ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
+    ("o" (lambda () (interactive) (dired "~/Dropbox"))   "Dropbox")
     ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
     ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
     ("q" nil "cancel"))
@@ -2283,8 +2284,9 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! avy
-    (setq avy-all-windows nil))
+(after! avy
+  (setf avy-all-windows      nil
+        avy-case-fold-search nil))
 #+END_SRC
 
 ** Framey
