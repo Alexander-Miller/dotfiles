@@ -39,6 +39,7 @@ set -x fish_pager_color_description green
 set -x fish_pager_color_prefix      blue
 set -x fish_pager_color_progress    202020 --background=green
 
+abbr -a fd    'find -iname'
 abbr -a e     'exit'
 abbr -a yt    'youtube-dl'
 abbr -a ytmp3 'youtube-dl --extract-audio --audio-format mp3'
