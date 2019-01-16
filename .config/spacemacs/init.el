@@ -59,6 +59,7 @@
                                          :repo "Alexander-Miller/tridactylrc-mode"))
      (framey :location (recipe :fetcher github
                                :repo "Alexander-Miller/framey"))
+     mu4e-conversation
      multi-compile
      ht
      pfuture

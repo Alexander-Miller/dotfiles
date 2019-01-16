@@ -1895,41 +1895,47 @@ The only deviation from the defaults
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
-    (defun std::mail::find-thunderbird-imap-dir ()
-      (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
-        (when (f-exists? dot-thunderbird)
-          (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
-                                      (directory-files dot-thunderbird :full)))
-            (f-join dot-thunderbird maildir "ImapMail"))))))
+(after! mu4e
+  (defun std::mail::find-thunderbird-imap-dir ()
+    (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
+      (when (f-exists? dot-thunderbird)
+        (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
+                                    (directory-files dot-thunderbird :full)))
+          (f-join dot-thunderbird maildir "ImapMail"))))))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
-    (setq mu4e-confirm-quit nil
-          mu4e-use-fancy-chars nil
-          mu4e-maildir (std::mail::find-thunderbird-imap-dir))
+(after! mu4e
 
-    (add-to-list 'mu4e-bookmarks
-                 (make-mu4e-bookmark
-                  :name "Github Messages"
-                  :query "github"
-                  :key ?g)))
+  (global-mu4e-conversation-mode)
+
+  (setq mu4e-confirm-quit nil
+        mu4e-use-fancy-chars nil
+        mu4e-maildir (std::mail::find-thunderbird-imap-dir)
+        mu4e-headers-fields '((:human-date . 10)   (:flags . 6)
+                              (:mailing-list . 10) (:from . 22)
+                              (:subject . 85)      (:tags . 10)))
+
+  (add-to-list 'mu4e-bookmarks
+               (make-mu4e-bookmark
+                :name "Github Messages"
+                :query "github"
+                :key ?g)))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
+(after! mu4e
 
-    (keybind! mu4e-main-mode-map
-      "u" #'mu4e-update-index)
+  (keybind! mu4e-main-mode-map
+    "u" #'mu4e-update-index)
 
-    (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map)
-      "J" #'std::quick-forward
-      "K" #'std::quick-backward))
+  (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
+    "J" #'std::quick-forward
+    "K" #'std::quick-backward))
 #+END_SRC
 
 ** Colors
@@ -2616,7 +2622,7 @@ Fill region
 More accessible avy
 #+BEGIN_SRC emacs-lisp
 (evil-keybind! (normal motion visual) global-map
-  "ü" #'evil-avy-goto-char-2)
+  "ß" #'evil-avy-goto-char-2)
 #+END_SRC
 
 ** Line numbers
