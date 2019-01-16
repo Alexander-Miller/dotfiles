@@ -1622,6 +1622,12 @@ for easy deactivation.
       :after treemacs magit))
 #+END_SRC
 
+The only deviation from the defaults
+
+#+BEGIN_SRC emacs-lisp
+(setf treemacs-no-delete-other-windows nil)
+#+END_SRC
+
 ** Finance
 *** Variables
 
