@@ -1632,13 +1632,13 @@ The only deviation from the defaults
 *** Variables
 
 #+BEGIN_SRC emacs-lisp
-  (defvar std::ledger::save-window-config nil)
-  (defconst std::ledger::month-separator-pattern (rx ";;; " (group-n 2 (1+ alnum)) eol))
-  (defconst std::ledger::dir (expand-file-name (format! "${*ORGDIR*}/Ledger")))
-  (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
-                                  (4 . "April")    (5 . "Mai")       (6 . "Juni")
-                                  (7 . "Juli")     (8 . "August")    (9 . "September")
-                                  (10 . "Oktober") (11 . "November") (12 . "Dezemper")))
+(defvar std::ledger::save-window-config nil)
+(defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ alnum)) " +++" eol))
+(defconst std::ledger::dir (expand-file-name (format! "${*ORGDIR*}/Ledger")))
+(defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
+                                (4 . "April")    (5 . "Mai")       (6 . "Juni")
+                                (7 . "Juli")     (8 . "August")    (9 . "September")
+                                (10 . "Oktober") (11 . "November") (12 . "Dezemper")))
 #+END_SRC
 
 *** Functions
@@ -1646,157 +1646,177 @@ The only deviation from the defaults
 
 ~std::ledger~
 #+BEGIN_SRC emacs-lisp
-  (defun std::ledger ()
-    (interactive)
-    (require 'calendar)
-    (-let [pcmds (format! "${*ORGDIR*}/Ledger/ledger.el")]
-      (when (file-exists-p pcmds)
-        (load-file pcmds)))
-    (let* ((date (calendar-current-date))
-           (year (cl-third (calendar-current-date)))
-           (main-file (format! "${std::ledger::dir}/Ledger.ledger"))
-           (year-file (format! "${std::ledger::dir}/${year}.ledger")))
-      (setf std::ledger::save-window-config (current-window-configuration))
-      (delete-other-windows)
-      (find-file year-file)
-      (split-window-right)
-      (save-selected-window
-        (-let [full-width (* 2 (window-width))]
-          (shrink-window-horizontally (- (/ full-width 7))))
-        (other-window 1)
-        (find-file main-file))
-      (std::ledger::goto-current-month)))
+(defun std::ledger ()
+  (interactive)
+  (require 'calendar)
+  (-let [pcmds (format! "${*ORGDIR*}/Ledger/ledger.el")]
+    (when (file-exists-p pcmds)
+      (load-file pcmds)))
+  (let* ((date (calendar-current-date))
+         (year (cl-third (calendar-current-date)))
+         (main-file (format! "${std::ledger::dir}/Ledger.ledger"))
+         (year-file (format! "${std::ledger::dir}/${year}.ledger")))
+    (setf std::ledger::save-window-config (current-window-configuration))
+    (delete-other-windows)
+    (find-file year-file)
+    (split-window-right)
+    (save-selected-window
+      (-let [full-width (* 2 (window-width))]
+        (shrink-window-horizontally (- (/ full-width 7))))
+      (other-window 1)
+      (find-file main-file))
+    (std::ledger::goto-current-month)))
 #+END_SRC
 
 ~std::ledger::mode-hook~
 #+BEGIN_SRC emacs-lisp
-  (defun std::ledger::mode-hook ()
-    (outline-minor-mode)
-    (smartparens-mode)
-    (evil-ledger-mode)
-    (set-local!
-     ledger-accounts-file     (format! "${std::ledger::dir}/Ledger.ledger")
-     outline-regexp           (rx bol ";;; ")
-     imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
+(defun std::ledger::mode-hook ()
+  (outline-minor-mode)
+  (smartparens-mode)
+  (evil-ledger-mode)
+  (set-local!
+   ledger-accounts-file     (format! "${std::ledger::dir}/Ledger.ledger")
+   outline-regexp           (rx bol "+++ ")
+   imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
 #+END_SRC
 
 **** Internal
 
 ~std::ledger::save~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::save ()
-      "First `ledger-mode-clean-buffer', then `save-buffer'."
-      (interactive)
-      (-let [p (point)]
-        (when (buffer-modified-p)
-          (unwind-protect (ledger-mode-clean-buffer)
-            (save-buffer)))
-        (goto-char p))))
+(after! ledger-mode
+  (defun std::ledger::save ()
+    "First `ledger-mode-clean-buffer', then `save-buffer'."
+    (interactive)
+    (-let [p (point)]
+      (when (buffer-modified-p)
+        (unwind-protect (ledger-mode-clean-buffer)
+          (save-buffer)))
+      (goto-char p))))
 #+END_SRC
 
 ~std::ledger::finish~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::finish ()
-      (interactive)
-      (--each (--filter (eq 'ledger-mode (with-current-buffer it major-mode))
-                        (buffer-list))
-        (with-current-buffer it
-          (when (buffer-file-name)
-            (save-buffer)
-            (kill-buffer))))
-      (when std::ledger::save-window-config
-        (set-window-configuration std::ledger::save-window-config))))
+(after! ledger-mode
+  (defun std::ledger::finish ()
+    (interactive)
+    (cl-loop
+     for buf in (buffer-list)
+     if (eq 'ledger-mode (buffer-local-value 'major-mode buf)) do
+     (with-current-buffer buf
+       (when (buffer-file-name)
+         (save-buffer)
+         (kill-buffer))))
+    (when std::ledger::save-window-config
+      (set-window-configuration std::ledger::save-window-config))))
 #+END_SRC
 
 ~std::ledger::magic-tab~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::magic-tab ()
-      (interactive)
-      (if (s-matches? outline-regexp (thing-at-point 'line t))
-          (outline-toggle-children)
-        (ledger-magic-tab))))
+(after! ledger-mode
+  (defun std::ledger::magic-tab ()
+    (interactive)
+    (if (s-matches? outline-regexp (thing-at-point 'line t))
+        (outline-toggle-children)
+      (ledger-magic-tab))))
 #+END_SRC
 
 ~std::ledger::goto-current-month~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::goto-current-month ()
-      (interactive)
-      (-let [month (-> (calendar-current-date)
-                       (car)
-                       (alist-get std::ledger::months))]
-        (save-match-data
-          (-let [start (point)]
-            (goto-char 0)
-            (unless (search-forward (format! ";;; ${month}") nil :no-error)
-              (message "'%s' not found." month)
-              (goto-char start)))))))
+(after! ledger-mode
+  (defun std::ledger::goto-current-month ()
+    (interactive)
+    (-let [month (-> (calendar-current-date)
+                     (car)
+                     (alist-get std::ledger::months))]
+      (save-match-data
+        (-let [start (point)]
+          (goto-char 0)
+          (if (search-forward (format! "+++ ${month}") nil :no-error)
+              (forward-line 1)
+            (message "'%s' not found." month)
+            (goto-char start)))))))
 #+END_SRC
 
 ~std::ledger::forward~ & ~std::ledger::backward~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (defun std::ledger::forward ()
-      (interactive)
-      (if (s-matches? std::ledger::month-separator-pattern
-                      (thing-at-point 'line))
-          (save-match-data
-            (end-of-line)
-            (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
-        (call-interactively #'evil-ledger-forward-xact)))
+(after! ledger-mode
+  (defun std::ledger::forward ()
+    (interactive)
+    (if (s-matches? std::ledger::month-separator-pattern
+                    (thing-at-point 'line))
+        (save-match-data
+          (end-of-line)
+          (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
+      (call-interactively #'evil-ledger-forward-xact)))
 
-    (defun std::ledger::backward ()
-      (interactive)
-      (if (s-matches? std::ledger::month-separator-pattern
-                      (thing-at-point 'line))
-          (save-match-data
-            (beginning-of-line)
-            (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
-        (call-interactively #'evil-ledger-backward-xact))))
+  (defun std::ledger::backward ()
+    (interactive)
+    (if (s-matches? std::ledger::month-separator-pattern
+                    (thing-at-point 'line))
+        (save-match-data
+          (beginning-of-line)
+          (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
+      (call-interactively #'evil-ledger-backward-xact))))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (leader-keybind! "aL" #'std::ledger)
+(leader-keybind! "aL" #'std::ledger)
 
-  (after! ledger-mode
+(after! ledger-mode
 
-    (keybind! ledger-mode-map
-      "M-j"   #'std::ledger::forward
-      "M-k"   #'std::ledger::backward
-      "<tab>" #'std::ledger::magic-tab
-      "M-q"   #'ledger-post-align-dwim
-      [remap save-buffer] #'std::ledger::save)
+  (keybind! ledger-mode-map
+    "M-j"   #'std::ledger::forward
+    "M-k"   #'std::ledger::backward
+    "<tab>" #'std::ledger::magic-tab
+    "M-q"   #'ledger-post-align-dwim
+    [remap save-buffer] #'std::ledger::save)
 
-    (mode-leader-keybind! 'ledger-mode
-      "C-w" #'std::ledger::finish
-      "c"   #'std::ledger::goto-current-month
-      "L"   #'std::ledger::parse-csv
-      "s"   #'ledger-sort-buffer
-      "S"   #'ledger-sort-region
-      "o"   #'ledger-occur-mode
-      "y"   #'ledger-copy-transaction-at-point
-      "d"   #'ledger-delete-current-transaction
-      "r"   #'ledger-report
-      "R"   #'ledger-reconcile))
+  (mode-leader-keybind! 'ledger-mode
+    "C-w" #'std::ledger::finish
+    "c"   #'std::ledger::goto-current-month
+    "L"   #'std::ledger::parse-csv
+    "s"   #'ledger-sort-buffer
+    "S"   #'ledger-sort-region
+    "o"   #'ledger-occur-mode
+    "y"   #'ledger-copy-transaction-at-point
+    "d"   #'ledger-delete-current-transaction
+    "r"   #'ledger-report
+    "R"   #'ledger-reconcile))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
-    (setq ledger-default-date-format           ledger-iso-date-format
-          ledger-mode-should-check-version     nil
-          ledger-post-amount-alignment-column  62
-          ledger-post-account-alignment-column 2
-          ledger-clear-whole-transactions      t
-          company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
+(after! ledger-mode
 
-  (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
+  (defface std::ledger::month-face
+    '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a"))))
+    ""
+    :group 'std)
+
+  (font-lock-add-keywords
+   'ledger-mode
+   `((,(rx (group-n
+            1
+            bol
+            "+++ "
+            (1+ alnum)
+            " +++"
+            "\n"))
+      1 'std::ledger::month-face t))
+   'prepend)
+
+  (setq ledger-default-date-format           ledger-iso-date-format
+        ledger-mode-should-check-version     nil
+        ledger-post-amount-alignment-column  62
+        ledger-post-account-alignment-column 2
+        ledger-clear-whole-transactions      t
+        company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
+
+(add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 #+END_SRC
 
 ** Purpose
