@@ -2348,132 +2348,146 @@ A simple mode-line implementation based on doom.
 ** Default
 
 #+BEGIN_SRC emacs-lisp
-  (require 'powerline)
-  (require 'spaceline)
-  (require 'inline)
-  (with-no-warnings
-    (require 'doom-modeline))
+(require 'powerline)
+(require 'inline)
+(with-no-warnings
+  (require 'doom-modeline))
 
-  (declare-function winum-get-number "winum")
-  (declare-function eyebrowse--get "eyebrowse")
+(declare-function winum-get-number "winum")
+(declare-function eyebrowse--get "eyebrowse")
 
-  (defconst std::modeline::length-xpm
-    (propertize " " 'display (pl/make-xpm "test" nil "blue" (--map (prog1 (list [1]) (ignore it)) (number-sequence 1 30)))))
+(defface std::modeline::selected-separator-face
+  '((t (:background "#1E90FF")))
+  ""
+  :group 'std)
 
-  (defface std::modeline::num-face
-    '((t (:foreground "#997799" :bold t)))
-    ""
-    :group 'std::modeline)
+(defface std::modeline::not-selected-separator-face
+  '((t (:background "#444444")))
+  ""
+  :group 'std)
 
-  (defface std::modeline::major-mode-face
-    '((t (:foreground "#997799" :bold t)))
-    ""
-    :group 'std::modeline)
+(defconst std::modeline::selected-window-xpm
+  (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30))
 
-  (define-inline std::num-to-unicode (n)
-    (inline-letevals (n)
-      (inline-quote
-       (pcase ,n
-         (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
-         (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
+(defconst std::modeline::unselected-window-xpm
+  (doom-modeline--make-xpm 'std::modeline::not-selected-separator-face 5 30))
 
-  (doom-modeline-def-segment std::modeline::window-number
-    (--when-let (winum-get-number)
-      (propertize (std::num-to-unicode it)
-                  'face 'std::modeline::num-face)))
+(defface std::modeline::num-face
+  '((t (:foreground "#997799" :bold t)))
+  ""
+  :group 'std::modeline)
 
-  (doom-modeline-def-segment std::modeline::desktop-number
-    (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
-                'face 'std::modeline::num-face))
+(defface std::modeline::major-mode-face
+  '((t (:foreground "#997799" :bold t)))
+  ""
+  :group 'std::modeline)
 
-  (doom-modeline-def-segment std::modeline::buffer-id
-    (propertize (buffer-name)
-                'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+(define-inline std::num-to-unicode (n)
+  (inline-letevals (n)
+    (inline-quote
+     (pcase ,n
+       (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
+       (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
 
-  (doom-modeline-def-segment std::modeline::length-glyph
-    std::modeline::length-xpm)
+(doom-modeline-def-segment std::modeline::window-number
+  (--when-let (winum-get-number)
+    (propertize (std::num-to-unicode it)
+                'face 'std::modeline::num-face)))
 
-  (defconst std::modeline::major-mode-local-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map [mode-line down-mouse-1]
-        `(menu-item ,(purecopy "Menu Bar") ignore
-                    :filter (lambda (_) (mouse-menu-major-mode-map))))
-      (define-key map [mode-line mouse-2] 'describe-mode)
-      (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
-      map))
+(doom-modeline-def-segment std::modeline::desktop-number
+  (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
+              'face 'std::modeline::num-face))
 
-  (doom-modeline-def-segment std::modeline::major-mode
-    (propertize (format-mode-line mode-name)
-                'mouse-face 'mode-line-highlight
-                'local-map std::modeline::major-mode-local-map
-                'face 'std::modeline::major-mode-face))
+(doom-modeline-def-segment std::modeline::buffer-id
+  (propertize (buffer-name)
+              'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
 
-  (defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'doom-modeline-info)))
-  (defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'doom-modeline-warning)))
-  (defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'doom-modeline-urgent)))
+(doom-modeline-def-segment std::modeline::window-bar
+  (if (powerline-selected-window-active)
+      std::modeline::selected-window-xpm
+    std::modeline::unselected-window-xpm))
 
-  (doom-modeline-def-segment std::modeline::flycheck
-    (when (bound-and-true-p flycheck-mode)
-      (with-no-warnings
-        (let* ((count    (flycheck-count-errors flycheck-current-errors))
-               (warnings (alist-get 'warning count))
-               (errors   (alist-get 'error count)))
-          (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
-                  (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
+(defconst std::modeline::major-mode-local-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map [mode-line down-mouse-1]
+      `(menu-item ,(purecopy "Menu Bar") ignore
+                  :filter (lambda (_) (mouse-menu-major-mode-map))))
+    (define-key map [mode-line mouse-2] 'describe-mode)
+    (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
+    map))
 
-  (doom-modeline-def-modeline 'std
-                              '(""  std::modeline::length-glyph
-                                " " std::modeline::window-number
-                                " " std::modeline::desktop-number
-                                " " std::modeline::buffer-id
-                                " " std::modeline::major-mode
-                                " " std::modeline::flycheck))
+(doom-modeline-def-segment std::modeline::major-mode
+  (propertize (format-mode-line mode-name)
+              'mouse-face 'mode-line-highlight
+              'local-map std::modeline::major-mode-local-map
+              'face 'std::modeline::major-mode-face))
 
-  (doom-modeline-set-modeline 'std :global-default)
+(defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'doom-modeline-info)))
+(defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'doom-modeline-warning)))
+(defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'doom-modeline-urgent)))
+
+(doom-modeline-def-segment std::modeline::flycheck
+  (when (bound-and-true-p flycheck-mode)
+    (with-no-warnings
+      (let* ((count    (flycheck-count-errors flycheck-current-errors))
+             (warnings (alist-get 'warning count))
+             (errors   (alist-get 'error count)))
+        (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
+                (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
+
+(doom-modeline-def-modeline 'std
+  '(""  std::modeline::window-bar
+    " " std::modeline::window-number
+    " " std::modeline::desktop-number
+    " " std::modeline::buffer-id
+    " " std::modeline::major-mode
+    " " std::modeline::flycheck))
+
+(doom-modeline-set-modeline 'std :global-default)
 #+END_SRC
 
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-  (after! magit
+(after! magit
 
-    (doom-modeline-def-segment std::modeline::buffer-process
-      mode-line-process)
+  (doom-modeline-def-segment std::modeline::buffer-process
+    mode-line-process)
 
 
-    (doom-modeline-def-modeline 'magit
-      '(""  std::modeline::length-glyph
-        " " std::modeline::window-number
-        " " std::modeline::desktop-number
-        " " std::modeline::buffer-id
-        " " std::modeline::major-mode
-        " " std::modeline::buffer-process))
+  (doom-modeline-def-modeline 'magit
+    '(""  std::modeline::window-bar
+      " " std::modeline::window-number
+      " " std::modeline::desktop-number
+      " " std::modeline::buffer-id
+      " " std::modeline::major-mode
+      " " std::modeline::buffer-process))
 
-    (defun std::modeline::magit-modeline ()
-      (doom-modeline-set-modeline 'magit nil))
+  (defun std::modeline::magit-modeline ()
+    (doom-modeline-set-modeline 'magit nil))
 
-    (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
+  (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
 #+END_SRC
 
 ** Treemacs
 
 #+BEGIN_SRC emacs-lisp
-  (after! treemacs
+(after! treemacs
 
-    (doom-modeline-def-modeline 'treemacs
-      '(""  std::modeline::length-glyph
-        " " std::modeline::desktop-number
-        " " std::modeline::major-mode))
+  (doom-modeline-def-modeline 'treemacs
+    '(""  std::modeline::window-bar
+      " " std::modeline::desktop-number
+      " " std::modeline::major-mode))
 
-    (defun std::modeline::treemacs-modeline ()
-      (doom-modeline-set-modeline 'treemacs nil))
+  (defun std::modeline::treemacs-modeline ()
+    (doom-modeline-set-modeline 'treemacs nil))
 
-    (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
+  (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
 #+END_SRC
 
 ** Alignment for Pre-Existing Buffers
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (idle! 2 :no-repeat
     (dolist (buffer '("*Messages*" "*spacemacs*" "*Compile-Log*"))
       (when (get-buffer buffer)
@@ -2481,16 +2495,6 @@ A simple mode-line implementation based on doom.
           (setq-local mode-line-format (default-value 'mode-line-format))
           (powerline-set-selected-window)
           (powerline-reset)))))
-#+end_src
-
-** Disable git notifications
-
-Get rid of the timer to fetch github notifications, and do let me know if the timer isn't there in case the api changes.
-#+BEGIN_SRC emacs-lisp
-  (idle! 3 :no-repeat
-    (--if-let (--first (eq #'doom-modeline--github-fetch-notifications (timer--function it)) timer-list)
-        (cancel-timer it)
-      (notify! "[Modeline]" "Doom github timer not found.")))
 #+END_SRC
 
 * Fonts
