@@ -2672,16 +2672,15 @@ No more jumpy recenter
 
 On
 #+BEGIN_SRC emacs-lisp
-  (global-subword-mode t)
-  (desktop-save-mode t)
-  (eros-mode t)
+(global-subword-mode t)
+(eros-mode t)
 #+END_SRC
 
 Off
 #+BEGIN_SRC emacs-lisp
-  (ido-mode -1)
-  (global-hl-line-mode -1)
-  (blink-cursor-mode -1)
+(ido-mode -1)
+(global-hl-line-mode -1)
+(blink-cursor-mode -1)
 #+END_SRC
 
 *** Hooks
@@ -2793,9 +2792,9 @@ Simple title that won't cost performance.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq desktop-restore-eager           2
-        desktop-restore-forces-onscreen nil
-        desktop-lazy-idle-delay         10)
+(setq desktop-restore-eager           2
+      desktop-restore-forces-onscreen nil
+      desktop-lazy-idle-delay         10)
 #+END_SRC
 
 *** Restoration
@@ -2804,10 +2803,11 @@ so it needs to be done manually - just once on boot and not every time the
 config is reloaded at runtime
 
 #+BEGIN_SRC emacs-lisp
-  (when (and (bound-and-true-p desktop-save-mode)
-             (not (boundp 'std::boot-finished)))
-    (desktop-read)
-    (defvar std::boot-finished t))
+(when (and nil
+           (bound-and-true-p desktop-save-mode)
+           (not (boundp 'std::boot-finished)))
+  (desktop-read)
+  (defvar std::boot-finished t))
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
