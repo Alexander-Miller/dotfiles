@@ -2351,6 +2351,17 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
     (ht-set! highlight-numbers-modelist 'tridactylrc-mode 'do-not-use))
 #+END_SRC
 
+** Make
+*** Functions
+
+#+BEGIN_SRC emacs-lisp
+  (after! make-mode
+
+    (defun std::make::mode-hook ()
+      (setf company-backends '((comany-capf company-dabbrev-code :with company-yasnippet))))
+    (add-hook 'makefile-mode-hook #'std::make::mode-hook))
+#+END_SRC
+
 * Modeline
 
 A simple mode-line implementation based on doom.
