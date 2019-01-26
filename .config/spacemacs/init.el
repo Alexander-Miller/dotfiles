@@ -50,6 +50,7 @@
      eros
      flx
      flycheck-package
+     german-holidays
      helpful
      (i3wm-config-mode   :location (recipe :fetcher github
                                            :repo "Alexander-Miller/i3wm-config-mode"))

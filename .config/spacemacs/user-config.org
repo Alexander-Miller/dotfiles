@@ -702,12 +702,16 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 #+BEGIN_SRC emacs-lisp
   (after! org-agenda
 
+    (require 'german-holidays)
+
     (add-to-list 'org-agenda-files (concat org-directory "NT.org"))
 
     (when (string= "a-laptop" (system-name))
       (add-to-list 'org-agenda-files (concat org-directory "Privat.org")))
 
     (setq
+     calendar-holidays                                holiday-german-BW-holidays
+     org-agenda-include-diary                         nil
      org-agenda-skip-scheduled-if-deadline-is-shown   t
      org-agenda-skip-scheduled-if-done                nil
      org-agenda-skip-scheduled-delay-if-deadline      nil
