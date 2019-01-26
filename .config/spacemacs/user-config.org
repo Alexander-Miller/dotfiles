@@ -20,7 +20,7 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
   (defmacro after! (features &rest body)
     "Run BODY after loading FEATURE.
-  Same as `with-eval-after-load', but there is no need to quote FEATURES."
+    Same as `with-eval-after-load', but there is no need to quote FEATURES."
     (declare (debug (sexp body)) (indent 1))
     (setf features (if (listp features) (nreverse features) (list features)))
     (let* ((module (pop features))
@@ -108,33 +108,32 @@ Load used libraries to somewhat reduce the amount of warnings.
             (nreverse pairs)))))
 #+END_SRC
 
-** format!
+** f!
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro format! (str)
-    `(s-lex-format ,str))
+  (defmacro f! (str) `(s-lex-format ,str))
 #+END_SRC
 
 ** idle!
 
 #+BEGIN_SRC emacs-lisp
-(defmacro idle! (time repeat &rest body)
-  (declare (indent 2))
-  `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
+  (defmacro idle! (time repeat &rest body)
+    (declare (indent 2))
+    `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
 #+END_SRC
 
 ** notify!
 
 #+BEGIN_SRC emacs-lisp
-(cl-defmacro notify! (title &optional (txt "") &key icon)
-  (declare (indent 1))
-  (-let [icon-arg
-         (pcase icon
-           ((pred null) "--icon=emacs")
-           ((pred stringp) (format! "--icon=${icon}"))
-           ((guard (eq nil icon) "")))]
-    `(prog1 t
-       (shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil))))
+  (cl-defmacro notify! (title &optional (txt "") &key icon)
+    (declare (indent 1))
+    (-let [icon-arg
+           (pcase icon
+             ((pred null) "--icon=emacs")
+             ((pred stringp) (f! "--icon=${icon}"))
+             ((guard (eq nil icon) "")))]
+      `(prog1 t
+         (shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil))))
 #+END_SRC
 
 ** std::what-face
@@ -250,7 +249,7 @@ As shown in the spacemacs FAQ
            (name (completing-read "Package: " completions)))
       (switch-to-buffer (get-buffer-create "*Package Info*"))
       (erase-buffer)
-      (-> (format! "pacman -Qi ${name}")
+      (-> (f! "pacman -Qi ${name}")
           (shell-command-to-string)
           (s-trim)
           (insert))
@@ -282,7 +281,7 @@ modified.
             (progn
               (org-babel-tangle-file org-file el-file "emacs-lisp")
               (byte-recompile-file el-file t 0 nil))
-          (error (shell-command (format! "notify-send 'ERROR' '${e}'")))))))
+          (error (shell-command (f! "notify-send 'ERROR' '${e}'")))))))
 #+END_SRC
 
 Advice to insert reload before spacemacs' layer syncing.
@@ -349,13 +348,13 @@ Insert retangle before both quitting emacs and reloading the config.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-(setq evil-move-beyond-eol t
-      evil-want-fine-undo  t
-      evil-lisp-state-enter-lisp-state-on-command nil)
+  (setq evil-move-beyond-eol t
+        evil-want-fine-undo  t
+        evil-lisp-state-enter-lisp-state-on-command nil)
 
-(after! evil-escape
-  (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
-  (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
+  (after! evil-escape
+    (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
+    (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
 #+END_SRC
 
 ** Elisp
@@ -769,19 +768,23 @@ Also use ascii bullets for simple lists
 **** Source Blocks & Tangling
 
 #+BEGIN_SRC emacs-lisp
-(after! org
-  (setq org-edit-src-auto-save-idle-delay           0
-        org-edit-src-turn-on-auto-save              nil
-        org-src-fontify-natively                    t
-        org-src-preserve-indentation                t
-        org-src-ask-before-returning-to-edit-buffer nil
-        org-src-window-setup                        'other-window))
+  (after! org
+    (setq org-edit-src-auto-save-idle-delay           0
+          org-edit-src-turn-on-auto-save              nil
+          org-src-fontify-natively                    t
+          org-strc-preserve-indentation               nil
+          org-edit-src-content-indentation            2
+          org-src-ask-before-returning-to-edit-buffer nil
+          org-src-window-setup                        'other-window))
 #+END_SRC
 
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
   (after! org
+
+    (setf (nthcdr 4 org-emphasis-regexp-components) '(3))
+
     (setq
      calendar-date-style                     'european
      org-tags-column                         85
@@ -1233,47 +1236,50 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 ~std::flycheck::next-error~
 #+BEGIN_SRC emacs-lisp
-  (defun std::flycheck::next-error ()
-    "Move to the next flycheck error.
+  (after! flycheck
+    (defun std::flycheck::next-error ()
+      "Move to the next flycheck error.
   Start searching from the top if point is part the last error."
-    (interactive)
-    (-let [it (flycheck-next-error-pos 1)]
-      (if (and it
-               (not (and (equal (point) (1- (point-min)))
-                         (equal (1- (point-min)) it))))
-          (goto-char it)
-        (--if-let (save-excursion
-                    (goto-char (point-min))
-                    (flycheck-next-error-pos 1))
+      (interactive)
+      (-let [it (flycheck-next-error-pos 1)]
+        (if (and it
+                 (not (and (equal (point) (1- (point-min)))
+                           (equal (1- (point-min)) it))))
             (goto-char it)
-          (message "No more Flycheck errors.")))))
+          (--if-let (save-excursion
+                      (goto-char (point-min))
+                      (flycheck-next-error-pos 1))
+              (goto-char it)
+            (message "No more Flycheck errors."))))))
 #+END_SRC
 
 ~std::flycheck::previous-error~
 #+BEGIN_SRC emacs-lisp
-  (defun std::flycheck::previous-error ()
-    "Move to the previous flycheck error.
+  (after! flycheck
+    (defun std::flycheck::previous-error ()
+      "Move to the previous flycheck error.
   Start searching from the bottom if point is part the first error."
-    (interactive)
-    (-let [it (flycheck-next-error-pos -1)]
-      (if (and it
-               (not (and (equal (point) (point-min))
-                         (equal (point-min) it))))
-          (goto-char it)
-        (--if-let (save-excursion
-                    (goto-char (point-max))
-                    (flycheck-next-error-pos -1))
+      (interactive)
+      (-let [it (flycheck-next-error-pos -1)]
+        (if (and it
+                 (not (and (equal (point) (point-min))
+                           (equal (point-min) it))))
             (goto-char it)
-          (message "No more Flycheck errors.")))))
+          (--if-let (save-excursion
+                      (goto-char (point-max))
+                      (flycheck-next-error-pos -1))
+              (goto-char it)
+            (message "No more Flycheck errors."))))))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq
-   flycheck-check-syntax-automatically '(mode-enabled save idle-change)
-   flycheck-idle-change-delay          10
-   flycheck-pos-tip-timeout            999)
+  (after! flycheck
+    (setq
+     flycheck-check-syntax-automatically '(mode-enabled save idle-change)
+     flycheck-idle-change-delay          10
+     flycheck-pos-tip-timeout            999))
 #+END_SRC
 
 *** Keybinds
@@ -1401,60 +1407,60 @@ A dired evil state to get rid of the cursor and to have a single keymap
 **** Dired Internal
 
 #+BEGIN_SRC emacs-lisp
-(after! dired+
+  (after! dired+
 
-  (defhydra std::dired-goto-hydra (:exit t :hint nil)
-    ("h" (lambda () (interactive) (dired "~"))           "$HOME")
-    ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
-    ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
-    ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
-    ("o" (lambda () (interactive) (dired "~/Dropbox"))   "Dropbox")
-    ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
-    ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
-    ("q" nil "cancel"))
+    (defhydra std::dired-goto-hydra (:exit t :hint nil)
+      ("h" (lambda () (interactive) (dired "~"))           "$HOME")
+      ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
+      ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
+      ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
+      ("o" (lambda () (interactive) (dired "~/Dropbox"))   "Dropbox")
+      ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
+      ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
+      ("q" nil "cancel"))
 
-  (defun std::dired::quit ()
-    (interactive)
-    (let ((left) (right))
-      (winum-select-window-1)
-      (setf left default-directory)
-      (winum-select-window-2)
-      (setf right default-directory
-            std::dired::saved-positions (list left right))
-      (unless (f-exists? std::dired::cache-file)
-        (f-touch std::dired::cache-file))
-      (f-write (format! "${left}\n${right}") 'utf-8 std::dired::cache-file))
-    (set-window-configuration std::dired::saved-window-config)
-    (--each (buffer-list)
-      (when (eq 'dired-mode (buffer-local-value 'major-mode it))
-        (kill-buffer it))))
+    (defun std::dired::quit ()
+      (interactive)
+      (let ((left) (right))
+        (winum-select-window-1)
+        (setf left default-directory)
+        (winum-select-window-2)
+        (setf right default-directory
+              std::dired::saved-positions (list left right))
+        (unless (f-exists? std::dired::cache-file)
+          (f-touch std::dired::cache-file))
+        (f-write (f! "${left}\n${right}") 'utf-8 std::dired::cache-file))
+      (set-window-configuration std::dired::saved-window-config)
+      (--each (buffer-list)
+        (when (eq 'dired-mode (buffer-local-value 'major-mode it))
+          (kill-buffer it))))
 
-  (defun std::dired::mark-up ()
-    (interactive)
-    (call-interactively #'dired-mark)
-    (previous-line 2))
+    (defun std::dired::mark-up ()
+      (interactive)
+      (call-interactively #'dired-mark)
+      (previous-line 2))
 
-  (defun std::dired::open-externally ()
-    (interactive)
-    (call-process-shell-command
-     (format "xdg-open %s &"
-             (shell-quote-argument (dired-get-filename)))))
+    (defun std::dired::open-externally ()
+      (interactive)
+      (call-process-shell-command
+       (format "xdg-open %s &"
+               (shell-quote-argument (dired-get-filename)))))
 
-  (defun std::dired::filesize ()
-    (interactive)
-    (-if-let (file (dired-get-filename nil :no-error))
-        (let* ((cmd (if (f-directory? file) "du -sh \"%s\"" "ls -sh \"%s\""))
-               (output (->> file
-                            (format cmd)
-                            ;; (shell-quote-argument)
-                            (shell-command-to-string)
-                            (s-trim))))
-          (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
-            (message
-             "%s : %s"
-             (propertize file 'face 'font-lock-keyword-face)
-             (propertize size 'face 'font-lock-string-face))))
-      (message (propertize "---" 'face 'font-lock-string-face)))))
+    (defun std::dired::filesize ()
+      (interactive)
+      (-if-let (file (dired-get-filename nil :no-error))
+          (let* ((cmd (if (f-directory? file) "du -sh \"%s\"" "ls -sh \"%s\""))
+                 (output (->> file
+                              (format cmd)
+                              ;; (shell-quote-argument)
+                              (shell-command-to-string)
+                              (s-trim))))
+            (-let [(size file) (s-split-up-to (rx (1+ whitespace)) output 1)]
+              (message
+               "%s : %s"
+               (propertize file 'face 'font-lock-keyword-face)
+               (propertize size 'face 'font-lock-string-face))))
+        (message (propertize "---" 'face 'font-lock-string-face)))))
 #+END_SRC
 
 **** Wdired
@@ -1632,13 +1638,13 @@ The only deviation from the defaults
 *** Variables
 
 #+BEGIN_SRC emacs-lisp
-(defvar std::ledger::save-window-config nil)
-(defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ alnum)) " +++" eol))
-(defconst std::ledger::dir (expand-file-name (format! "${*ORGDIR*}/Ledger")))
-(defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
-                                (4 . "April")    (5 . "Mai")       (6 . "Juni")
-                                (7 . "Juli")     (8 . "August")    (9 . "September")
-                                (10 . "Oktober") (11 . "November") (12 . "Dezemper")))
+  (defvar std::ledger::save-window-config nil)
+  (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ alnum)) " +++" eol))
+  (defconst std::ledger::dir (expand-file-name (f! "${*ORGDIR*}/Ledger")))
+  (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
+                                  (4 . "April")    (5 . "Mai")       (6 . "Juni")
+                                  (7 . "Juli")     (8 . "August")    (9 . "September")
+                                  (10 . "Oktober") (11 . "November") (12 . "Dezemper")))
 #+END_SRC
 
 *** Functions
@@ -1646,177 +1652,177 @@ The only deviation from the defaults
 
 ~std::ledger~
 #+BEGIN_SRC emacs-lisp
-(defun std::ledger ()
-  (interactive)
-  (require 'calendar)
-  (-let [pcmds (format! "${*ORGDIR*}/Ledger/ledger.el")]
-    (when (file-exists-p pcmds)
-      (load-file pcmds)))
-  (let* ((date (calendar-current-date))
-         (year (cl-third (calendar-current-date)))
-         (main-file (format! "${std::ledger::dir}/Ledger.ledger"))
-         (year-file (format! "${std::ledger::dir}/${year}.ledger")))
-    (setf std::ledger::save-window-config (current-window-configuration))
-    (delete-other-windows)
-    (find-file year-file)
-    (split-window-right)
-    (save-selected-window
-      (-let [full-width (* 2 (window-width))]
-        (shrink-window-horizontally (- (/ full-width 7))))
-      (other-window 1)
-      (find-file main-file))
-    (std::ledger::goto-current-month)))
+  (defun std::ledger ()
+    (interactive)
+    (require 'calendar)
+    (-let [pcmds (f! "${*ORGDIR*}/Ledger/ledger.el")]
+      (when (file-exists-p pcmds)
+        (load-file pcmds)))
+    (let* ((date (calendar-current-date))
+           (year (cl-third (calendar-current-date)))
+           (main-file (f! "${std::ledger::dir}/Ledger.ledger"))
+           (year-file (f! "${std::ledger::dir}/${year}.ledger")))
+      (setf std::ledger::save-window-config (current-window-configuration))
+      (delete-other-windows)
+      (find-file year-file)
+      (split-window-right)
+      (save-selected-window
+        (-let [full-width (* 2 (window-width))]
+          (shrink-window-horizontally (- (/ full-width 7))))
+        (other-window 1)
+        (find-file main-file))
+      (std::ledger::goto-current-month)))
 #+END_SRC
 
 ~std::ledger::mode-hook~
 #+BEGIN_SRC emacs-lisp
-(defun std::ledger::mode-hook ()
-  (outline-minor-mode)
-  (smartparens-mode)
-  (evil-ledger-mode)
-  (set-local!
-   ledger-accounts-file     (format! "${std::ledger::dir}/Ledger.ledger")
-   outline-regexp           (rx bol "+++ ")
-   imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
+  (defun std::ledger::mode-hook ()
+    (outline-minor-mode)
+    (smartparens-mode)
+    (evil-ledger-mode)
+    (set-local!
+     ledger-accounts-file     (f! "${std::ledger::dir}/Ledger.ledger")
+     outline-regexp           (rx bol "+++ ")
+     imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
 #+END_SRC
 
 **** Internal
 
 ~std::ledger::save~
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
-  (defun std::ledger::save ()
-    "First `ledger-mode-clean-buffer', then `save-buffer'."
-    (interactive)
-    (-let [p (point)]
-      (when (buffer-modified-p)
-        (unwind-protect (ledger-mode-clean-buffer)
-          (save-buffer)))
-      (goto-char p))))
+  (after! ledger-mode
+    (defun std::ledger::save ()
+      "First `ledger-mode-clean-buffer', then `save-buffer'."
+      (interactive)
+      (-let [p (point)]
+        (when (buffer-modified-p)
+          (unwind-protect (ledger-mode-clean-buffer)
+            (save-buffer)))
+        (goto-char p))))
 #+END_SRC
 
 ~std::ledger::finish~
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
-  (defun std::ledger::finish ()
-    (interactive)
-    (cl-loop
-     for buf in (buffer-list)
-     if (eq 'ledger-mode (buffer-local-value 'major-mode buf)) do
-     (with-current-buffer buf
-       (when (buffer-file-name)
-         (save-buffer)
-         (kill-buffer))))
-    (when std::ledger::save-window-config
-      (set-window-configuration std::ledger::save-window-config))))
+  (after! ledger-mode
+    (defun std::ledger::finish ()
+      (interactive)
+      (cl-loop
+       for buf in (buffer-list)
+       if (eq 'ledger-mode (buffer-local-value 'major-mode buf)) do
+       (with-current-buffer buf
+         (when (buffer-file-name)
+           (save-buffer)
+           (kill-buffer))))
+      (when std::ledger::save-window-config
+        (set-window-configuration std::ledger::save-window-config))))
 #+END_SRC
 
 ~std::ledger::magic-tab~
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
-  (defun std::ledger::magic-tab ()
-    (interactive)
-    (if (s-matches? outline-regexp (thing-at-point 'line t))
-        (outline-toggle-children)
-      (ledger-magic-tab))))
+  (after! ledger-mode
+    (defun std::ledger::magic-tab ()
+      (interactive)
+      (if (s-matches? outline-regexp (thing-at-point 'line t))
+          (outline-toggle-children)
+        (ledger-magic-tab))))
 #+END_SRC
 
 ~std::ledger::goto-current-month~
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
-  (defun std::ledger::goto-current-month ()
-    (interactive)
-    (-let [month (-> (calendar-current-date)
-                     (car)
-                     (alist-get std::ledger::months))]
-      (save-match-data
-        (-let [start (point)]
-          (goto-char 0)
-          (if (search-forward (format! "+++ ${month}") nil :no-error)
-              (forward-line 1)
-            (message "'%s' not found." month)
-            (goto-char start)))))))
+  (after! ledger-mode
+    (defun std::ledger::goto-current-month ()
+      (interactive)
+      (-let [month (-> (calendar-current-date)
+                       (car)
+                       (alist-get std::ledger::months))]
+        (save-match-data
+          (-let [start (point)]
+            (goto-char 0)
+            (if (search-forward (f! "+++ ${month}") nil :no-error)
+                (forward-line 1)
+              (message "'%s' not found." month)
+              (goto-char start)))))))
 #+END_SRC
 
 ~std::ledger::forward~ & ~std::ledger::backward~
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
-  (defun std::ledger::forward ()
-    (interactive)
-    (if (s-matches? std::ledger::month-separator-pattern
-                    (thing-at-point 'line))
-        (save-match-data
-          (end-of-line)
-          (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
-      (call-interactively #'evil-ledger-forward-xact)))
+  (after! ledger-mode
+    (defun std::ledger::forward ()
+      (interactive)
+      (if (s-matches? std::ledger::month-separator-pattern
+                      (thing-at-point 'line))
+          (save-match-data
+            (end-of-line)
+            (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (call-interactively #'evil-ledger-forward-xact)))
 
-  (defun std::ledger::backward ()
-    (interactive)
-    (if (s-matches? std::ledger::month-separator-pattern
-                    (thing-at-point 'line))
-        (save-match-data
-          (beginning-of-line)
-          (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
-      (call-interactively #'evil-ledger-backward-xact))))
+    (defun std::ledger::backward ()
+      (interactive)
+      (if (s-matches? std::ledger::month-separator-pattern
+                      (thing-at-point 'line))
+          (save-match-data
+            (beginning-of-line)
+            (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (call-interactively #'evil-ledger-backward-xact))))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-(leader-keybind! "aL" #'std::ledger)
+  (leader-keybind! "aL" #'std::ledger)
 
-(after! ledger-mode
+  (after! ledger-mode
 
-  (keybind! ledger-mode-map
-    "M-j"   #'std::ledger::forward
-    "M-k"   #'std::ledger::backward
-    "<tab>" #'std::ledger::magic-tab
-    "M-q"   #'ledger-post-align-dwim
-    [remap save-buffer] #'std::ledger::save)
+    (keybind! ledger-mode-map
+      "M-j"   #'std::ledger::forward
+      "M-k"   #'std::ledger::backward
+      "<tab>" #'std::ledger::magic-tab
+      "M-q"   #'ledger-post-align-dwim
+      [remap save-buffer] #'std::ledger::save)
 
-  (mode-leader-keybind! 'ledger-mode
-    "C-w" #'std::ledger::finish
-    "c"   #'std::ledger::goto-current-month
-    "L"   #'std::ledger::parse-csv
-    "s"   #'ledger-sort-buffer
-    "S"   #'ledger-sort-region
-    "o"   #'ledger-occur-mode
-    "y"   #'ledger-copy-transaction-at-point
-    "d"   #'ledger-delete-current-transaction
-    "r"   #'ledger-report
-    "R"   #'ledger-reconcile))
+    (mode-leader-keybind! 'ledger-mode
+      "C-w" #'std::ledger::finish
+      "c"   #'std::ledger::goto-current-month
+      "L"   #'std::ledger::parse-csv
+      "s"   #'ledger-sort-buffer
+      "S"   #'ledger-sort-region
+      "o"   #'ledger-occur-mode
+      "y"   #'ledger-copy-transaction-at-point
+      "d"   #'ledger-delete-current-transaction
+      "r"   #'ledger-report
+      "R"   #'ledger-reconcile))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-(after! ledger-mode
+  (after! ledger-mode
 
-  (defface std::ledger::month-face
-    '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a"))))
-    ""
-    :group 'std)
+    (defface std::ledger::month-face
+      '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a"))))
+      ""
+      :group 'std)
 
-  (font-lock-add-keywords
-   'ledger-mode
-   `((,(rx (group-n
-            1
-            bol
-            "+++ "
-            (1+ alnum)
-            " +++"
-            "\n"))
-      1 'std::ledger::month-face t))
-   'prepend)
+    (font-lock-add-keywords
+     'ledger-mode
+     `((,(rx (group-n
+              1
+              bol
+              "+++ "
+              (1+ alnum)
+              " +++"
+              "\n"))
+        1 'std::ledger::month-face t))
+     'prepend)
 
-  (setq ledger-default-date-format           ledger-iso-date-format
-        ledger-mode-should-check-version     nil
-        ledger-post-amount-alignment-column  62
-        ledger-post-account-alignment-column 2
-        ledger-clear-whole-transactions      t
-        company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
+    (setq ledger-default-date-format           ledger-iso-date-format
+          ledger-mode-should-check-version     nil
+          ledger-post-amount-alignment-column  62
+          ledger-post-account-alignment-column 2
+          ledger-clear-whole-transactions      t
+          company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
 
-(add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
+  (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 #+END_SRC
 
 ** Purpose
@@ -1895,67 +1901,67 @@ The only deviation from the defaults
 
 ~std::pop-to-messages-buffer~
 #+BEGIN_SRC emacs-lisp
-(defun std::pop-to-messages-buffer (&optional arg)
-  "Same as the spacemacs builtin, but uses `pop-to-buffer'.
-  This ensures that shackle's (or purpose's) rules apply to the new window."
-  (interactive "P")
-  (-let [buf (messages-buffer)]
-    (--if-let (get-buffer-window buf)
-        (delete-window it)
-      (with-current-buffer (messages-buffer)
-        (goto-char (point-max))
-        (if arg
-            (switch-to-buffer-other-window (current-buffer))
-          (pop-to-buffer (current-buffer)))))))
+  (defun std::pop-to-messages-buffer (&optional arg)
+    "Same as the spacemacs builtin, but uses `pop-to-buffer'.
+    This ensures that shackle's (or purpose's) rules apply to the new window."
+    (interactive "P")
+    (-let [buf (messages-buffer)]
+      (--if-let (get-buffer-window buf)
+          (delete-window it)
+        (with-current-buffer (messages-buffer)
+          (goto-char (point-max))
+          (if arg
+              (switch-to-buffer-other-window (current-buffer))
+            (pop-to-buffer (current-buffer)))))))
 
-(leader-keybind! "bm" #'std::pop-to-messages-buffer)
+  (leader-keybind! "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
 ** Email
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-(after! mu4e
-  (defun std::mail::find-thunderbird-imap-dir ()
-    (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
-      (when (f-exists? dot-thunderbird)
-        (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
-                                    (directory-files dot-thunderbird :full)))
-          (f-join dot-thunderbird maildir "ImapMail"))))))
+  (after! mu4e
+    (defun std::mail::find-thunderbird-imap-dir ()
+      (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
+        (when (f-exists? dot-thunderbird)
+          (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
+                                      (directory-files dot-thunderbird :full)))
+            (f-join dot-thunderbird maildir "ImapMail"))))))
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-(after! mu4e
+  (after! mu4e
 
-  (global-mu4e-conversation-mode)
+    (global-mu4e-conversation-mode)
 
-  (setq mu4e-confirm-quit nil
-        mu4e-use-fancy-chars nil
-        mu4e-maildir (std::mail::find-thunderbird-imap-dir)
-        mu4e-headers-fields '((:human-date . 10)   (:flags . 6)
-                              (:mailing-list . 10) (:from . 22)
-                              (:subject . 85)      (:tags . 10)))
+    (setq mu4e-confirm-quit nil
+          mu4e-use-fancy-chars nil
+          mu4e-maildir (std::mail::find-thunderbird-imap-dir)
+          mu4e-headers-fields '((:human-date . 10)   (:flags . 6)
+                                (:mailing-list . 10) (:from . 22)
+                                (:subject . 85)      (:tags . 10)))
 
-  (add-to-list 'mu4e-bookmarks
-               (make-mu4e-bookmark
-                :name "Github Messages"
-                :query "github"
-                :key ?g)))
+    (add-to-list 'mu4e-bookmarks
+                 (make-mu4e-bookmark
+                  :name "Github Messages"
+                  :query "github"
+                  :key ?g)))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-(after! mu4e
+  (after! mu4e
 
-  (keybind! mu4e-main-mode-map
-    "u" #'mu4e-update-index)
+    (keybind! mu4e-main-mode-map
+      "u" #'mu4e-update-index)
 
-  (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
-    "J" #'std::quick-forward
-    "K" #'std::quick-backward))
+    (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
+      "J" #'std::quick-forward
+      "K" #'std::quick-backward))
 #+END_SRC
 
 ** Colors
@@ -1973,11 +1979,11 @@ The only deviation from the defaults
 
 ~std::elfeed::mode-hook~
 #+BEGIN_SRC emacs-lisp
-(after! elfeed
-  (defun std::elfeed::mode-hook ()
-    (idle! 0.1 :no-repeat
-      (setq-local cursor-type '(bar . 0))))
-  (add-hook 'elfeed-search-mode-hook #'std::elfeed::mode-hook))
+  (after! elfeed
+    (defun std::elfeed::mode-hook ()
+      (idle! 0.1 :no-repeat
+        (setq-local cursor-type '(bar . 0))))
+    (add-hook 'elfeed-search-mode-hook #'std::elfeed::mode-hook))
 #+END_SRC
 
 ~std::elfeed::play-with-mpv~
@@ -1991,7 +1997,7 @@ The only deviation from the defaults
         (-let [entry (if (eq major-mode 'elfeed-show-mode) elfeed-show-entry (elfeed-search-selected :single))]
           (if (s-matches? (rx "https://www.youtube.com/watch" (1+ any)) (elfeed-entry-link entry))
               (let* ((quality (completing-read "Max height resolution (0 for unlimited): " '("0" "480" "720" "1080")))
-                     (arg (if (= 0 (string-to-number quality)) "" (format! "--ytdl-format=[height<=?${quality}]"))))
+                     (arg (if (= 0 (string-to-number quality)) "" (f! "--ytdl-format=[height<=?${quality}]"))))
                 (message "Opening %s with height ≤ %s with mpv..."
                          (propertize (elfeed-entry-link entry) 'face 'font-lock-string-face)
                          (propertize quality 'face 'font-lock-keyword-face))
@@ -2017,7 +2023,7 @@ The only deviation from the defaults
 
 #+BEGIN_SRC emacs-lisp
   (after! elfeed
-    (setf elfeed-db-directory  (format! "${*ORGDIR*}/Elfeed-DB")
+    (setf elfeed-db-directory  (f! "${*ORGDIR*}/Elfeed-DB")
           elfeed-search-filter "@6-months-ago -ignore"
           elfeed-search-face-alist
           '((unread   elfeed-search-unread-title-face)
@@ -2319,9 +2325,9 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-(after! avy
-  (setf avy-all-windows      nil
-        avy-case-fold-search nil))
+  (after! avy
+    (setf avy-all-windows      nil
+          avy-case-fold-search nil))
 #+END_SRC
 
 ** Framey
@@ -2348,141 +2354,141 @@ A simple mode-line implementation based on doom.
 ** Default
 
 #+BEGIN_SRC emacs-lisp
-(require 'powerline)
-(require 'inline)
-(with-no-warnings
-  (require 'doom-modeline))
+  (require 'powerline)
+  (require 'inline)
+  (with-no-warnings
+    (require 'doom-modeline))
 
-(declare-function winum-get-number "winum")
-(declare-function eyebrowse--get "eyebrowse")
+  (declare-function winum-get-number "winum")
+  (declare-function eyebrowse--get "eyebrowse")
 
-(defface std::modeline::selected-separator-face
-  '((t (:background "#1E90FF")))
-  ""
-  :group 'std)
+  (defface std::modeline::selected-separator-face
+    '((t (:background "#1E90FF")))
+    ""
+    :group 'std)
 
-(defface std::modeline::not-selected-separator-face
-  '((t (:background "#444444")))
-  ""
-  :group 'std)
+  (defface std::modeline::not-selected-separator-face
+    '((t (:background "#444444")))
+    ""
+    :group 'std)
 
-(defconst std::modeline::selected-window-xpm
-  (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30))
+  (defconst std::modeline::selected-window-xpm
+    (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30))
 
-(defconst std::modeline::unselected-window-xpm
-  (doom-modeline--make-xpm 'std::modeline::not-selected-separator-face 5 30))
+  (defconst std::modeline::unselected-window-xpm
+    (doom-modeline--make-xpm 'std::modeline::not-selected-separator-face 5 30))
 
-(defface std::modeline::num-face
-  '((t (:foreground "#997799" :bold t)))
-  ""
-  :group 'std::modeline)
+  (defface std::modeline::num-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
 
-(defface std::modeline::major-mode-face
-  '((t (:foreground "#997799" :bold t)))
-  ""
-  :group 'std::modeline)
+  (defface std::modeline::major-mode-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
 
-(define-inline std::num-to-unicode (n)
-  (inline-letevals (n)
-    (inline-quote
-     (pcase ,n
-       (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
-       (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
+  (define-inline std::num-to-unicode (n)
+    (inline-letevals (n)
+      (inline-quote
+       (pcase ,n
+         (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
+         (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
 
-(doom-modeline-def-segment std::modeline::window-number
-  (--when-let (winum-get-number)
-    (propertize (std::num-to-unicode it)
-                'face 'std::modeline::num-face)))
+  (doom-modeline-def-segment std::modeline::window-number
+    (--when-let (winum-get-number)
+      (propertize (std::num-to-unicode it)
+                  'face 'std::modeline::num-face)))
 
-(doom-modeline-def-segment std::modeline::desktop-number
-  (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
-              'face 'std::modeline::num-face))
+  (doom-modeline-def-segment std::modeline::desktop-number
+    (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
+                'face 'std::modeline::num-face))
 
-(doom-modeline-def-segment std::modeline::buffer-id
-  (propertize (buffer-name)
-              'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+  (doom-modeline-def-segment std::modeline::buffer-id
+    (propertize (buffer-name)
+                'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
 
-(doom-modeline-def-segment std::modeline::window-bar
-  (if (powerline-selected-window-active)
-      std::modeline::selected-window-xpm
-    std::modeline::unselected-window-xpm))
+  (doom-modeline-def-segment std::modeline::window-bar
+    (if (powerline-selected-window-active)
+        std::modeline::selected-window-xpm
+      std::modeline::unselected-window-xpm))
 
-(defconst std::modeline::major-mode-local-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map [mode-line down-mouse-1]
-      `(menu-item ,(purecopy "Menu Bar") ignore
-                  :filter (lambda (_) (mouse-menu-major-mode-map))))
-    (define-key map [mode-line mouse-2] 'describe-mode)
-    (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
-    map))
+  (defconst std::modeline::major-mode-local-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map [mode-line down-mouse-1]
+        `(menu-item ,(purecopy "Menu Bar") ignore
+                    :filter (lambda (_) (mouse-menu-major-mode-map))))
+      (define-key map [mode-line mouse-2] 'describe-mode)
+      (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
+      map))
 
-(doom-modeline-def-segment std::modeline::major-mode
-  (propertize (format-mode-line mode-name)
-              'mouse-face 'mode-line-highlight
-              'local-map std::modeline::major-mode-local-map
-              'face 'std::modeline::major-mode-face))
+  (doom-modeline-def-segment std::modeline::major-mode
+    (propertize (format-mode-line mode-name)
+                'mouse-face 'mode-line-highlight
+                'local-map std::modeline::major-mode-local-map
+                'face 'std::modeline::major-mode-face))
 
-(defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'doom-modeline-info)))
-(defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'doom-modeline-warning)))
-(defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'doom-modeline-urgent)))
+  (defconst std::modeline::flycheck-bullet-info  (concat (propertize " •%s" 'face 'doom-modeline-info)))
+  (defconst std::modeline::flycheck-bullet-warn  (concat (propertize " •%s" 'face 'doom-modeline-warning)))
+  (defconst std::modeline::flycheck-bullet-error (concat (propertize " •%s" 'face 'doom-modeline-urgent)))
 
-(doom-modeline-def-segment std::modeline::flycheck
-  (when (bound-and-true-p flycheck-mode)
-    (with-no-warnings
-      (let* ((count    (flycheck-count-errors flycheck-current-errors))
-             (warnings (alist-get 'warning count))
-             (errors   (alist-get 'error count)))
-        (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
-                (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
+  (doom-modeline-def-segment std::modeline::flycheck
+    (when (bound-and-true-p flycheck-mode)
+      (with-no-warnings
+        (let* ((count    (flycheck-count-errors flycheck-current-errors))
+               (warnings (alist-get 'warning count))
+               (errors   (alist-get 'error count)))
+          (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
+                  (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
 
-(doom-modeline-def-modeline 'std
-  '(""  std::modeline::window-bar
-    " " std::modeline::window-number
-    " " std::modeline::desktop-number
-    " " std::modeline::buffer-id
-    " " std::modeline::major-mode
-    " " std::modeline::flycheck))
-
-(doom-modeline-set-modeline 'std :global-default)
-#+END_SRC
-
-** Magit
-
-#+BEGIN_SRC emacs-lisp
-(after! magit
-
-  (doom-modeline-def-segment std::modeline::buffer-process
-    mode-line-process)
-
-
-  (doom-modeline-def-modeline 'magit
+  (doom-modeline-def-modeline 'std
     '(""  std::modeline::window-bar
       " " std::modeline::window-number
       " " std::modeline::desktop-number
       " " std::modeline::buffer-id
       " " std::modeline::major-mode
-      " " std::modeline::buffer-process))
+      " " std::modeline::flycheck))
 
-  (defun std::modeline::magit-modeline ()
-    (doom-modeline-set-modeline 'magit nil))
+  (doom-modeline-set-modeline 'std :global-default)
+#+END_SRC
 
-  (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
+** Magit
+
+#+BEGIN_SRC emacs-lisp
+  (after! magit
+
+    (doom-modeline-def-segment std::modeline::buffer-process
+      mode-line-process)
+
+
+    (doom-modeline-def-modeline 'magit
+      '(""  std::modeline::window-bar
+        " " std::modeline::window-number
+        " " std::modeline::desktop-number
+        " " std::modeline::buffer-id
+        " " std::modeline::major-mode
+        " " std::modeline::buffer-process))
+
+    (defun std::modeline::magit-modeline ()
+      (doom-modeline-set-modeline 'magit nil))
+
+    (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
 #+END_SRC
 
 ** Treemacs
 
 #+BEGIN_SRC emacs-lisp
-(after! treemacs
+  (after! treemacs
 
-  (doom-modeline-def-modeline 'treemacs
-    '(""  std::modeline::window-bar
-      " " std::modeline::desktop-number
-      " " std::modeline::major-mode))
+    (doom-modeline-def-modeline 'treemy
+      '(""  std::modeline::window-bar
+        " " std::modeline::desktop-number
+        " " std::modeline::major-mode))
 
-  (defun std::modeline::treemacs-modeline ()
-    (doom-modeline-set-modeline 'treemacs nil))
+    (defun std::modeline::treemacs-modeline ()
+      (doom-modeline-set-modeline 'treemy nil))
 
-  (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
+    (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
 #+END_SRC
 
 ** Alignment for Pre-Existing Buffers
@@ -2639,14 +2645,14 @@ Newline in normal state
 
 Fill region
 #+BEGIN_SRC emacs-lisp
-(keybind! global-map
-  "C-q" #'fill-region)
+  (keybind! global-map
+    "C-q" #'fill-region)
 #+END_SRC
 
 More accessible avy
 #+BEGIN_SRC emacs-lisp
-(evil-keybind! (normal motion visual) global-map
-  "ß" #'evil-avy-goto-char-2)
+  (evil-keybind! (normal motion visual) global-map
+    "ß" #'evil-avy-goto-char-2)
 #+END_SRC
 
 ** Line numbers
@@ -2661,10 +2667,10 @@ More accessible avy
 
 No more jumpy recenter
 #+BEGIN_SRC emacs-lisp
-(setq
-  scroll-conservatively           20
-  scroll-margin                   10
-  scroll-preserve-screen-position t)
+  (setq
+    scroll-conservatively           20
+    scroll-margin                   10
+    scroll-preserve-screen-position t)
 #+END_SRC
 
 ** Minor modes
@@ -2672,15 +2678,15 @@ No more jumpy recenter
 
 On
 #+BEGIN_SRC emacs-lisp
-(global-subword-mode t)
-(eros-mode t)
+  (global-subword-mode t)
+  (eros-mode t)
 #+END_SRC
 
 Off
 #+BEGIN_SRC emacs-lisp
-(ido-mode -1)
-(global-hl-line-mode -1)
-(blink-cursor-mode -1)
+  (ido-mode -1)
+  (global-hl-line-mode -1)
+  (blink-cursor-mode -1)
 #+END_SRC
 
 *** Hooks
@@ -2792,9 +2798,9 @@ Simple title that won't cost performance.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-(setq desktop-restore-eager           2
-      desktop-restore-forces-onscreen nil
-      desktop-lazy-idle-delay         10)
+  (setq desktop-restore-eager           2
+        desktop-restore-forces-onscreen nil
+        desktop-lazy-idle-delay         10)
 #+END_SRC
 
 *** Restoration
@@ -2803,11 +2809,11 @@ so it needs to be done manually - just once on boot and not every time the
 config is reloaded at runtime
 
 #+BEGIN_SRC emacs-lisp
-(when (and nil
-           (bound-and-true-p desktop-save-mode)
-           (not (boundp 'std::boot-finished)))
-  (desktop-read)
-  (defvar std::boot-finished t))
+  (when (and nil
+             (bound-and-true-p desktop-save-mode)
+             (not (boundp 'std::boot-finished)))
+    (desktop-read)
+    (defvar std::boot-finished t))
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.
