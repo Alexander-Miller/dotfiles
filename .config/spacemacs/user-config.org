@@ -1419,6 +1419,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
       ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
       ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
       ("o" (lambda () (interactive) (dired "~/Dropbox"))   "Dropbox")
+      ("p" (lambda () (interactive) (dired "~/Pictures"))  "Pictures")
       ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
       ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
       ("q" nil "cancel"))
@@ -2358,7 +2359,7 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
   (after! make-mode
 
     (defun std::make::mode-hook ()
-      (setf company-backends '((comany-capf company-dabbrev-code :with company-yasnippet))))
+      (setf company-backends '((company-capf company-dabbrev-code :with company-yasnippet))))
     (add-hook 'makefile-mode-hook #'std::make::mode-hook))
 #+END_SRC
 
@@ -2719,11 +2720,8 @@ Off
    prettify-symbols-alist
    `(("lambda" . "λ")
      ("!="     . "≠")
-     ("=="     . "⩵")
-     ("<="     . "⇚")
-     ("=>"     . "⇛")
-     ("<-"     . "⬅")
-     ("->"     . "⮕")))
+     ("<-"     . "←")
+     ("->"     . "→")))
   (add-hook 'prog-mode-hook #'prettify-symbols-mode)
 #+END_SRC
 
