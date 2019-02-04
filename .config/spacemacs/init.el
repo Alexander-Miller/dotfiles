@@ -70,7 +70,16 @@
      writeroom-mode)
    dotspacemacs-delete-orphan-packages t
    dotspacemacs-frozen-packages '()
-   dotspacemacs-excluded-packages '(evil-org popwin evil-unimpaired vi-tilde-fringe neotree)
+   dotspacemacs-excluded-packages
+   '(evil-org
+     popwin
+     evil-unimpaired
+     vi-tilde-fringe
+     treemacs
+     treemacs-evil
+     treemacs-projectile
+     treemacs-magit
+     neotree)
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
