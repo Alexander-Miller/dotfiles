@@ -2617,10 +2617,12 @@ Splitting and joining lines
 
 Dumb Refactoring
 #+BEGIN_SRC emacs-lisp
-  (defun std::defun-query-replace ()
-    (interactive)
-    (mark-defun)
-    (call-interactively 'anzu-query-replace))
+  (defun std::defun-query-replace (&optional arg)
+    (interactive "P")
+    (if arg
+        (progn (mark-defun)
+               (call-interactively 'anzu-query-replace))
+      (anzu-query-replace-at-cursor-thing)))
 
   (evil-leader/set-key
     "üü" #'anzu-query-replace
