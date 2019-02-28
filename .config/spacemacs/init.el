@@ -9,7 +9,7 @@
    dotspacemacs-ask-for-lazy-installation t
    dotspacemacs-configuration-layer-path  '()
    dotspacemacs-configuration-layers
-   '((auto-completion
+   `((auto-completion
       :variables
       auto-completion-return-key-behavior        'complete
       auto-completion-tab-key-behavior           'cycle
@@ -25,10 +25,11 @@
      git
      helm
      html
+     lsp
      markdown
      mu4e
      org
-     python
+     (python :variables python-backend ',(if (executable-find "pyls") 'lsp 'anaconda))
      rust
      syntax-checking
      shell
@@ -52,14 +53,6 @@
      flycheck-package
      german-holidays
      helpful
-     (i3wm-config-mode   :location (recipe :fetcher github
-                                           :repo "Alexander-Miller/i3wm-config-mode"))
-     (morning-star-theme :location (recipe :fetcher github
-                                           :repo "Alexander-Miller/morning-star-theme"))
-     (tridactylrc-mode :location (recipe :fetcher github
-                                         :repo "Alexander-Miller/tridactylrc-mode"))
-     (framey :location (recipe :fetcher github
-                               :repo "Alexander-Miller/framey"))
      mu4e-conversation
      multi-compile
      ht
@@ -67,8 +60,12 @@
      shackle
      swiper
      vimish-fold
-     writeroom-mode)
-   dotspacemacs-delete-orphan-packages t
+     writeroom-mode
+     (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
+     (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))
+     (tridactylrc-mode   :location (recipe :fetcher github :repo "Alexander-Miller/tridactylrc-mode"))
+     (framey             :location (recipe :fetcher github :repo "Alexander-Miller/framey")))
+   dotspacemacs-delete-orphan-packages nil
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages
    '(evil-org
