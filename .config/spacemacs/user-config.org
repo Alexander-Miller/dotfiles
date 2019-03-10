@@ -3060,4 +3060,22 @@ Garbage collection.
   (std::idle 2 :repeat #'garbage-collect)
 #+END_SRC
 
+** Tridactyl Start
+
+Tridactyl cannot use ~emacsclient~, so we need a special workaround to
+make sure that an emacs instance that is used as ~editorcmd~ selects the
+right buffer and fixes its mode-line.
+
+#+BEGIN_SRC emacs-lisp
+  (std::idle 0.1 :no-repeat
+    (when (s-starts-with? "/tmp/" (-last-item command-line-args))
+      (dolist (buf (buffer-list))
+        (with-current-buffer buf
+          (if (s-starts-with? "tmp" (buffer-name))
+              (progn 
+                (switch-to-buffer buf)
+                (setq-local mode-line-format (default-value 'mode-line-format)))
+            (kill-buffer buf))))))
+#+END_SRC
+
 This final text prevents that the END_SRC face bleeds into the collapsed heading.

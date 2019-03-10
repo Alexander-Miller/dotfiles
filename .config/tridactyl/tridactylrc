@@ -9,7 +9,7 @@ set hintchars asdfqwejkln
 set hinfiltermode vimperator-reflow
 set hintnames short
 set smoothscroll false
-set editorcmd emacsclient -nc %f
+set editorcmd emacs
 
 setpref browser.fullscreen.autohide false
 setpref browser.ctrlTab.recentlyUsedOrder false
