@@ -11,14 +11,85 @@ Load used libraries to somewhat reduce the amount of warnings.
   (require 'cl-lib)
   (require 's)
   (require 'evil)
-  (require 'helm)
 #+END_SRC
 
 * Utility Functions
-** after!
+** Top Level
+*** keybinds
+
+~std::keybind~
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::keybind (keymaps &rest keybinds)
+    (declare (indent 1))
+    (std::static-assert (= 0 (% (length keybinds) 2))
+      "Uneven number of keybinds!")
+    (unless (listp keymaps)
+      (setq keymaps (list keymaps)))
+    (-let [bind-forms nil]
+      (while keybinds
+        (-let [(key func . rest) keybinds]
+          (-let [key (if (vectorp key) key `(kbd ,key))]
+            (dolist (keymap keymaps)
+              (push `(define-key ,keymap ,key ,func) bind-forms)))
+          (setq keybinds rest)))
+      `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+~std::global-keybind~
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::global-keybind (&rest binds)
+    (std::static-assert (cl-evenp (length binds)))
+    (-let [pairs nil]
+      (while binds
+        (push (cons (pop binds) (pop binds)) pairs))
+      `(progn
+         ,@(--map
+            `(global-set-key (kbd ,(car it)) ,(cdr it))
+            pairs))))
+#+END_SRC
+
+~std::evil-keybind~
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::evil-keybind (states keymaps &rest keybinds)
+    (declare (indent 2))
+    (std::static-assert (= 0 (% (length keybinds) 2))
+      "Uneven number of keybinds!")
+    (unless (listp keymaps)
+      (setf keymaps (list keymaps)))
+    (unless (listp states)
+      (setf states (list states)))
+    (-let [bind-forms nil]
+      (while keybinds
+        (-let [(key func . rest) keybinds]
+          (-let [key (if (vectorp key) key `(kbd ,key))]
+            (dolist (keymap keymaps)
+              (push `(evil-define-key ',states ,keymap ,key ,func) bind-forms)))
+          (setq keybinds rest)))
+      `(progn ,@(nreverse bind-forms))))
+#+END_SRC
+
+~std::leader-keybind~
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::leader-keybind (&rest keybinds)
+    (std::static-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
+    `(spacemacs/set-leader-keys
+       ,@keybinds))
+#+END_SRC
+
+~std::mode-leader-keybind~
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::mode-leader-keybind (mode &rest keybinds)
+    (declare (indent 1))
+    (std::static-assert (= 0 (% (length keybinds) 2))
+      "Uneven number of keybinds!")
+    `(spacemacs/set-leader-keys-for-major-mode ,mode
+       ,@keybinds))
+#+END_SRC
+
+*** std::after
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro after! (features &rest body)
+  (defmacro std::after (features &rest body)
     "Run BODY after loading FEATURE.
     Same as `with-eval-after-load', but there is no need to quote FEATURES."
     (declare (debug (sexp body)) (indent 1))
@@ -39,66 +110,22 @@ Load used libraries to somewhat reduce the amount of warnings.
       form))
 #+END_SRC
 
-** keybinds
+*** std::static-assert
 
-~keybind!~
 #+BEGIN_SRC emacs-lisp
-  (defmacro keybind! (keymaps &rest keybinds)
+  (defmacro std::static-assert (predicate &optional error-msg &rest error-args)
     (declare (indent 1))
-    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    (unless (listp keymaps)
-      (setq keymaps (list keymaps)))
-    (-let [bind-forms nil]
-      (while keybinds
-        (-let [(key func . rest) keybinds]
-          (-let [key (if (vectorp key) key `(kbd ,key))]
-            (dolist (keymap keymaps)
-              (push `(define-key ,keymap ,key ,func) bind-forms)))
-          (setq keybinds rest)))
-      `(progn ,@(nreverse bind-forms))))
+    `(unless ,predicate
+       (error (apply #'format
+                     (or ,error-msg "Assertion Failure")
+                     (list ,@error-args)))))
 #+END_SRC
 
-~evil-keybind!~
-#+BEGIN_SRC emacs-lisp
-  (defmacro evil-keybind! (states keymaps &rest keybinds)
-    (declare (indent 2))
-    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    (unless (listp keymaps)
-      (setf keymaps (list keymaps)))
-    (unless (listp states)
-      (setf states (list states)))
-    (-let [bind-forms nil]
-      (while keybinds
-        (-let [(key func . rest) keybinds]
-          (-let [key (if (vectorp key) key `(kbd ,key))]
-            (dolist (keymap keymaps)
-              (push `(evil-define-key ',states ,keymap ,key ,func) bind-forms)))
-          (setq keybinds rest)))
-      `(progn ,@(nreverse bind-forms))))
-#+END_SRC
-
-~leader-keybind!~
-#+BEGIN_SRC emacs-lisp
-  (defmacro leader-keybind! (&rest keybinds)
-    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    `(spacemacs/set-leader-keys
-       ,@keybinds))
-#+END_SRC
-
-~mode-leader-keybind!~
-#+BEGIN_SRC emacs-lisp
-  (defmacro mode-leader-keybind! (mode &rest keybinds)
-    (declare (indent 1))
-    (cl-assert (= 0 (% (length keybinds) 2)) "Uneven number of keybinds!")
-    `(spacemacs/set-leader-keys-for-major-mode ,mode
-       ,@keybinds))
-#+END_SRC
-
-** set-local!
+*** std::set-local
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro set-local! (&rest binds)
-    (cl-assert (cl-evenp (length binds)))
+  (defmacro std::set-local (&rest binds)
+    (std::static-assert (cl-evenp (length binds)))
     (-let [pairs nil]
       (while binds
         (push (cons (pop binds) (pop binds)) pairs))
@@ -108,117 +135,118 @@ Load used libraries to somewhat reduce the amount of warnings.
             (nreverse pairs)))))
 #+END_SRC
 
-** f!
+*** std::fmt
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro f! (str) `(s-lex-format ,str))
+  (defmacro std::fmt (str) `(s-lex-format ,str))
 #+END_SRC
 
-** idle!
+*** std::idle
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro idle! (time repeat &rest body)
+  (defmacro std::idle (time repeat &rest body)
     (declare (indent 2))
     `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
 #+END_SRC
 
-** notify!
+*** std::notify
 
 #+BEGIN_SRC emacs-lisp
-  (cl-defmacro notify! (title &optional (txt "") &key icon)
+  (cl-defmacro std::notify (title &key (txt "") (icon :NONE))
     (declare (indent 1))
     (-let [icon-arg
            (pcase icon
-             ((pred null) "--icon=emacs")
-             ((pred stringp) (f! "--icon=${icon}"))
-             ((guard (eq nil icon) "")))]
-      `(prog1 t
-         (shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil))))
+             (:NONE "--icon=emacs")
+             ((pred stringp) (std::fmt "--icon=${icon}"))
+             ((pred null)))]
+      `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil)))
 #+END_SRC
 
-** std::what-face
+*** std::add-hooks
 
 #+BEGIN_SRC emacs-lisp
+  (defmacro std::add-hooks (cmd hooks)
+    (declare (indent 1))
+    `(progn
+       ,@(--map `(add-hook ',it ,cmd)
+               hooks)))
+#+END_SRC
+
+*** std::autoload
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::autoload (&rest names)
+    `(progn
+       ,@(--map
+          `(autoload ,it (std::fmt "${*SPACEMACSDIR*}/autoloads"))
+          names)))
+#+END_SRC
+
+*** std::autoload-with
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::autoload-with (name features &rest body)
+    (declare (indent 1))
+    (-let [advice-name (intern (std::fmt "std::autoload-${name}-advice"))]
+      `(progn
+         (defun ,advice-name (old-fun &rest args)
+           (dolist (feature ',features)
+             (advice-remove feature #',advice-name)
+             ,@body)
+           (apply old-fun args))
+         (dolist (feature ',features)
+           (advice-add feature :around #',advice-name)))))
+#+END_SRC
+
+** Autoloads
+*** std::what-face
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::what-face)
+  (std::global-keybind "C-x ö" #'std::what-face)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::what-face (point)
     "Reveal face at POINT."
     (interactive "d")
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" point))))
-  (global-set-key (kbd "C-x ö") #'std::what-face)
 #+END_SRC
 
-** std::what-major-mode
+*** std::packman-pkg-info
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::what-major-mode ()
-    "Reveal current major mode."
-    (interactive)
-    (message "%s" major-mode))
-  (global-set-key (kbd "C-x ä") #'std::what-major-mode)
+  (std::autoload 'std::pacman-pkg-info)
 #+END_SRC
 
-** std::edit-org-user-config
-
-#+BEGIN_SRC emacs-lisp
-  (defun std::edit-org-user-config ()
-    "Edit the org user config file, in the current window."
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::pacman-pkg-info ()
     (interactive)
-    (find-file-existing (concat (getenv "SPACEMACSDIR") "/user-config.org")))
-
-  (leader-keybind! "feo" #'std::edit-org-user-config)
+    (let* ((completions (->> "pacman -Q"
+                             (shell-command-to-string)
+                             (s-trim)
+                             (s-lines)
+                             (--map (car (s-split " " it :no-nulls)))))
+           (name (completing-read "Package: " completions)))
+      (switch-to-buffer (get-buffer-create "*Package Info*"))
+      (erase-buffer)
+      (-> (std::fmt "pacman -Qi ${name}")
+          (shell-command-to-string)
+          (s-trim)
+          (insert))
+      (goto-char 0)
+      (conf-mode)))
 #+END_SRC
 
-** std::org-files
+*** std::jira::new-log-entry
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::org-files ()
-    (interactive)
-    (helm :prompt "Org File: "
-          :buffer "*helm org files*"
-          :sources (helm-build-sync-source "Org Files"
-                     :candidates (--map (cons (f-filename it) it) (f-files org-directory))
-                     :action #'find-file-existing
-                     :filtered-candidate-transformer #'helm-fuzzy-highlight-matches)))
-
-  (leader-keybind! "aof" #'std::org-files)
+  (std::autoload 'std::jira::new-log-entry)
 #+END_SRC
 
-** std::evil-paste
-
-As shown in the spacemacs FAQ
-#+BEGIN_SRC emacs-lisp
-  (defun std::evil-paste-after ()
-    (interactive)
-    (let ((evil-this-register ?0))
-      (call-interactively 'evil-paste-after)))
-
-  (defun std::evil-paste-before ()
-    (interactive)
-    (let ((evil-this-register ?0))
-      (call-interactively 'evil-paste-before)))
-
-  (define-key evil-visual-state-map "p" #'std::evil-paste-after)
-  (define-key evil-visual-state-map "P" #'std::evil-paste-after)
-#+END_SRC
-
-** std::fold-defun
-
-#+BEGIN_SRC emacs-lisp
-  (defun std::fold-defun ()
-    (interactive)
-    (save-excursion
-      (end-of-line)
-      (beginning-of-defun)
-      (end-of-line)
-      (evil-close-fold)))
-
-  (define-key evil-normal-state-map (kbd "züf") #'std::fold-defun)
-#+END_SRC
-
-** std::jira::new-log-entry
-
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::jira::new-log-entry ()
     (interactive)
     (let ((url (s-trim (current-kill 0)))
@@ -236,25 +264,68 @@ As shown in the spacemacs FAQ
       (org-ctrl-c-ctrl-c)))
 #+END_SRC
 
-** std::packman-pkg-info
+*** std::org-files
 
 #+BEGIN_SRC emacs-lisp
-  (defun std::pacman-pkg-info ()
+  (std::autoload 'std::org-files)
+  (std::leader-keybind "aof" #'std::org-files)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (eval-when-compile (require 'helm))
+  (defun std::org-files ()
     (interactive)
-    (let* ((completions (->> "pacman -Q"
-                             (shell-command-to-string)
-                             (s-trim)
-                             (s-lines)
-                             (--map (car (s-split " " it :no-nulls)))))
-           (name (completing-read "Package: " completions)))
-      (switch-to-buffer (get-buffer-create "*Package Info*"))
-      (erase-buffer)
-      (-> (f! "pacman -Qi ${name}")
-          (shell-command-to-string)
-          (s-trim)
-          (insert))
-      (goto-char 0)
-      (conf-mode)))
+    (helm :prompt "Org File: "
+          :buffer "*helm org files*"
+          :sources (helm-build-sync-source "Org Files"
+                     :candidates (--map (cons (f-filename it) it) (f-files org-directory))
+                     :action #'find-file-existing
+                     :filtered-candidate-transformer #'helm-fuzzy-highlight-matches)))
+#+END_SRC
+
+*** std::fold-defun
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::fold-defun)
+  (define-key evil-normal-state-map (kbd "züf") #'std::fold-defun)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::fold-defun ()
+    (interactive)
+    (save-excursion
+      (end-of-line)
+      (beginning-of-defun)
+      (end-of-line)
+      (evil-close-fold)))
+#+END_SRC
+
+*** std::what-major-mode
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::what-major-mode)
+  (std::global-keybind "C-x ä" #'std::what-major-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::what-major-mode ()
+    "Reveal current major mode."
+    (interactive)
+    (message "%s" major-mode))
+#+END_SRC
+
+*** std::edit-org-user-config
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::edit-org-user-config)
+  (std::leader-keybind "feo" #'std::edit-org-user-config)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::edit-org-user-config ()
+    "Edit the org user config file, in the current window."
+    (interactive)
+    (find-file-existing (concat *SPACEMACSDIR* "/user-config.org")))
 #+END_SRC
 
 * Config tangle & compilation
@@ -263,25 +334,28 @@ To save on startup time the config file is only loaded on boot. Tangling and com
 instead run as part of ~kill-emacs-hook~, relieving the need to load all of org and tangle the
 config before emacs may be used.
 
-The function to tangle and recompile the config, running only if the org file was recently
-modified.
+The function to tangle and recompile the config, running only if the org file was recently modified.
 #+BEGIN_SRC emacs-lisp
   (autoload #'org-babel-tangle-file "ob-tangle")
 
   (defun std::config-tangle-and-recompile ()
     (interactive)
     (let* ((byte-compile-warnings '(not unresolved free-vars))
-           (dir      *SPACEMACSDIR*)
-           (el-file  (concat dir "/user-config.el"))
-           (org-file (file-chase-links (concat dir "/user-config.org"))))
+           (dir       *SPACEMACSDIR*)
+           (el-file   (std::fmt "${dir}/user-config.el"))
+           (org-file  (file-chase-links (concat dir "/user-config.org")))
+           (autoloads (std::fmt "${dir}/autoloads.el")))
       (when (or (called-interactively-p 'interactive)
                 (not (file-exists-p el-file))
-                (file-newer-than-file-p org-file el-file))
+                (not (file-exists-p autoloads))
+                (file-newer-than-file-p org-file el-file)
+                (file-newer-than-file-p org-file autoloads))
         (condition-case e
             (progn
               (org-babel-tangle-file org-file el-file "emacs-lisp")
-              (byte-recompile-file el-file t 0 nil))
-          (error (shell-command (f! "notify-send 'ERROR' '${e}'")))))))
+              (byte-recompile-file el-file t 0 nil)
+              (byte-recompile-file autoloads t 0 nil))
+          (error (shell-command (std::fmt "notify-send 'ERROR' '${e}'")))))))
 #+END_SRC
 
 Advice to insert reload before spacemacs' layer syncing.
@@ -345,16 +419,91 @@ Insert retangle before both quitting emacs and reloading the config.
   (define-key evil-operator-state-map "üf" #'std::evil::defun-object)
   #+END_SRC
 
+*** Evil Goggles
+**** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (evil-goggles-mode t)
+  (setq evil-goggles-duration                     0.15
+        evil-goggles-pulse                        nil
+        evil-goggles-enable-change                t
+        evil-goggles-enable-delete                t
+        evil-goggles-enable-indent                t
+        evil-goggles-enable-yank                  t
+        evil-goggles-enable-join                  t
+        evil-goggles-enable-fill-and-move         t
+        evil-goggles-enable-paste                 t
+        evil-goggles-enable-shift                 t
+        evil-goggles-enable-surround              t
+        evil-goggles-enable-commentary            t
+        evil-goggles-enable-nerd-commenter        t
+        evil-goggles-enable-replace-with-register t
+        evil-goggles-enable-set-marker            t
+        evil-goggles-enable-undo                  t
+        evil-goggles-enable-redo                  t)
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
   (setq evil-move-beyond-eol t
-        evil-want-fine-undo  t
-        evil-lisp-state-enter-lisp-state-on-command nil)
+        evil-want-fine-undo  t)
 
-  (after! evil-escape
+  (std::after evil-escape
     (add-to-list 'evil-escape-excluded-major-modes 'org-agenda-mode)
     (add-to-list 'evil-escape-excluded-major-modes 'dired-mode))
+
+  (std::after ediff
+    (evil-collection-init 'ediff))
+
+  (evil-cleverparens-mode)
+  (evil-lion-mode)
+#+END_SRC
+
+*** Keybinds
+
+Quicker movement with J/K
+#+BEGIN_SRC emacs-lisp
+  (evil-define-motion std::evil::forward-five-lines ()
+    "Move the cursor 5 lines down."
+    :type line
+    (let (line-move-visual)
+      (evil-line-move 5)))
+
+  (evil-define-motion std::evil::backward-five-lines ()
+    "Move the cursor 5 lines up."
+    :type line
+    (let (line-move-visual)
+      (evil-line-move -5)))
+
+  (std::keybind (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
+    "J" #'std::evil::forward-five-lines
+    "K" #'std::evil::backward-five-lines)
+#+END_SRC
+
+Emacs-like line start/end jump
+#+BEGIN_SRC emacs-lisp
+  (std::keybind (evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map)
+    "C-e" #'evil-end-of-visual-line
+    "C-a" #'evil-beginning-of-visual-line)
+#+END_SRC
+
+Splitting and joining lines
+#+BEGIN_SRC emacs-lisp
+  (std::keybind evil-normal-state-map
+    "C-j" #'newline-and-indent
+    "M-j" #'evil-join)
+#+END_SRC
+
+Find definition
+#+BEGIN_SRC emacs-lisp
+  (std::keybind (evil-insert-state-map evil-normal-state-map evil-motion-state-map evil-evilified-state-map)
+    "M-." #'xref-find-definitions)
+#+END_SRC
+
+Same comment keybind as in eclipse
+#+BEGIN_SRC emacs-lisp
+  (std::global-keybind "C-7" #'evilnc-comment-operator)
 #+END_SRC
 
 ** Elisp
@@ -362,7 +511,7 @@ Insert retangle before both quitting emacs and reloading the config.
 
 Completion backends
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (setq company-backends-emacs-lisp-mode
           '((company-capf company-files :with company-yasnippet)
             (company-dabbrev-code company-dabbrev))))
@@ -396,11 +545,12 @@ Syntax highlighting for symbols and function symbols
 #+END_SRC
 
 *** Functions
-**** ~std::elisp::ielm~
+
 The elisp repl window refuses to be controlled by shackle, so we'll
 do it manually.
 
-#+BEGIN_SRC emacs-lisp
+~std::elisp::ielm~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::elisp::ielm ()
     "Interactively evaluate Emacs Lisp expressions.
   Switches to the buffer `*ielm*', or creates it if it does not exist.
@@ -416,9 +566,8 @@ do it manually.
       (when old-point (push-mark old-point))))
 #+END_SRC
 
-**** ~std::elisp::fold-all-top-level-forms~
-
-#+BEGIN_SRC emacs-lisp
+~std::elisp::fold-all-top-level-forms~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::elisp::fold-all-top-level-forms ()
     (interactive)
     (save-excursion
@@ -429,10 +578,15 @@ do it manually.
             (evil-close-fold))))))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::elisp::ielm #'std::elisp::fold-all-top-level-forms)
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (mode-leader-keybind! 'emacs-lisp-mode
+  (std::mode-leader-keybind 'emacs-lisp-mode
     "'" #'std::elisp::ielm
     "C" #'std::elisp::fold-all-top-level-forms)
 #+END_SRC
@@ -441,14 +595,32 @@ do it manually.
 *** Global Activation
 
 #+BEGIN_SRC emacs-lisp
-  (global-company-mode t)
+  (std::after company
+    (global-company-mode t))
+#+END_SRC
+
+After lazy-loading company may not have been set up everywhere, at least the scratch buffer will lack
+a proper backends value, so we just iterate our way through every buffer and set company-bakends to
+something appropriate for the current major-mode whenever the backends are nil.
+#+BEGIN_SRC emacs-lisp
+  (std::after company
+    (dolist (buf (buffer-list))
+      (unless (eq ?\ (aref (buffer-name buf) 0))
+        (with-current-buffer buf
+          (when (null company-backends)
+            (-let [backends-var (intern (std::fmt "company-backends-${major-mode}"))]
+              (setq-local company-backends
+                          (if (boundp backends-var)
+                              (symbol-value backends-var)
+                            '((company-capf company-files :with company-yasnippet)
+                              (company-dabbrev company-dabbrev-code company-keywords))))))))))
 #+END_SRC
 
 *** Settings
 **** Company Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (setq
      company-abort-manual-when-too-short t
      company-auto-complete               nil
@@ -469,7 +641,7 @@ do it manually.
 
 The tooltip will look vastly better if we set a minimum width and properly align annotations.
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (setq
      company-tooltip-minimum-width              70
      company-tooltip-align-annotations          t
@@ -481,7 +653,7 @@ The tooltip will look vastly better if we set a minimum width and properly align
 The completions provided by combined backends should be sorted, so as to avoid
 interspersing semantic completion candidates with dumb code-dabbrevs
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (defconst std::company::backend-priorities
       '((company-fish-shell   . 10)
         (company-shell        . 11)
@@ -495,11 +667,13 @@ interspersing semantic completion candidates with dumb code-dabbrevs
         (company-dabbrev      . 100))
       "Alist of backends' priorities.  Smaller number means higher priority.")
 
-    (defun std::company::priority-of-backend (backend)
+    (define-inline std::company::priority-of-backend (backend)
       "Will retrieve priority of BACKEND.
   Defauts to 999 if BACKEND is nul or has no priority defined."
-      (let ((pr (cdr (assoc backend std::company::backend-priorities))))
-        (if (null pr) 999 pr)))
+      (inline-letevals (backend)
+        (inline-quote
+         (let ((pr (cdr (assoc ,backend std::company::backend-priorities))))
+           (if (null pr) 999 pr)))))
 
     (defun std::company::priority-compare (c1 c2)
       "Compares the priorities of C1 & C2."
@@ -520,32 +694,32 @@ The priority sorting is only used in major modes which use combined backends
   (defun std::company::use-completions-priority-sorting ()
     (setq-local company-transformers '(company-flx-transformer company-sort-by-occurrence std::company::sort-by-backend-priority)))
 
-  (--each '(rust-mode-hook fish-mode-hook python-mode-hook)
-    (add-hook it #'std::company::use-completions-priority-sorting))
+  (std::add-hooks #'std::company::use-completions-priority-sorting
+    (rust-mode-hook fish-mode-hook python-mode-hook))
 #+END_SRC
 
 *** Quickhelp
 
 Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keymap while company is active
 #+BEGIN_SRC emacs-lisp
-  (after! company-quickhelp
+  (std::after company-quickhelp
 
     (defun std::company::off (arg)
       "Use default keys when company is not active. ARG is ignored."
-      (keybind! (evil-normal-state-map evil-insert-state-map)
+      (std::keybind (evil-normal-state-map evil-insert-state-map)
         "C-j" #'newline-and-indent
         "C-k" #'kill-line)
-      (keybind! evil-insert-state-map
+      (std::keybind evil-insert-state-map
         "C-l" #'yas-expand))
 
     (defun std::company::on (arg)
       "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."
-      (keybind! (evil-normal-state-map evil-insert-state-map)
+      (std::keybind (evil-normal-state-map evil-insert-state-map)
         "C-j" #'company-select-next
         "C-k" #'company-select-previous)
-      (keybind! evil-insert-state-map
+      (std::keybind evil-insert-state-map
         "C-l" #'company-quickhelp-manual-begin))
 
     (add-hook 'company-completion-started-hook   #'std::company::on)
@@ -555,36 +729,246 @@ Quickhelp makes company's modemaps unreliable, so we rewrite the underlying keym
     (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin))
 #+END_SRC
 
-*** Company Flx
+*** Flx
 
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (company-flx-mode t)
-    (setq company-flx-limit 400))
+    (setf company-flx-limit 300))
 #+END_SRC
 
 *** Bindings
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-SPC") #'company-complete)
-  (global-set-key (kbd "C-@") #'company-complete)
+  (std::global-keybind
+   "C-SPC" #'company-complete
+   "C-@"   #'company-complete)
+#+END_SRC
+
+** Window Management
+*** Shackle
+
+Replace popwin
+#+BEGIN_SRC emacs-lisp
+  (shackle-mode t)
+
+  (setq helm-display-function #'pop-to-buffer)
+
+  (setq shackle-rules
+        '(("*helm-ag*"              :select t   :align right :size 0.5)
+          ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
+          ("*helm org inbuffer*"    :select t   :align right :size 0.4)
+          (magit-popup-mode         :select t   :align right :size 0.4)
+          (flycheck-error-list-mode :select nil :align below :size 0.25)
+          (compilation-mode         :select nil :align below :size 0.25)
+          (messages-buffer-mode     :select t   :align below :size 0.25)
+          (inferior-emacs-lisp-mode :select t   :align below :size 0.25)
+          (ert-results-mode         :select t   :align below :size 0.5)
+          (calendar-mode            :select t   :align below :size 0.25)
+          (racer-help-mode          :select t   :align right :size 0.5)
+          (help-mode                :select t   :align right :size 0.5)
+          (helpful-mode             :select t   :align right :size 0.5)
+          (" *Deletions*"           :select t   :align below :size 0.25)
+          (" *Marked Files*"        :select t   :align below :size 0.25)
+          ("*Org Select*"           :select t   :align below :size 0.33)
+          ("*Org Note*"             :select t   :align below :size 0.33)
+          ("*Org Links*"            :select t   :align below :size 0.2)
+          (" *Org todo*"            :select t   :align below :size 0.2)
+          ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
+          ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
+          ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)))
+#+END_SRC
+
+*** Purposes
+**** Shackle Integration
+
+#+BEGIN_SRC emacs-lisp
+  (std::after window-purpose
+    (defun maybe-display-shackle (buffer alist)
+      (and (shackle-display-buffer-condition buffer alist)
+           (shackle-display-buffer-action buffer alist)))
+
+    (setq purpose-action-sequences
+          '((switch-to-buffer
+             . (purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                maybe-display-shackle
+                purpose-display-maybe-same-window
+                purpose-display-maybe-other-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-pop-up-frame))
+
+            (prefer-same-window
+             . (purpose-display-maybe-same-window
+                maybe-display-shackle
+                purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                purpose-display-maybe-other-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-pop-up-frame))
+
+            (force-same-window
+             . (purpose-display-maybe-same-window
+                maybe-display-shackle))
+
+            (prefer-other-window
+
+             . (purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                maybe-display-shackle
+                purpose-display-maybe-other-window
+                purpose-display-maybe-pop-up-window
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-frame
+                purpose-display-maybe-same-window))
+
+            (prefer-other-frame
+             . (purpose-display-reuse-window-buffer-other-frame
+                purpose-display-reuse-window-purpose-other-frame
+                maybe-display-shackle
+                purpose-display-maybe-other-frame
+                purpose-display-maybe-pop-up-frame
+                purpose-display-maybe-other-window
+                purpose-display-maybe-pop-up-window
+                purpose-display-reuse-window-buffer
+                purpose-display-reuse-window-purpose
+                purpose-display-maybe-same-window)))))
+#+END_SRC
+
+**** Custom Purposes
+
+#+BEGIN_SRC emacs-lisp
+  (std::after window-purpose
+    (setq purpose-user-mode-purposes
+          '((flycheck-error-list-mode . bottom)
+            (messages-buffer-mode     . bottom)
+            (compilation-mode         . bottom)
+            (inferior-emacs-lisp-mode . bottom)))
+
+    (purpose-compile-user-configuration))
+#+END_SRC
+
+**** Shackle-friendly Functions
+
+~std::pop-to-messages-buffer~
+#+BEGIN_SRC emacs-lisp
+  (defun std::pop-to-messages-buffer (&optional arg)
+    "Same as the spacemacs builtin, but uses `pop-to-buffer'.
+    This ensures that shackle's (or purpose's) rules apply to the new window."
+    (interactive "P")
+    (-let [buf (messages-buffer)]
+      (--if-let (get-buffer-window buf)
+          (delete-window it)
+        (with-current-buffer (messages-buffer)
+          (goto-char (point-max))
+          (if arg
+              (switch-to-buffer-other-window (current-buffer))
+            (pop-to-buffer (current-buffer)))))))
+
+  (std::leader-keybind "bm" #'std::pop-to-messages-buffer)
+#+END_SRC
+
+*** Eyebrowse
+
+Switch desktops via SPC + num
+#+BEGIN_SRC emacs-lisp
+  (eyebrowse-mode t)
+  (std::leader-keybind
+   "1" #'eyebrowse-switch-to-window-config-1
+   "2" #'eyebrowse-switch-to-window-config-2
+   "3" #'eyebrowse-switch-to-window-config-3
+   "4" #'eyebrowse-switch-to-window-config-4
+   "5" #'eyebrowse-switch-to-window-config-5
+   "6" #'eyebrowse-switch-to-window-config-6
+   "7" #'eyebrowse-switch-to-window-config-7
+   "8" #'eyebrowse-switch-to-window-config-8
+   "9" #'eyebrowse-switch-to-window-config-9
+   "0" #'eyebrowse-switch-to-window-config-0)
+#+END_SRC
+
+*** Winum
+**** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq winum-scope 'frame-local)
+  (winum-mode)
+#+END_SRC
+
+**** Keybinds
+
+Window #0 is reverved for treemacs.
+#+BEGIN_SRC emacs-lisp
+  (std::keybind winum-keymap
+    "M-1" #'winum-select-window-1
+    "M-2" #'winum-select-window-2
+    "M-3" #'winum-select-window-3
+    "M-4" #'winum-select-window-4
+    "M-5" #'winum-select-window-5
+    "M-6" #'winum-select-window-6
+    "M-7" #'winum-select-window-7
+    "M-8" #'winum-select-window-8
+    "M-9" #'winum-select-window-9)
+#+END_SRC
+
+*** Framey
+**** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (std::after helm (framey-mode))
+
+  (std::after framey
+    (setq framey-show-modeline nil))
+
+  (std::autoload-with "Framey"
+    (helpful-at-point)
+    (require 'framey))
+#+END_SRC
+
+*** General Keybinds
+
+Killing a buffer alongside its window
+#+BEGIN_SRC emacs-lisp
+  (std::leader-keybind "b C-d" #'kill-buffer-and-window)
+#+END_SRC
+
+TODO
+Quitting with *q*
+#+BEGIN_SRC emacs-lisp
+  (std::evil-keybind normal messages-buffer-mode-map
+    "q" #'quit-window)
+
+  (std::after flycheck
+    (std::keybind flycheck-error-list-mode-map
+      "q" #'kill-buffer-and-window))
+
+  (std::after Man-mode
+    (std::keybind Man-mode-map
+      "q" #'kill-buffer-and-window))
+
+  (std::after helpful
+    (std::evil-keybind (normal motion) helpful-mode-map
+      "q" #'framey-quit-window))
 #+END_SRC
 
 ** Org
 *** Functions
 
 ~std::org::mode-hook~
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::org::mode-hook ()
-    (hl-todo-mode -1))
-  (add-hook 'org-mode-hook #'std::org::mode-hook)
+    (smartparens-mode t)
+    ;; disbaling with git-gutter doesn't work since text-mode's
+    ;; hook is called as well
+    (std::idle 0.1 :no-repeat (git-gutter-mode -1)))
 #+END_SRC
 
 ~org-switch-to-buffer-other-window~
 Org thinks it's a good idea to disable ~display-buffer-alist~ when displaying its buffers. I don't.
 I want my buffers' display behaviour to be handled by shackle. All of them. No exceptions.
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (defun org-switch-to-buffer-other-window (&rest args)
       "Same as the original, but lacking the wrapping call to `org-no-popups'"
       (apply 'switch-to-buffer-other-window args)))
@@ -592,7 +976,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 ~std::org::capture-std-target~
 #+BEGIN_SRC  emacs-lisp
-  (after! org
+  (std::after org
     (defun std::org::capture-std-target ()
       `(file+headline
         ,(concat org-directory "Capture.org")
@@ -603,7 +987,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 ~std::org::table-recalc~
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (defun std::org::table-recalc ()
       "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
   by default the entire table is recalculated, while with a prefix arg recalculates
@@ -616,7 +1000,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 ~std::org::table-switch-left~
 ~std::org::table-switch-right~
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (defun std::org::table-switch-right ()
       "Switch content of current table cell with the cell to the right."
       (interactive)
@@ -642,7 +1026,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 ~std::org::plot-table~
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (defun std::org::plot-table ()
       "Plot table at point and clear image cache.
   The cache clearing will update tables visible as inline images."
@@ -650,6 +1034,12 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
       (save-excursion
         (org-plot/gnuplot)
         (clear-image-cache))))
+#+END_SRC
+
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook #'std::org::mode-hook)
+  (std::autoload #'std::org::mode-hook)
 #+END_SRC
 
 *** Settings
@@ -663,7 +1053,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Startup
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq org-startup-folded             t
           org-startup-indented           t
           org-startup-align-all-tables   t
@@ -673,7 +1063,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Additional modules
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (add-to-list 'org-modules 'org-habit)
     (require 'org-habit))
 #+END_SRC
@@ -681,14 +1071,14 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Better looking TODO keywords
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq-default org-todo-keywords '((sequence "»TODO«" "|" "»DONE«"))))
 #+END_SRC
 
-**** No `special` behaviour.
+**** No "special" behaviour.
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq
      org-special-ctrl-a         nil
      org-special-ctrl-k         nil
@@ -700,7 +1090,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Agenda
 
 #+BEGIN_SRC emacs-lisp
-  (after! org-agenda
+  (std::after org-agenda
 
     (require 'german-holidays)
 
@@ -728,7 +1118,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 **** Habits
 
 #+BEGIN_SRC emacs-lisp
-  (after! org-habit
+  (std::after org-habit
     (setq org-habit-graph-column               70
           org-habit-preceding-days             21
           org-habit-following-days             7
@@ -739,7 +1129,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 
 Use only one bullet for headings (original = "◉" "○" "✸" "✿")
 #+BEGIN_SRC emacs-lisp
-   (after! org
+   (std::after org
      (setq-default org-bullets-bullet-list '("✿")))
 #+END_SRC
 
@@ -753,7 +1143,7 @@ Also use ascii bullets for simple lists
 **** Capture
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq
      org-capture-templates
      `(("t" "Idee/Todo" entry
@@ -764,7 +1154,7 @@ Also use ascii bullets for simple lists
 **** Tables
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq org-table-auto-blank-field        nil
           org-table-use-standard-references t))
 #+END_SRC
@@ -772,7 +1162,7 @@ Also use ascii bullets for simple lists
 **** Source Blocks & Tangling
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (setq org-edit-src-auto-save-idle-delay           0
           org-edit-src-turn-on-auto-save              nil
           org-src-fontify-natively                    t
@@ -785,7 +1175,7 @@ Also use ascii bullets for simple lists
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
 
     (setf (nthcdr 4 org-emphasis-regexp-components) '(3))
 
@@ -846,7 +1236,7 @@ Also use ascii bullets for simple lists
          forms))
       `(progn ,@forms)))
 
-  (after! org
+  (std::after org
     (std::org::use-babel-use-languages "emacs-lisp" "sh" "python" "shell" "gnuplot"))
 #+END_SRC
 
@@ -867,8 +1257,8 @@ A small bit of custom font locking for '==>'
 **** Showing content
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "rr" #'org-reveal
       "rb" #'outline-show-branches
       "rc" #'outline-show-children
@@ -878,8 +1268,8 @@ A small bit of custom font locking for '==>'
 **** Headline Navigation
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "u"   #'outline-up-heading
       "M-u" #'helm-org-parent-headings
       "j"   #'org-next-visible-heading
@@ -891,8 +1281,8 @@ A small bit of custom font locking for '==>'
 **** Scheduling
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "s"  nil
       "ss" #'org-schedule
       "st" #'org-time-stamp
@@ -902,8 +1292,8 @@ A small bit of custom font locking for '==>'
 **** (Sub)Tree
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "wi" #'org-tree-to-indirect-buffer
       "wm" #'org-mark-subtree
       "wd" #'org-cut-subtree
@@ -916,7 +1306,7 @@ A small bit of custom font locking for '==>'
 **** Structure Editing
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     (dolist (mode '(normal insert))
       (evil-define-key mode org-mode-map
         (kbd "M-RET") #'org-meta-return
@@ -934,8 +1324,8 @@ A small bit of custom font locking for '==>'
 **** Sparse Trees
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "7"   #'org-sparse-tree
       "8"   #'org-occur
       "M-j" #'next-error
@@ -945,8 +1335,8 @@ A small bit of custom font locking for '==>'
 **** Narrowing
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "n"  nil
       "nb" #'org-narrow-to-block
       "ne" #'org-narrow-to-element
@@ -957,8 +1347,8 @@ A small bit of custom font locking for '==>'
 **** Insert Commands
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "if" #'org-footnote-new
       "il" #'org-insert-link
       "in" #'org-add-note
@@ -970,11 +1360,11 @@ A small bit of custom font locking for '==>'
 **** Tables
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
     ;; TODO: rebind clock
     (spacemacs/set-leader-keys-for-major-mode 'org-mode "q" nil)
 
-    (mode-leader-keybind! 'org-mode
+    (std::mode-leader-keybind 'org-mode
       "t"   nil
       "tb"  #'org-table-blank-field
       "ty"  #'org-table-copy-region
@@ -998,8 +1388,8 @@ A small bit of custom font locking for '==>'
 **** Toggles
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (mode-leader-keybind! 'org-mode
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
       "zh" #'org-toggle-heading
       "zl" #'org-toggle-link-display
       "zx" #'org-toggle-checkbox
@@ -1012,26 +1402,26 @@ A small bit of custom font locking for '==>'
 **** Agenda
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f12>") #'org-agenda-list)
+  (std::global-keybind "<f12>" #'org-agenda-list)
 
-  (after! org-agenda
-    (evil-keybind! 'evilified org-agenda-mode-map
-      "J" #'std::quick-forward
-      "K" #'std::quick-backward)
+  (std::after org-agenda
+    (std::evil-keybind 'evilified org-agenda-mode-map
+      "J" #'std::evil::forward-five-lines
+      "K" #'std::evil::backward-five-lines)
 
-    (mode-leader-keybind! 'org-agenda-mode
+    (std::mode-leader-keybind 'org-agenda-mode
       "zh" #'org-habit-toggle-habits))
 #+END_SRC
 
 **** Source Blocks & Tangling
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
-    (keybind! org-src-mode-map
+  (std::after org
+    (std::keybind org-src-mode-map
       [remap save-buffer] #'ignore
       "C-c C-c" #'org-edit-src-exit)
 
-    (mode-leader-keybind! 'org-mode
+    (std::mode-leader-keybind 'org-mode
       "bt" #'org-babel-tangle
       "bv" #'org-babel-tangle-file))
 #+END_SRC
@@ -1039,12 +1429,12 @@ A small bit of custom font locking for '==>'
 **** Other
 
 #+BEGIN_SRC emacs-lisp
-  (after! org
+  (std::after org
 
-    (keybind! org-mode-map
+    (std::keybind org-mode-map
       "M-q" #'fill-paragraph)
 
-    (mode-leader-keybind! 'org-mode
+    (std::mode-leader-keybind 'org-mode
       "0"   #'org-sort
       "#"   #'org-update-statistics-cookies
       "C-y" #'org-copy-visible
@@ -1055,35 +1445,68 @@ A small bit of custom font locking for '==>'
       "C-t" #'org-set-tags-command
       "P"   #'org-priority)
 
-    (evil-keybind! 'normal org-mode-map
+    (std::evil-keybind 'normal org-mode-map
       "-" #'org-cycle-list-bullet
       "t" #'org-todo))
+#+END_SRC
+
+** Shell
+*** Functions
+
+~std::shell::mode-hook~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::shell::mode-hook ()
+    (evil-collection-init 'term)
+    (std::set-local
+     helm-show-completion-display-function nil
+     helm-split-window-default-side        'same
+     helm-turn-on-show-completion          nil
+     scroll-margin                         0))
+#+END_SRC
+
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::shell::mode-hook)
+  (std::add-hooks #'std::shell::mode-hook
+    (term-mode-hook eshell-mode-hook))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (std::after multi-term
+    (setq multi-term-program (s-trim (shell-command-to-string "which fish"))))
 #+END_SRC
 
 ** Shell Scripts
 *** Functions
 
 ~std::fish-mode-hook~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::fish::mode-hook ()
-    (setq imenu-generic-expression fish-mode-imenu-expr))
+    (setq imenu-generic-expression std::fish::imenu-expr))
+#+END_SRC
+
+Autoloads
+#+BEGIN_SRC emacs-lisp
   (add-hook 'fish-mode-hook #'std::fish::mode-hook)
+  (std::autoload #'std::fish::mode-hook)
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! company
+  (std::after company
     (setq
      company-shell-delete-duplicates nil
      company-shell-modes             nil
      company-fish-shell-modes        nil
-     company-shell-use-help-arg      t))
+     company-shell-use-help-arg      t)
 
-  (setq company-backends-fish-mode
-        '((company-dabbrev-code company-files company-shell company-shell-env company-fish-shell :with company-yasnippet)))
+    (setq company-backends-fish-mode
+          '((company-dabbrev-code company-files company-shell company-shell-env company-fish-shell :with company-yasnippet))))
 
-  (defconst fish-mode-imenu-expr
+  (defconst std::fish::imenu-expr
     (list
      (list
       "Function"
@@ -1099,10 +1522,21 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 ** Helm
+*** Load Setup
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload-with "Helm"
+    (completing-read
+      read-directory-name
+      read-string read-from-minibuffer
+      std::org-files)
+    (require 'helm))
+#+END_SRC
+
 *** Functions
 
 ~std::org-helm-headings~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (autoload 'helm-source-org-headings-for-files "helm-org")
 
   (defun std::org-in-buffer-headings ()
@@ -1117,7 +1551,7 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 ~std::helm-semantic-or-imenu~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::helm-semantic-or-imenu ()
       "Same as `helm-semantic-or-imenu', but will call `std::org-helm-headings' in org-mode buffers."
       (interactive)
@@ -1126,25 +1560,31 @@ A small bit of custom font locking for '==>'
         (call-interactively #'helm-semantic-or-imenu)))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::org-helm-headings #'std::helm-semantic-or-imenu)
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq
-   helm-ag-base-command              "ag -f --nocolor --nogroup --depth 999999 --smart-case --recurse"
-   helm-imenu-delimiter              ": "
-   helm-move-to-line-cycle-in-source t
-   helm-swoop-use-line-number-face   t)
+  (std::after helm
+    (setq
+     helm-ag-base-command              "ag -f --nocolor --nogroup --depth 999999 --smart-case --recurse"
+     helm-imenu-delimiter              ": "
+     helm-move-to-line-cycle-in-source t
+     helm-swoop-use-line-number-face   t))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (leader-keybind!
+  (std::leader-keybind
     "hi"  #'std::helm-semantic-or-imenu
     "saa" #'helm-do-ag-this-file)
 
-  (after! helm
-    (keybind! helm-map
+  (std::after helm
+    (std::keybind helm-map
       "M-j" #'helm-next-source
       "M-k" #'helm-previous-source))
 #+END_SRC
@@ -1154,26 +1594,26 @@ A small bit of custom font locking for '==>'
 
 ~std::rust::build-rusty-tags~
 #+BEGIN_SRC emacs-lisp
-  (after! rust-mode
+  (std::after rust-mode
     (defun std::rust::build-rusty-tags ()
       (interactive)
       (make-thread
-       #'(lambda ()
-           (let ((default-directory (projectile-project-root)))
-             (call-process-shell-command "rusty-tags emacs")
-             (call-process-shell-command "mv rusty-tags.emacs TAGS")
-             (message "Rusty tags rebuilt."))))))
+       (lambda ()
+         (-let [default-directory (projectile-project-root)]
+           (call-process-shell-command "rusty-tags emacs")
+           (call-process-shell-command "mv rusty-tags.emacs TAGS")
+           (message "Rusty tags rebuilt."))))))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! "racer"
+  (std::after "racer"
     (evil-define-key 'normal racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'insert racer-mode-map      (kbd "M-.") #'racer-find-definition)
     (evil-define-key 'normal racer-help-mode-map (kbd "q")   #'kill-buffer-and-window)
 
-    (mode-leader-keybind! 'rust-mode
+    (std::mode-leader-keybind 'rust-mode
       "f"   #'rust-format-buffer
       "a"   #'rust-beginning-of-defun
       "e"   #'rust-end-of-defun
@@ -1185,7 +1625,7 @@ A small bit of custom font locking for '==>'
 
 Add *company-dabbrev-code* to front row of completion backends.
 #+BEGIN_SRC emacs-lisp
-  (after! "rust-mode"
+  (std::after "rust-mode"
     (setq racer-rust-src-path "~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
           company-backends-rust-mode
           '((company-capf :with company-dabbrev-code company-yasnippet)
@@ -1195,32 +1635,11 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 ** Projectile
-*** Functions
-
-~std::projectile::magit-status~
-#+BEGIN_SRC emacs-lisp
-  (defun std::projectile::magit-status (&optional arg)
-    "Use projectile with Helm for running `magit-status'
-
-    With a prefix ARG invalidates the cache first."
-       (interactive "P")
-       (if (projectile-project-p)
-           (projectile-maybe-invalidate-cache arg))
-       (let ((helm-ff-transformer-show-only-basename nil)
-             (helm-boring-file-regexp-list           nil))
-         (helm :prompt "Git status in project: "
-               :buffer "*helm projectile*"
-               :sources (helm-build-sync-source "Projectile Projects"
-                          :candidates projectile-known-projects
-                          :action #'magit-status
-                          :filtered-candidate-transformer 'helm-fuzzy-highlight-matches))))
-#+END_SRC
-
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! projectile
-    (leader-keybind!
+  (std::after projectile
+    (std::leader-keybind
       "pg"  nil
       "pt"  #'projectile-find-tag
       "psa" #'helm-projectile-ag
@@ -1231,7 +1650,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! projectile
+  (std::after projectile
     (setq projectile-switch-project-action #'project-find-file))
 #+END_SRC
 
@@ -1239,8 +1658,8 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Functions
 
 ~std::flycheck::next-error~
-#+BEGIN_SRC emacs-lisp
-  (after! flycheck
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::after flycheck
     (defun std::flycheck::next-error ()
       "Move to the next flycheck error.
   Start searching from the top if point is part the last error."
@@ -1258,8 +1677,8 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 ~std::flycheck::previous-error~
-#+BEGIN_SRC emacs-lisp
-  (after! flycheck
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::after flycheck
     (defun std::flycheck::previous-error ()
       "Move to the previous flycheck error.
   Start searching from the bottom if point is part the first error."
@@ -1276,10 +1695,17 @@ Add *company-dabbrev-code* to front row of completion backends.
             (message "No more Flycheck errors."))))))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload
+   #'std::flycheck::next-error
+   #'std::flycheck::previous-error)
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! flycheck
+  (std::after flycheck
     (setq
      flycheck-check-syntax-automatically '(mode-enabled save idle-change)
      flycheck-idle-change-delay          10
@@ -1289,7 +1715,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! flycheck
+  (std::after flycheck
 
     (evil-leader/set-key
       "ee"    #'flycheck-buffer
@@ -1300,27 +1726,37 @@ Add *company-dabbrev-code* to front row of completion backends.
 #+END_SRC
 
 ** Version Control
+*** Functions
+
+#+BEGIN_SRC emacs-lisp
+  (std::after magit
+    (defun std::magit::org-reveal-on-visit ()
+      (when (eq 'org-mode major-mode)
+        (org-reveal)))
+    (add-hook 'magit-diff-visit-file-hook #'std::magit::org-reveal-on-visit))
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! magit
+  (std::after magit
     (setq
+     magit-display-buffer-function              #'magit-display-buffer-fullframe-status-v1
+     magit-repository-directories               '(("~/Documents/git/" . 1))
      magit-save-repository-buffers              'dontask
      git-commit-summary-max-length              120
      magit-section-visibility-indicator         nil
-     magit-fetch-arguments                      '("--prune")
-     magit-rebase-arguments                     '("--autostash")
-     magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-dim-outside)))
+     magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)))
 
-  (after! git-gutter
+  (std::after git-gutter
     (setq git-gutter-fr:side 'left-fringe))
 #+END_SRC
 
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! magit
-    (keybind!
+  (std::after magit
+    (std::keybind
         (magit-mode-map
          magit-status-mode-map
          magit-log-mode-map
@@ -1334,8 +1770,8 @@ Add *company-dabbrev-code* to front row of completion backends.
          magit-stashes-section-map
          magit-staged-section-map
          magit-unstaged-section-map)
-      "J"   #'std::quick-forward
-      "K"   #'std::quick-backward
+      "J"   #'std::evil::forward-five-lines
+      "K"   #'std::evil::backward-five-lines
       "M-j" #'magit-section-forward-sibling
       "M-k" #'magit-section-backward-sibling
       ",u"  #'magit-section-up
@@ -1343,19 +1779,15 @@ Add *company-dabbrev-code* to front row of completion backends.
       ",1"  #'magit-section-show-level-1-all
       ",2"  #'magit-section-show-level-2-all
       ",3"  #'magit-section-show-level-3-all
-      ",4"  #'magit-section-show-level-4-all))
-#+END_SRC
-
-** Git
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (after! magit
-    (setq magit-repository-directories  '(("~/Documents/git/" . 1))
-          magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+      ",4"  #'magit-section-show-level-4-all
+      "M-1" #'winum-select-window-1
+      "M-2" #'winum-select-window-2
+      "M-3" #'winum-select-window-3
+      "M-4" #'winum-select-window-4))
 #+END_SRC
 
 ** Dired
+A simple sunrise-commander-ish two-pane setup, smart enough to remember the last window layout.
 *** Variables
 
 #+BEGIN_SRC emacs-lisp
@@ -1369,7 +1801,7 @@ Add *company-dabbrev-code* to front row of completion backends.
 A dired evil state to get rid of the cursor and to have a single keymap
 
 #+BEGIN_SRC emacs-lisp
-  (after! dired
+  (std::after dired
     (evil-define-state dired
       "Dired state"
       :cursor '(bar . 0)
@@ -1380,7 +1812,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 **** Top level
 
 ~std::dired~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::dired ()
     (interactive)
     (require 'dired+)
@@ -1401,17 +1833,23 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+END_SRC
 
 ~std::dired::mode-hook~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::dired::mode-hook ()
     (setq diredp-hide-details-initially-flag t)
     (hl-line-mode)
     (evil-dired-state))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload
+   #'std::dired #'std::dired::mode-hook)
+#+END_SRC
+
 **** Dired Internal
 
 #+BEGIN_SRC emacs-lisp
-  (after! dired+
+  (std::after dired+
 
     (defhydra std::dired-goto-hydra (:exit t :hint nil)
       ("h" (lambda () (interactive) (dired "~"))           "$HOME")
@@ -1434,7 +1872,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
               std::dired::saved-positions (list left right))
         (unless (f-exists? std::dired::cache-file)
           (f-touch std::dired::cache-file))
-        (f-write (f! "${left}\n${right}") 'utf-8 std::dired::cache-file))
+        (f-write (std::fmt "${left}\n${right}") 'utf-8 std::dired::cache-file))
       (set-window-configuration std::dired::saved-window-config)
       (--each (buffer-list)
         (when (eq 'dired-mode (buffer-local-value 'major-mode it))
@@ -1471,7 +1909,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 **** Wdired
 
 #+BEGIN_SRC emacs-lisp
-  (after! wdired
+  (std::after wdired
 
     (defun std::dired::finish-wdired ()
       (interactive)
@@ -1489,7 +1927,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
-  (after! dired+
+  (std::after dired+
     (setf dired-listing-switches "-alh --group-directories-first")
     (unless (file-exists-p std::dired::cache-file)
       (f-touch std::dired::cache-file)))
@@ -1498,7 +1936,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (leader-keybind! "ad" #'std::dired)
+  (std::leader-keybind "ad" #'std::dired)
 
   (defmacro std::dired::dwim-target-wrap (command)
     (let* ((command (cadr command))
@@ -1516,13 +1954,13 @@ A dired evil state to get rid of the cursor and to have a single keymap
              (-let [dired-dwim-target arg] (,command)))
            #',name))))
 
-  (after! dired+
+  (std::after dired+
 
     (std::dired::dwim-target-wrap #'dired-do-copy)
     (std::dired::dwim-target-wrap #'dired-do-rename)
     (std::dired::dwim-target-wrap #'dired-do-symlink)
 
-    (keybind! evil-dired-state-map
+    (std::keybind evil-dired-state-map
       "o"     nil
       ","     nil
       "c"     nil
@@ -1539,8 +1977,8 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "I"     #'std::dired::filesize
       "ox"    #'std::dired::open-externally
       "q"     #'std::dired::quit
-      "J"     #'std::quick-forward
-      "K"     #'std::quick-backward
+      "J"     #'std::evil::forward-five-lines
+      "K"     #'std::evil::backward-five-lines
       "M-j"   #'dired-mark
       "M-k"   #'std::dired::mark-up
       "l"     #'dired-find-file
@@ -1548,17 +1986,10 @@ A dired evil state to get rid of the cursor and to have a single keymap
       "Z"     #'dired-do-compress
       "M-z"   #'dired-do-compress-to)
 
-    (after! wdired
-      (keybind! wdired-mode-map
+    (std::after wdired
+      (std::keybind wdired-mode-map
         "C-c C-c" #'std::dired::finish-wdired
         "C-c C-k" #'std::dired::abort-wdired)))
-#+END_SRC
-
-** Clojure
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq clojure-enable-fancify-symbols t)
 #+END_SRC
 
 ** Treemacs
@@ -1591,7 +2022,7 @@ for easy deactivation.
       :load-path "~/Documents/git/treemacs/src/elisp"
       :defer t
       :init
-      (after! winum
+      (std::after winum
         (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
       :config
       (progn
@@ -1645,7 +2076,7 @@ The only deviation from the defaults
 #+BEGIN_SRC emacs-lisp
   (defvar std::ledger::save-window-config nil)
   (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ alnum)) " +++" eol))
-  (defconst std::ledger::dir (expand-file-name (f! "${*ORGDIR*}/Ledger")))
+  (defconst std::ledger::dir (expand-file-name (std::fmt "${*ORGDIR*}/Ledger")))
   (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
                                   (4 . "April")    (5 . "Mai")       (6 . "Juni")
                                   (7 . "Juli")     (8 . "August")    (9 . "September")
@@ -1656,17 +2087,17 @@ The only deviation from the defaults
 **** Top Level
 
 ~std::ledger~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::ledger ()
     (interactive)
     (require 'calendar)
-    (-let [pcmds (f! "${*ORGDIR*}/Ledger/ledger.el")]
+    (-let [pcmds (std::fmt "${*ORGDIR*}/Ledger/ledger.el")]
       (when (file-exists-p pcmds)
         (load-file pcmds)))
     (let* ((date (calendar-current-date))
            (year (cl-third (calendar-current-date)))
-           (main-file (f! "${std::ledger::dir}/Ledger.ledger"))
-           (year-file (f! "${std::ledger::dir}/${year}.ledger")))
+           (main-file (std::fmt "${std::ledger::dir}/Ledger.ledger"))
+           (year-file (std::fmt "${std::ledger::dir}/${year}.ledger")))
       (setf std::ledger::save-window-config (current-window-configuration))
       (delete-other-windows)
       (find-file year-file)
@@ -1680,22 +2111,31 @@ The only deviation from the defaults
 #+END_SRC
 
 ~std::ledger::mode-hook~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::ledger::mode-hook ()
     (outline-minor-mode)
     (smartparens-mode)
     (evil-ledger-mode)
-    (set-local!
-     ledger-accounts-file     (f! "${std::ledger::dir}/Ledger.ledger")
+    (flyspell-mode-off)
+    (std::set-local
+     ledger-accounts-file     (std::fmt "${std::ledger::dir}/Ledger.ledger")
      outline-regexp           (rx bol "+++ ")
      imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))))
+#+END_SRC
+
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload
+   #'std::ledger
+   #'std::ledger::mode-hook)
+  (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 #+END_SRC
 
 **** Internal
 
 ~std::ledger::save~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
     (defun std::ledger::save ()
       "First `ledger-mode-clean-buffer', then `save-buffer'."
       (interactive)
@@ -1708,7 +2148,7 @@ The only deviation from the defaults
 
 ~std::ledger::finish~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
     (defun std::ledger::finish ()
       (interactive)
       (cl-loop
@@ -1724,7 +2164,7 @@ The only deviation from the defaults
 
 ~std::ledger::magic-tab~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
     (defun std::ledger::magic-tab ()
       (interactive)
       (if (s-matches? outline-regexp (thing-at-point 'line t))
@@ -1734,7 +2174,7 @@ The only deviation from the defaults
 
 ~std::ledger::goto-current-month~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
     (defun std::ledger::goto-current-month ()
       (interactive)
       (-let [month (-> (calendar-current-date)
@@ -1743,7 +2183,7 @@ The only deviation from the defaults
         (save-match-data
           (-let [start (point)]
             (goto-char 0)
-            (if (search-forward (f! "+++ ${month}") nil :no-error)
+            (if (search-forward (std::fmt "+++ ${month}") nil :no-error)
                 (forward-line 1)
               (message "'%s' not found." month)
               (goto-char start)))))))
@@ -1751,7 +2191,7 @@ The only deviation from the defaults
 
 ~std::ledger::forward~ & ~std::ledger::backward~
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
     (defun std::ledger::forward ()
       (interactive)
       (if (s-matches? std::ledger::month-separator-pattern
@@ -1774,18 +2214,18 @@ The only deviation from the defaults
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (leader-keybind! "aL" #'std::ledger)
+  (std::leader-keybind "aL" #'std::ledger)
 
-  (after! ledger-mode
+  (std::after ledger-mode
 
-    (keybind! ledger-mode-map
+    (std::keybind ledger-mode-map
       "M-j"   #'std::ledger::forward
       "M-k"   #'std::ledger::backward
       "<tab>" #'std::ledger::magic-tab
       "M-q"   #'ledger-post-align-dwim
       [remap save-buffer] #'std::ledger::save)
 
-    (mode-leader-keybind! 'ledger-mode
+    (std::mode-leader-keybind 'ledger-mode
       "C-w" #'std::ledger::finish
       "c"   #'std::ledger::goto-current-month
       "L"   #'std::ledger::parse-csv
@@ -1801,7 +2241,7 @@ The only deviation from the defaults
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! ledger-mode
+  (std::after ledger-mode
 
     (defface std::ledger::month-face
       '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a"))))
@@ -1826,107 +2266,13 @@ The only deviation from the defaults
           ledger-post-account-alignment-column 2
           ledger-clear-whole-transactions      t
           company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
-
-  (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
-#+END_SRC
-
-** Purpose
-*** Settings
-**** Shackle Integration
-
-#+BEGIN_SRC emacs-lisp
-  (after! window-purpose
-    (defun maybe-display-shackle (buffer alist)
-      (and (shackle-display-buffer-condition buffer alist)
-           (shackle-display-buffer-action buffer alist)))
-
-    (setq purpose-action-sequences
-          '((switch-to-buffer
-             . (purpose-display-reuse-window-buffer
-                purpose-display-reuse-window-purpose
-                maybe-display-shackle
-                purpose-display-maybe-same-window
-                purpose-display-maybe-other-window
-                purpose-display-maybe-other-frame
-                purpose-display-maybe-pop-up-window
-                purpose-display-maybe-pop-up-frame))
-
-            (prefer-same-window
-             . (purpose-display-maybe-same-window
-                maybe-display-shackle
-                purpose-display-reuse-window-buffer
-                purpose-display-reuse-window-purpose
-                purpose-display-maybe-other-window
-                purpose-display-maybe-other-frame
-                purpose-display-maybe-pop-up-window
-                purpose-display-maybe-pop-up-frame))
-
-            (force-same-window
-             . (purpose-display-maybe-same-window
-                maybe-display-shackle))
-
-            (prefer-other-window
-
-             . (purpose-display-reuse-window-buffer
-                purpose-display-reuse-window-purpose
-                maybe-display-shackle
-                purpose-display-maybe-other-window
-                purpose-display-maybe-pop-up-window
-                purpose-display-maybe-other-frame
-                purpose-display-maybe-pop-up-frame
-                purpose-display-maybe-same-window))
-
-            (prefer-other-frame
-             . (purpose-display-reuse-window-buffer-other-frame
-                purpose-display-reuse-window-purpose-other-frame
-                maybe-display-shackle
-                purpose-display-maybe-other-frame
-                purpose-display-maybe-pop-up-frame
-                purpose-display-maybe-other-window
-                purpose-display-maybe-pop-up-window
-                purpose-display-reuse-window-buffer
-                purpose-display-reuse-window-purpose
-                purpose-display-maybe-same-window)))))
-#+END_SRC
-
-**** Custom Purposes
-
-#+BEGIN_SRC emacs-lisp
-  (after! window-purpose
-    (setq purpose-user-mode-purposes
-          '((flycheck-error-list-mode . bottom)
-            (messages-buffer-mode     . bottom)
-            (compilation-mode         . bottom)
-            (inferior-emacs-lisp-mode . bottom)))
-
-    (purpose-compile-user-configuration))
-#+END_SRC
-
-**** Shackle-friendly Functions
-
-~std::pop-to-messages-buffer~
-#+BEGIN_SRC emacs-lisp
-  (defun std::pop-to-messages-buffer (&optional arg)
-    "Same as the spacemacs builtin, but uses `pop-to-buffer'.
-    This ensures that shackle's (or purpose's) rules apply to the new window."
-    (interactive "P")
-    (-let [buf (messages-buffer)]
-      (--if-let (get-buffer-window buf)
-          (delete-window it)
-        (with-current-buffer (messages-buffer)
-          (goto-char (point-max))
-          (if arg
-              (switch-to-buffer-other-window (current-buffer))
-            (pop-to-buffer (current-buffer)))))))
-
-  (leader-keybind! "bm" #'std::pop-to-messages-buffer)
 #+END_SRC
 
 ** Email
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
+  (std::after mu4e
     (defun std::mail::find-thunderbird-imap-dir ()
       (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
         (when (f-exists? dot-thunderbird)
@@ -1938,7 +2284,7 @@ The only deviation from the defaults
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
+  (std::after mu4e
 
     (global-mu4e-conversation-mode)
 
@@ -1959,41 +2305,53 @@ The only deviation from the defaults
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! mu4e
+  (std::after mu4e
 
-    (keybind! mu4e-main-mode-map
+    (std::keybind mu4e-main-mode-map
       "u" #'mu4e-update-index)
 
-    (evil-keybind! 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
-      "J" #'std::quick-forward
-      "K" #'std::quick-backward))
+    (std::evil-keybind 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
+      "J" #'std::evil::forward-five-lines
+      "K" #'std::evil::backward-five-lines))
 #+END_SRC
 
 ** Colors
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-mode)
-  (add-hook 'conf-mode-hook       #'rainbow-mode)
-  (add-hook 'help-mode-hook       #'rainbow-mode)
-  (add-hook 'css-mode-hook        #'rainbow-mode)
+  (std::add-hooks #'rainbow-mode
+    (emacs-lisp-mode-hook
+     conf-mode-hook
+     help-mode-hook
+     css-mode-hook))
+
+  (add-hook 'prog-mode-hook    #'rainbow-delimiters-mode-enable)
+  (add-hook 'snippet-mode-hook #'rainbow-delimiters-mode-disable)
 #+END_SRC
 
 ** Elfeed
+*** Evil State
+
+#+BEGIN_SRC emacs-lisp
+  (std::after elfeed
+    (evil-define-state elfeed
+      "Evil elfeed state."
+      :cursor '(bar . 0)
+      :enable (evilified)))
+#+END_SRC
+
 *** Functions
 
 ~std::elfeed::mode-hook~
-#+BEGIN_SRC emacs-lisp
-  (after! elfeed
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::after elfeed
     (defun std::elfeed::mode-hook ()
-      (idle! 0.1 :no-repeat
-        (setq-local cursor-type '(bar . 0))))
-    (add-hook 'elfeed-search-mode-hook #'std::elfeed::mode-hook))
+      (evil-elfeed-state)))
 #+END_SRC
 
 ~std::elfeed::play-with-mpv~
 #+BEGIN_SRC emacs-lisp
-  (after! elfeed
+  (std::after elfeed
 
     (defun std::elfeed::visit-entry-dwim (&optional arg)
       (interactive "P")
@@ -2002,7 +2360,7 @@ The only deviation from the defaults
         (-let [entry (if (eq major-mode 'elfeed-show-mode) elfeed-show-entry (elfeed-search-selected :single))]
           (if (s-matches? (rx "https://www.youtube.com/watch" (1+ any)) (elfeed-entry-link entry))
               (let* ((quality (completing-read "Max height resolution (0 for unlimited): " '("0" "480" "720" "1080")))
-                     (arg (if (= 0 (string-to-number quality)) "" (f! "--ytdl-format=[height<=?${quality}]"))))
+                     (arg (if (= 0 (string-to-number quality)) "" (std::fmt "--ytdl-format=[height<=?${quality}]"))))
                 (message "Opening %s with height ≤ %s with mpv..."
                          (propertize (elfeed-entry-link entry) 'face 'font-lock-string-face)
                          (propertize quality 'face 'font-lock-keyword-face))
@@ -2015,7 +2373,7 @@ The only deviation from the defaults
 
 ~std::elfeed::ignore-entry~
 #+begin_src emacs-lisp
-  (after! elfeed
+  (std::after elfeed
     (defun std::elfeed::ignore-entry ()
       (interactive)
       (-let [entries (elfeed-search-selected)]
@@ -2024,11 +2382,17 @@ The only deviation from the defaults
         (elfeed-search-update :force))))
 #+end_src
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::elfeed::mode-hook)
+  (add-hook 'elfeed-search-mode-hook #'std::elfeed::mode-hook)
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! elfeed
-    (setf elfeed-db-directory  (f! "${*ORGDIR*}/Elfeed-DB")
+  (std::after elfeed
+    (setf elfeed-db-directory  (std::fmt "${*ORGDIR*}/Elfeed-DB")
           elfeed-search-filter "@6-months-ago -ignore"
           elfeed-search-face-alist
           '((unread   elfeed-search-unread-title-face)
@@ -2041,12 +2405,21 @@ The only deviation from the defaults
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! elfeed
-    (keybind! elfeed-search-mode-map
-      "J" #'std::quick-forward
-      "K" #'std::quick-backward
+  (std::after elfeed
+    (std::keybind elfeed-search-mode-map
+      "J" #'std::evil::forward-five-lines
+      "K" #'std::evil::backward-five-lines
       "i" #'std::elfeed::ignore-entry
       [remap elfeed-search-browse-url] #'std::elfeed::visit-entry-dwim))
+#+END_SRC
+
+** Spell Checking
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'markdown-mode-hook #'flyspell-mode)
+  (add-hook 'org-mode-hook #'flyspell-mode-off)
 #+END_SRC
 
 * Single Package Configurations
@@ -2054,7 +2427,7 @@ The only deviation from the defaults
 *** Functions
 
 ~std::swipe-symbol-at-point~
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::swipe-symbol-at-point ()
     (interactive)
     (-if-let (sym (thing-at-point 'symbol t))
@@ -2062,10 +2435,15 @@ The only deviation from the defaults
       (message "No symbol found.")))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::swipe-symbol-at-point)
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! swiper
+  (std::after swiper
     (setq ivy-height 4)
     (push 'org-mode swiper-font-lock-exclude))
 #+END_SRC
@@ -2073,95 +2451,64 @@ The only deviation from the defaults
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-s") #'swiper)
+  (std::global-keybind "C-s" #'swiper)
 
-  (keybind! (evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
+  (std::keybind (evil-normal-state-map evil-insert-state-map evil-visual-state-map evil-motion-state-map)
     "C-M-s" #'std::swipe-symbol-at-point)
 #+END_SRC
 
-** Eyebrowse
+** Anzu
 
-Switch desktops via SPC + num
-#+BEGIN_SRC emacs-lisp
-  (eyebrowse-mode t)
-  (dolist (num (number-sequence 0 9))
-    (let ((key  (kbd (concat "SPC " (number-to-string num))))
-          (func (intern (concat "eyebrowse-switch-to-window-config-" (number-to-string num)))))
-      (spacemacs/set-leader-keys key func)))
-#+END_SRC
-
-** Shackle
-
-Replace popwin
-#+BEGIN_SRC emacs-lisp
-  (shackle-mode t)
-
-  (setq helm-display-function 'pop-to-buffer)
-
-  (setq shackle-rules
-        '(("*helm-ag*"              :select t   :align right :size 0.5)
-          ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
-          ("*helm org inbuffer*"    :select t   :align right :size 0.4)
-          (flycheck-error-list-mode :select nil :align below :size 0.25)
-          (compilation-mode         :select nil :align below :size 0.25)
-          (messages-buffer-mode     :select t   :align below :size 0.25)
-          (inferior-emacs-lisp-mode :select t   :align below :size 0.25)
-          (ert-results-mode         :select t   :align below :size 0.5)
-          (calendar-mode            :select t   :align below :size 0.25)
-          (racer-help-mode          :select t   :align right :size 0.5)
-          (help-mode                :select t   :align right :size 0.5)
-          (helpful-mode             :select t   :align right :size 0.5)
-          (" *Deletions*"           :select t   :align below :size 0.25)
-          (" *Marked Files*"        :select t   :align below :size 0.25)
-          ("*Org Select*"           :select t   :align below :size 0.33)
-          ("*Org Note*"             :select t   :align below :size 0.33)
-          ("*Org Links*"            :select t   :align below :size 0.2)
-          (" *Org todo*"            :select t   :align below :size 0.2)
-          ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
-          ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
-          ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)))
-#+END_SRC
-
-** Yasnippet
 *** Functions
 
-~std::yasnippet::activate-fundamental-mode~
-#+BEGIN_SRC emacs-lisp
-  (defun std::yasnippet::activate-fundamental-mode ()
-    (yas-activate-extra-mode 'fundamental-mode))
+~std::defun-query-replace~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::defun-query-replace (&optional arg)
+    (interactive "P")
+    (if arg
+        (progn (mark-defun)
+               (call-interactively 'anzu-query-replace))
+      (anzu-query-replace-at-cursor-thing)))
 #+END_SRC
 
-*** Keybinds
-
+Autoloads
 #+BEGIN_SRC emacs-lisp
-  (after! yasnippet
-    (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
+  (std::autoload #'std::defun-query-replace)
+  (std::leader-keybind
+   "üü" #'anzu-query-replace
+   "üf" #'std::defun-query-replace)
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! yasnippet
-    (autoload #'f-join "f.el")
-    (setq-default yas-snippet-dirs (list (f-join (getenv "SPACEMACSDIR") "snippets"))))
-
-  (add-hook 'yas-minor-mode-hook #'std::yasnippet::activate-fundamental-mode)
+  (std::after anzu
+    (setf anzu-cons-mode-line-p nil))
 #+END_SRC
 
-*** Enable Smartparens
+** Yasnippet
+*** Functions
 
-Smartparens is disabled while yasnippet is expanding and editing a snippet. Whatever this was a workaround for
-I don't seem affected, and I'd rather keep my electric pairs inside my snippets.
+~std::yas::activate-fundamental-mode~
 #+BEGIN_SRC emacs-lisp
-  (after! (yasnippet smartparens)
-    (unless (bound-and-true-p std::yasnippet::smartparens-restored)
-      (defvar std::yasnippet::smartparens-restored t)
-      (if (member #'spacemacs//smartparens-disable-before-expand-snippet yas-before-expand-snippet-hook)
-          (remove-hook 'yas-before-expand-snippet-hook #'spacemacs//smartparens-disable-before-expand-snippet)
-        (error "Smartparens no longer disabled before yasnippet starts."))
-      (if (member #'spacemacs//smartparens-restore-after-exit-snippet yas-after-exit-snippet-hook)
-          (remove-hook 'yas-after-exit-snippet-hook #'spacemacs//smartparens-restore-after-exit-snippet)
-        (error "Smartparens no longer restored after yasnippet ends."))))
+  (defun std::yas::activate-fundamental-mode ()
+    (yas-activate-extra-mode 'fundamental-mode))
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (std::after yasnippet
+    (setf yas-snippet-dirs (list (std::fmt "${*SPACEMACSDIR*}/snippets"))))
+
+  (add-hook 'yas-minor-mode-hook #'std::yas::activate-fundamental-mode)
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (std::after yasnippet
+    (define-key evil-insert-state-map (kbd "C-l") #'yas-expand))
 #+END_SRC
 
 *** Enable Whitespace mode
@@ -2174,22 +2521,36 @@ Hoping it'll help with the issue of the extra newline in snippets
 ** i3wm-config-mode
 
 #+BEGIN_SRC emacs-lisp
-  (after! conf-mode
+  (std::after conf-mode
     (require 'i3wm-config-mode))
 #+END_SRC
 
 ** Writeroom mode
+*** Functions
 
+#+BEGIN_SRC emacs-lisp 
+  (std::after writeroom-mode
+    (defun std::writeroom::toggle-line-numbers ()
+      (if writeroom-mode
+          (display-line-numbers-mode -1)
+        (display-line-numbers-mode t))))
+#+END_SRC
+
+*** Settings
 #+BEGIN_SRC emacs-lisp
   (spacemacs|add-toggle writeroom
     :mode writeroom-mode
     :documentation "Disable visual distractions."
     :evil-leader "TW")
 
-  (after! writeroom-mode
+  (std::after writeroom-mode
     (setq writeroom-width                120
           writeroom-extra-line-spacing   0
-          writeroom-bottom-divider-width 0))
+          writeroom-bottom-divider-width 0
+          writeroom-global-effects
+          (delete 'writeroom-set-fullscreen writeroom-global-effects))
+
+    (add-hook 'writeroom-mode-hook #'std::writeroom::toggle-line-numbers))
 #+END_SRC
 
 ** Vimish fold
@@ -2202,66 +2563,11 @@ A fallback in case evil's own folding is not sufficient
   (define-key evil-normal-state-map (kbd "zvz") #'vimish-fold)
 #+END_SRC
 
-** Winum
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq winum-scope 'frame-local)
-#+END_SRC
-
-** Persp
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq
-   persp-add-buffer-on-after-change-major-mode      nil
-   persp-add-buffer-on-find-file                    t
-   persp-auto-resume-time                           0
-   persp-auto-save-opt                              0
-   persp-auto-save-persps-to-their-file-before-kill nil
-   persp-autokill-buffer-on-remove                  nil)
-#+END_SRC
-
-*** Layouts
-
-#+BEGIN_SRC emacs-lisp
-  (spacemacs|define-custom-layout "@OrgDir"
-    :binding "a"
-    :body
-    (-if-let (org-files (f-files org-directory))
-        (find-file-existing (first org-files))
-      (user-error "No org files ")))
-#+END_SRC
-
-** Evil Goggles
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (evil-goggles-mode t)
-  (setq evil-goggles-duration                     0.15
-        evil-goggles-pulse                        nil
-        evil-goggles-enable-change                t
-        evil-goggles-enable-delete                t
-        evil-goggles-enable-indent                t
-        evil-goggles-enable-yank                  t
-        evil-goggles-enable-join                  t
-        evil-goggles-enable-fill-and-move         t
-        evil-goggles-enable-paste                 t
-        evil-goggles-enable-shift                 t
-        evil-goggles-enable-surround              t
-        evil-goggles-enable-commentary            t
-        evil-goggles-enable-nerd-commenter        t
-        evil-goggles-enable-replace-with-register t
-        evil-goggles-enable-set-marker            t
-        evil-goggles-enable-undo                  t
-        evil-goggles-enable-redo                  t)
-#+END_SRC
-
 ** Helpful
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x ß") #'helpful-at-point)
+  (std::global-keybind "C-x ß" #'helpful-at-point)
 #+END_SRC
 
 *** Settings
@@ -2274,7 +2580,7 @@ A fallback in case evil's own folding is not sufficient
 *** Functions
 
 Evaluate last s-expr on the right spot, calling into eros if it's on.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::eval-last-sexp ()
     (interactive)
     (autoload #'eros-eval-last-sexp "eros")
@@ -2287,11 +2593,22 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
         (call-interactively func))))
 #+END_SRC
 
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::eval-last-sexp)
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (eros-mode t)
+#+END_SRC
+
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x C-e") #'std::eval-last-sexp)
-  (mode-leader-keybind! 'emacs-lisp-mode "ee" #'std::eval-last-sexp)
+  (std::global-keybind "C-x C-e" #'std::eval-last-sexp)
+  (std::mode-leader-keybind 'emacs-lisp-mode "ee" #'std::eval-last-sexp)
 #+END_SRC
 
 ** Multi-Compile
@@ -2311,13 +2628,13 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
                        "~/")))]
       (call-interactively #'multi-compile-run)))
 
-  (leader-keybind! "pc" #'std::multi-compile)
+  (std::leader-keybind "pc" #'std::multi-compile)
 #+END_SRC
 
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! multi-compile
+  (std::after multi-compile
     (setq multi-compile-alist
           '((emacs-lisp-mode ("Test" . "make test")
                              ("Lint" . "make lint")
@@ -2330,54 +2647,87 @@ Evaluate last s-expr on the right spot, calling into eros if it's on.
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (after! avy
+  (std::after avy
     (setf avy-all-windows      nil
           avy-case-fold-search nil))
 #+END_SRC
 
-** Framey
+*** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (after! helm (framey-mode))
-
-  (after! framey
-    (setq framey-show-modeline nil))
-#+END_SRC
-
-** tridactylrc
-*** Settings
-
-#+BEGIN_SRC emacs-lisp
-  (after! (tridactylrc-mode highlight-numbers)
-    (ht-set! highlight-numbers-modelist 'tridactylrc-mode 'do-not-use))
+  (std::evil-keybind (normal motion visual) global-map
+    "ß" #'evil-avy-goto-char-2)
 #+END_SRC
 
 ** Make
 *** Functions
 
 #+BEGIN_SRC emacs-lisp
-  (after! make-mode
+  (std::after make-mode
 
     (defun std::make::mode-hook ()
       (setf company-backends '((company-capf company-dabbrev-code :with company-yasnippet))))
     (add-hook 'makefile-mode-hook #'std::make::mode-hook))
 #+END_SRC
 
+** Smartparens
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (show-smartparens-global-mode t)
+
+  (require 'smartparens-config)
+
+  (std::add-hooks #'smartparens-mode
+    (prog-mode-hook text-mode-hook comint-mode-hook))
+
+  (setq sp-show-pair-delay
+        (or (bound-and-true-p sp-show-pair-delay) 0.2)
+        sp-show-pair-from-inside t
+        sp-cancel-autoskip-on-backward-movement nil
+        sp-highlight-pair-overlay nil
+        sp-highlight-wrap-overlay nil
+        sp-highlight-wrap-tag-overlay nil)
+#+END_SRC
+
+*** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (std::leader-keybind
+   "kr" #'sp-raise-sexp
+   "kw" #'sp-wrap
+   "ks" #'sp-forward-slurp-sexp
+   "kS" #'sp-backward-slurp-sexp
+   "kb" #'sp-forward-barf-sexp
+   "kB" #'sp-backward-barf-sexp
+   "js" #'sp-split-sexp
+   "jn" #'sp-newline)
+#+END_SRC
+
+** Which-Key
+
+#+BEGIN_SRC emacs-lisp
+  (which-key-mode -1)
+#+END_SRC
+
+** Expand Region
+
+#+BEGIN_SRC emacs-lisp
+  (std::leader-keybind
+   "v" #'er/expand-region)
+
+  (std::after expand-region
+    (setq expand-region-contract-fast-key "c"
+          expand-region-reset-fast-key    "r"))
+#+END_SRC
+
 * Modeline
 
 A simple mode-line implementation based on doom.
 
-** Default
+** Faces
 
 #+BEGIN_SRC emacs-lisp
-  (require 'powerline)
-  (require 'inline)
-  (with-no-warnings
-    (require 'doom-modeline))
-
-  (declare-function winum-get-number "winum")
-  (declare-function eyebrowse--get "eyebrowse")
-
   (defface std::modeline::selected-separator-face
     '((t (:background "#1E90FF")))
     ""
@@ -2387,6 +2737,16 @@ A simple mode-line implementation based on doom.
     '((t (:background "#444444")))
     ""
     :group 'std)
+#+END_SRC
+
+** Default
+
+#+BEGIN_SRC emacs-lisp
+  (require 'inline)
+  (require 'doom-modeline)
+
+  (declare-function winum-get-number "winum")
+  (declare-function eyebrowse--get "eyebrowse")
 
   (defconst std::modeline::selected-window-xpm
     (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30))
@@ -2471,7 +2831,7 @@ A simple mode-line implementation based on doom.
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-  (after! magit
+  (std::after magit
 
     (doom-modeline-def-segment std::modeline::buffer-process
       mode-line-process)
@@ -2494,7 +2854,7 @@ A simple mode-line implementation based on doom.
 ** Treemacs
 
 #+BEGIN_SRC emacs-lisp
-  (after! treemacs
+  (std::after treemacs
 
     (doom-modeline-def-modeline 'treemy
       '(""  std::modeline::window-bar
@@ -2510,13 +2870,12 @@ A simple mode-line implementation based on doom.
 ** Alignment for Pre-Existing Buffers
 
 #+BEGIN_SRC emacs-lisp
-  (idle! 2 :no-repeat
-    (dolist (buffer '("*Messages*" "*spacemacs*" "*Compile-Log*"))
+  (std::idle 0.5 :no-repeat
+    (dolist (buffer '("*Messages*" "*spacemacs*" "*Compile-Log*" "*scratch*"))
       (when (get-buffer buffer)
         (with-current-buffer buffer
           (setq-local mode-line-format (default-value 'mode-line-format))
-          (powerline-set-selected-window)
-          (powerline-reset)))))
+          (doom-modeline-set-selected-window)))))
 #+END_SRC
 
 * Fonts
@@ -2578,99 +2937,10 @@ Then single characters, like those used for prettify-symbols
 * Misc. Settings
 ** General Key Binds
 
-Use visual lines
-#+BEGIN_SRC emacs-lisp
-  (keybind! (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
-    "j" #'evil-next-line
-    "k" #'evil-previous-line)
-#+END_SRC
-
-Quick line jumping
-#+BEGIN_SRC emacs-lisp
-  (defun std::quick-forward ()
-    (interactive) (evil-next-visual-line 5))
-
-  (defun std::quick-backward ()
-    (interactive) (evil-previous-visual-line 5))
-
-  (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
-    (define-key map (kbd "J") #'std::quick-forward))
-
-  (dolist (map (list evil-normal-state-map evil-visual-state-map evil-motion-state-map))
-    (define-key map (kbd "K") #'std::quick-backward))
-#+END_SRC
-
-Emacs style line start/end jump
-#+BEGIN_SRC emacs-lisp
-  (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
-    (define-key map (kbd "C-e") #'evil-end-of-visual-line))
-
-  (dolist (map (list evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map))
-    (define-key map (kbd "C-a") #'evil-beginning-of-visual-line))
-#+END_SRC
-
-Splitting and joining lines
-#+BEGIN_SRC emacs-lisp
-  (define-key evil-normal-state-map (kbd "C-j") #'newline-and-indent)
-  (evil-leader/set-key "C-j" #'evil-join)
-#+END_SRC
-
-Dumb Refactoring
-#+BEGIN_SRC emacs-lisp
-  (defun std::defun-query-replace (&optional arg)
-    (interactive "P")
-    (if arg
-        (progn (mark-defun)
-               (call-interactively 'anzu-query-replace))
-      (anzu-query-replace-at-cursor-thing)))
-
-  (evil-leader/set-key
-    "üü" #'anzu-query-replace
-    "üf" #'std::defun-query-replace)
-#+END_SRC
-
-Find definition
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-.") #'xref-find-definitions)
-  (define-key evil-normal-state-map (kbd "M-.") #'xref-find-definitions)
-#+END_SRC
-
-Quitting with *q*
-#+BEGIN_SRC emacs-lisp
-  (evil-define-key 'normal messages-buffer-mode-map (kbd "q") #'quit-window)
-  (after! flycheck
-    (define-key flycheck-error-list-mode-map (kbd "q") #'kill-buffer-and-window))
-  (after! Man-mode
-    (define-key Man-mode-map (kbd "q") #'kill-buffer-and-window))
-  (after! helpful
-    (evil-define-key '(normal motion) helpful-mode-map (kbd "q") #'framey-quit-window))
-#+END_SRC
-
-Killing a buffer alongside its window
-#+BEGIN_SRC emacs-lisp
-  (leader-keybind! "b C-d" #'kill-buffer-and-window)
-#+END_SRC
-
-Same comment keybind as in eclipse
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-7") #'evilnc-comment-operator)
-#+END_SRC
-
-Newline in normal state
-#+BEGIN_SRC emacs-lisp
-  (define-key evil-normal-state-map (kbd "<RET>") #'newline-and-indent)
-#+END_SRC
-
 Fill region
 #+BEGIN_SRC emacs-lisp
-  (keybind! global-map
+  (std::keybind global-map
     "C-q" #'fill-region)
-#+END_SRC
-
-More accessible avy
-#+BEGIN_SRC emacs-lisp
-  (evil-keybind! (normal motion visual) global-map
-    "ß" #'evil-avy-goto-char-2)
 #+END_SRC
 
 ** Line numbers
@@ -2697,7 +2967,6 @@ No more jumpy recenter
 On
 #+BEGIN_SRC emacs-lisp
   (global-subword-mode t)
-  (eros-mode t)
 #+END_SRC
 
 Off
@@ -2705,14 +2974,6 @@ Off
   (ido-mode -1)
   (global-hl-line-mode -1)
   (blink-cursor-mode -1)
-#+END_SRC
-
-*** Hooks
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook       #'rainbow-delimiters-mode-enable)
-  (add-hook 'snippet-mode-hook    #'rainbow-delimiters-mode-disable)
-  (add-hook 'org-mode-hook        #'smartparens-mode)
 #+END_SRC
 
 *** Prettify Symbols
@@ -2729,21 +2990,16 @@ Off
 
 ** Single Settings
 
-Better line numbers
-#+BEGIN_SRC emacs-lisp
-  (setq linum-format " %d ")
-#+END_SRC
-
 Pos Tip colors
 #+BEGIN_SRC emacs-lisp
-  (after! pos-tip
+  (std::after pos-tip
     (setq pos-tip-background-color "#2d2d2d"
           pos-tip-foreground-color "#ccb18b"))
 #+END_SRC
 
 Pack the custom settings away from the actual config to somewhere they can be easily gitignored.
 #+BEGIN_SRC emacs-lisp
-  (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el"))
+  (setq custom-file (std::fmt "${*SPACEMACSDIR*}/custom-file.el"))
 #+END_SRC
 
 Simple newlines
@@ -2766,16 +3022,6 @@ Keept the fringes clean
   (setq-default indicate-empty-lines nil)
 #+END_SRC
 
-Banish mouse to the bottom so as not to interfere with notifications
-#+BEGIN_SRC emacs-lisp
-  (setq-default mouse-avoidance-banish-position
-                '((frame-or-window . frame)
-                  (side . right)
-                  (side-pos . 3)
-                  (top-or-bottom . bottom)
-                  (top-or-bottom-pos . 0)))
-#+END_SRC
-
 Don't load outdated files
 #+BEGIN_SRC emacs-lisp
   (setq load-prefer-newer t)
@@ -2793,8 +3039,8 @@ No more asking to following symlinks
 
 Dash.el highlighting
 #+BEGIN_SRC emacs-lisp
-  (after! dash
-    (dash-enable-font-lock))
+  (std::after dash
+     (dash-enable-font-lock))
 #+END_SRC
 
 Use firefox to open urls.
@@ -2804,31 +3050,14 @@ Use firefox to open urls.
 
 Simple title that won't cost performance.
 #+BEGIN_SRC emacs-lisp
-  (defun spacemacs/title-prepare (&rest _args)
-    ""
-    "Emacs")
+  (defun spacemacs/title-prepare (&rest __args) "" "Emacs")
 #+END_SRC
 
-** Desktop Restoration
-*** Settings
-
+Garbage collection.
 #+BEGIN_SRC emacs-lisp
-  (setq desktop-restore-eager           2
-        desktop-restore-forces-onscreen nil
-        desktop-lazy-idle-delay         10)
-#+END_SRC
-
-*** Restoration
-The way spacemacs loads its config doesn't seem to mesh with desktop-save-mode
-so it needs to be done manually - just once on boot and not every time the
-config is reloaded at runtime
-
-#+BEGIN_SRC emacs-lisp
-  (when (and nil
-             (bound-and-true-p desktop-save-mode)
-             (not (boundp 'std::boot-finished)))
-    (desktop-read)
-    (defvar std::boot-finished t))
+  (setf gc-cons-threshold 10000000
+        gc-cons-percentage 0.25)
+  (std::idle 2 :repeat #'garbage-collect)
 #+END_SRC
 
 This final text prevents that the END_SRC face bleeds into the collapsed heading.

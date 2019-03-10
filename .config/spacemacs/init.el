@@ -1,10 +1,10 @@
-;; -*- mode: emacs-lisp -*-
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 
 (defun dotspacemacs/layers ()
   (setq-default
    *SPACEMACSDIR*                         (getenv "SPACEMACSDIR")
    *ORGDIR*                               "~/Documents/Org"
-   dotspacemacs-distribution              'spacemacs
+   dotspacemacs-distribution              'spacemacs-base
    dotspacemacs-enable-lazy-installation  'unused
    dotspacemacs-ask-for-lazy-installation t
    dotspacemacs-configuration-layer-path  '()
@@ -34,6 +34,13 @@
      syntax-checking
      shell
      shell-scripts
+     spacemacs-project
+     spacemacs-evil
+     spacemacs-completion
+     (spell-checking
+      :variables
+      enable-flyspell-auto-completion nil
+      spell-checking-enable-by-default nil)
      (version-control
       :variables
       version-control-diff-tool     'git-gutter
@@ -41,14 +48,20 @@
      vimscript
      yaml)
    dotspacemacs-additional-packages
-   '(buttercup
+   '(ace-window
+     anzu
+     buttercup
      company-flx
      (dired+ :location (recipe :fetcher github
                                :repo "emacsmirror/dired-plus"))
-     dash-functional ;; for local company-box
      doom-modeline
      el-mock
      eros
+     evil-collection
+     evil-goggles
+     evil-surround
+     expand-region
+     eyebrowse
      flx
      flycheck-package
      german-holidays
@@ -57,9 +70,13 @@
      multi-compile
      ht
      pfuture
+     rainbow-delimiters
      shackle
+     smartparens
      swiper
      vimish-fold
+     window-purpose
+     winum
      writeroom-mode
      (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
      (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))
@@ -68,15 +85,31 @@
    dotspacemacs-delete-orphan-packages nil
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages
-   '(evil-org
-     popwin
+   '(centered-cursor-mode
+     diminish
+     evil-anzu
+     evil-ediff
+     evil-escape
+     evil-iedit-state
+     evil-lisp-state
+     evil-org
+     evil-tutor
      evil-unimpaired
-     vi-tilde-fringe
+     fancy-battery
+     golden-ratio
+     neotree
+     open-junk-file
+     paradox
+     popwin
+     spaceline
+     spaceline-all-the-icons
+     symon
      treemacs
      treemacs-evil
-     treemacs-projectile
      treemacs-magit
-     neotree)
+     treemacs-projectile
+     vi-tilde-fringe
+     vim-powerline)
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
@@ -86,7 +119,7 @@
    dotspacemacs-emacs-dumper-dump-file             "spacemacs.pdmp"
    dotspacemacs-elpa-https                         t
    dotspacemacs-elpa-timeout                       10
-   dotspacemacs-gc-cons                            '(1600000 0.25)
+   dotspacemacs-gc-cons                            '(100000000 0.25)
    dotspacemacs-use-spacelpa                       nil
    dotspacemacs-verify-spacelpa-archives           nil
    dotspacemacs-check-for-update                   nil
@@ -96,7 +129,7 @@
    dotspacemacs-verbose-loading                    nil
    dotspacemacs-startup-banner                     'random
    dotspacemacs-startup-buffer-responsive          nil
-   dotspacemacs-startup-lists                      '((recents . 5) (projects . 7))
+   dotspacemacs-startup-lists                      nil
    dotspacemacs-initial-scratch-message            nil
    dotspacemacs-scratch-mode                       'emacs-lisp-mode
    dotspacemacs-themes                             '(morning-star)
@@ -119,7 +152,7 @@
    dotspacemacs-max-rollback-slots                 5
    dotspacemacs-enable-paste-transient-state       t
    dotspacemacs-which-key-delay                    2.0
-   dotspacemacs-which-key-position                 'bottom
+   dotspacemacs-which-key-position                 'right
    dotspacemacs-switch-to-buffer-prefers-purpose   nil
    dotspacemacs-loading-progress-bar               nil
    dotspacemacs-fullscreen-at-startup              nil
@@ -129,13 +162,13 @@
    dotspacemacs-inactive-transparency              100
    dotspacemacs-show-transient-state-title         t
    dotspacemacs-show-transient-state-color-guide   t
-   dotspacemacs-mode-line-unicode-symbols          t
+   dotspacemacs-mode-line-unicode-symbols          nil
    dotspacemacs-smooth-scrolling                   nil
    dotspacemacs-line-numbers                       t
    dotspacemacs-folding-method                     'evil
    dotspacemacs-smartparens-strict-mode            nil
    dotspacemacs-server-socket-dir                  nil
-   dotspacemacs-enable-server                      nil
+   dotspacemacs-enable-server                      t
    dotspacemacs-highlight-delimiters               'any
    dotspacemacs-smart-closing-parenthesis          nil
    dotspacemacs-persistent-server                  nil

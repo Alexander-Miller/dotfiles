@@ -20,3 +20,4 @@ build
 /.config/spacemacs/user-config.el
 /.config/spacemacs/custom-file.el
 *.elc
+/.config/spacemacs/autoloads.el
