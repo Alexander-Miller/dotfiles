@@ -2782,10 +2782,10 @@ A simple mode-line implementation based on doom.
 
   (doom-modeline-def-segment std::modeline::buffer-id
     (propertize (buffer-name)
-                'face (if (powerline-selected-window-active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+                'face (if (doom-modeline--active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
 
   (doom-modeline-def-segment std::modeline::window-bar
-    (if (powerline-selected-window-active)
+    (if (doom-modeline--active)
         std::modeline::selected-window-xpm
       std::modeline::unselected-window-xpm))
 
