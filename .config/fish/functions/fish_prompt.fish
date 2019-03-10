@@ -7,7 +7,7 @@ set fish_prompt_color_git   cyan
 
 function fish_prompt --description 'Write out the prompt'
     switch $TERM
-        case eterm-color dumb
+        case dumb
             fish_prompt_simple
         case '*'
             set -g last_status $status
