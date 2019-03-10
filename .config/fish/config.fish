@@ -6,10 +6,11 @@ set -Ux SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
 set -Ux EDITOR            "emacsclient -c -n"
 set -e  fish_greeting
 set -eU fish_user_paths
+set -e  EMACS
 
-add_to_user_path ~/.cargo/bin
-add_to_user_path ~/.sdkman/candidates/java/current/bin
-add_to_user_path ~/Documents/Clojure/Leiningen
+add_to_user_path ~/.cargo/bin cargo
+add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
+add_to_user_path ~/Documents/Clojure/Leiningen lein
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
