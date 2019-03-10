@@ -1,4 +1,4 @@
-function ytvid -a url video audio
+function ytvid -w youtube-dl -a url video audio
   if test ! $video
     youtube-dl --no-playlist -F "$url" | ag "60fps|audio"
   else
