@@ -23,6 +23,7 @@
      emacs-lisp
      finance
      git
+     github
      helm
      html
      lsp
