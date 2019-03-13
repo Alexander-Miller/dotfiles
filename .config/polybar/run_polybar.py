@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 from time import sleep
 
-POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} POLYBAR_BAT={3} polybar --log=error --quiet a &'
+POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} POLYBAR_BAT={3} polybar --log=error --quiet std &'
 
 def kill_polybar():
     run('killall polybar')

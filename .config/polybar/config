@@ -14,7 +14,7 @@ aqua       = #1e8f8f
 brown      = #ccb18b
 orange     = #c98459
 
-[bar/a]
+[bar/std]
 monitor        = ${env:POLYBAR_SCREEN:eDP1}
 width          = 100%
 height         = 24
@@ -31,8 +31,8 @@ modules-center = mpd
 font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
 font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
-border-size    = 3
-border-color   = #2d2d31
+border-size    = 1
+border-color   = #000000
 radius         = 0
 module-margin  = 0
 separator      = "    "
@@ -56,21 +56,17 @@ ws-icon-9                  = "10;➓"
 label-focused              = %icon%
 label-focused-foreground   = ${colors.purple}
 label-focused-background   = ${colors.background}
-label-focused-underline    = ${colors.blue}
 label-focused-padding      = 1
 label-unfocused            = %icon%
 label-unfocused-background = ${colors.background}
-label-unfocused-underline  = ${colors.background}
 label-unfocused-foreground = ${colors.foreground}
 label-unfocused-padding    = 1
 label-visible              = %icon%
 label-visible-background   = ${colors.background}
-label-visible-underline    = ${colors.background}
 label-visible-foreground   = ${colors.foreground}
 label-visible-padding      = 1
 label-urgent               = %icon%
 label-urgent-background    = ${colors.red}
-label-urgent-underline     = ${colors.yellow}
 label-urgent-foreground    = ${colors.yellow}
 label-urgent-padding       = 1
 
@@ -78,7 +74,7 @@ label-urgent-padding       = 1
 type                            = internal/mpd
 format-online-prefix            = " "
 format-online-prefix-foreground = ${colors.blue}
-format-online                   = <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next> <bar-progress> <label-song>
+format-online                   = <bar-progress> <label-song>
 format-offline                  =
 format-prefix-foreground        = ${colors.blue}
 label-song                      = %artist% - %title%
@@ -107,7 +103,6 @@ interval                 = 5
 time                     = %H:%M:%S
 format-prefix            = " "
 format-prefix-foreground = ${colors.blue}
-format-underline         = ${colors.green}
 format-overline          = ${colors.green}
 label                    = %time%
 
@@ -117,7 +112,6 @@ interval                 = 60
 date                     = %a %e %b
 format-prefix            = " "
 format-prefix-foreground = ${colors.blue}
-format-underline         = ${colors.green}
 format-overline          = ${colors.green}
 label                    = %date%
 
@@ -127,7 +121,6 @@ battery                       = ${env:POLYBAR_BAT:BAT1}
 full-at                       = 99
 label-charging                = %time:8:8%
 format-charging               = <animation-charging> <label-charging>
-format-charging-underline     = ${colors.aqua}
 animation-charging-0          = 
 animation-charging-1          = 
 animation-charging-2          = 
@@ -137,26 +130,23 @@ animation-charging-framerate  = 750
 label-full                    = Full
 format-full-prefix            = " "
 format-full-prefix-foreground = ${colors.blue}
-format-full-underline         = ${self.format-charging-underline}
 ramp-capacity-0               = 
 ramp-capacity-1               = 
 ramp-capacity-2               = 
 ramp-capacity-3               = 
 ramp-capacity-foreground      = ${colors.blue}
 ramp-capacity-0-foreground    = ${colors.red}
+ramp-capacity-2-foreground    = ${colors.yellow}
 format-discharging            = <ramp-capacity> <label-discharging>
-format-discharging-underline  = ${colors.red}
 
 [module/volume]
 type                            = internal/volume
 format-volume                   = <label-volume> <bar-volume>
-format-volume-underline         = ${colors.purple2}
 label-volume                    = 
 label-volume-foreground         = ${colors.blue}
 format-muted-prefix             = "🔇 "
 format-muted-prefix-foreground  = ${colors.blue}
 format-muted-foreground         = ${colors.foreground}
-format-muted-underline          = ${colors.grey}
 label-muted                     = sound muted
 bar-volume-width                = 10
 bar-volume-indicator            = ◉
@@ -196,16 +186,14 @@ ramp-coreload-4-foreground = ${colors.yellow}
 ramp-coreload-5-foreground = ${colors.yellow}
 ramp-coreload-6-foreground = ${colors.red}
 ramp-coreload-7-foreground = ${colors.red}
-format-prefix              = " "
+format-prefix              = " "
 format-prefix-foreground   = ${colors.blue}
-format-underline           = ${colors.brown}
 
 [module/wlan]
 type                       = internal/network
 interface                  = ${env:POLYBAR_WIFI:wlp4s0}
 interval                   = 3.0
 format-connected           = <ramp-signal> <label-connected>
-format-connected-underline = ${colors.purple}
 label-connected            = %essid%
 ramp-signal-0              = 
 ramp-signal-1              = 
@@ -218,7 +206,6 @@ format-disconnected        =
 [module/eth]
 type                               = internal/network
 interface                          = ${env:POLYBAR_ETH:enp0s25}
-format-connected-underline         = ${colors.purple}
 format-connected-prefix            = " "
 format-connected-prefix-foreground = ${colors.blue}
 label-connected                    = %local_ip%
@@ -229,5 +216,4 @@ type                     = internal/memory
 interval                 = 4
 format-prefix            = " "
 format-prefix-foreground = ${colors.blue}
-format-underline         = ${colors.green2}
-label                    = %mb_used%/%mb_total%
+label                    = %gb_used%/%gb_total%
