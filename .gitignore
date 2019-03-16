@@ -21,3 +21,4 @@ build
 /.config/spacemacs/custom-file.el
 *.elc
 /.config/spacemacs/autoloads.el
+/.config/mpv/watch_later
