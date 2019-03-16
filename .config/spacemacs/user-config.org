@@ -2052,7 +2052,7 @@ for easy deactivation.
 
     (use-package treemacs-projectile
       :load-path "~/Documents/git/treemacs/src/extra"
-      :after treemacs projectile)
+      :after treemacs)
 
     (use-package treemacs-icons-dired
       :after dired+
@@ -2061,7 +2061,7 @@ for easy deactivation.
 
     (use-package treemacs-magit
       :load-path "~/Documents/git/treemacs/src/extra"
-      :after treemacs magit))
+      :after (treemacs magit)))
 #+END_SRC
 
 The only deviation from the defaults
