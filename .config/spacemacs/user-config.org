@@ -2219,8 +2219,8 @@ Autoloads
   (std::after ledger-mode
 
     (std::keybind ledger-mode-map
-      "M-j"   #'std::ledger::forward
-      "M-k"   #'std::ledger::backward
+      "M-J"   #'std::ledger::forward
+      "M-K"   #'std::ledger::backward
       "<tab>" #'std::ledger::magic-tab
       "M-q"   #'ledger-post-align-dwim
       [remap save-buffer] #'std::ledger::save)
