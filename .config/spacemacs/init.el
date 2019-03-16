@@ -89,6 +89,7 @@
    '(centered-cursor-mode
      diminish
      evil-anzu
+     evil-cleverparens
      evil-ediff
      evil-escape
      evil-iedit-state

@@ -456,7 +456,6 @@ Insert retangle before both quitting emacs and reloading the config.
   (std::after ediff
     (evil-collection-init 'ediff))
 
-  (evil-cleverparens-mode)
   (evil-lion-mode)
 #+END_SRC
 
