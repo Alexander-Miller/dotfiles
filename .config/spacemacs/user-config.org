@@ -2695,7 +2695,7 @@ Autoloads
 #+BEGIN_SRC emacs-lisp
   (std::leader-keybind
    "kr" #'sp-raise-sexp
-   "kw" #'sp-wrap
+   "kw" #'sp-wrap-round
    "ks" #'sp-forward-slurp-sexp
    "kS" #'sp-backward-slurp-sexp
    "kb" #'sp-forward-barf-sexp
@@ -2737,6 +2737,21 @@ A simple mode-line implementation based on doom.
     '((t (:background "#444444")))
     ""
     :group 'std)
+
+  (defface std::modeline::num-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
+
+  (defface std::modeline::major-mode-face
+    '((t (:foreground "#997799" :bold t)))
+    ""
+    :group 'std::modeline)
+
+  (defface std::modeline::buffer-id-inactive
+    '((t (:foreground "#c98459" :box "#000000")))
+    ""
+    :group 'std::modeline)
 #+END_SRC
 
 ** Default
@@ -2753,16 +2768,6 @@ A simple mode-line implementation based on doom.
 
   (defconst std::modeline::unselected-window-xpm
     (doom-modeline--make-xpm 'std::modeline::not-selected-separator-face 5 30))
-
-  (defface std::modeline::num-face
-    '((t (:foreground "#997799" :bold t)))
-    ""
-    :group 'std::modeline)
-
-  (defface std::modeline::major-mode-face
-    '((t (:foreground "#997799" :bold t)))
-    ""
-    :group 'std::modeline)
 
   (define-inline std::num-to-unicode (n)
     (inline-letevals (n)
@@ -2782,7 +2787,7 @@ A simple mode-line implementation based on doom.
 
   (doom-modeline-def-segment std::modeline::buffer-id
     (propertize (buffer-name)
-                'face (if (doom-modeline--active) 'mode-line-buffer-id 'mode-line-buffer-id-inactive)))
+                'face (if (doom-modeline--active) 'mode-line-buffer-id 'std::modeline::buffer-id-inactive)))
 
   (doom-modeline-def-segment std::modeline::window-bar
     (if (doom-modeline--active)
