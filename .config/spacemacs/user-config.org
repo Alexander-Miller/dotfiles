@@ -2728,12 +2728,12 @@ A simple mode-line implementation based on doom.
 
 #+BEGIN_SRC emacs-lisp
   (defface std::modeline::selected-separator-face
-    '((t (:background "#1E90FF")))
+    '((t (:background "#559955")))
     ""
     :group 'std)
 
   (defface std::modeline::not-selected-separator-face
-    '((t (:background "#444444")))
+    '((t (:background "#25252a")))
     ""
     :group 'std)
 
