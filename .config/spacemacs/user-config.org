@@ -328,6 +328,25 @@ Load used libraries to somewhat reduce the amount of warnings.
     (find-file-existing (concat *SPACEMACSDIR* "/user-config.org")))
 #+END_SRC
 
+*** std::fill-dwim
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::fill-dwim)
+  (std::global-keybind "M-q" #'std::fill-dwim)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::fill-dwim ()
+    (interactive)
+    (cond
+     ((region-active-p)
+      (call-interactively #'fill-region))
+     ((eq major-mode 'org-mode)
+      (call-interactively #'org-fill-paragraph))
+     (t
+      (call-interactively #'fill-paragraph))))
+#+END_SRC
+
 * Config tangle & compilation
 
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
@@ -1431,7 +1450,7 @@ A small bit of custom font locking for '==>'
   (std::after org
 
     (std::keybind org-mode-map
-      "M-q" #'fill-paragraph)
+      "M-q" #'std::fill-dwim)
 
     (std::mode-leader-keybind 'org-mode
       "0"   #'org-sort
@@ -1850,7 +1869,7 @@ Autoloads
 #+BEGIN_SRC emacs-lisp
   (std::after dired+
 
-    (defhydra std::dired-goto-hydra (:exit t :hint nil)
+    (defhydra std::dired::goto-hydra (:exit t :hint nil)
       ("h" (lambda () (interactive) (dired "~"))           "$HOME")
       ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
       ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
@@ -1964,7 +1983,7 @@ Autoloads
       ","     nil
       "c"     nil
       "RET"   #'dired-find-file
-      "gh"    #'std::dired-goto-hydra/body
+      "gh"    #'std::dired::goto-hydra/body
       "gr"    #'revert-buffer
       "y"     #'std::dired::do-copy
       "R"     #'std::dired::do-rename
