@@ -41,10 +41,16 @@ Load used libraries to somewhat reduce the amount of warnings.
     (std::static-assert (cl-evenp (length binds)))
     (-let [pairs nil]
       (while binds
-        (push (cons (pop binds) (pop binds)) pairs))
+        (push (cons
+               (-let [key (pop binds)]
+                 (if (vectorp key)
+                     key
+                   `(kbd ,key)))
+               (pop binds))
+              pairs))
       `(progn
          ,@(--map
-            `(global-set-key (kbd ,(car it)) ,(cdr it))
+            `(global-set-key ,(car it) ,(cdr it))
             pairs))))
 #+END_SRC
 
@@ -973,6 +979,14 @@ Quitting with *q*
 ** Org
 *** Functions
 
+~std::org::agenda-list~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::org::agenda-list ()
+    (interactive)
+    (call-interactively #'org-agenda-list)
+    (writeroom-mode t))
+#+END_SRC
+
 ~std::org::mode-hook~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::org::mode-hook ()
@@ -1058,6 +1072,7 @@ Autoloads
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook #'std::org::mode-hook)
   (std::autoload #'std::org::mode-hook)
+  (std::global-keybind [remap org-agenda-list] #'std::org::agenda-list)
 #+END_SRC
 
 *** Settings
@@ -1420,7 +1435,7 @@ A small bit of custom font locking for '==>'
 **** Agenda
 
 #+BEGIN_SRC emacs-lisp
-  (std::global-keybind "<f12>" #'org-agenda-list)
+  (std::global-keybind "<f12>" #'std::org::agenda-list)
 
   (std::after org-agenda
     (std::evil-keybind 'evilified org-agenda-mode-map
