@@ -806,6 +806,12 @@ Replace popwin
 *** Purposes
 **** Shackle Integration
 
+Idle activation
+#+BEGIN_SRC emacs-lisp
+  (std::idle 1 :nor-repeat (purpose-mode))
+#+END_SRC
+
+Settings
 #+BEGIN_SRC emacs-lisp
   (std::after window-purpose
     (defun maybe-display-shackle (buffer alist)
