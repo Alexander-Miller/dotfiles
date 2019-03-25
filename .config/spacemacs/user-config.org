@@ -2567,7 +2567,7 @@ Hoping it'll help with the issue of the extra newline in snippets
 ** Writeroom mode
 *** Functions
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (std::after writeroom-mode
     (defun std::writeroom::toggle-line-numbers ()
       (if writeroom-mode
@@ -3005,6 +3005,12 @@ No more jumpy recenter
     scroll-preserve-screen-position t)
 #+END_SRC
 
+** Removal of whitespace on save
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook #'delete-trailing-whitespace)
+#+END_SRC
+
 ** Minor modes
 *** On/Off Switches
 
@@ -3116,7 +3122,7 @@ right buffer and fixes its mode-line.
       (dolist (buf (buffer-list))
         (with-current-buffer buf
           (if (s-starts-with? "tmp" (buffer-name))
-              (progn 
+              (progn
                 (switch-to-buffer buf)
                 (setq-local mode-line-format (default-value 'mode-line-format)))
             (kill-buffer buf))))))
