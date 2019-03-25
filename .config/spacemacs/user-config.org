@@ -2966,6 +2966,8 @@ Then single characters, like those used for prettify-symbols
   (std::downscale "Symbola" :char ?\✸)
   (std::downscale "Symbola" :char ?\✿)
   (std::downscale "Cantarell" :char ?\•)
+  (std::downscale "DejaVu Sans" :char ?\∧ :size 14)
+  (std::downscale "DejaVu Sans" :char ?\∨ :size 14)
   (std::downscale "DejaVu Sans" :char ?\➊ :size 14)
   (std::downscale "DejaVu Sans" :char ?\➋ :size 14)
   (std::downscale "DejaVu Sans" :char ?\➌ :size 14)
