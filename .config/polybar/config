@@ -136,6 +136,7 @@ ramp-capacity-2               = 
 ramp-capacity-3               = 
 ramp-capacity-foreground      = ${colors.blue}
 ramp-capacity-0-foreground    = ${colors.red}
+ramp-capacity-1-foreground    = ${colors.yellow}
 ramp-capacity-2-foreground    = ${colors.yellow}
 format-discharging            = <ramp-capacity> <label-discharging>
 
