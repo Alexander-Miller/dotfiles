@@ -1077,7 +1077,7 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
 Autoloads
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook #'std::org::mode-hook)
-  (std::autoload #'std::org::mode-hook)
+  (std::autoload #'std::org::mode-hook #'std::org::agenda-list)
   (std::global-keybind [remap org-agenda-list] #'std::org::agenda-list)
 #+END_SRC
 
