@@ -78,6 +78,7 @@
      vimish-fold
      window-purpose
      winum
+     wttrin
      writeroom-mode
      (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
      (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))

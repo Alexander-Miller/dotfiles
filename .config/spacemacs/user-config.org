@@ -2762,6 +2762,30 @@ Autoloads
           expand-region-reset-fast-key    "r"))
 #+END_SRC
 
+** Wttrin
+*** Functions
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::weather (&optional arg)
+    (interactive "P")
+    (require 'wttrin)
+    (if arg (call-interactively #'wttrin) (wttrin-query "")))
+#+END_SRC
+
+Autoloads
+#+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::weather)
+  (std::leader-keybind "aW" #'std::weather)
+#+END_SRC
+
+*** Settings
+
+#+BEGIN_SRC emacs-lisp
+  (std::after wttrin
+    (setq wttrin-default-cities '("Stuttgart")
+          wttrin-default-accept-language '("en-gb")))
+#+END_SRC
+
 * Modeline
 
 A simple mode-line implementation based on doom.
@@ -2968,6 +2992,10 @@ Then single characters, like those used for prettify-symbols
   (std::downscale "Symbola" :char ?\✸)
   (std::downscale "Symbola" :char ?\✿)
   (std::downscale "Cantarell" :char ?\•)
+  (std::downscale "DejaVu Sans" :char ?\↖ :size 10)
+  (std::downscale "DejaVu Sans" :char ?\↘ :size 10)
+  (std::downscale "DejaVu Sans" :char ?\↙ :size 10)
+  (std::downscale "DejaVu Sans" :char ?\↗ :size 10)
   (std::downscale "DejaVu Sans" :char ?\∧ :size 14)
   (std::downscale "DejaVu Sans" :char ?\∨ :size 14)
   (std::downscale "DejaVu Sans" :char ?\➊ :size 14)
