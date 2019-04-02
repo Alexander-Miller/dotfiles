@@ -2937,6 +2937,26 @@ A simple mode-line implementation based on doom.
     (add-hook 'treemacs-mode-hook #'std::modeline::treemacs-modeline))
 #+END_SRC
 
+** Elfeed
+
+#+BEGIN_SRC emacs-lisp
+  (std::after elfeed
+
+    (doom-modeline-def-segment std::modeline::feeds
+      (elfeed-search--count-unread))
+
+    (doom-modeline-def-modeline 'elfeed
+      '(""  std::modeline::window-bar
+        " " std::modeline::desktop-number
+        " " std::modeline::major-mode
+        " " std::modeline::feeds))
+
+    (defun std::modeline::elfeed ()
+      (doom-modeline-set-modeline 'elfeed nil))
+
+    (add-hook 'elfeed-search-mode-hook #'std::modeline::elfeed))
+#+END_SRC
+
 ** Alignment for Pre-Existing Buffers
 
 #+BEGIN_SRC emacs-lisp
