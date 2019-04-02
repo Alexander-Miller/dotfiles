@@ -2397,14 +2397,16 @@ Autoloads
       (if arg
           (elfeed-search-browse-url)
         (-let [entry (if (eq major-mode 'elfeed-show-mode) elfeed-show-entry (elfeed-search-selected :single))]
-          (if (s-matches? (rx "https://www.youtube.com/watch" (1+ any)) (elfeed-entry-link entry))
+          (if (s-matches? (rx "https://www.youtube.com/watch" (1+ any))
+                          (elfeed-entry-link entry))
               (let* ((quality (completing-read "Max height resolution (0 for unlimited): " '("0" "480" "720" "1080")))
                      (arg (if (= 0 (string-to-number quality)) "" (std::fmt "--ytdl-format=[height<=?${quality}]"))))
                 (message "Opening %s with height ≤ %s with mpv..."
                          (propertize (elfeed-entry-link entry) 'face 'font-lock-string-face)
                          (propertize quality 'face 'font-lock-keyword-face))
                 (elfeed-untag entry 'unread)
-                (start-process "elfeed-mpv" nil "mpv" arg (elfeed-entry-link entry)))
+                (start-process "elfeed-mpv" nil "mpv" arg (elfeed-entry-link entry))
+                (elfeed-search-update :force))
             (if (eq major-mode 'elfeed-search-mode)
                 (elfeed-search-browse-url)
               (elfeed-show-visit)))))))
