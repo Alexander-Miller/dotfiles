@@ -152,7 +152,11 @@ Load used libraries to somewhat reduce the amount of warnings.
 #+BEGIN_SRC emacs-lisp
   (defmacro std::idle (time repeat &rest body)
     (declare (indent 2))
-    `(run-with-idle-timer ,time (eq ,repeat :repeat) (lambda () ,@body)))
+    `(run-with-idle-timer
+      ,time ,(eq repeat :repeat)
+      ,(pcase body
+         (`((function ,_)) (car body))
+         (_ `(lambda () ,@body)))))
 #+END_SRC
 
 *** std::notify
@@ -808,7 +812,7 @@ Replace popwin
 
 Idle activation
 #+BEGIN_SRC emacs-lisp
-  (std::idle 1 :nor-repeat (purpose-mode))
+  (std::idle 1 :no-repeat (purpose-mode))
 #+END_SRC
 
 Settings
