@@ -186,6 +186,7 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
+  (std::config-bootstrap)
   (load-file (concat *SPACEMACSDIR* "/user-config.elc"))
   (spacemacs/switch-to-scratch-buffer))
 
@@ -195,3 +196,18 @@ This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
 )
+
+(defun std::config-bootstrap ()
+  (interactive)
+  (autoload #'org-babel-tangle-file "ob-tangle")
+  (let* ((byte-compile-warnings '(not unresolved free-vars))
+         (el-file   (concat *SPACEMACSDIR* "/user-config.el"))
+         (org-file  (file-chase-links (concat *SPACEMACSDIR* "/user-config.org")))
+         (autoloads (concat *SPACEMACSDIR* "/autoloads.el")))
+    (unless (cl-every #'file-exists-p (list el-file autoloads))
+      (condition-case e
+          (progn
+            (org-babel-tangle-file org-file el-file "emacs-lisp")
+            (byte-recompile-file el-file t 0 nil)
+            (byte-recompile-file autoloads t 0 nil))
+        (error (shell-command (format "notify-send 'ERROR' '%s'" e)))))))
