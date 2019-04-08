@@ -1703,40 +1703,38 @@ Add *company-dabbrev-code* to front row of completion backends.
 
 ~std::flycheck::next-error~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (std::after flycheck
-    (defun std::flycheck::next-error ()
-      "Move to the next flycheck error.
+  (defun std::flycheck::next-error ()
+    "Move to the next flycheck error.
   Start searching from the top if point is part the last error."
-      (interactive)
-      (-let [it (flycheck-next-error-pos 1)]
-        (if (and it
-                 (not (and (equal (point) (1- (point-min)))
-                           (equal (1- (point-min)) it))))
+    (interactive)
+    (-let [it (flycheck-next-error-pos 1)]
+      (if (and it
+               (not (and (equal (point) (1- (point-min)))
+                         (equal (1- (point-min)) it))))
+          (goto-char it)
+        (--if-let (save-excursion
+                    (goto-char (point-min))
+                    (flycheck-next-error-pos 1))
             (goto-char it)
-          (--if-let (save-excursion
-                      (goto-char (point-min))
-                      (flycheck-next-error-pos 1))
-              (goto-char it)
-            (message "No more Flycheck errors."))))))
+          (message "No more Flycheck errors.")))))
 #+END_SRC
 
 ~std::flycheck::previous-error~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (std::after flycheck
-    (defun std::flycheck::previous-error ()
-      "Move to the previous flycheck error.
+  (defun std::flycheck::previous-error ()
+    "Move to the previous flycheck error.
   Start searching from the bottom if point is part the first error."
-      (interactive)
-      (-let [it (flycheck-next-error-pos -1)]
-        (if (and it
-                 (not (and (equal (point) (point-min))
-                           (equal (point-min) it))))
+    (interactive)
+    (-let [it (flycheck-next-error-pos -1)]
+      (if (and it
+               (not (and (equal (point) (point-min))
+                         (equal (point-min) it))))
+          (goto-char it)
+        (--if-let (save-excursion
+                    (goto-char (point-max))
+                    (flycheck-next-error-pos -1))
             (goto-char it)
-          (--if-let (save-excursion
-                      (goto-char (point-max))
-                      (flycheck-next-error-pos -1))
-              (goto-char it)
-            (message "No more Flycheck errors."))))))
+          (message "No more Flycheck errors.")))))
 #+END_SRC
 
 Autoloads
@@ -2388,9 +2386,8 @@ Autoloads
 
 ~std::elfeed::mode-hook~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (std::after elfeed
-    (defun std::elfeed::mode-hook ()
-      (evil-elfeed-state)))
+  (defun std::elfeed::mode-hook ()
+    (evil-elfeed-state))
 #+END_SRC
 
 ~std::elfeed::play-with-mpv~
