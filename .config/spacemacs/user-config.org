@@ -950,14 +950,15 @@ Window #0 is reverved for treemacs.
 **** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (std::after helm (framey-mode))
+  (when (version<= "26" emacs-version)
+    (std::after helm (framey-mode))
 
-  (std::after framey
-    (setq framey-show-modeline nil))
+    (std::after framey
+      (setq framey-show-modeline nil))
 
-  (std::autoload-with "Framey"
-    (helpful-at-point)
-    (require 'framey))
+    (std::autoload-with "Framey"
+      (helpful-at-point)
+      (require 'framey)))
 #+END_SRC
 
 *** General Keybinds
