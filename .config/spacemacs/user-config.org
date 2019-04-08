@@ -15,6 +15,17 @@ Load used libraries to somewhat reduce the amount of warnings.
 
 * Utility Functions
 ** Top Level
+*** std::static-assert
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::static-assert (predicate &optional error-msg &rest error-args)
+    (declare (indent 1))
+    `(unless ,predicate
+       (error (apply #'format
+                     (or ,error-msg "Assertion Failure")
+                     (list ,@error-args)))))
+#+END_SRC
+
 *** keybinds
 
 ~std::keybind~
@@ -114,17 +125,6 @@ Load used libraries to somewhat reduce the amount of warnings.
                              `(quote ,module))
                         ,form))))
       form))
-#+END_SRC
-
-*** std::static-assert
-
-#+BEGIN_SRC emacs-lisp
-  (defmacro std::static-assert (predicate &optional error-msg &rest error-args)
-    (declare (indent 1))
-    `(unless ,predicate
-       (error (apply #'format
-                     (or ,error-msg "Assertion Failure")
-                     (list ,@error-args)))))
 #+END_SRC
 
 *** std::set-local
