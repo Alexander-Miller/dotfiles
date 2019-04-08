@@ -167,7 +167,7 @@
    dotspacemacs-show-transient-state-color-guide   t
    dotspacemacs-mode-line-unicode-symbols          nil
    dotspacemacs-smooth-scrolling                   nil
-   dotspacemacs-line-numbers                       t
+   dotspacemacs-line-numbers                       (fboundp 'display-line-numbers-mode)
    dotspacemacs-folding-method                     'evil
    dotspacemacs-smartparens-strict-mode            nil
    dotspacemacs-server-socket-dir                  nil
