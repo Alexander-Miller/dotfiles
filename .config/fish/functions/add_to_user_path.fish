@@ -9,8 +9,10 @@ function add_to_user_path -a dir cmd -d "Add a dir to $fish_user_paths (optional
         set should_add false
     end
 
-    if test $cmd && not test (binary_exists $cmd)
-        set should_add false
+    if test $cmd
+        if not binary_exists $cmd
+            set should_add false
+        end
     end
 
     if test $should_add = true
