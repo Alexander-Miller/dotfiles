@@ -1281,7 +1281,8 @@ Also use ascii bullets for simple lists
       `(progn ,@forms)))
 
   (std::after org
-    (std::org::use-babel-use-languages "emacs-lisp" "sh" "python" "shell" "gnuplot"))
+    (std::org::use-babel-use-languages
+     "emacs-lisp" "sh" "python" "shell" "gnuplot" "http"))
 #+END_SRC
 
 *** Font Locking

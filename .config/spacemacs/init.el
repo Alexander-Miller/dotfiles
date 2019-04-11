@@ -31,6 +31,7 @@
      mu4e
      org
      (python :variables python-backend ',(if (executable-find "pyls") 'lsp 'anaconda))
+     restclient
      rust
      syntax-checking
      shell
