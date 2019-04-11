@@ -1,3 +1,3 @@
 function binary_exists -a binary
-    which $binary 2> /dev/null
+    which $binary > /dev/null ^&1
 end
