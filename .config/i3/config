@@ -205,6 +205,7 @@ for_window [class="Xfce4-notifyd"]     floating enable
 
 for_window [class="Emacs" title=".*FRAMEY.*"] floating enable
 for_window [class="Emacs" title=".*FRAMEY.*"] border pixel 1
+for_window [class="dropbox"]                  border pixel 4
 for_window [class="Spring Tool Suite 4"]      border pixel 4
 for_window [class="VirtualBox"]               border pixel 4
 for_window [class="zoom"]                     border pixel 4
