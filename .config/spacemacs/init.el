@@ -32,7 +32,7 @@
      org
      (python :variables python-backend ',(if (executable-find "pyls") 'lsp 'anaconda))
      restclient
-     rust
+     (rust :variables rust-backend 'lsp)
      syntax-checking
      shell
      shell-scripts
