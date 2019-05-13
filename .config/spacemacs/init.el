@@ -101,6 +101,7 @@
      evil-unimpaired
      fancy-battery
      golden-ratio
+     lsp-treemacs
      neotree
      open-junk-file
      paradox
