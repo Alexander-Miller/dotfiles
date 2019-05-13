@@ -3163,6 +3163,11 @@ Off
 
 ** Single Settings
 
+Safe variable values for org
+#+BEGIN_SRC emacs-lisp
+  (setf safe-local-variable-values '((eval auto-fill-mode t)))
+#+END_SRC
+
 Pos Tip colors
 #+BEGIN_SRC emacs-lisp
   (std::after pos-tip
