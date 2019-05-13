@@ -1017,17 +1017,6 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
       (apply 'switch-to-buffer-other-window args)))
 #+END_SRC
 
-~std::org::capture-std-target~
-#+BEGIN_SRC  emacs-lisp
-  (std::after org
-    (defun std::org::capture-std-target ()
-      `(file+headline
-        ,(concat org-directory "Capture.org")
-        ,(if (s-equals? (system-name) "a-laptop")
-             "Ideen"
-           "Postfach"))))
-#+END_SRC
-
 ~std::org::table-recalc~
 #+BEGIN_SRC emacs-lisp
   (std::after org
@@ -1145,7 +1134,7 @@ Autoloads
 
     (setq
      calendar-holidays                                holiday-german-BW-holidays
-     org-agenda-include-diary                         nil
+     org-agenda-include-diary                         t
      org-agenda-skip-scheduled-if-deadline-is-shown   t
      org-agenda-skip-scheduled-if-done                nil
      org-agenda-skip-scheduled-delay-if-deadline      nil
@@ -1186,13 +1175,92 @@ Also use ascii bullets for simple lists
 
 **** Capture
 
+***** Capture Helpers
+
+~std::org::capture-helper~
+#+BEGIN_SRC emacs-lisp
+  (defun std::org::capture-helper (path)
+    "Move to olp PATH and select the next headline."
+    (goto-char (org-find-olp path :this-buffer))
+    (org-element-cache-refresh (point))
+    (let* ((context (-> (org-element-context) (cadr)))
+           (start (plist-get context :begin))
+           (end (plist-get context :end))
+           (data (save-restriction
+                   (org-element-cache-refresh (point))
+                   (narrow-to-region start end)
+                   (org-element-parse-buffer 'headline)))
+           (headline (caddr data))
+           (headlines (cddr headline))
+           (selections (--map (plist-get (cadr it) :raw-value)
+                              headlines))
+           (selection (completing-read ">_ " (cons "New Entry" selections))))
+      (when (string= selection "New Entry")
+        (forward-line)
+        (insert (make-string (1+ (plist-get (cadr headline) :level)) ?*)
+                (concat " " (setq selection (read-string ">_")))
+                "\n"))
+      selection))
+#+END_SRC
+
+~std::org::haushalt-capture~
+#+BEGIN_SRC emacs-lisp
+  (defun std::org::haushalt-capture ()
+    (let* ((sub-entry (std::org::capture-helper '("Haushalt")))
+           (path `("Haushalt" ,sub-entry)))
+      (if (string= sub-entry "Versicherungen")
+          (setf path (nconc path (list (std::org::capture-helper path) (format-time-string "%Y"))))
+        (setf path (nconc path (list (format-time-string "%Y")))))
+      (goto-char (org-find-olp path :this-buffer))
+      (org-element-cache-refresh (point))
+      (-> (org-element-context) (cadr) (plist-get :end) (goto-char))
+      (previous-line)
+      (end-of-line)))
+#+END_SRC
+
+~std::org:::bookmark-capture~
+#+BEGIN_SRC emacs-lisp
+  (defun std::org:::bookmark-capture ()
+    (let* ((olp `("Lesezeichen" ,(format-time-string "%Y")))
+           (sub-entry (std::org::capture-helper olp))
+           (path (nconc olp (list sub-entry))))
+      (goto-char (org-find-olp path :this-buffer))))
+#+END_SRC
+
+***** Templates
+
 #+BEGIN_SRC emacs-lisp
   (std::after org
+
     (setq
+     org-capture-bookmark t
      org-capture-templates
-     `(("t" "Idee/Todo" entry
-        ,(std::org::capture-std-target)
-        "** [TODO] %?\n %U"))))
+     `(("p" "Privat")
+
+       ("ph" "Haushalt Eintrag" plain
+        (file+function ,(concat org-directory "Privat.org") std::org::haushalt-capture)
+        "%u\n%?"
+        :empty-lines 1)
+
+       ("pt" "Privater Termin" entry
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Termine")
+        "* %?\n %U")
+
+       ("pa" "Private Aufgabe" entry
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Einzelaufgaben")
+        "* »TODO« %?\nDEADLINE: %t SCHEDULED: %t")
+
+       ("pg" "Private Gewohnheit" entry
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Regelmäßige Gewohnheiten")
+        ,(concat "* »TODO« %?\n"
+                 "SCHEDULED: %t\n"
+                 ":PROPERTIES:\n"
+                 ":STYLE:    habit\n"
+                 ":END:\n"))
+
+       ("pl" "Lesezeichen" checkitem
+        (file+function ,(concat org-directory "Privat.org") std::org:::bookmark-capture)
+        "[ ] %c"))))
 #+END_SRC
 
 **** Tables
