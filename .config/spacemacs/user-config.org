@@ -961,6 +961,13 @@ Window #0 is reverved for treemacs.
       (require 'framey)))
 #+END_SRC
 
+*** General Settings
+
+Make sure eyebrowse does not interfere with ~quit-window~ behaviour.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'window-persistent-parameters '(quit-restore . writable))
+#+END_SRC
+
 *** General Keybinds
 
 Killing a buffer alongside its window
