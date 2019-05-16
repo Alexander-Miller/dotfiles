@@ -1244,6 +1244,10 @@ Also use ascii bullets for simple lists
      org-capture-templates
      `(("p" "Privat")
 
+       ("pp" "Inbox" entry
+        (file+olp ,(concat org-directory "Privat.org") "Inbox")
+        "* »INBOX« %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")
+
        ("ph" "Haushalt Eintrag" plain
         (file+function ,(concat org-directory "Privat.org") std::org::haushalt-capture)
         "%u\n%?"
