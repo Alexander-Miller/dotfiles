@@ -28,6 +28,8 @@ unbind <C-f>
 
 bind q tabclose
 bind <C-ö> buffer #
+bind A bmark
+bind a fillcmdline bmarks -t
 
 bind <C-i> forward
 bind <C-o> back
