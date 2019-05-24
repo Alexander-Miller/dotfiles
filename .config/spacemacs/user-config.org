@@ -1272,7 +1272,12 @@ Also use ascii bullets for simple lists
 
        ("pl" "Lesezeichen" checkitem
         (file+function ,(concat org-directory "Privat.org") std::org:::bookmark-capture)
-        "[ ] %c"))))
+        "[ ] %c")
+
+       ("n" "NT")
+       ("nn" "Inbox" entry
+        (file+olp ,(concat org-directory "NT.org") "Inbox")
+        "* »INBOX« %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))))
 #+END_SRC
 
 **** Tables
