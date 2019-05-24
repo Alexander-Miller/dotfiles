@@ -2398,15 +2398,56 @@ Autoloads
 
 ** Email
 *** Functions
+**** Top Level
 
+~std::mu4e~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::mu4e ()
+    (interactive)
+    (eyebrowse-switch-to-window-config-4)
+    (mu4e)
+    (pfuture-callback ["mbsync" "-a"]
+      :on-success
+      (mu4e-update-index)
+      :on-error
+      (message "mbsync error: %s" (pfuture-callback-output))))
+#+END_SRC
+
+Autoloads
 #+BEGIN_SRC emacs-lisp
+  (std::autoload #'std::mu4e)
+#+END_SRC
+
+**** Mu Internal
+
+~std::mail::add/remove-tag~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (std::after mu4e
-    (defun std::mail::find-thunderbird-imap-dir ()
-      (-let [dot-thunderbird (expand-file-name "~/.thunderbird")]
-        (when (f-exists? dot-thunderbird)
-          (-when-let (maildir (--find (and (f-directory? it) (member "ImapMail" (directory-files it)))
-                                      (directory-files dot-thunderbird :full)))
-            (f-join dot-thunderbird maildir "ImapMail"))))))
+    (defun std::mail::add-tag (&optional arg)
+      (interactive "P")
+      (-if-let (msg (mu4e-message-at-point :no-error))
+          (-let [tags (if arg
+                          "+todo"
+                        (->> (read-string "Tag: ")
+                             (s-split (rx (1+ " ")))
+                             (--map (format "+%s" it))
+                             (s-join ",")))]
+            (mu4e-action-retag-message msg tags))
+        (message "No message here")))
+
+    (defun std::mail::remove-tag ()
+      (interactive)
+      (-if-let (msg (mu4e-message-at-point :no-error))
+          (let* ((tags (mu4e-message-field msg :tags))
+                 (remove (if (>= 1 (length tags))
+                             (format "-%s" (car tags))
+                           (->> (completing-read "Tag: " tags)
+                                (s-split (rx (1+ " ")))
+                                (--map (format "-%s" it))
+                                (s-join ",")))))
+            (mu4e-action-retag-message msg remove))
+        (message "No message here"))))
+
 #+END_SRC
 
 *** Settings
@@ -2414,20 +2455,153 @@ Autoloads
 #+BEGIN_SRC emacs-lisp
   (std::after mu4e
 
-    (global-mu4e-conversation-mode)
+    (setq user-mail-address "alexanderm@web.de"
+          user-full-name "Alexander Miller")
 
-    (setq mu4e-confirm-quit nil
-          mu4e-use-fancy-chars nil
-          mu4e-maildir (std::mail::find-thunderbird-imap-dir)
+    (setq mu4e-confirm-quit                 nil
+          mu4e-maildir                      (expand-file-name "~/.mail");TODO DOCS
+          mu4e-change-filenames-when-moving t
+          mu4e-use-fancy-chars              t
+          mu4e-get-mail-command             "mbsync -a"
+          mu4e-headers-draft-mark           '("D" . "⚒")
+          mu4e-headers-flagged-mark         '("F" . "✚")
+          mu4e-headers-new-mark             '("N" . "✱")
+          mu4e-headers-passed-mark          '("P" . "❯")
+          mu4e-headers-replied-mark         '("R" . "❮")
+          mu4e-headers-seen-mark            '("S" . "✔")
+          mu4e-headers-trashed-mark         '("T" . "⏚")
+          mu4e-headers-attach-mark          '("a" . "📎")
+          mu4e-headers-attach-mark          '("a" . "a")
+          mu4e-headers-encrypted-mark       '("x" . "⚴")
+          mu4e-headers-signed-mark          '("s" . "☡")
+          mu4e-headers-unread-mark          '("u" . "⎕")
           mu4e-headers-fields '((:human-date . 10)   (:flags . 6)
                                 (:mailing-list . 10) (:from . 22)
                                 (:subject . 85)      (:tags . 10)))
 
-    (add-to-list 'mu4e-bookmarks
-                 (make-mu4e-bookmark
-                  :name "Github Messages"
-                  :query "github"
-                  :key ?g)))
+    (setq mu4e-bookmarks
+          (list
+           (make-mu4e-bookmark
+            :name "Unread Messages"
+            :query "flag:unread AND NOT flag:trashed"
+            :key ?u)
+           (make-mu4e-bookmark
+            :name "Last 24 hours"
+            :query "date:24.."
+            :key ?t)
+           (make-mu4e-bookmark
+            :name "Last 7 days"
+            :query "date:7d..now"
+            :key ?w)
+           (make-mu4e-bookmark
+            :name "Github Messages"
+            :query "github"
+            :key ?g)
+           (make-mu4e-bookmark
+            :name "Messages with images"
+            :query "mime:image/*"
+            :key ?p)))
+
+    (setq mu4e-marks
+          '((tag
+             :char "t"
+             :prompt "gtag"
+             :ask-target
+             (lambda nil (read-string "What tag do you want to add? "))
+             :action
+             (lambda (docid msg target) (mu4e-action-retag-message msg target)))
+
+            (refile
+             :char ("r" . "▶")
+             :prompt "refile"
+             :dyn-target
+             (lambda (target msg) (mu4e-get-refile-folder msg))
+             :action
+             (lambda (docid msg target)
+               (mu4e~proc-move docid (mu4e~mark-check-target target) "-N")))
+
+            (delete
+             :char ("D" . "❌ ")
+             :prompt "Delete"
+             :show-target (lambda (target) "delete")
+             :action (lambda (docid msg target) (mu4e~proc-remove docid)))
+
+            (flag
+             :char ("+" . "⚑")
+             :prompt "+flag"
+             :show-target (lambda (target) "flag")
+             :action
+             (lambda (docid msg target)
+               (mu4e~proc-move docid nil "+F-u-N")))
+
+            (move
+             :char ("m" . "▶")
+             :prompt "move"
+             :ask-target mu4e~mark-get-move-target
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid
+                                       (mu4e~mark-check-target target)
+                                       "-N")))
+
+            (read
+             :char ("!" . "👁")
+             :prompt "!read"
+             :show-target (lambda (target) "read")
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid nil "+S-u-N")))
+
+            (trash
+             :char ("d" . "🗑")
+             :prompt "dtrash"
+             :dyn-target (lambda (target msg)
+                           (mu4e-get-trash-folder msg))
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid
+                                       (mu4e~mark-check-target target)
+                                       "+T-N")))
+
+            (unflag
+             :char ("-" . "➖")
+             :prompt "-unflag"
+             :show-target (lambda (target) "unflag")
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid nil "-F-N")))
+
+            (untrash
+             :char ("=" . "▲")
+             :prompt "=untrash"
+             :show-target (lambda (target) "untrash")
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid nil "-T")))
+
+            (unread
+             :char "?"
+             :prompt "?unread"
+             :show-target (lambda (target) "unread")
+             :action (lambda (docid msg target)
+                       (mu4e~proc-move docid nil "-S+u-N")))
+
+            (unmark
+             :char " "
+             :prompt "unmark"
+             :action (mu4e-error "No action for unmarking"))
+
+            (action
+             :char ("a" . "◎")
+             :prompt "action"
+             :ask-target (lambda ()
+                           (mu4e-read-option "Action: " mu4e-headers-actions))
+             :action (lambda (docid msg actionfunc)
+                       (save-excursion
+                         (when (mu4e~headers-goto-docid docid)
+                           (mu4e-headers-action actionfunc)))))
+
+            (something
+             :char ("*" . "✱")
+             :prompt "*something"
+             :action (mu4e-error "No action for deferred mark")))))
+#+END_SRC
+
 #+END_SRC
 
 *** Keybinds
@@ -2435,8 +2609,15 @@ Autoloads
 #+BEGIN_SRC emacs-lisp
   (std::after mu4e
 
+    (std::leader-keybind
+     "aM" #'std::mu4e)
+
     (std::keybind mu4e-main-mode-map
       "u" #'mu4e-update-index)
+
+    (std::keybind mu4e-headers-mode-map
+      "+" #'std::mail::add-tag
+      "-" #'std::mail::remove-tag)
 
     (std::evil-keybind 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
       "J" #'std::evil::forward-five-lines
