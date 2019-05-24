@@ -369,6 +369,7 @@ The function to tangle and recompile the config, running only if the org file wa
 
   (defun std::config-tangle-and-recompile ()
     (interactive)
+    (setq x-select-enable-clipboard-manager nil)
     (let* ((byte-compile-warnings '(not unresolved free-vars))
            (dir       *SPACEMACSDIR*)
            (el-file   (std::fmt "${dir}/user-config.el"))
