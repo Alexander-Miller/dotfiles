@@ -2602,6 +2602,62 @@ Autoloads
              :action (mu4e-error "No action for deferred mark")))))
 #+END_SRC
 
+WIP font-lock improvement
+#+BEGIN_SRC emacs-lisp
+  (std::after mu4e
+
+    (defun mu4e~headers-line-apply-flag-face (msg line) line)
+
+    (defun mu4e~headers-field-apply-basic-properties (msg field val width)
+      (case field
+        (:subject
+         (propertize
+          (concat
+           (mu4e~headers-thread-prefix (mu4e-message-field msg :thread))
+           (truncate-string-to-width val 600))
+          'face
+          (let ((flags (mu4e-message-field msg :flags)))
+            (cond
+             ((memq 'trashed flags) 'mu4e-trashed-face)
+             ((memq 'draft flags) 'mu4e-draft-face)
+             ((or (memq 'unread flags) (memq 'new flags))
+              'mu4e-unread-face)
+             ((memq 'flagged flags) 'mu4e-flagged-face)
+             ((memq 'replied flags) 'mu4e-replied-face)
+             ((memq 'passed flags) 'mu4e-forwarded-face)
+             (t 'mu4e-header-face)))))
+        (:thread-subject
+         (propertize
+          (mu4e~headers-thread-subject msg)
+          'face 'font-lock-doc-face))
+        ((:maildir :path :message-id) val)
+        ((:to :from :cc :bcc)
+         (propertize
+          (mu4e~headers-contact-str val)
+          'face 'font-lock-function-name-face))
+        (:from-or-to (mu4e~headers-from-or-to msg))
+        (:date
+         (propertize
+          (format-time-string mu4e-headers-date-format val)
+          'face 'font-lock-string-face))
+        (:mailing-list (mu4e~headers-mailing-list val))
+        (:human-date
+         (propertize
+          (mu4e~headers-human-date msg)
+          'help-echo (format-time-string
+                      mu4e-headers-long-date-format
+                      (mu4e-msg-field msg :date))
+          'face 'font-lock-string-face))
+        (:flags
+         (propertize (mu4e~headers-flags-str val)
+                     'help-echo (format "%S" val)
+                     'face 'font-lock-type-face))
+        (:tags
+         (propertize
+          (mapconcat 'identity val ", ")
+          'face 'font-lock-builtin-face))
+        (:size (mu4e-display-size val))
+        (t (mu4e~headers-custom-field msg field)))))
 #+END_SRC
 
 *** Keybinds
