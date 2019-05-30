@@ -2487,7 +2487,7 @@ Autoloads
             :key ?u)
            (make-mu4e-bookmark
             :name "Last 24 hours"
-            :query "date:24.."
+            :query "date:24h.."
             :key ?t)
            (make-mu4e-bookmark
             :name "Last 7 days"
