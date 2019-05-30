@@ -28,7 +28,7 @@ unbind <C-f>
 
 bind q tabclose
 bind <C-ö> buffer #
-bind A bmark
+bind A composite get_current_url | fillcmdline bmark
 bind a fillcmdline bmarks -t
 
 bind <C-i> forward
