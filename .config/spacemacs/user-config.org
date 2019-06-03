@@ -1002,8 +1002,11 @@ Quitting with *q*
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::org::agenda-list ()
     (interactive)
-    (call-interactively #'org-agenda-list)
-    (writeroom-mode t))
+    (eyebrowse-switch-to-window-config-8)
+    (if (eq major-mode 'org-agenda-mode)
+        (org-agenda-redo)
+      (org-agenda nil "n")
+      (writeroom-mode t)))
 #+END_SRC
 
 ~std::org::mode-hook~
