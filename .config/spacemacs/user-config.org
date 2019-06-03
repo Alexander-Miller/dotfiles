@@ -2453,6 +2453,19 @@ Autoloads
 
 #+END_SRC
 
+~std::mu4e::refresh~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::mu4e::refresh (&optional arg)
+    (interactive "P")
+    (if (null arg)
+        (mu4e-headers-rerun-search)
+      (pfuture-callback ["mbsync" "-a"]
+        :on-success
+        (progn (mu4e-update-index)
+               (mu4e-headers-rerun-search))
+        :on-error (message "Mail Update failed: %s" (s-trim (pfuture-callback-output))))))
+#+END_SRC
+
 *** Settings
 
 #+BEGIN_SRC emacs-lisp
@@ -2462,6 +2475,7 @@ Autoloads
           user-full-name "Alexander Miller")
 
     (setq mu4e-confirm-quit                 nil
+          mu4e-sent-messages-behavior       'delete
           mu4e-maildir                      (expand-file-name "~/.mail");TODO DOCS
           mu4e-change-filenames-when-moving t
           mu4e-use-fancy-chars              t
@@ -2677,6 +2691,9 @@ WIP font-lock improvement
     (std::keybind mu4e-headers-mode-map
       "+" #'std::mail::add-tag
       "-" #'std::mail::remove-tag)
+
+    (std::evil-keybind evilified mu4e-headers-mode-map
+      "gr" #'std::mu4e::refresh)
 
     (std::evil-keybind 'evilified (mu4e-headers-mode-map mu4e-view-mode-map mu4e-conversation-map)
       "J" #'std::evil::forward-five-lines
