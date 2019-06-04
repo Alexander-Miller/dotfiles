@@ -1156,7 +1156,48 @@ Autoloads
      org-agenda-window-frame-fractions               '(0.7 . 0.7)
      org-agenda-window-setup                         'only-window
      org-deadline-warning-days                       7
-     org-extend-today-until                          2))
+     org-extend-today-until                          2
+     org-agenda-block-separator                      ?\u2015
+     org-todo-keyword-faces
+     `(("»INBOX«" . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»PROJ«"  . (:background "#886688" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»NEXT«"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»TODO«"  . (:background "#BB6666" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»DONE«"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»WAIT«"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))))
+
+    (setf
+     org-agenda-custom-commands
+     `(("n" "Agenda"
+        ((todo "»INBOX«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15))" Inbox"))
+                (org-agenda-sorting-strategy '(todo-state-up))))
+
+         (todo "»PROJ«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15))" Projects"))
+                (org-agenda-sorting-strategy '(category-up priority-down))))
+
+         (todo "»TODO«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15)) " COLLECTBOX (Unscheduled)"))
+                (org-agenda-skip-function
+                 '(org-agenda-skip-entry-if 'scheduled 'deadline))))
+
+         (todo "»NEXT«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15)) " Next Tasks"))
+                (org-agenda-sorting-strategy '(priority-down category-up))))
+
+         (todo "»WAIT«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15)) " Waiting"))
+                (org-agenda-sorting-strategy '(todo-state-up))))
+
+         (agenda "" nil)
+
+         )))))
 #+END_SRC
 
 **** Habits
@@ -1304,6 +1345,13 @@ Also use ascii bullets for simple lists
           org-src-window-setup                        'other-window))
 #+END_SRC
 
+**** Exporting
+
+#+BEGIN_SRC emacs-lisp
+  (std::after org
+    (setq org-export-use-babel nil))
+#+END_SRC
+
 **** Other/Sort later
 
 #+BEGIN_SRC emacs-lisp
@@ -1318,7 +1366,6 @@ Also use ascii bullets for simple lists
      org-use-fast-todo-selection             t
      org-enforce-todo-dependencies           t
      org-enforce-todo-checkbox-dependencies  t
-     org-export-use-babel                    t
      org-list-demote-modify-bullet           '(("+" . "-") ("-" . "+") ("*" . "+"))
      org-list-indent-offset                  1
      org-log-done                            'time
