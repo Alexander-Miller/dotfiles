@@ -1013,6 +1013,7 @@ Quitting with *q*
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::org::mode-hook ()
     (smartparens-mode t)
+    (auto-revert-mode t)
     ;; disbaling with git-gutter doesn't work since text-mode's
     ;; hook is called as well
     (std::idle 0.1 :no-repeat (git-gutter-mode -1)))
