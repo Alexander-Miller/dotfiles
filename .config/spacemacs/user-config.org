@@ -1147,6 +1147,7 @@ Autoloads
     (setq
      calendar-holidays                                holiday-german-BW-holidays
      org-agenda-include-diary                         t
+     org-agenda-dim-blocked-tasks                     nil
      org-agenda-skip-scheduled-if-deadline-is-shown   t
      org-agenda-skip-scheduled-if-done                nil
      org-agenda-skip-scheduled-delay-if-deadline      nil
@@ -1161,8 +1162,8 @@ Autoloads
      org-agenda-block-separator                      ?\u2015
      org-todo-keyword-faces
      `(("»INBOX«" . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»PROJ«"  . (:background "#886688" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»NEXT«"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»PROJ«"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("»NEXT«"  . (:background "#9f8b6f" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
        ("»TODO«"  . (:background "#BB6666" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
        ("»DONE«"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
        ("»WAIT«"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))))
