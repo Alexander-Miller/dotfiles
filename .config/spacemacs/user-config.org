@@ -357,6 +357,22 @@ Load used libraries to somewhat reduce the amount of warnings.
       (call-interactively #'fill-paragraph))))
 #+END_SRC
 
+*** std::schedule
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::schedule)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defmacro std::schedule (time repeat &rest body)
+    (declare (indent 2))
+    `(run-with-timer
+      ,time ,(eq repeat :repeat)
+      ,(pcase body
+         (`((function ,_)) (car body))
+         (_ `(lambda () ,@body)))))
+#+END_SRC
+
 * Config tangle & compilation
 
 To save on startup time the config file is only loaded on boot. Tangling and compilation is
@@ -1003,10 +1019,14 @@ Quitting with *q*
   (defun std::org::agenda-list ()
     (interactive)
     (eyebrowse-switch-to-window-config-8)
-    (if (eq major-mode 'org-agenda-mode)
-        (org-agenda-redo)
-      (org-agenda nil "n")
-      (writeroom-mode t)))
+    (std::schedule 0.01 :no-repeat
+      (if (or (eq major-mode 'org-agenda-mode)
+              (-some-> (get-buffer "*Org Agenda*")
+                       (switch-to-buffer)))
+          (writeroom-mode t)
+         (org-agenda nil "n")
+         (writeroom-mode t))
+      (org-agenda-redo)))
 #+END_SRC
 
 ~std::org::mode-hook~
