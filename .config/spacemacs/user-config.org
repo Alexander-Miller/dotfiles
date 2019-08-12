@@ -3553,7 +3553,11 @@ Off
 
 Safe variable values for org
 #+BEGIN_SRC emacs-lisp
-  (setf safe-local-variable-values '((eval auto-fill-mode t)))
+  (setq-default
+   safe-local-variable-values
+   '((org-list-indent-offset . 1)
+     (fill-column . 120)
+     (eval auto-fill-mode t)))
 #+END_SRC
 
 Pos Tip colors
