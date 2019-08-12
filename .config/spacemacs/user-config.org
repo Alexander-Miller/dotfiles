@@ -2506,23 +2506,32 @@ Autoloads
   (defun std::mu4e ()
     (interactive)
     (eyebrowse-switch-to-window-config-4)
-    (mu4e)
-    (pfuture-callback ["mbsync" "-a"]
-      :on-success
-      (mu4e-update-index)
-      :on-error
-      (message "mbsync error: %s" (pfuture-callback-output))))
+    (std::schedule 0.01 :no-repeat
+      (unless (s-starts-with? "mu4e-" (symbol-name major-mode))
+        (mu4e)
+        (pfuture-callback ["mbsync" "-a"]
+          :on-success
+          (mu4e-update-index)
+          :on-error
+          (message "mbsync error: %s" (pfuture-callback-output))))))
+#+END_SRC
+
+~std::mu4e::compose-hook~
+#+BEGIN_SRC emacs-lisp
+  (defun std::mu4e::compose-hook ()
+    (use-hard-newlines -1))
 #+END_SRC
 
 Autoloads
 #+BEGIN_SRC emacs-lisp
   (std::autoload #'std::mu4e)
+  (add-hook 'mu4e-compose-mode-hook #'std::mu4e::compose-hook)
 #+END_SRC
 
 **** Mu Internal
 
 ~std::mail::add/remove-tag~
-#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+#+BEGIN_SRC emacs-lisp
   (std::after mu4e
     (defun std::mail::add-tag (&optional arg)
       (interactive "P")
@@ -2552,16 +2561,17 @@ Autoloads
 #+END_SRC
 
 ~std::mu4e::refresh~
-#+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (defun std::mu4e::refresh (&optional arg)
-    (interactive "P")
-    (if (null arg)
-        (mu4e-headers-rerun-search)
-      (pfuture-callback ["mbsync" "-a"]
-        :on-success
-        (progn (mu4e-update-index)
-               (mu4e-headers-rerun-search))
-        :on-error (message "Mail Update failed: %s" (s-trim (pfuture-callback-output))))))
+#+BEGIN_SRC emacs-lisp
+  (std::after mu4e
+    (defun std::mu4e::refresh (&optional arg)
+      (interactive "P")
+      (if (null arg)
+          (mu4e-headers-rerun-search)
+        (pfuture-callback ["mbsync" "-a"]
+          :on-success
+          (progn (mu4e-update-index)
+                 (mu4e-headers-rerun-search))
+          :on-error (message "Mail Update failed: %s" (s-trim (pfuture-callback-output)))))))
 #+END_SRC
 
 *** Settings
