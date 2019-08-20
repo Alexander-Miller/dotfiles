@@ -1100,6 +1100,15 @@ I want my buffers' display behaviour to be handled by shackle. All of them. No e
         (clear-image-cache))))
 #+END_SRC
 
+~std::org::agenda-redo~
+#+BEGIN_SRC emacs-lisp
+  (std::after org-agenda
+    (defun std::org::agenda-redo (&optional arg)
+      (interactive "P")
+      (org-agenda-redo arg)
+      (writeroom-mode)))
+#+END_SRC
+
 Autoloads
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook #'std::org::mode-hook)
@@ -1638,7 +1647,8 @@ A small bit of custom font locking for '==>'
   (std::after org-agenda
     (std::evil-keybind 'evilified org-agenda-mode-map
       "J" #'std::evil::forward-five-lines
-      "K" #'std::evil::backward-five-lines)
+      "K" #'std::evil::backward-five-lines
+      [remap org-agenda-redo] #'std::org::agenda-redo)
 
     (std::mode-leader-keybind 'org-agenda-mode
       "zh" #'org-habit-toggle-habits))
