@@ -2594,9 +2594,9 @@ Autoloads
 
     (setq mu4e-confirm-quit                 nil
           mu4e-sent-messages-behavior       'delete
-          mu4e-maildir                      (expand-file-name "~/.mail");TODO DOCS
+          mu4e-maildir                      (expand-file-name "~/.mail")
           mu4e-change-filenames-when-moving t
-          mu4e-use-fancy-chars              t
+          mu4e-use-fancy-chars              nil
           mu4e-get-mail-command             "mbsync -a"
           mu4e-headers-draft-mark           '("D" . "⚒")
           mu4e-headers-flagged-mark         '("F" . "✚")
@@ -2610,9 +2610,11 @@ Autoloads
           mu4e-headers-encrypted-mark       '("x" . "⚴")
           mu4e-headers-signed-mark          '("s" . "☡")
           mu4e-headers-unread-mark          '("u" . "⎕")
-          mu4e-headers-fields '((:human-date . 10)   (:flags . 6)
-                                (:mailing-list . 10) (:from . 22)
-                                (:subject . 85)      (:tags . 10)))
+          mu4e-headers-fields               `((:date . 8)
+                                              (:flags . 6)
+                                              (:mailing-list . 10)
+                                              (:from . 22)
+                                              (:subject . ,(- (frame-width) (+ 8 6 10 22 8)))))
 
     (setq mu4e-bookmarks
           (list
@@ -2765,17 +2767,21 @@ WIP font-lock improvement
          (propertize
           (mu4e~headers-thread-subject msg)
           'face 'font-lock-doc-face))
-        ((:maildir :path :message-id) val)
+        ((:maildir :path :message-id)
+         (propertize val 'face 'font-lock-keyword-face))
         ((:to :from :cc :bcc)
          (propertize
           (mu4e~headers-contact-str val)
-          'face 'font-lock-function-name-face))
+          'face 'font-lock-variable-name-face))
         (:from-or-to (mu4e~headers-from-or-to msg))
         (:date
          (propertize
           (format-time-string mu4e-headers-date-format val)
           'face 'font-lock-string-face))
-        (:mailing-list (mu4e~headers-mailing-list val))
+        (:mailing-list
+         (propertize
+          (mu4e~headers-mailing-list val)
+          'face 'font-lock-builtin-face))
         (:human-date
          (propertize
           (mu4e~headers-human-date msg)
