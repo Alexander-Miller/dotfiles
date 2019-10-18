@@ -1,0 +1,11 @@
+# -*- mode:conf -*-
+[Unit]
+Description=Mailbox synchronization timer
+
+[Timer]
+OnBootSec=2m
+OnUnitActiveSec=4m
+Unit=mbsync.service
+
+[Install]
+WantedBy=timers.target

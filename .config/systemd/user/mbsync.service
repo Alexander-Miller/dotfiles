@@ -1,0 +1,8 @@
+# -*- mode:conf -*-
+[Unit]
+Description=Mailbox synchronization service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mbsync -Va
+ExecStartPost=fish -c 'pgrep emacs && emacsclient -e "(mu4e-update-index)"'
