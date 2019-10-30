@@ -261,6 +261,18 @@ def_key "!"
 def_key "L"
  toggle_lyrics_fetcher
 
+def_key "alt-j"
+ move_selected_items_down
+
+def_key "alt-k"
+ move_selected_items_up
+
+def_key "alt-j"
+ move_sort_order_down
+
+def_key "alt-k"
+ move_sort_order_up
+
 # def_key "y"
 #  save_tag_changes
 #
@@ -302,25 +314,13 @@ def_key "L"
 #  crop_main_playlist
 #
 # def_key "m"
-#  move_sort_order_up
-#
-# def_key "m"
-#  move_selected_items_up
-#
-# def_key "m"
 #  toggle_media_library_sort_mode
 #
 # def_key "m"
 #  set_visualizer_sample_multiplier
 #
-# def_key "n"
-#  move_sort_order_down
-#
-# def_key "n"
-#  move_selected_items_down
-#
 # def_key "M"
-#  move_selected_items_to
+#  move_selected_items_top
 #
 # def_key "A"
 #  add
