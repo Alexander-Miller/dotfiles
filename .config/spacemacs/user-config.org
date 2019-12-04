@@ -2124,9 +2124,19 @@ Autoloads
 
     (defun std::dired::open-externally ()
       (interactive)
-      (call-process-shell-command
-       (format "xdg-open %s &"
-               (shell-quote-argument (dired-get-filename)))))
+      (let* ((files (or (dired-get-marked-files :local)
+                        (dired-get-filename)))
+             (types (->> files
+                         (-map #'file-name-extension)
+                         (-map #'mailcap-extension-to-mime)))
+             (videos? (--all? (s-starts-with? "video" it) types))
+             (cmd (if videos? "mpv" "xdg-open")))
+        (call-process-shell-command
+         (format "%s %s &"
+                 cmd
+                 (->> files
+                      (-map #'shell-quote-argument)
+                      (s-join " "))))))
 
     (defun std::dired::filesize ()
       (interactive)
