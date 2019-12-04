@@ -1,6 +1,0 @@
-(:name company-shell
-       :description "company mode backend for shell functions"
-       :website "https://github.com/Alexander-Miller/company-shell"
-       :type github
-       :pkgname "Alexander-Miller/company-shell"
-       :depends (company-mode dash cl-lib))

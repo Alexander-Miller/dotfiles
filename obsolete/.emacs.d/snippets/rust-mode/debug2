@@ -1,6 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: debug2
-# key: d2
-# binding: direct-keybinding
-# --
-println!("${1:}{:?}${2:}{:?}", ${3:o1}, ${4:o2});

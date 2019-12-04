@@ -1,6 +1,0 @@
-(:name helm-flx-git
-       :description "Sort helm candidates by flx score"
-       :type github
-       :depends (helm flx)
-       :website "https://github.com/PythonNut/helm-flx"
-       :pkgname "PythonNut/helm-flx")

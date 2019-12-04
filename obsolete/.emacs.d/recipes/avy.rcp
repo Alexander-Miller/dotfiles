@@ -1,6 +1,0 @@
-
-(:name avy
-       :description "Jump to visible text using a char-based decision tree."
-       :website "https://github.com/abo-abo/avy"
-       :type github
-       :pkgname "abo-abo/avy")

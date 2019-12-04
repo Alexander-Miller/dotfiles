@@ -1,6 +1,0 @@
-
-(:name org-bullets
-       :description "Show org-mode bullets as UTF-8 characters"
-       :website "https://github.com/sabof/org-bullets"
-       :type github
-       :pkgname "sabof/org-bullets")

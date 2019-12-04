@@ -1,6 +1,0 @@
-(:name spaceline
-       :description "Standalone spacemacs modeline."
-       :website "https://github.com/TheBB/spaceline"
-       :type github
-       :depends (powerline)
-       :pkgname "TheBB/spaceline")
