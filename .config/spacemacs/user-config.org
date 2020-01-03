@@ -1011,6 +1011,13 @@ Quitting with *q*
       "q" #'framey-quit-window))
 #+END_SRC
 
+** LSP
+
+#+BEGIN_SRC emacs-lisp
+  (std::after lsp
+    (setf lsp-ui-flycheck-live-reporting nil))
+#+END_SRC
+
 ** Org
 *** Functions
 
