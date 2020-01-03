@@ -1217,16 +1217,16 @@ Autoloads
                  (concat (propertize "" 'display '(raise 0.15))" Projects"))
                 (org-agenda-sorting-strategy '(category-up priority-down))))
 
+         (todo "»NEXT«"
+               ((org-agenda-overriding-header
+                 (concat (propertize "" 'display '(raise 0.15)) " Next Tasks"))
+                (org-agenda-sorting-strategy '(priority-down category-up))))
+
          (todo "»TODO«"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15)) " COLLECTBOX (Unscheduled)"))
                 (org-agenda-skip-function
                  '(org-agenda-skip-entry-if 'scheduled 'deadline))))
-
-         (todo "»NEXT«"
-               ((org-agenda-overriding-header
-                 (concat (propertize "" 'display '(raise 0.15)) " Next Tasks"))
-                (org-agenda-sorting-strategy '(priority-down category-up))))
 
          (todo "»WAIT«"
                ((org-agenda-overriding-header
@@ -1305,9 +1305,7 @@ Also use ascii bullets for simple lists
           (setf path (nconc path (list (format-time-string "%Y")))))
         (goto-char (org-find-olp path :this-buffer))
         (org-element-cache-refresh (point))
-        (-> (org-element-context) (cadr) (plist-get :end) (goto-char))
-        (previous-line)
-        (end-of-line))))
+        (-> (org-element-context) (cadr) (plist-get :end) (goto-char)))))
 #+END_SRC
 
 ~std::org:::bookmark-capture~
