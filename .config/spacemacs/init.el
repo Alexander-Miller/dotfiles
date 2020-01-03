@@ -202,6 +202,7 @@ This function is called at the very end of Spacemacs initialization."
 (defun std::config-bootstrap ()
   (interactive)
   (autoload #'org-babel-tangle-file "ob-tangle")
+  (autoload #'mu4e-message-at-point "mu4e")
   (let* ((byte-compile-warnings '(not unresolved free-vars))
          (el-file   (concat *SPACEMACSDIR* "/user-config.el"))
          (org-file  (file-chase-links (concat *SPACEMACSDIR* "/user-config.org")))
