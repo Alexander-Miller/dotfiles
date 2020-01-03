@@ -2324,7 +2324,7 @@ The only deviation from the defaults
 
 #+BEGIN_SRC emacs-lisp
   (defvar std::ledger::save-window-config nil)
-  (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ alnum)) " +++" eol))
+  (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ any)) " +++" eol))
   (defconst std::ledger::dir (expand-file-name (std::fmt "${*ORGDIR*}/Ledger")))
   (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
                                   (4 . "April")    (5 . "Mai")       (6 . "Juni")
@@ -2470,7 +2470,6 @@ Autoloads
     (std::keybind ledger-mode-map
       "M-J"   #'std::ledger::forward
       "M-K"   #'std::ledger::backward
-      "<tab>" #'std::ledger::magic-tab
       "M-q"   #'ledger-post-align-dwim
       [remap save-buffer] #'std::ledger::save)
 
@@ -2503,7 +2502,7 @@ Autoloads
               1
               bol
               "+++ "
-              (1+ alnum)
+              (1+ (or alnum " "))
               " +++"
               "\n"))
         1 'std::ledger::month-face t))
