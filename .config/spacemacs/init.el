@@ -68,7 +68,6 @@
      flycheck-package
      german-holidays
      helpful
-     mu4e-conversation
      multi-compile
      ht
      pfuture
