@@ -2860,6 +2860,14 @@ WIP font-lock improvement
 
 *** Functions
 
+~std::elfeed~
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::elfeed ()
+    (interactive)
+    (eyebrowse-switch-to-window-config-7)
+    (elfeed))
+#+END_SRC
+
 ~std::elfeed::mode-hook~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::elfeed::mode-hook ()
@@ -2903,7 +2911,7 @@ WIP font-lock improvement
 
 Autoloads
 #+BEGIN_SRC emacs-lisp
-  (std::autoload #'std::elfeed::mode-hook)
+  (std::autoload #'std::elfeed #'std::elfeed::mode-hook)
   (add-hook 'elfeed-search-mode-hook #'std::elfeed::mode-hook)
 #+END_SRC
 
@@ -2924,6 +2932,9 @@ Autoloads
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
+  (std::leader-keybind
+   "af" #'std::elfeed)
+
   (std::after elfeed
     (std::keybind elfeed-search-mode-map
       "J" #'std::evil::forward-five-lines
