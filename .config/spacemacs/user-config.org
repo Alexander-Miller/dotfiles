@@ -3292,7 +3292,7 @@ A simple mode-line implementation based on doom.
     ""
     :group 'std)
 
-  (defface std::modeline::not-selected-separator-face
+  (defface std::modeline::separator-inactive-face
     '((t (:background "#25252a")))
     ""
     :group 'std)
@@ -3302,13 +3302,23 @@ A simple mode-line implementation based on doom.
     ""
     :group 'std::modeline)
 
+  (defface std::modeline::num-inactive-face
+    '((t (:foreground "#997799" :background "#25252a" :bold t)))
+    ""
+    :group 'std::modeline)
+
   (defface std::modeline::major-mode-face
     '((t (:foreground "#997799" :bold t)))
     ""
     :group 'std::modeline)
 
+  (defface std::modeline::major-mode-inactive-face
+    '((t (:foreground "#997799" :background "#25252a" :bold t)))
+    ""
+    :group 'std::modeline)
+
   (defface std::modeline::buffer-id-inactive
-    '((t (:foreground "#c98459" :box "#000000")))
+    '((t (:foreground "#c98459" :background "#25252a" :bold t :box "#000000")))
     ""
     :group 'std::modeline)
 #+END_SRC
@@ -3326,27 +3336,33 @@ A simple mode-line implementation based on doom.
     (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30))
 
   (defconst std::modeline::unselected-window-xpm
-    (doom-modeline--make-xpm 'std::modeline::not-selected-separator-face 5 30))
+    (doom-modeline--make-xpm 'std::modeline::separator-inactive-face 5 30))
 
   (define-inline std::num-to-unicode (n)
     (inline-letevals (n)
       (inline-quote
        (pcase ,n
-         (1 "➊") (2 "➋") (3 "➌") (4 "➍")  (5 "➎") (6 "➏")
-         (7 "➐") (8 "➑") (9 "➒") (10 "➓") (_ ,n)))))
+         (1 " ➊") (2 " ➋") (3 " ➌") (4 " ➍")  (5 " ➎") (6 " ➏")
+         (7 " ➐") (8 " ➑") (9 " ➒") (10 " ➓") (_ ,n)))))
 
   (doom-modeline-def-segment std::modeline::window-number
     (--when-let (winum-get-number)
       (propertize (std::num-to-unicode it)
-                  'face 'std::modeline::num-face)))
+                  'face (if (doom-modeline--active)
+                            'std::modeline::num-face
+                          'std::modeline::num-inactive-face))))
 
   (doom-modeline-def-segment std::modeline::desktop-number
     (propertize (std::num-to-unicode (eyebrowse--get 'current-slot))
-                'face 'std::modeline::num-face))
+                'face (if (doom-modeline--active)
+                          'std::modeline::num-face
+                        'std::modeline::num-inactive-face)))
 
   (doom-modeline-def-segment std::modeline::buffer-id
-    (propertize (buffer-name)
-                'face (if (doom-modeline--active) 'mode-line-buffer-id 'std::modeline::buffer-id-inactive)))
+    (propertize (concat " " (buffer-name))
+                'face (if (doom-modeline--active)
+                          'mode-line-buffer-id
+                        'std::modeline::buffer-id-inactive)))
 
   (doom-modeline-def-segment std::modeline::window-bar
     (if (doom-modeline--active)
@@ -3363,10 +3379,12 @@ A simple mode-line implementation based on doom.
       map))
 
   (doom-modeline-def-segment std::modeline::major-mode
-    (propertize (format-mode-line mode-name)
+    (propertize (concat " "(format-mode-line mode-name))
                 'mouse-face 'mode-line-highlight
                 'local-map std::modeline::major-mode-local-map
-                'face 'std::modeline::major-mode-face))
+                'face (if (doom-modeline--active)
+                          'std::modeline::major-mode-face
+                        'std::modeline::major-mode-inactive-face)))
 
   (defconst std::modeline::flycheck-bullet-info  (propertize " • %s" 'face 'doom-modeline-info))
   (defconst std::modeline::flycheck-bullet-warn  (propertize " • %s" 'face 'doom-modeline-warning))
@@ -3382,12 +3400,12 @@ A simple mode-line implementation based on doom.
                   (when errors   (format std::modeline::flycheck-bullet-error errors)))))))
 
   (doom-modeline-def-modeline 'std
-    '(""  std::modeline::window-bar
-      " " std::modeline::window-number
-      " " std::modeline::desktop-number
-      " " std::modeline::buffer-id
-      " " std::modeline::major-mode
-      " " std::modeline::flycheck))
+    '(std::modeline::window-bar
+      std::modeline::window-number
+      std::modeline::desktop-number
+      std::modeline::buffer-id
+      std::modeline::major-mode
+      std::modeline::flycheck))
 
   (doom-modeline-set-modeline 'std :global-default)
 #+END_SRC
@@ -3400,14 +3418,13 @@ A simple mode-line implementation based on doom.
     (doom-modeline-def-segment std::modeline::buffer-process
       mode-line-process)
 
-
     (doom-modeline-def-modeline 'magit
-      '(""  std::modeline::window-bar
-        " " std::modeline::window-number
-        " " std::modeline::desktop-number
-        " " std::modeline::buffer-id
-        " " std::modeline::major-mode
-        " " std::modeline::buffer-process))
+      '(std::modeline::window-bar
+        std::modeline::window-number
+        std::modeline::desktop-number
+        std::modeline::buffer-id
+        std::modeline::major-mode
+        std::modeline::buffer-process))
 
     (defun std::modeline::magit-modeline ()
       (doom-modeline-set-modeline 'magit nil))
@@ -3421,9 +3438,9 @@ A simple mode-line implementation based on doom.
   (std::after treemacs
 
     (doom-modeline-def-modeline 'treemy
-      '(""  std::modeline::window-bar
-        " " std::modeline::desktop-number
-        " " std::modeline::major-mode))
+      '(std::modeline::window-bar
+        std::modeline::desktop-number
+        std::modeline::major-mode))
 
     (defun std::modeline::treemacs-modeline ()
       (doom-modeline-set-modeline 'treemy nil))
@@ -3437,13 +3454,13 @@ A simple mode-line implementation based on doom.
   (std::after elfeed
 
     (doom-modeline-def-segment std::modeline::feeds
-      (elfeed-search--count-unread))
+      (concat " " (elfeed-search--count-unread)))
 
     (doom-modeline-def-modeline 'elfeed
-      '(""  std::modeline::window-bar
-        " " std::modeline::desktop-number
-        " " std::modeline::major-mode
-        " " std::modeline::feeds))
+      '(std::modeline::window-bar
+        std::modeline::desktop-number
+        std::modeline::major-mode
+        std::modeline::feeds))
 
     (defun std::modeline::elfeed ()
       (doom-modeline-set-modeline 'elfeed nil))
