@@ -1783,13 +1783,12 @@ Autoloads
 
 ~std::org-helm-headings~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (autoload 'helm-source-org-headings-for-files "helm-org")
+  (autoload 'helm-org-build-sources "helm-org")
 
   (defun std::org-in-buffer-headings ()
     "Slightly retooled ~helm-org-in-buffer-headings~ to have the candidates retain their fontification."
     (interactive)
-    (helm :sources (helm-source-org-headings-for-files
-                    (list (current-buffer)))
+    (helm :sources (helm-org-build-sources (list (current-buffer)) nil t)
           :candidate-number-limit 99999
           :preselect (helm-org-in-buffer-preselect)
           :truncate-lines helm-org-truncate-lines
@@ -2286,7 +2285,7 @@ for easy deactivation.
               treemacs-collapse-dirs              3
               treemacs-silent-refresh             nil
               treemacs-change-root-without-asking nil
-              treemacs-sorting                    'alphabetic-desc
+              treemacs-sorting                    'alphabetic-asc
               treemacs-show-hidden-files          t
               treemacs-never-persist              nil
               treemacs-goto-tag-strategy          'refetch-index)
