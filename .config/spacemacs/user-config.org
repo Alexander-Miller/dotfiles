@@ -536,8 +536,8 @@ Emacs-like line start/end jump
 Splitting and joining lines
 #+BEGIN_SRC emacs-lisp
   (std::keybind evil-normal-state-map
-    "C-j" #'newline-and-indent
-    "M-j" #'evil-join)
+    "C-j"   #'newline-and-indent
+    "C-M-j" #'evil-join)
 #+END_SRC
 
 Find definition
