@@ -1360,15 +1360,15 @@ Also use ascii bullets for simple lists
         :empty-lines 1)
 
        ("pt" "Privater Termin" entry
-        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Termine")
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2020" "Termine")
         "* %?\n %U")
 
        ("pa" "Private Aufgabe" entry
-        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Einzelaufgaben")
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2020" "Einzelaufgaben")
         "* »TODO« %?\nDEADLINE: %t SCHEDULED: %t")
 
        ("pg" "Private Gewohnheit" entry
-        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2019" "Regelmäßige Gewohnheiten")
+        (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2020" "Regelmäßige Gewohnheiten")
         ,(concat "* »TODO« %?\n"
                  "SCHEDULED: %t\n"
                  ":PROPERTIES:\n"
