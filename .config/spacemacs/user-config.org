@@ -1149,13 +1149,6 @@ Autoloads
     (require 'org-habit))
 #+END_SRC
 
-**** Better looking TODO keywords
-
-#+BEGIN_SRC emacs-lisp
-  (std::after org
-    (setq-default org-todo-keywords '((sequence "»TODO«" "|" "»DONE«"))))
-#+END_SRC
-
 **** No "special" behaviour.
 
 #+BEGIN_SRC emacs-lisp
@@ -1197,38 +1190,38 @@ Autoloads
      org-extend-today-until                          2
      org-agenda-block-separator                      ?\u2015
      org-todo-keyword-faces
-     `(("»INBOX«" . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»PROJ«"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»NEXT«"  . (:background "#9f8b6f" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»TODO«"  . (:background "#BB6666" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»DONE«"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-       ("»WAIT«"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))))
+     `(("INBOX" . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("PROJ"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("NEXT"  . (:background "#9f8b6f" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("TODO"  . (:background "#BB6666" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("DONE"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+       ("WAIT"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))))
 
     (setf
      org-agenda-custom-commands
      `(("n" "Agenda"
-        ((todo "»INBOX«"
+        ((todo "INBOX"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15))" Inbox"))
                 (org-agenda-sorting-strategy '(todo-state-up))))
 
-         (todo "»PROJ«"
+         (todo "PROJ"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15))" Projects"))
                 (org-agenda-sorting-strategy '(category-up priority-down))))
 
-         (todo "»NEXT«"
+         (todo "NEXT"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15)) " Next Tasks"))
                 (org-agenda-sorting-strategy '(priority-down category-up))))
 
-         (todo "»TODO«"
+         (todo "TODO"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15)) " COLLECTBOX (Unscheduled)"))
                 (org-agenda-skip-function
                  '(org-agenda-skip-entry-if 'scheduled 'deadline))))
 
-         (todo "»WAIT«"
+         (todo "WAIT"
                ((org-agenda-overriding-header
                  (concat (propertize "" 'display '(raise 0.15)) " Waiting"))
                 (org-agenda-sorting-strategy '(todo-state-up))))
@@ -1352,7 +1345,7 @@ Also use ascii bullets for simple lists
 
        ("pp" "Inbox" entry
         (file+olp ,(concat org-directory "Privat.org") "Inbox")
-        "* »INBOX« %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")
+        "* INBOX %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")
 
        ("ph" "Haushalt Eintrag" plain
         (file+function ,(concat org-directory "Privat.org") std::org::haushalt-capture)
@@ -1365,11 +1358,11 @@ Also use ascii bullets for simple lists
 
        ("pa" "Private Aufgabe" entry
         (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2020" "Einzelaufgaben")
-        "* »TODO« %?\nDEADLINE: %t SCHEDULED: %t")
+        "* TODO %?\nDEADLINE: %t SCHEDULED: %t")
 
        ("pg" "Private Gewohnheit" entry
         (file+olp ,(concat org-directory "Privat.org") "Termine und Aufgaben" "2020" "Regelmäßige Gewohnheiten")
-        ,(concat "* »TODO« %?\n"
+        ,(concat "* TODO %?\n"
                  "SCHEDULED: %t\n"
                  ":PROPERTIES:\n"
                  ":STYLE:    habit\n"
@@ -1382,7 +1375,7 @@ Also use ascii bullets for simple lists
        ("n" "NT")
        ("nn" "Inbox" entry
         (file+olp ,(concat org-directory "NT.org") "Inbox")
-        "* »INBOX« %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")
+        "* INBOX %i%?\n%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")
 
        ("ns" "Sprint Eintrag" entry
         (file+function ,(concat org-directory "NT.org") std::org::sprint-capture)
