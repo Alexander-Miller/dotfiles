@@ -15,7 +15,6 @@ set selection-clipboard    clipboard
 set selection-notification true
 set show-directories       true
 set show-recent            0
-set smooth-scroll          true
 set statusbar-basename     false
 set statusbar-home-tilde   true
 set statusbar-h-padding    8
@@ -49,12 +48,6 @@ set notification-error-bg   "#ab3737"
 set notification-error-fg   "#000000"
 set notification-warning-bg "#1a1a1a"
 set notification-warning-fg "#f0c674"
-
-"TODO"
-set tabbar-bg               "#000000"
-set tabbar-fg               "#ff0000"
-set tabbar-focus-bg         "#000000"
-set tabbar-focus-fg         "#ff0000"
 
 map [normal]     J scroll half-down
 map [fullscreen] J scroll half-down
