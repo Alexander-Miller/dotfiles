@@ -25,6 +25,7 @@
      git
      github
      helm
+     helpful
      html
      lsp
      markdown
@@ -67,7 +68,6 @@
      flx
      flycheck-package
      german-holidays
-     helpful
      multi-compile
      ht
      pfuture
