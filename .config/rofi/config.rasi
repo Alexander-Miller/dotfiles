@@ -1,0 +1,233 @@
+/* -*- mode: css -*- */
+
+configuration {
+    modi:                 "window,run";
+    width:                95;
+    lines:                4;
+    columns:              3;
+    font:                 "Fantasque Sans Mono 18";
+    bw:                   1;
+    location:             6;
+    padding:              25;
+    yoffset:              -10;
+    xoffset:              0;
+    fixed-num-lines:      true;
+    show-icons:           true;
+    terminal:             "xfce4-terminal";
+    ssh-client:           "ssh";
+    ssh-command:          "{terminal} -e {ssh-client} {host}";
+    run-command:          "fish -c '{cmd}'";
+    run-list-command:     "";
+    run-shell-command:    "{terminal} -e {cmd}";
+    window-command:       "xkill -id {window}";
+    drun-show-actions:    true;
+    disable-history:      false;
+    case-sensitive:       false;
+    cycle:                true;
+    sidebar-mode:         true;
+    eh:                   1;
+    auto-select:          false;
+    parse-hosts:          false;
+    parse-known-hosts:    true;
+    combi-modi:           "window,run,drun";
+    tokenize:             true;
+    m:                    "-1";
+    line-margin:          20;
+    filter:               "";
+    separator-style:      "solid";
+    hide-scrollbar:       true;
+    fullscreen:           false;
+    fake-transparency:    false;
+    dpi:                  -1;
+    threads:              4;
+    scrollbar-width:      8;
+    scroll-method:        0;
+    fake-background:      "screenshot";
+    window-format:        "{w}    {c}   {t}";
+    click-to-exit:        true;
+    pid:                  "/run/user/1000/rofi.pid";
+    kb-primary-paste:     "Control+V";
+    kb-secondary-paste:   "Control+Shift+v";
+    kb-move-front:        "Control+a";
+    kb-move-end:          "Control+e";
+    kb-move-word-back:    "Alt+b,Control+Left";
+    kb-move-word-forward: "Alt+f,Control+Right";
+    kb-move-char-back:    "Left,Control+b";
+    kb-move-char-forward: "Right,Control+f";
+    kb-accept-custom:     "Control+Return";
+    kb-accept-alt:        "Shift+Return";
+    kb-ellipsize:         "Alt+period";
+}
+
+* {
+    spacing:                     2;
+    foreground:                  rgba(204, 177, 139, 100%);
+    background:                  rgba(45, 45, 49, 100%);
+    lightfg:                     rgba(88, 104, 117, 100%);
+    lightbg:                     rgba(238, 232, 213, 100%);
+    separatorcolor:              var(foreground);
+    border-color:                var(foreground);
+    background-color:            rgba(0, 0, 0, 0%);
+
+    selected-active-foreground:  rgba(0, 0, 0, 100%);
+    selected-active-background:  rgba(163, 116, 168, 100%);
+    selected-normal-foreground:  rgba(85, 119, 153, 100%);
+    selected-normal-background:  rgba(45, 45, 49, 100%);
+    selected-urgent-foreground:  rgba(255, 0, 255, 100%);
+    selected-urgent-background:  rgba(0, 255, 255, 100%);
+
+    normal-foreground:           var(foreground);
+    normal-background:           rgba(45, 45, 49, 100%);
+
+    urgent-foreground:           rgba(204, 177, 139, 100%);
+    urgent-background:           rgba(45, 45, 49, 100%);
+
+    alternate-urgent-foreground: var(urgent-foreground);
+    alternate-urgent-background: rgba(0, 0, 255, 100%);
+    alternate-active-foreground: var(active-foreground);
+    alternate-normal-background: rgba(45, 45, 49, 100%);
+    alternate-normal-foreground: var(foreground);
+    alternate-active-background: rgba(0, 0, 255, 100%);
+
+    active-foreground:           rgba(163, 116, 168, 100%);
+    active-background:           rgba(45, 45, 49, 100%);
+}
+
+window {
+    padding:          25;
+    background-color: var(background);
+    border:           2;
+    border-width:     100;
+    border-radius:    16px;
+}
+
+mainbox {
+    padding: 0;
+    border:  0;
+}
+
+message {
+    padding:      1px;
+    border-color: var(separatorcolor);
+    border:       2px 0px 0px;
+}
+
+textbox {
+    text-color: var(foreground);
+}
+
+listview {
+    padding:      2px 0px 0px;
+    scrollbar:    false;
+    border-color: var(separatorcolor);
+    spacing:      20px;
+    fixed-height: 0;
+    border:       2px 0px 0px;
+}
+
+element {
+    padding: 1px;
+    border:  0;
+}
+
+element normal.normal {
+    background-color: var(normal-background);
+    text-color:       var(normal-foreground);
+}
+
+element normal.urgent {
+    background-color: var(urgent-background);
+    text-color:       var(urgent-foreground);
+}
+
+element normal.active {
+    background-color: var(active-background);
+    text-color:       var(active-foreground);
+}
+
+element selected.normal {
+    background-color: var(selected-normal-background);
+    text-color:       var(selected-normal-foreground);
+}
+
+element selected.urgent {
+    background-color: var(selected-urgent-background);
+    text-color:       var(selected-urgent-foreground);
+}
+
+element selected.active {
+    background-color: var(selected-active-background);
+    text-color:       var(selected-active-foreground);
+}
+
+element alternate.normal {
+    background-color: var(alternate-normal-background);
+    text-color:       var(alternate-normal-foreground);
+}
+
+element alternate.urgent {
+    background-color: var(alternate-urgent-background);
+    text-color:       var(alternate-urgent-foreground);
+}
+
+element alternate.active {
+    background-color: var(alternate-active-background);
+    text-color:       var(alternate-active-foreground);
+}
+
+scrollbar {
+    width:        4px;
+    padding:      0;
+    handle-width: 8px;
+    border:       0;
+    handle-color: var(normal-foreground);
+}
+
+mode-switcher {
+    border-color: var(separatorcolor);
+    border:       2px 0px 0px;
+}
+
+button {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+
+button selected {
+    background-color: var(selected-normal-background);
+    text-color:       var(selected-normal-foreground);
+}
+
+inputbar {
+    padding:    1px;
+    spacing:    0px;
+    text-color: var(normal-foreground);
+    children:   [ prompt,textbox-prompt-colon,entry,overlay,case-indicator ];
+}
+
+case-indicator {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+
+entry {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+
+prompt {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+
+textbox-prompt-colon {
+    margin:     0px 0.3000em 0.0000em 0.0000em;
+    expand:     false;
+    str:        ":";
+    text-color: inherit;
+}
+
+error-message {
+    background-color: rgba(0, 0, 0, 0%);
+    text-color:       var(normal-foreground);
+}
