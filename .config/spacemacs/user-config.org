@@ -1613,6 +1613,20 @@ A small bit of custom font locking for '==>'
       "nw" #'widen))
 #+END_SRC
 
+**** Clocking
+
+***** Keybinds
+#+BEGIN_SRC emacs-lisp
+  (std::after org
+    (std::mode-leader-keybind 'org-mode
+      "c"  nil
+      "cc" #'org-clock-in
+      "cx" #'org-clock-out
+      "cd" #'org-clock-display
+      "cq" #'org-clock-remove-overlays
+      "cg" #'spacemacs/org-clock-jump-to-current-clock))
+#+END_SRC
+
 **** Insert Commands
 
 #+BEGIN_SRC emacs-lisp
