@@ -68,9 +68,11 @@
      flx
      flycheck-package
      german-holidays
+     ivy-posframe
      multi-compile
      ht
      pfuture
+     posframe
      rainbow-delimiters
      shackle
      smartparens

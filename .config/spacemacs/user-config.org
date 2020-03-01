@@ -3028,8 +3028,17 @@ Autoloads
 
 #+BEGIN_SRC emacs-lisp
   (std::after swiper
-    (setq ivy-height 4)
-    (push 'org-mode swiper-font-lock-exclude))
+    (setf
+     ivy-height       4
+     ivy-height-alist '((swiper . 8))
+     ivy-posframe-display-functions-alist
+     '((swiper          . ivy-posframe-display-at-frame-bottom-window-center)
+       (complete-symbol . ivy-posframe-display-at-point)
+       (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+       (t               . ivy-posframe-display)))
+
+    (ivy-posframe-mode t)
+    (add-to-list 'swiper-font-lock-exclude 'org-mode))
 #+END_SRC
 
 *** Keybinds
