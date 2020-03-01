@@ -922,7 +922,39 @@ Settings
 #+END_SRC
 
 *** Eyebrowse
+**** Functions
+Utility macro to allow commands like ~dired~ to display their windows in their own eyebrowse desktop.
 
+~std::with-desktop~
+#+BEGIN_SRC emacs-lisp
+  (defvar std::desktop-slot 10)
+
+  (defmacro* std::with-desktop (&key cmd check quit)
+    "Create a wrapper do launch a command in its own eyebrowse desktop.
+
+  CMD is the function to wrap.
+  CHECK is a form to tets whether CMD needs to be run or if just switch the desk
+  top is sufficient.
+  QUIT is the exit command that will be adviced to also return to the previously
+  active desktop."
+    (-let [slot std::desktop-slot]
+      `(unless (get ,cmd 'std::has-desktop)
+         (put ,cmd 'std::has-desktop t)
+         (cl-incf std::desktop-slot)
+         (advice-add
+          ,quit :after
+          (lambda () (eyebrowse-switch-to-window-config
+                 (get ,cmd 'std::return-to-desktop))))
+         (advice-add
+          ,cmd :around
+          (lambda (func &rest args)
+            (put ,cmd 'std::return-to-desktop (eyebrowse--get 'current-slot))
+            (eyebrowse-switch-to-window-config ,slot)
+            (unless ,check
+              (apply func args)))))))
+#+END_SRC
+
+**** Keybinds
 Switch desktops via SPC + num
 #+BEGIN_SRC emacs-lisp
   (eyebrowse-mode t)
@@ -973,8 +1005,7 @@ Window #0 is reverved for treemacs.
     (std::after framey
       (setq framey-show-modeline nil))
 
-    (std::autoload-with "Framey"
-      (helpful-at-point)
+    (std::autoload-with "Framey" (helpful-at-point)
       (require 'framey)))
 #+END_SRC
 
@@ -2170,6 +2201,14 @@ Autoloads
 
 *** Settings
 
+Launch dired in its own desktop
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::with-desktop
+   :check (eq major-mode 'dired-mode)
+   :cmd #'std::dired
+   :quit #'std::dired::quit)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
@@ -2521,15 +2560,7 @@ Autoloads
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::mu4e ()
     (interactive)
-    (eyebrowse-switch-to-window-config-4)
-    (std::schedule 0.01 :no-repeat
-      (unless (s-starts-with? "mu4e-" (symbol-name major-mode))
-        (mu4e)
-        (pfuture-callback ["mbsync" "-a"]
-          :on-success
-          (mu4e-update-index)
-          :on-error
-          (message "mbsync error: %s" (pfuture-callback-output))))))
+    (mu4e))
 #+END_SRC
 
 ~std::mu4e::compose-hook~
@@ -2591,6 +2622,25 @@ Autoloads
 #+END_SRC
 
 *** Settings
+
+Launch Mu4e in its own desktop:
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::with-desktop
+   :check (memq major-mode mu4e-modes)
+   :cmd #'std::mu4e
+   :quit #'mu4e-quit)
+#+END_SRC
+
+Lauch an update when Mu4e is first loaded
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::after mu4e
+    (setq-local lexical-binding t)
+    (pfuture-callback ["mbsync" "-a"]
+      :on-success
+      (mu4e-update-index)
+      :on-error
+      (message "mbsync error: %s" (pfuture-callback-output))))
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (std::after mu4e
@@ -2810,10 +2860,10 @@ WIP font-lock improvement
 *** Keybinds
 
 #+BEGIN_SRC emacs-lisp
-  (std::after mu4e
+  (std::leader-keybind
+   "aM" #'std::mu4e)
 
-    (std::leader-keybind
-     "aM" #'std::mu4e)
+  (std::after mu4e
 
     (std::keybind mu4e-main-mode-map
       "u" #'mu4e-update-index)
@@ -2861,7 +2911,6 @@ WIP font-lock improvement
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (defun std::elfeed ()
     (interactive)
-    (eyebrowse-switch-to-window-config-7)
     (elfeed))
 #+END_SRC
 
@@ -2913,6 +2962,14 @@ Autoloads
 #+END_SRC
 
 *** Settings
+
+Also launch in its own desktop:
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (std::with-desktop
+   :check (eq major-mode 'elfeed-search-mode)
+   :cmd #'std::elfeed
+   :quit #'elfeed-search-quit-window)
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (std::after elfeed
@@ -3335,7 +3392,7 @@ A simple mode-line implementation based on doom.
       (inline-quote
        (pcase ,n
          (1 " ➊") (2 " ➋") (3 " ➌") (4 " ➍")  (5 " ➎") (6 " ➏")
-         (7 " ➐") (8 " ➑") (9 " ➒") (10 " ➓") (_ ,n)))))
+         (7 " ➐") (8 " ➑") (9 " ➒") (10 " ➓") (_ "")))))
 
   (doom-modeline-def-segment std::modeline::window-number
     (--when-let (winum-get-number)
@@ -3371,7 +3428,7 @@ A simple mode-line implementation based on doom.
       map))
 
   (doom-modeline-def-segment std::modeline::major-mode
-    (propertize (concat " "(format-mode-line mode-name))
+    (propertize (concat " " (format-mode-line mode-name))
                 'mouse-face 'mode-line-highlight
                 'local-map std::modeline::major-mode-local-map
                 'face (if (doom-modeline--active)
