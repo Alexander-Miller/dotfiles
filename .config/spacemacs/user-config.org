@@ -2302,51 +2302,55 @@ Load up the local repository. Settings are mostly default, minor modes are on. E
 for easy deactivation.
 
 #+BEGIN_SRC emacs-lisp
-  (when (file-exists-p "~/Documents/git/treemacs/")
-    (use-package treemacs
-      :load-path "~/Documents/git/treemacs/src/elisp"
-      :defer t
-      :init
-      (std::after winum
-        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-      :config
-      (progn
-        (setq treemacs-follow-after-init          t
-              treemacs-width                      35
-              treemacs-indentation                2
-              treemacs-collapse-dirs              3
-              treemacs-silent-refresh             nil
-              treemacs-change-root-without-asking nil
-              treemacs-sorting                    'alphabetic-asc
-              treemacs-show-hidden-files          t
-              treemacs-never-persist              nil
-              treemacs-goto-tag-strategy          'refetch-index)
-        (treemacs-follow-mode t)
-        (treemacs-filewatch-mode t))
-      :bind
-      (:map global-map
-            ("M-0"       . treemacs-select-window)
-            ("C-c 1"     . treemacs-delete-other-windows)
-            :map spacemacs-default-map
-            ("ft"    . treemacs)
-            ("f C-t" . treemacs-find-file)))
+  (use-package treemacs
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :load-path "~/Documents/git/treemacs/src/elisp"
+    :defer t
+    :init
+    (std::after winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (setq treemacs-follow-after-init          t
+            treemacs-width                      35
+            treemacs-indentation                2
+            treemacs-collapse-dirs              3
+            treemacs-silent-refresh             nil
+            treemacs-change-root-without-asking nil
+            treemacs-sorting                    'alphabetic-asc
+            treemacs-show-hidden-files          t
+            treemacs-never-persist              nil
+            treemacs-goto-tag-strategy          'refetch-index)
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-c 1"     . treemacs-delete-other-windows)
+          :map spacemacs-default-map
+          ("ft"    . treemacs)
+          ("f C-t" . treemacs-find-file)))
 
-    (use-package treemacs-evil
-      :load-path "~/Documents/git/treemacs/src/extra"
-      :after treemacs)
+  (use-package treemacs-evil
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :load-path "~/Documents/git/treemacs/src/extra"
+    :after treemacs)
 
-    (use-package treemacs-projectile
-      :load-path "~/Documents/git/treemacs/src/extra"
-      :after treemacs)
+  (use-package treemacs-projectile
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :load-path "~/Documents/git/treemacs/src/extra"
+    :after treemacs)
 
-    (use-package treemacs-icons-dired
-      :after dired+
-      :load-path "~/Documents/git/treemacs/src/extra"
-      :config (treemacs-icons-dired-mode))
+  (use-package treemacs-icons-dired
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :after dired
+    :load-path "~/Documents/git/treemacs/src/extra"
+    :config (treemacs-icons-dired-mode))
 
-    (use-package treemacs-magit
-      :load-path "~/Documents/git/treemacs/src/extra"
-      :after (treemacs magit)))
+  (use-package treemacs-magit
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :load-path "~/Documents/git/treemacs/src/extra"
+    :after (treemacs magit))
 #+END_SRC
 
 The only deviation from the defaults
