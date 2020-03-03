@@ -13,6 +13,14 @@ Load used libraries to somewhat reduce the amount of warnings.
   (require 'evil)
 #+END_SRC
 
+A customization group for new faces. Only really used to silence the byte compiler.
+#+BEGIN_SRC emacs-lisp
+  (defgroup std nil
+    "Std faces."
+    :group 'std
+    :prefix "std::")
+#+END_SRC
+
 * Utility Functions
 ** Top Level
 *** std::static-assert
@@ -1472,7 +1480,8 @@ A small bit of custom font locking for '==>'
 #+BEGIN_SRC emacs-lisp
   (defface std::result-face
     `((t (:foreground "#886688" :bold t)))
-    "Face for '==>'.")
+    "Face for '==>'."
+    :group 'std)
 
     (font-lock-add-keywords
      'org-mode
@@ -2119,7 +2128,7 @@ Autoloads
     (defun std::dired::mark-up ()
       (interactive)
       (call-interactively #'dired-mark)
-      (previous-line 2))
+      (forward-line -2))
 
     (defun std::dired::open-externally ()
       (interactive)
@@ -2205,7 +2214,7 @@ Launch dired in its own desktop
       (-let [name (intern new-name)]
         `(progn
            (defun ,name (&optional arg)
-             (format "Run %s. Set `dired-dwim-target' to t with a prefix arg." ,command-name)
+             ,(format "Run %s. Set `dired-dwim-target' to t with a prefix arg." command-name)
              (interactive "P")
              (-let [dired-dwim-target arg] (,command)))
            #',name))))
@@ -2256,7 +2265,8 @@ the custom ~spacemacs-treemacs-face~ is not defined and leads to display errors 
 #+BEGIN_SRC emacs-lisp
   (defface spacemacs-treemacs-face
     `((t (:foreground "#1a1a1a" :background "MediumPurple1")))
-    "Custom spacemacs-treemacs face for the modeline.")
+    "Custom spacemacs-treemacs face for the modeline."
+    :group 'std)
 #+END_SRC
 
 Flycheck should be turned on for treemacs, but not all elisp files.
@@ -3333,27 +3343,27 @@ A simple mode-line implementation based on doom.
   (defface std::modeline::num-face
     '((t (:foreground "#997799" :bold t)))
     ""
-    :group 'std::modeline)
+    :group 'std)
 
   (defface std::modeline::num-inactive-face
     '((t (:foreground "#997799" :background "#25252a" :bold t)))
     ""
-    :group 'std::modeline)
+    :group 'std)
 
   (defface std::modeline::major-mode-face
     '((t (:foreground "#997799" :bold t)))
     ""
-    :group 'std::modeline)
+    :group 'std)
 
   (defface std::modeline::major-mode-inactive-face
     '((t (:foreground "#997799" :background "#25252a" :bold t)))
     ""
-    :group 'std::modeline)
+    :group 'std)
 
   (defface std::modeline::buffer-id-inactive
     '((t (:foreground "#c98459" :background "#25252a" :bold t :box "#000000")))
     ""
-    :group 'std::modeline)
+    :group 'std)
 #+END_SRC
 
 ** Default
