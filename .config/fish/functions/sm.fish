@@ -1,3 +1,3 @@
 function sm
-    python $SPACEMACSDIR/sm.py $argv
+    python $SPACEMACSDIR/tools/sm.py $argv
 end

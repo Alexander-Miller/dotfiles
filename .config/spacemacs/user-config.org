@@ -373,49 +373,6 @@ Load used libraries to somewhat reduce the amount of warnings.
          (_ `(lambda () ,@body)))))
 #+END_SRC
 
-* Config tangle & compilation
-
-To save on startup time the config file is only loaded on boot. Tangling and compilation is
-instead run as part of ~kill-emacs-hook~, relieving the need to load all of org and tangle the
-config before emacs may be used.
-
-The function to tangle and recompile the config, running only if the org file was recently modified.
-#+BEGIN_SRC emacs-lisp
-  (autoload #'org-babel-tangle-file "ob-tangle")
-
-  (defun std::config-tangle-and-recompile ()
-    (interactive)
-    (setq x-select-enable-clipboard-manager nil)
-    (let* ((byte-compile-warnings '(not unresolved free-vars))
-           (dir       *SPACEMACSDIR*)
-           (el-file   (std::fmt "${dir}/user-config.el"))
-           (org-file  (file-chase-links (concat dir "/user-config.org")))
-           (autoloads (std::fmt "${dir}/autoloads.el")))
-      (when (or (called-interactively-p 'interactive)
-                (not (file-exists-p el-file))
-                (not (file-exists-p autoloads))
-                (file-newer-than-file-p org-file el-file)
-                (file-newer-than-file-p org-file autoloads))
-        (condition-case e
-            (progn
-              (org-babel-tangle-file org-file el-file "emacs-lisp")
-              (byte-recompile-file el-file t 0 nil)
-              (byte-recompile-file autoloads t 0 nil))
-          (error (shell-command (std::fmt "notify-send 'ERROR' '${e}'")))))))
-#+END_SRC
-
-Advice to insert reload before spacemacs' layer syncing.
-#+BEGIN_SRC emacs-lisp
-  (defun std::layer-sync-config-tangle-advice (&rest _)
-    (std::config-tangle-and-recompile))
-#+END_SRC
-
-Insert retangle before both quitting emacs and reloading the config.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'kill-emacs-hook #'std::config-tangle-and-recompile)
-  (advice-add #'dotspacemacs/sync-configuration-layers :after #'std::layer-sync-config-tangle-advice)
-#+END_SRC
-
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
