@@ -9,6 +9,18 @@ if cmd == None:
     print("Not enough arguments.")
     exit(1)
 
+def main():
+    if cmd == "edit":
+        edit()
+    elif cmd == "edit-tty":
+        edit_tty
+    elif cmd == "magit":
+        magit()
+    elif cmd == "magit-tty":
+        magit_tty()
+    elif cmd == "compile":
+        cfg_compile()
+
 def run(cmd):
     call = Popen(cmd, shell=True, stdout=DEVNULL, stderr=DEVNULL)
     return call.wait()
@@ -38,19 +50,10 @@ def magit_tty():
     os.system("emacsclient -c -nw -e '(magit-status)'")
 
 def cfg_compile():
-    os.system(f"emacs --batch -l {os.environ['SPACEMACSDIR']}/tools/config-compile.el x y z")
+    os.system(f"emacs --batch -l {os.environ['SPACEMACSDIR']}/tools/config-compile.el")
 
 # TODO(2020/03/01):
 # capture
-# update
+# pkg update?
 
-if cmd == "edit":
-    edit()
-elif cmd == "edit-tty":
-    edit_tty
-elif cmd == "magit":
-    magit()
-elif cmd == "magit-tty":
-    magit_tty()
-elif cmd == "compile":
-    cfg_compile()
+main()
