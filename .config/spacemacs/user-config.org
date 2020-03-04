@@ -861,6 +861,7 @@ Settings
           '((flycheck-error-list-mode . bottom)
             (messages-buffer-mode     . bottom)
             (compilation-mode         . bottom)
+            (calendar-mode            . bottom)
             (inferior-emacs-lisp-mode . bottom)))
 
     (purpose-compile-user-configuration))
