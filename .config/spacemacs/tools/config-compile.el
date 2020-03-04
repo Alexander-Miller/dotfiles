@@ -3,6 +3,9 @@
 ;; By default print nothing unless explicitly wanted
 (setq-default inhibit-message t)
 
+;; Prevent treemacs' warnings about undefined faces
+(defconst treemacs-no-load-time-warnings t)
+
 ;; Advice for `message'
 ;; Will filter info messages that a file is compiling or loading
 ;; but will pass useful byte compiler messages when compilation
