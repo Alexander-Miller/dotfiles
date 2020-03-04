@@ -892,7 +892,7 @@ Utility macro to allow commands like ~dired~ to display their windows in their o
 
 ~std::with-desktop~
 #+BEGIN_SRC emacs-lisp
-  (defvar std::desktop-slot 10)
+  (defvar std::desktop-slot 11)
 
   (defmacro* std::with-desktop (&key cmd check quit)
     "Create a wrapper do launch a command in its own eyebrowse desktop.
@@ -915,8 +915,14 @@ Utility macro to allow commands like ~dired~ to display their windows in their o
           (lambda (func &rest args)
             (put ,cmd 'std::return-to-desktop (eyebrowse--get 'current-slot))
             (eyebrowse-switch-to-window-config ,slot)
-            (unless ,check
-              (apply func args)))))))
+            ;; a timer is needed because it looks like we are still in the old
+            ;; buffer when the switch has happened
+            (run-with-timer
+             0 nil
+             (lambda (check func args)
+               (unless (funcall check)
+                 (apply func args)))
+             (lambda () ,check) func args))))))
 #+END_SRC
 
 **** Keybinds
