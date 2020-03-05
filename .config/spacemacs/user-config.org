@@ -2626,14 +2626,12 @@ Launch Mu4e in its own desktop:
 Lauch an update when Mu4e is first loaded
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
   (std::after mu4e
-    (setq-local lexical-binding t)
-    (pfuture-callback ["mbsync" "-a"]
-      :on-success
-      (mu4e-update-index)
-      :on-error
-      (message "mbsync error: %s" (pfuture-callback-output))))
+    (make-process
+     :name "Mbsync Update"
+     :command '("systemctl" "--user" "start" "mbsync.service")))
 #+END_SRC
 
+General settings
 #+BEGIN_SRC emacs-lisp
   (std::after mu4e
 
