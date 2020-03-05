@@ -13,7 +13,7 @@ def main():
     if cmd == "edit":
         edit()
     elif cmd == "edit-tty":
-        edit_tty
+        edit_tty()
     elif cmd == "magit":
         magit()
     elif cmd == "magit-tty":
