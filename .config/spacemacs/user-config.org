@@ -381,6 +381,18 @@ A customization group for new faces. Only really used to silence the byte compil
          (_ `(lambda () ,@body)))))
 #+END_SRC
 
+*** std::scratch
+
+#+BEGIN_SRC emacs-lisp
+  (std::autoload 'std::scratch)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle autoloads.el
+  (defun std::scratch ()
+    (interactive)
+    (find-file-existing std::scratch-file))
+#+END_SRC
+
 * Layer configurations
 ** Evil
 *** Fitting cursor state colors
@@ -3612,6 +3624,11 @@ Fill region
 #+BEGIN_SRC emacs-lisp
   (std::keybind global-map
     "C-q" #'fill-region)
+#+END_SRC
+
+Open persistent scratch file
+#+BEGIN_SRC emacs-lisp
+  (std::leader-keybind "bs" #'std::scratch)
 #+END_SRC
 
 ** Line numbers

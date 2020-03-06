@@ -191,7 +191,7 @@
 
 (defun dotspacemacs/user-config ()
   (load-file (concat std::spacemacsdir "/user-config.elc"))
-  (spacemacs/switch-to-scratch-buffer))
+  (find-file-existing std::scratch-file))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
