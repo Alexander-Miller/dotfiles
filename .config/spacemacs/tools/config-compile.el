@@ -74,6 +74,9 @@
         (org-file  (file-chase-links (concat std::spacemacsdir "/user-config.org")))
         (autoloads (concat std::spacemacsdir "/autoloads.el")))
 
+   (std::log "Compile Spacemacs Core Libs")
+   (byte-recompile-directory "~/.emacs.d/core" 0 :force)
+
    (std::log "Tangle Org Config")
    (org-babel-tangle-file org-file el-file "emacs-lisp")
 
