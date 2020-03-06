@@ -52,7 +52,7 @@
      vimscript
      yaml)
    dotspacemacs-additional-packages
-   '(ace-window
+   `(ace-window
      anzu
      buttercup
      company-flx
@@ -69,11 +69,9 @@
      flx
      flycheck-package
      german-holidays
-     ivy-posframe
      multi-compile
      ht
      pfuture
-     posframe
      rainbow-delimiters
      shackle
      smartparens
@@ -83,6 +81,8 @@
      winum
      wttrin
      writeroom-mode
+     ,(when (version<= "26" emacs-version) 'posframe)
+     ,(when (version<= "26" emacs-version) 'ivy-posframe)
      (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
      (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))
      (tridactylrc-mode   :location (recipe :fetcher github :repo "Alexander-Miller/tridactylrc-mode"))

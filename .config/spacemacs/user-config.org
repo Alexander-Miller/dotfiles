@@ -216,6 +216,15 @@ A customization group for new faces. Only really used to silence the byte compil
            (advice-add feature :around #',advice-name)))))
 #+END_SRC
 
+*** std::if-version
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::if-version (v &rest body)
+    (declare (indent 1))
+    (when (version<= (number-to-string v) emacs-version)
+      `(progn ,@body)))
+#+END_SRC
+
 ** Autoloads
 *** std::what-face
 
@@ -983,13 +992,15 @@ Window #0 is reverved for treemacs.
 **** Settings
 
 #+BEGIN_SRC emacs-lisp
-  (when (version<= "26" emacs-version)
+  (std::if-version 26
+
     (std::after helm (framey-mode))
 
     (std::after framey
       (setq framey-show-modeline nil))
 
-    (std::autoload-with "Framey" (helpful-at-point)
+    (std::autoload-with "Framey"
+      (helpful-at-point)
       (require 'framey)))
 #+END_SRC
 
@@ -3031,17 +3042,18 @@ Autoloads
 
 #+BEGIN_SRC emacs-lisp
   (std::after swiper
-    (setf
-     ivy-height       4
-     ivy-height-alist '((swiper . 8))
-     ivy-posframe-display-functions-alist
-     '((swiper          . ivy-posframe-display-at-frame-bottom-window-center)
-       (complete-symbol . ivy-posframe-display-at-point)
-       (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
-       (t               . ivy-posframe-display)))
+    (setf ivy-height       4
+          ivy-height-alist '((swiper . 8)))
 
-    (ivy-posframe-mode t)
-    (add-to-list 'swiper-font-lock-exclude 'org-mode))
+    (add-to-list 'swiper-font-lock-exclude 'org-mode)
+
+    (std::if-version 26
+      (setf ivy-posframe-display-functions-alist
+            '((swiper          . ivy-posframe-display-at-frame-bottom-window-center)
+              (complete-symbol . ivy-posframe-display-at-point)
+              (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+              (t               . ivy-posframe-display)))
+      (ivy-posframe-mode t)))
 #+END_SRC
 
 *** Keybinds
