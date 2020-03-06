@@ -2,8 +2,9 @@
 
 (defun dotspacemacs/layers ()
   (setq-default
-   *SPACEMACSDIR*                         (getenv "SPACEMACSDIR")
-   *ORGDIR*                               "~/Documents/Org"
+   std::spacemacsdir                      (getenv "SPACEMACSDIR")
+   std::orgdir                            "~/Documents/Org"
+   std::scratch-file                      "~/Dropbox/SCRATCH.el"
    dotspacemacs-distribution              'spacemacs-base
    dotspacemacs-enable-lazy-installation  'unused
    dotspacemacs-ask-for-lazy-installation t
@@ -19,7 +20,7 @@
       auto-completion-enable-snippets-in-popup   t)
      better-defaults
      colors
-     (elfeed :variables rmh-elfeed-org-files (list (format "%s/Elfeed.org" *ORGDIR*)))
+     (elfeed :variables rmh-elfeed-org-files (list (format "%s/Elfeed.org" std::orgdir)))
      emacs-lisp
      finance
      git
@@ -189,7 +190,7 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (load-file (concat *SPACEMACSDIR* "/user-config.elc"))
+  (load-file (concat std::spacemacsdir "/user-config.elc"))
   (spacemacs/switch-to-scratch-buffer))
 
 (defun dotspacemacs/emacs-custom-settings ()

@@ -6,6 +6,9 @@
 ;; Prevent treemacs' warnings about undefined faces
 (defconst treemacs-no-load-time-warnings t)
 
+;; Don't load older .elc files
+(setf load-prefer-newer t)
+
 ;; Advice for `message'
 ;; Will filter info messages that a file is compiling or loading
 ;; but will pass useful byte compiler messages when compilation
@@ -66,10 +69,10 @@
  (autoload #'mu4e-message-at-point "mu4e")
 
  (let* ((byte-compile-warnings '(not unresolved free-vars))
-        (el-file   (concat *SPACEMACSDIR* "/user-config.el"))
-        (elc-file  (concat *SPACEMACSDIR* "/user-config.elc"))
-        (org-file  (file-chase-links (concat *SPACEMACSDIR* "/user-config.org")))
-        (autoloads (concat *SPACEMACSDIR* "/autoloads.el")))
+        (el-file   (concat std::spacemacsdir "/user-config.el"))
+        (elc-file  (concat std::spacemacsdir "/user-config.elc"))
+        (org-file  (file-chase-links (concat std::spacemacsdir "/user-config.org")))
+        (autoloads (concat std::spacemacsdir "/autoloads.el")))
 
    (std::log "Tangle Org Config")
    (org-babel-tangle-file org-file el-file "emacs-lisp")

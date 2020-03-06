@@ -196,7 +196,7 @@ A customization group for new faces. Only really used to silence the byte compil
   (defmacro std::autoload (&rest names)
     `(progn
        ,@(--map
-          `(autoload ,it (std::fmt "${*SPACEMACSDIR*}/autoloads"))
+          `(autoload ,it (std::fmt "${std::spacemacsdir}/autoloads"))
           names)))
 #+END_SRC
 
@@ -343,7 +343,7 @@ A customization group for new faces. Only really used to silence the byte compil
   (defun std::edit-org-user-config ()
     "Edit the org user config file, in the current window."
     (interactive)
-    (find-file-existing (concat *SPACEMACSDIR* "/user-config.org")))
+    (find-file-existing (concat std::spacemacsdir "/user-config.org")))
 #+END_SRC
 
 *** std::fill-dwim
@@ -2353,7 +2353,7 @@ The only deviation from the defaults
 #+BEGIN_SRC emacs-lisp
   (defvar std::ledger::save-window-config nil)
   (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ any)) " +++" eol))
-  (defconst std::ledger::dir (expand-file-name (std::fmt "${*ORGDIR*}/Ledger")))
+  (defconst std::ledger::dir (expand-file-name (std::fmt "${std::orgdir}/Ledger")))
   (defconst std::ledger::months '((1 . "Januar")   (2 . "Februar")   (3 . "März")
                                   (4 . "April")    (5 . "Mai")       (6 . "Juni")
                                   (7 . "Juli")     (8 . "August")    (9 . "September")
@@ -2368,7 +2368,7 @@ The only deviation from the defaults
   (defun std::ledger ()
     (interactive)
     (require 'calendar)
-    (-let [pcmds (std::fmt "${*ORGDIR*}/Ledger/ledger.el")]
+    (-let [pcmds (std::fmt "${std::orgdir}/Ledger/ledger.el")]
       (when (file-exists-p pcmds)
         (load-file pcmds)))
     (let* ((date (calendar-current-date))
@@ -2963,7 +2963,7 @@ Also launch in its own desktop:
 
 #+BEGIN_SRC emacs-lisp
   (std::after elfeed
-    (setf elfeed-db-directory  (std::fmt "${*ORGDIR*}/Elfeed-DB")
+    (setf elfeed-db-directory  (std::fmt "${std::orgdir}/Elfeed-DB")
           elfeed-search-filter "@6-months-ago -ignore"
           elfeed-search-face-alist
           '((unread   elfeed-search-unread-title-face)
@@ -3082,7 +3082,7 @@ Autoloads
 
 #+BEGIN_SRC emacs-lisp
   (std::after yasnippet
-    (setf yas-snippet-dirs (list (std::fmt "${*SPACEMACSDIR*}/snippets"))))
+    (setf yas-snippet-dirs (list (std::fmt "${std::spacemacsdir}/snippets"))))
 
   (add-hook 'yas-minor-mode-hook #'std::yas::activate-fundamental-mode)
 #+END_SRC
@@ -3685,7 +3685,7 @@ Pos Tip colors
 
 Pack the custom settings away from the actual config to somewhere they can be easily gitignored.
 #+BEGIN_SRC emacs-lisp
-  (setq custom-file (std::fmt "${*SPACEMACSDIR*}/custom-file.el"))
+  (setq custom-file (std::fmt "${std::spacemacsdir}/custom-file.el"))
 #+END_SRC
 
 Simple newlines
