@@ -2349,6 +2349,7 @@ for easy deactivation.
 
   (use-package treemacs-magit
     :if (file-exists-p "~/Documents/git/treemacs/")
+    :defer t
     :load-path "~/Documents/git/treemacs/src/extra"
     :after (treemacs magit))
 #+END_SRC
