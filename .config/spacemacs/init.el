@@ -52,41 +52,43 @@
      vimscript
      yaml)
    dotspacemacs-additional-packages
-   `(ace-window
-     anzu
-     buttercup
-     company-flx
-     (dired+ :location (recipe :fetcher github
-                               :repo "emacsmirror/dired-plus"))
-     doom-modeline
-     el-mock
-     eros
-     evil-collection
-     evil-goggles
-     evil-surround
-     expand-region
-     eyebrowse
-     flx
-     flycheck-package
-     german-holidays
-     multi-compile
-     ht
-     pfuture
-     rainbow-delimiters
-     shackle
-     smartparens
-     swiper
-     vimish-fold
-     window-purpose
-     winum
-     wttrin
-     writeroom-mode
-     ,(when (version<= "26" emacs-version) 'posframe)
-     ,(when (version<= "26" emacs-version) 'ivy-posframe)
-     (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
-     (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))
-     (tridactylrc-mode   :location (recipe :fetcher github :repo "Alexander-Miller/tridactylrc-mode"))
-     (framey             :location (recipe :fetcher github :repo "Alexander-Miller/framey")))
+   (cl-remove-if
+    #'null
+    `(ace-window
+      anzu
+      buttercup
+      company-flx
+      (dired+ :location (recipe :fetcher github
+                                :repo "emacsmirror/dired-plus"))
+      doom-modeline
+      el-mock
+      eros
+      evil-collection
+      evil-goggles
+      evil-surround
+      expand-region
+      eyebrowse
+      flx
+      flycheck-package
+      german-holidays
+      multi-compile
+      ht
+      pfuture
+      rainbow-delimiters
+      shackle
+      smartparens
+      swiper
+      vimish-fold
+      window-purpose
+      winum
+      wttrin
+      writeroom-mode
+      ,(when (version<= "26" emacs-version) 'posframe)
+      ,(when (version<= "26" emacs-version) 'ivy-posframe)
+      (i3wm-config-mode   :location (recipe :fetcher github :repo "Alexander-Miller/i3wm-config-mode"))
+      (morning-star-theme :location (recipe :fetcher github :repo "Alexander-Miller/morning-star-theme"))
+      (tridactylrc-mode   :location (recipe :fetcher github :repo "Alexander-Miller/tridactylrc-mode"))
+      (framey             :location (recipe :fetcher github :repo "Alexander-Miller/framey"))))
    dotspacemacs-delete-orphan-packages nil
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages
