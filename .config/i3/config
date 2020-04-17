@@ -22,6 +22,9 @@ bindsym $mod+p exec --no-startup-id "xfce4-settings-manager"
 # Change wallpaper
 bindsym $mod+Shift+p exec --no-startup-id "fish -c change-wallpaper"
 
+# Launch video from scratchpad
+bindsym $mod+Shift+m exec --no-startup-id "fish -c ytmpv"
+
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
