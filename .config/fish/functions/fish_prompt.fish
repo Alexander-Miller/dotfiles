@@ -12,6 +12,7 @@ function fish_prompt --description 'Write out the prompt'
         case '*'
             set -g last_status $status
             fish_prompt_init
+            fish_prompt_start
             fish_prompt_host
             fish_prompt_pwd
             fish_prompt_git
@@ -87,7 +88,6 @@ function fish_prompt_init
     end
 end
 
-
 function fish_prompt_block -a color
     set_color $fish_prompt_color_paren
     echo -n -s '-('
@@ -97,6 +97,15 @@ function fish_prompt_block -a color
     echo -n -s ')'
 end
 
+function fish_prompt_start
+    set_color $fish_prompt_color_paren
+    echo -n -s '['
+    set_color --bold magenta
+    echo -n -s 'λ'
+    set_color normal
+    set_color $fish_prompt_color_paren
+    echo -n -s ']'
+end
 
 function fish_prompt_host
     if not set -q __fish_prompt_hostname

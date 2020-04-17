@@ -1,5 +1,4 @@
 #!/usr/bin/fish
-set -g  fish_key_bindings fish_user_key_bindings
 set -Ux RUST_SRC_PATH     $HOME/Documents/git/rust/src
 set -Ux XDG_CONFIG_HOME   $HOME/.config
 set -Ux SPACEMACSDIR      $XDG_CONFIG_HOME/spacemacs
@@ -8,9 +7,11 @@ set -e  fish_greeting
 set -eU fish_user_paths
 set -e  EMACS
 
+bind \ej down-or-search
+bind \ek up-or-search
+
 add_to_user_path ~/.cargo/bin cargo
 add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
-add_to_user_path ~/Documents/Clojure/Leiningen lein
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
