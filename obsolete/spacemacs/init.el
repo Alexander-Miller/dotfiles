@@ -25,6 +25,7 @@
      finance
      git
      github
+     spacemacs-layouts
      helm
      helpful
      html
@@ -55,6 +56,7 @@
    (cl-remove-if
     #'null
     `(ace-window
+      ;; ace-link;; TODO(2020/02/28): for mu
       anzu
       buttercup
       company-flx
@@ -68,11 +70,14 @@
       evil-surround
       expand-region
       eyebrowse
+      ;; fill-column-indicator
       flx
       flycheck-package
       german-holidays
       multi-compile
       ht
+      ;; org-super-agenda
+      ;; persp-mode
       pfuture
       rainbow-delimiters
       shackle
@@ -94,6 +99,7 @@
    dotspacemacs-excluded-packages
    '(centered-cursor-mode
      diminish
+     lsp-python-ms
      evil-anzu
      evil-cleverparens
      evil-ediff
@@ -181,7 +187,7 @@
    dotspacemacs-highlight-delimiters               'any
    dotspacemacs-smart-closing-parenthesis          nil
    dotspacemacs-persistent-server                  nil
-   dotspacemacs-search-tools                       '("ag" "rg" "grep")
+   dotspacemacs-search-tools                       '("rg" "ag" "grep")
    dotspacemacs-frame-title-format                 "Emacs"
    dotspacemacs-icon-title-format                  nil
    dotspacemacs-whitespace-cleanup                 'trailing
@@ -192,9 +198,21 @@
   (setq custom-file (concat (getenv "SPACEMACSDIR") "/custom-file.el")))
 
 (defun dotspacemacs/user-config ()
-  (load-file (concat std::spacemacsdir "/user-config.elc"))
-  (find-file-existing std::scratch-file))
+  (load (concat std::spacemacsdir "/user-config.elc"))
+  (std::idle-schedule 10 :no-repeat (require 'org)))
 
+(when nil
+  (with-eval-after-load 'treemacs
+    (require 'treemacs-persp)
+    (persp-mode)
+    (treemacs-set-scope-type 'Perspectives)
+    )
+  )
+(when nil
+  (treemacs-current-scope-shelf)
+  (treemacs-current-scope)
+  (treemacs-current-workspace)
+  )
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -202,3 +220,19 @@ Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
 )
 
+
+;; (defvar std::w-timer nil)
+;; (defvar std::w-width 1)
+
+;; (progn
+;;   (with-selected-window (treemacs-get-local-window) (treemacs--set-width 1))
+;;   (setf std::w-width 1
+;;         std::w-timer (run-with-timer 0 0.03 #'std::w-popup (treemacs-get-local-window))))
+
+;; (defun std::w-popup (window)
+;;   (setf std::w-width (+ 3 std::w-width))
+;;   (with-selected-window window
+;;     (let ((window-size-fixed nil))
+;;       (enlarge-window-horizontally 3)))
+;;   (when (> std::w-width 30)
+;;     (cancel-timer std::w-timer)))

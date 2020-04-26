@@ -216,6 +216,18 @@ A customization group for new faces. Only really used to silence the byte compil
            (advice-add feature :around #',advice-name)))))
 #+END_SRC
 
+*** std::idle-schedule
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro std::idle-schedule (time repeat &rest body)
+    (declare (indent 2))
+    `(run-with-idle-timer
+      ,time ,(eq repeat :repeat)
+      ,(pcase body
+         (`((function ,_)) (car body))
+         (_ `(lambda () ,@body)))))
+#+END_SRC
+
 *** std::if-version
 
 #+BEGIN_SRC emacs-lisp
@@ -428,12 +440,6 @@ A customization group for new faces. Only really used to silence the byte compil
           ("lisp"         "HotPink1"        box)
           ("iedit"        "firebrick1"      box)
           ("iedit-insert" "firebrick1"      (bar . 2))))
-#+END_SRC
-
-*** kj key-chord
-
-#+BEGIN_SRC emacs-lisp
-  (setq-default evil-escape-key-sequence "kj")
 #+END_SRC
 
 *** Custom text objects
@@ -1283,7 +1289,6 @@ Also use ascii bullets for simple lists
 #+END_SRC
 
 **** Capture
-
 ***** Capture Helpers
 
 ~std::org::capture-helper~
@@ -1610,7 +1615,6 @@ A small bit of custom font locking for '==>'
 #+END_SRC
 
 **** Clocking
-
 ***** Keybinds
 #+BEGIN_SRC emacs-lisp
   (std::after org
@@ -2090,7 +2094,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
 
 ~std::dired~
 #+BEGIN_SRC emacs-lisp :tangle autoloads.el
-  (defun std::dired ()
+  (defun std::dired (&optional dir)
     (interactive)
     (require 'dired+)
     (setq std::dired::saved-window-config (current-window-configuration))
@@ -2103,7 +2107,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
         (setf std::dired::saved-positions (list left right))))
     (-let [(left right) (--map (if (file-exists-p it) it "~")
                                std::dired::saved-positions)]
-      (dired left)
+      (dired (or dir left))
       (save-selected-window
         (split-window-right-and-focus)
         (dired right))))
@@ -2114,6 +2118,7 @@ A dired evil state to get rid of the cursor and to have a single keymap
   (defun std::dired::mode-hook ()
     (setq diredp-hide-details-initially-flag t)
     (hl-line-mode)
+    (use-local-map (make-sparse-keymap))
     (evil-dired-state))
 #+END_SRC
 
@@ -2230,9 +2235,8 @@ Launch dired in its own desktop
 
 *** Keybinds
 
+Helper macro to wrap a dired command to enable use of ~dired-dwim-target~ with a prefix arg.
 #+BEGIN_SRC emacs-lisp
-  (std::leader-keybind "ad" #'std::dired)
-
   (defmacro std::dired::dwim-target-wrap (command)
     (let* ((command (cadr command))
            (command-name (symbol-name command))
@@ -2248,6 +2252,11 @@ Launch dired in its own desktop
              (interactive "P")
              (-let [dired-dwim-target arg] (,command)))
            #',name))))
+#+END_SRC
+
+For the sake of clarity the dired-mode-hook wipes out dired's keymaps. All we have is defined here.
+#+BEGIN_SRC emacs-lisp
+  (std::leader-keybind "ad" #'std::dired)
 
   (std::after dired+
 
@@ -2256,35 +2265,47 @@ Launch dired in its own desktop
     (std::dired::dwim-target-wrap #'dired-do-symlink)
 
     (std::keybind evil-dired-state-map
-      "o"     nil
-      ","     nil
-      "c"     nil
-      "RET"   #'dired-find-file
-      "gh"    #'std::dired::goto-hydra/body
-      "gr"    #'revert-buffer
-      "y"     #'std::dired::do-copy
-      "R"     #'std::dired::do-rename
-      "S"     #'std::dired::do-symlink
-      "cd"    #'dired-create-directory
-      ", C-e" #'wdired-change-to-wdired-mode
-      "("     #'global-dired-hide-details-mode
-      "D"     #'dired-do-delete
-      "I"     #'std::dired::filesize
-      "ox"    #'std::dired::open-externally
-      "q"     #'std::dired::quit
-      "J"     #'std::evil::forward-five-lines
-      "K"     #'std::evil::backward-five-lines
-      "M-j"   #'dired-mark
-      "M-k"   #'std::dired::mark-up
-      "l"     #'dired-find-file
-      "h"     #'diredp-up-directory
-      "Z"     #'dired-do-compress
-      "M-z"   #'dired-do-compress-to)
+      "q"   #'std::dired::quit
+      "RET" #'dired-find-file;;TODO(2020/03/16): find file close dired
+      "l"   #'dired-find-file
+      "h"   #'diredp-up-directory))
 
-    (std::after wdired
-      (std::keybind wdired-mode-map
-        "C-c C-c" #'std::dired::finish-wdired
-        "C-c C-k" #'std::dired::abort-wdired)))
+  ;; (std::after dired+
+
+  ;;   (std::dired::dwim-target-wrap #'dired-do-copy)
+  ;;   (std::dired::dwim-target-wrap #'dired-do-rename)
+  ;;   (std::dired::dwim-target-wrap #'dired-do-symlink)
+
+  ;;   (std::keybind evil-dired-state-map
+  ;;     "o"     nil
+  ;;     ","     nil
+  ;;     "c"     nil
+  ;;     "RET"   #'dired-find-file
+  ;;     "gh"    #'std::dired::goto-hydra/body
+  ;;     "gr"    #'revert-buffer
+  ;;     "y"     #'std::dired::do-copy
+  ;;     "R"     #'std::dired::do-rename
+  ;;     "S"     #'std::dired::do-symlink
+  ;;     "cd"    #'dired-create-directory
+  ;;     ", C-e" #'wdired-change-to-wdired-mode
+  ;;     "("     #'global-dired-hide-details-mode
+  ;;     "D"     #'dired-do-delete
+  ;;     "I"     #'std::dired::filesize
+  ;;     "ox"    #'std::dired::open-externally
+  ;;     "q"     #'std::dired::quit
+  ;;     "J"     #'std::evil::forward-five-lines
+  ;;     "K"     #'std::evil::backward-five-lines
+  ;;     "M-j"   #'dired-mark
+  ;;     "M-k"   #'std::dired::mark-up
+  ;;     "l"     #'dired-find-file
+  ;;     "h"     #'diredp-up-directory
+  ;;     "Z"     #'dired-do-compress
+  ;;     "M-z"   #'dired-do-compress-to)
+
+  ;;   (std::after wdired
+  ;;     (std::keybind wdired-mode-map
+  ;;       "C-c C-c" #'std::dired::finish-wdired
+  ;;       "C-c C-k" #'std::dired::abort-wdired)))
 #+END_SRC
 
 ** Treemacs
@@ -2363,6 +2384,12 @@ for easy deactivation.
     :defer t
     :load-path "~/Documents/git/treemacs/src/extra"
     :after (treemacs magit))
+
+  (use-package treemacs-persp
+    :if (file-exists-p "~/Documents/git/treemacs/")
+    :defer t
+    :load-path "~/Documents/git/treemacs/src/extra"
+    :after (treemacs persp-mode))
 #+END_SRC
 
 The only deviation from the defaults
@@ -2565,7 +2592,21 @@ Autoloads
           ledger-post-amount-alignment-column  62
           ledger-post-account-alignment-column 2
           ledger-clear-whole-transactions      t
-          company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet))))
+          company-backends-ledger-mode         '((company-capf company-dabbrev :with company-yasnippet)))
+
+    (add-to-list 'ledger-report-format-specifiers
+                 (cons "current-year" (lambda () (format-time-string "%Y"))))
+      (setf ledger-reports
+          '(;;("bal" "%(binary) -f %(ledger-file) bal")
+            ;;("reg" "%(binary) -f %(ledger-file) reg")
+            ;;("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+            ;;("account" "%(binary) -f %(ledger-file) reg %(account)")
+            ("Register"
+             "%(binary) reg %(account) --real")
+            ("Jahresregister"
+             "%(binary) reg %(account) --real -p %(current-year) ")
+            ("Jahresbudget"
+             "%(binary) bal -p \"this year\" /Budget/"))))
 #+END_SRC
 
 ** Email
