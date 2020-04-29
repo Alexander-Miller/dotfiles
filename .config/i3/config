@@ -37,7 +37,7 @@ bindsym $mod+Tab exec "rofi -show drun"
 bindsym $mod+l   exec "rofi -show window"
 
 # screenshot
-bindsym --release Print       exec --no-startup-id "maim -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send 'Screenshot taken'"
+bindsym --release Print       exec --no-startup-id "maim -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send 'Screenshot taken' --icon='image'"
 bindsym --release Shift+Print exec --no-startup-id "fish -c named_screenshot"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
