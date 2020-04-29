@@ -9,25 +9,25 @@ def kill_polybar():
         sleep(1)
 
 def get_screens():
-    screen_lines = run('xrandr -q | ag " connected"').split('\n')
+    screen_lines = run('xrandr -q | rg " connected"').split('\n')
     return [line.split(' ')[0] for line in screen_lines]
 
 def get_wifi_iface():
-    iface_lines = run('ip link | ag "<.*BROADCAST.*UP.*>"').split('\n')
+    iface_lines = run('ip link | rg "<.*BROADCAST.*UP.*>"').split('\n')
     for line in iface_lines:
         iface = line.split(' ')[1][0:-1]
         if iface.startswith("w"):
             return iface
 
 def get_eth_interface():
-    iface_lines = run('ip link | ag "<.*BROADCAST.*UP.*>"').split('\n')
+    iface_lines = run('ip link | rg "<.*BROADCAST.*UP.*>"').split('\n')
     for line in iface_lines:
         iface = line.split(' ')[1][0:-1]
         if iface.startswith('e'):
             return iface
 
 def get_battery():
-    battery_line = run('upower --enumerate | ag battery | head -n 1')
+    battery_line = run('upower --enumerate | rg battery | head -n 1')
     return battery_line.split('/')[-1][len('battery_'):]
 
 def run(cmd):
