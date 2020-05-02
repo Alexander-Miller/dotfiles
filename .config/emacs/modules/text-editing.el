@@ -12,6 +12,7 @@
  smartparens
  yasnippet
  (i3wm-config-mode :type git :host github :repo "Alexander-Miller/i3wm-config-mode")
+ (tridactylrc-mode :type git :host github :repo "Alexander-Miller/tridactylrc-mode")
  expand-region
  vimish-fold
  evil-vimish-fold
