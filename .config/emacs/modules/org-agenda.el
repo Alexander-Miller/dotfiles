@@ -54,66 +54,36 @@
      ("WAIT"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000"))))
    org-agenda-custom-commands
    '(("s" "Std Agenda"
-      ((todo "" ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
-                 (org-super-agenda-groups
-                  '((:name "Privat:" :and (:todo "INBOX" :file-path "Privat.org"))
-                    (:name "Arbeit:" :and (:todo "INBOX" :file-path "NT.org"))
-                    (:discard (:anything))))))
-       (tags-todo "dotts" ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
-                           (org-agenda-sorting-strategy nil)
-                           (org-super-agenda-groups
-                            '((:name "Projekte" :and (:tag "dotts" :todo "PROJ"))
-                              (:name "Pakete:"  :tag "pkg")
-                              (:name "Emacs:"   :and (:tag "emacs" :not (:tag "P")))
-                              (:name "Anderes:" :tag "otherdotts")
-                              (:name "Projekteinzelteile:" :tag "dotts")
-                              (:discard (:anything))))))
-       (tags-todo "haushalt" ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
-                           (org-super-agenda-groups
-                            '((:anything)))))
-       (tags-todo "bm" ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
-                        (org-super-agenda-groups
-                         '((:name "Bücher:" :tag "book")
-                           (:name "Artikel: & Blogs:" :tag "art")
-                           (:name "Videos:" :tag "vid")
-                           (:discard (:anything))))))
-
-       (agenda "" ()))
-      ;; (todo "" ((org-agenda-overriding-header "Work Stuff")
-      ;;           (org-agenda-files (list (concat std::org-dir "/NT.org")))
-      ;;           (org-super-agenda-groups
-      ;;            '((:todo "INBOX" :name "Inbox")
-      ;;              (:todo "NEXT" :name "Tasks")
-      ;; (("n" "Agenda"
-      ;;   ((todo "INBOX"
-      ;;          ((org-agenda-overriding-header
-      ;;            (concat (propertize "" 'display '(raise 0.15))" Inbox"))
-      ;;           (org-agenda-sorting-strategy '(todo-state-up))))
-
-      ;;    (todo "PROJ"
-      ;;          ((org-agenda-overriding-header
-      ;;            (concat (propertize "" 'display '(raise 0.15))" Projects"))
-      ;;           (org-agenda-sorting-strategy '(category-up priority-down))))
-
-      ;;    (todo "NEXT"
-      ;;          ((org-agenda-overriding-header
-      ;;            (concat (propertize "" 'display '(raise 0.15)) " Next Tasks"))
-      ;;           (org-agenda-sorting-strategy '(priority-down category-up))))
-
-      ;;    (todo "TODO"
-      ;;          ((org-agenda-overriding-header
-      ;;            (concat (propertize "" 'display '(raise 0.15)) " COLLECTBOX (Unscheduled)"))
-      ;;           (org-agenda-skip-function
-      ;;            '(org-agenda-skip-entry-if 'scheduled 'deadline))))
-
-      ;;    (todo "WAIT"
-      ;;          ((org-agenda-overriding-header
-      ;;            (concat (propertize "" 'display '(raise 0.15)) " Waiting"))
-      ;;           (org-agenda-sorting-strategy '(todo-state-up))))
-
-      ;;    (agenda "" nil))))
-      ;;              (:discard (:anything))))))
-      ))))
+      ((todo "INBOX"
+             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
+              (org-super-agenda-groups
+               '((:name "Privat:" :file-path "Privat.org")
+                 (:name "Arbeit:" :file-path "NT.org")
+                 (:discard (:anything))))))
+       (tags-todo "dotts"
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
+                   (org-agenda-sorting-strategy nil)
+                   (org-super-agenda-groups
+                    '((:name "Projekte" :and (:tag "dotts" :todo "PROJ"))
+                      (:name "Pakete:"  :tag "pkg")
+                      (:name "Emacs:"   :and (:tag "emacs" :not (:tag "P")))
+                      (:name "Anderes:" :tag "otherdotts")
+                      (:name "Projekteinzelteile:" :tag "dotts")
+                      (:discard (:anything))))))
+       (tags-todo "haushalt"
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
+                   (org-super-agenda-groups
+                    '((:anything)))))
+       (tags-todo "bm"
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
+                   (org-agenda-sorting-strategy '((agenda todo-state-down)))
+                   (org-super-agenda-groups
+                    '((:name "Bücher:" :tag "book")
+                      (:name "Artikel: & Blogs [Klein]:" :and (:tag "small" :tag "art"))
+                      (:name "Artikel: & Blogs [Groß]:" :and (:tag "large" :tag "art"))
+                      (:name "Videos:" :tag "vid")
+                      (:discard (:anything))))))
+       (agenda "" ()))))))
 
 
 ;; Keybinds
