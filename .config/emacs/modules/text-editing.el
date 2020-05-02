@@ -27,31 +27,29 @@
   #'std::edit::fold-list
   #'std::edit::defun-query-replace)
 
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
+;; General
+(setq-default
+ tab-width        4
+ indent-tabs-mode nil)
+(setf
+ isearch-forward         t
+ evil-search-module      'evil-search
+ evil-want-C-i-jump      t
+ evil-want-fine-undo     t
+ evil-want-keybinding    t
+ evil-want-Y-yank-to-eol t
+ evil-move-beyond-eol    t
+ next-line-add-newlines  t)
+
 (evil-mode)
 (evil-goggles-mode)
 (evil-lion-mode)
 (global-evil-surround-mode)
 (global-subword-mode t)
 
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
 (evil-set-initial-state 'messages-buffer-mode 'motion)
-
-(setq-default
- tab-width        4
- indent-tabs-mode nil)
-
-;; General
-(setf
- isearch-forward         t
- evil-search-module      'evil-search
- evil-want-C-i-jump      t
- evil-want-fine-undo     t
- evil-want-keybinding    nil
- evil-want-Y-yank-to-eol t
- evil-move-beyond-eol    t
- next-line-add-newlines  t)
-
 (evil-set-leader '(normal visual motion) (kbd "<SPC>"))
 
 ;; Cursors
