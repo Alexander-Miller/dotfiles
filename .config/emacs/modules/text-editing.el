@@ -192,20 +192,24 @@ indent yanked text (with universal arg don't indent)."
 (setf
  evil-vimish-fold-target-modes '(prog-mode conf-mode text-mode))
 
+;; Distinguish C-i & TAB
+(define-key input-decode-map "\C-i" [C-i])
+
 ;; Keybinds
 (std::keybind
  :global
- "M-q"   #'std::edit::fill-dwim
- "C-7"   #'evilnc-comment-operator
+ "M-q" #'std::edit::fill-dwim
+ "C-7" #'evilnc-comment-operator
  :keymap evil-operator-state-map
  "üf" #'std::evil::defun-object
  :keymap (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
- "J"  #'std::evil::forward-five-lines
- "K"  #'std::evil::backward-five-lines
- "M"  #'evil-goto-mark-line
- "zD" #'std::edit::fold-defun
- "zL" #'std::edit::fold-list
- "zy" #'vimish-fold-avy
+ "<C-i>" #'evil-jump-forward
+ "J"     #'std::evil::forward-five-lines
+ "K"     #'std::evil::backward-five-lines
+ "M"     #'evil-goto-mark-line
+ "zD"    #'std::edit::fold-defun
+ "zL"    #'std::edit::fold-list
+ "zy"    #'vimish-fold-avy
  :keymap (evil-motion-state-map evil-normal-state-map evil-visual-state-map evil-insert-state-map)
  "TAB" #'indent-for-tab-command
  "C-e" #'evil-end-of-visual-line
