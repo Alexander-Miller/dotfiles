@@ -12,6 +12,8 @@
 
 (std::after org-capture
 
+  (require 'treemacs)
+
   (defun std::org::capture::haushalt-log-olp ()
     (std::org::capture::find-olp
      (list "Haushalt" std::org::current-year)))
@@ -56,7 +58,16 @@
               :keys "d"
               :type entry
               :function std::org::capture::dotts
-              :template ("* NEXT %?"))
+              :template ("* %{todo-state} %? :%{tag}:")
+              :children
+              ((,(std::face "Project" 'font-lock-keyword-face)
+                :keys "p"
+                :todo-state "PROJ"
+                :tag "P")
+               (,(std::face "Task" 'font-lock-string-face)
+                :keys "t"
+                :todo-state "NEXT"
+                :tag "")))
              (,(concat (treemacs-get-icon-value 'repeat) (std::face "Gewohnheit" 'font-lock-variable-name-face))
               :type entry
               :keys "g"
