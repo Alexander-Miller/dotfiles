@@ -140,6 +140,7 @@
  "wK" #'evil-window-move-very-top
  "wH" #'evil-window-move-far-left
  "wL" #'evil-window-move-far-right
+ "qf" #'delete-frame
  ;; Buffers
  :leader
  "bm"    #'std::pop-to-messages-buffer

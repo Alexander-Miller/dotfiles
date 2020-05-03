@@ -21,6 +21,7 @@
   "C-s"   #'swiper
   "C-M-S" #'swiper-thing-at-point
   "M-o"   #'evil-avy-goto-char-2
+  "M-O"   #'evil-avy-goto-char-timer
   :leader
   "/"  #'std::search::rg-in-project
   "sf" #'helm-do-ag-this-file
