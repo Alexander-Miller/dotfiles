@@ -6,7 +6,11 @@
 
 (defun std::can-be-other-buffer? (buf)
   (not (memq (buffer-local-value 'major-mode buf)
-             '(mu4e-main-mode mu4e-headers-mode mu4e-compose-mode mu4e-view-mode))))
+             '(mu4e-main-mode
+               mu4e-headers-mode
+               mu4e-compose-mode
+               mu4e-view-mode
+               helm-major-mode))))
 
 (defun std::other-buffer ()
   ""
