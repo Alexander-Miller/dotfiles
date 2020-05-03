@@ -19,7 +19,7 @@
   (advice-remove #'read-from-minibuffer #'std::load-helm)
   (apply fn args))
 
-(std::advice-add #'std::load-helm :around
+(std::add-advice #'std::load-helm :around
   (completing-read read-string read-buffer read-from-minibuffer
                    read-number read-file-name read-directory-name))
 

@@ -1,20 +1,43 @@
 ;; -*- lexical-binding: t -*-
 
-;; TODO(2020/03/16): reset
 ;; TODO scroll bug report
 
+(defconst std::init-packages (getenv "EMACS_INIT_PACKAGES"))
 (defconst std::emacs-dir (eval-when-compile (getenv "EMACS_HOME")))
 (defconst std::org-dir "~/Documents/Org")
+(defconst std::module-dir (concat std::emacs-dir "modules"))
+(defconst std::autoloads-dir (concat std::emacs-dir "modules/autoloads"))
+(defconst std::pkg-build-dir (concat user-emacs-directory "straight/build"))
+(defconst std::pkg-autoloads-file (concat user-emacs-directory "cache/pkg-autoloads.el"))
+(defconst std::pkg-directories
+  (eval-when-compile
+    (when (file-exists-p std::pkg-build-dir)
+      (directory-files std::pkg-build-dir :full))))
 
-(setf gc-cons-threshold       most-positive-fixnum
-      gc-cons-percentage      0.6
-      custom-file             "/home/a/.emacs.d/custom.el"
-      load-prefer-newer       nil
-      inhibit-startup-screen  t
-      inhibit-startup-message t
-      package-enable-at-startup nil
-      ;; Manual load-path override to use straight's org
-      load-path (delete "/usr/share/emacs/26.3/lisp/org" load-path))
+(setf
+ custom-file                    "/home/a/.emacs.d/custom.el"
+ load-prefer-newer              nil
+ delete-by-moving-to-trash      t
+ ffap-machine-p-known           'reject
+ inhibit-startup-screen         t
+ inhibit-startup-message        t
+ inhibit-compacting-font-caches t
+ frame-inhibit-implied-resize   t
+ package-enable-at-startup      nil
+ default-fnha                   file-name-handler-alist
+ file-name-handler-alist        nil
+ load-path                      (delete "/usr/share/emacs/26.3/lisp/org" load-path))
+(unless (daemonp)
+  (advice-add #'tty-run-terminal-initialization :override #'ignore)
+  (add-hook 'window-setup-hook
+            (defun doom-init-tty-h ()
+              (advice-remove #'tty-run-terminal-initialization #'ignore)
+              (tty-run-terminal-initialization (selected-frame) nil t))))
+(add-hook
+ 'emacs-startup-hook
+ (lambda ()
+   (setf gc-cons-threshold (* 64 1024 1024)
+         file-name-handler-alist default-fnha)))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -29,26 +52,6 @@
       if (not (or (string-suffix-p "/." file)
                   (string-suffix-p "/.." file)))
       collect file)))
-
-(defconst std::module-dir (concat std::emacs-dir "modules"))
-(defconst std::autoloads-dir (concat std::emacs-dir "modules/autoloads"))
-(defconst std::pkg-build-dir (concat user-emacs-directory "straight/build"))
-
-;; Todo rename bootstrap
-(defconst std::init-packages (getenv "EMACS_INIT_PACKAGES"))
-(defconst std::pkg-directories
-  (eval-when-compile
-    (when (file-exists-p std::pkg-build-dir)
-      (std::files std::pkg-build-dir))))
-(defconst std::pkg-autoload-files
-  (eval-when-compile
-    (let (files)
-      (when (file-exists-p std::pkg-build-dir)
-	(dolist (dir (std::files std::pkg-build-dir))
-	  (dolist (file (std::files dir))
-	    (when (string-suffix-p "autoloads.el" file)
-	      (push file files)))))
-      files)))
 
 (if std::init-packages
     (progn
@@ -65,8 +68,9 @@
             (eval-print-last-sexp)))
         (load bootstrap-file nil 'nomessage)))
   (setf load-path (nconc load-path std::pkg-directories))
-  (dolist (it std::pkg-autoload-files)
-    (load it :no-error :no-message)))
+  (load std::pkg-autoloads-file :no-error :no-message)
+  ;; Need a special case for themes
+  (add-to-list 'custom-theme-load-path "/home/am/.emacs.d/straight/build/morning-star"))
 
 (defmacro std::using-packages (&rest pkgs)
   `(if std::init-packages
@@ -204,7 +208,7 @@ Accepts the following segments:
   (declare (indent 1))
   `(add-hook ,hook-var (lambda () ,@forms)))
 
-(defmacro std::advice-add (advice where fns &optional ignore-args)
+(defmacro std::add-advice (advice where fns &optional ignore-args)
   (declare (indent 2))
   (unless (listp fns)
     (setf fns (list fns)))
@@ -228,13 +232,23 @@ Accepts the following segments:
   (let ((add-adv-forms nil)
         (rem-adv-forms nil))
     (dolist (fn fns)
-      (push `(std::advice-add #',advice-name ,where #',fn) add-adv-forms)
+      (push `(std::add-advice #',advice-name ,where #',fn) add-adv-forms)
       (push `(advice-remove #',fn #',advice-name) rem-adv-forms))
     `(progn
        (defun ,advice-name ()
          ,@body
          ,@rem-adv-forms)
        ,@add-adv-forms)))
+
+(defvar std::transient-hook-counter 0)
+(defmacro std::add-transient-hook (hook &rest body)
+  (declare (indent 1))
+  (let ((fn (intern (format "std::transient-hook-%d" (cl-incf std::transient-hook-counter)))))
+    `(progn
+       (defun ,fn (&rest _)
+         ,@body
+         (remove-hook ,hook #',fn))
+       (add-hook ,hook #',fn))))
 
 (defmacro std::silent (&rest body)
   `(let ((inhibit-message t)) ,@body))
@@ -247,3 +261,13 @@ Accepts the following segments:
 
 (defmacro std::face (str face)
   `(propertize ,str 'face ,face))
+
+;; From DOOM Emacs:
+;; HACK `tty-run-terminal-initialization' is *tremendously* slow for some
+;; reason. Disabling it completely could have many side-effects, so we
+;; defer it until later, at which time it (somehow) runs very quickly.
+(unless (daemonp)
+  (std::add-advice #'ignore :override #'tty-run-terminal-initialization)
+  (std::add-hook 'window-setup-hook
+    (advice-remove #'tty-run-terminal-initialization #'ignore)
+    (tty-run-terminal-initialization (selected-frame) nil t)))

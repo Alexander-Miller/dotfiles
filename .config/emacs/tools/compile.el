@@ -50,4 +50,4 @@
        (std::log (format "  Compile %s" (file-name-nondirectory file)))
        (byte-compile-file file))))
 
- (std::log "Done"))
+ (std::log "Compilation Complete"))

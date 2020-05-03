@@ -17,8 +17,11 @@
   (add-hook 'prog-mode-hook #'prettify-symbols-mode))
 
 (setq-default
+ bidi-display-reordering        'left-to-right
+ bidi-paragraph-direction       'left-to-right
  fill-column                    80
  cursor-in-non-selected-windows nil
+ highlight-nonselected-windows  nil
  truncate-lines                 t
  prettify-symbols-alist
  `(("lambda" . "λ")
@@ -27,6 +30,8 @@
    ("->"     . "→")))
 
 (setf
+ idle-update-delay                1.0
+ fast-but-imprecise-scrolling     t
  display-line-numbers-widen       t
  display-line-numbers-width-start t
  display-line-numbers-grow-only   t

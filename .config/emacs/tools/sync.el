@@ -15,13 +15,24 @@
 
 (std::log "Building Org Version File")
 (let* ((org-build-dir (concat user-emacs-directory "straight/build/org"))
-       (build-version-file (concat org-build-dir "/org-version.el")))
-  (unless (file-exists-p build-version-file)
-    (let ((default-directory (concat user-emacs-directory "straight/repos/org")))
+       (build-version-file (concat org-build-dir "/org-version.el"))
+       (org-repo-dir (concat user-emacs-directory "straight/repos/org")))
+  (unless (or (file-exists-p build-version-file)
+              (not (file-exists-p org-repo-dir)))
+    (let ((default-directory org-repo-dir))
       (shell-command-to-string "make")
       (copy-file "./lisp/org-version.el" build-version-file))))
 
-(std::log "Loading Standard Config")
-(load "~/.emacs.d/init.el")
+(std::log "Recompiling User Config")
+(load (concat (getenv "EMACS_HOME") "tools/compile.el") nil :no-message)
 
-(std::log "Done")
+(std::log "Creating Bulk Autoloads")
+(with-temp-buffer
+  (dolist (pkg-dir (directory-files std::pkg-build-dir :full))
+    (dolist (file (directory-files pkg-dir :full "autoloads.el"))
+      (goto-char (point-max))
+      (insert "\n")
+      (insert-file-contents file)))
+  (f-write (buffer-string) 'utf-8 std::pkg-autoloads-file))
+
+(std::log "Sync Complete")

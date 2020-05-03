@@ -57,7 +57,7 @@
      ("\\.tar\\.xz\\'" . "tar -cf - %i | xz -c9 > %o")
      ("\\.zip\\'" . "zip %o -r --filesync %i")))
 
-  (std::advice-add #'revert-buffer :after #'dired-do-compress-to :ignore-args)
+  (std::add-advice #'revert-buffer :after #'dired-do-compress-to :ignore-args)
 
   (unless (file-exists-p std::dired::cache-file)
     (make-directory (file-name-directory (directory-file-name std::dired::cache-file)) :parents)

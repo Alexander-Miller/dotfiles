@@ -174,7 +174,7 @@ indent yanked text (with universal arg don't indent)."
                   (indent-region beg end nil))))))
     (evil-end-undo-step)))
 
-(std::advice-add #'std::indent-after-paste-advice :around
+(std::add-advice #'std::indent-after-paste-advice :around
   (yank yank-pop evil-paste-before evil-paste-after))
 
 ;; Snippets

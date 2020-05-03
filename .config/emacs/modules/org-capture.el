@@ -97,5 +97,5 @@
 
 
   ;; Based on https://www.reddit.com/r/emacs/comments/fzuv4f/my_prettified_orgcapture/
-  (std::advice-add #'std::org::mks :override #'org-mks)
-  (std::advice-add #'std::org::capture-select-template :override #'org-capture-select-template))
+  (std::add-advice #'std::org::mks :override #'org-mks)
+  (std::add-advice #'std::org::capture-select-template :override #'org-capture-select-template))

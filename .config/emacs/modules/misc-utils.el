@@ -3,10 +3,37 @@
 (std::using-packages
  pretty-hydra
  wttrin
- buttercup)
+ buttercup
+ gcmh)
 
+;; GC
+(setf gc-cons-percentage 0.6
+      gc-cons-threshold  most-positive-fixnum)
+(std::add-transient-hook 'pre-command-hook (gcmh-mode))
+(std::after gcmh
+  (setf
+   gcmh-idle-delay          5
+   gcmh-high-cons-threshold (* 128 1024 1024)
+   gcmh-verbose             nil
+   gc-cons-percentage       0.25)
+  (add-hook 'focus-out-hook #'gcmh-idle-garbage-collect))
+
+;; Startup
 (setf
- fast-but-imprecise-scrolling t ;; trial
+ initial-major-mode                'fundamental-mode
+ inhibit-startup-message           t
+ inhibit-startup-echo-area-message t
+ inhibit-default-init              t
+ initial-scratch-message           nil)
+
+;; UTF8
+(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8)
+(setf locale-coding-system    'utf-8
+      selection-coding-system 'utf-8)
+
+;; Other
+(setf
  make-backup-files            nil
  create-lockfiles             nil
  load-prefer-newer            t
@@ -27,8 +54,6 @@
   (require 'server)
   (unless (eq t (server-running-p))
     (server-start)))
-
-(std::idle-schedule 5 :repeat #'garbage-collect)
 
 (std::autoload misc-utils
   #'std::what-face
