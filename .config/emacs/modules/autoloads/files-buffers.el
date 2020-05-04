@@ -10,7 +10,9 @@
                mu4e-headers-mode
                mu4e-compose-mode
                mu4e-view-mode
-               helm-major-mode))))
+               helm-major-mode
+               help-mode
+               helpful-mode))))
 
 (defun std::other-buffer ()
   ""
