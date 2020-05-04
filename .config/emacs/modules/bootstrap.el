@@ -15,7 +15,7 @@
       (directory-files std::pkg-build-dir :full))))
 
 (setf
- custom-file                    "/home/a/.emacs.d/custom.el"
+ custom-file                    "~/.emacs.d/custom.el"
  load-prefer-newer              nil
  delete-by-moving-to-trash      t
  ffap-machine-p-known           'reject
@@ -27,12 +27,7 @@
  default-fnha                   file-name-handler-alist
  file-name-handler-alist        nil
  load-path                      (delete "/usr/share/emacs/26.3/lisp/org" load-path))
-(unless (daemonp)
-  (advice-add #'tty-run-terminal-initialization :override #'ignore)
-  (add-hook 'window-setup-hook
-            (defun doom-init-tty-h ()
-              (advice-remove #'tty-run-terminal-initialization #'ignore)
-              (tty-run-terminal-initialization (selected-frame) nil t))))
+
 (add-hook
  'emacs-startup-hook
  (lambda ()
