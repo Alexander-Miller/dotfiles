@@ -33,7 +33,7 @@
    org-super-agenda-header-separator                (concat (propertize (make-string (round (* 0.57 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
    org-agenda-dim-blocked-tasks                     nil
    org-agenda-include-diary                         t
-   org-agenda-inhibit-startup                       t ;; TODO(2020/04/07): check speed
+   org-agenda-inhibit-startup                       nil
    org-agenda-skip-deadline-prewarning-if-scheduled nil
    org-agenda-skip-scheduled-if-deadline-is-shown   'not-today
    org-agenda-skip-scheduled-delay-if-deadline      nil
