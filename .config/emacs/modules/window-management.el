@@ -100,12 +100,17 @@
 (purpose-mode)
 (framey-mode)
 
-(setf purpose-user-mode-purposes
-      '((flycheck-error-list-mode . bottom)
-        (messages-buffer-mode     . bottom)
-        (compilation-mode         . bottom)
-        (calendar-mode            . bottom)
-        (inferior-emacs-lisp-mode . bottom)))
+(setf
+ purpose-user-mode-purposes
+ '((prog-mode                . main)
+   (flycheck-error-list-mode . bottom)
+   (messages-buffer-mode     . bottom)
+   (compilation-mode         . bottom)
+   (comint-mode              . bottom)
+   (calendar-mode            . bottom)
+   (inferior-emacs-lisp-mode . bottom)
+   (help-mode                . help)
+   (helpful-mode             . help)))
 
 (purpose-compile-user-configuration)
 
