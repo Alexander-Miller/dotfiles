@@ -132,11 +132,11 @@
   (smartparens-global-mode))
 
 (std::after smartparens
-
   (show-paren-mode -1)
   (show-smartparens-global-mode)
 
   (setf
+   sp-max-prefix-length                    25
    sp-show-pair-delay                      0.2
    sp-show-pair-from-inside                t
    sp-cancel-autoskip-on-backward-movement nil
