@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(eval-when-compile (require 'treemacs))
+
 (defmacro std::org::capture::find-olp (path)
     `(-> ,path
          (org-find-olp :this-buffer)
@@ -18,7 +20,7 @@
                "Select a capture template\n━━━━━━━━━━━━━━━━━━━━━━━━━"
                "Template key: "
                `(("q"
-                  ,(concat (treemacs-get-icon-value 'error) (std::face "Abort" 'all-the-icons-lred))))))))
+                  ,(concat (treemacs-get-icon-value 'close) (std::face "Abort" 'all-the-icons-lred))))))))
 
 (defun std::org::mks (table title &optional prompt specials)
   (save-window-excursion
@@ -56,13 +58,17 @@
                            (push k allowed-keys))
                          (insert (propertize prefix 'face 'font-lock-comment-face)
                                  (propertize "[" 'face 'font-lock-comment-face)
-                                 (propertize k 'face 'bold)
+                                 (propertize k 'face 'font-lock-keyword-face)
                                  (propertize "]" 'face 'font-lock-comment-face)
                                  "  " desc "…" "\n")))
                       ;; Usable entry.
                       (`(,(and key (pred (string-match re))) ,desc . ,_)
                        (let ((k (match-string 1 key)))
-                         (insert (propertize prefix 'face 'font-lock-comment-face) (propertize k 'face 'bold) "   " desc "\n")
+                         (insert (propertize prefix 'face 'font-lock-comment-face)
+                                 (propertize "[" 'face 'font-lock-comment-face)
+                                 (propertize k 'face '((t :foreground "#BB6666" :weight bold)))
+                                 (propertize "]" 'face 'font-lock-comment-face)
+                                 "  " desc "\n")
                          (push k allowed-keys)))
                       (_ nil))))
                 ;; Insert special entries, if any.

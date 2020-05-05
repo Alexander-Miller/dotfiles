@@ -58,12 +58,12 @@
               :keys "d"
               :type entry
               :function std::org::capture::dotts
-              :template ("* %{todo-state} %? :%{tag}:")
+              :template ("* %{todo-state} %? %{tag}")
               :children
               ((,(std::face "Project" 'font-lock-keyword-face)
                 :keys "p"
                 :todo-state "PROJ"
-                :tag "P")
+                :tag ":P:")
                (,(std::face "Task" 'font-lock-string-face)
                 :keys "t"
                 :todo-state "NEXT"
