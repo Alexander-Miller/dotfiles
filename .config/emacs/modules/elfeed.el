@@ -40,8 +40,8 @@
    elfeed-search-face-alist
    '((unread   elfeed-search-unread-title-face)
      (vids     font-lock-constant-face)
+     (work     font-lock-variable-name-face)
      (blog     font-lock-doc-face)
-     (reddit   font-lock-variable-name-face)
      (webcomic font-lock-builtin-face)))
 
   (doom-modeline-def-segment std::elfeed::dummy-header "" " ")
