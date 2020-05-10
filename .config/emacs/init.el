@@ -28,4 +28,5 @@
 (std::load "dired")
 (std::load "finance")
 (std::load "lsp")
+(std::load "compile")
 (message "Config loaded in %ss" (- (float-time) S))
