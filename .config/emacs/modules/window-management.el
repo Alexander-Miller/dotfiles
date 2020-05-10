@@ -20,6 +20,7 @@
  '(("*helm-ag*"              :select t   :align right :size 0.5)
    ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
    ("*helm org inbuffer*"    :select t   :align right :size 0.4)
+   ("*xref*"                 :select t   :align right :size 0.4)
    (magit-popup-mode         :select t   :align right :size 0.4)
    (magit-diff-mode          :select nil :align right :size 0.5)
    (magit-log-select-mode    :select nil :align right :size 0.5)
@@ -109,6 +110,7 @@
    (comint-mode              . bottom)
    (calendar-mode            . bottom)
    (inferior-emacs-lisp-mode . bottom)
+   (xref--xref-buffer-mode   . right)
    (help-mode                . help)
    (helpful-mode             . help)))
 
