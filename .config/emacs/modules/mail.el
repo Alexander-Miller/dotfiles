@@ -273,9 +273,3 @@
     :evil motion mu4e-view-mode-map
     "C-j" #'mu4e-view-headers-next
     "C-k" #'mu4e-view-headers-prev))
-
-;; TODO
-;; (std::with-desktop
-;; :check (memq major-mode mu4e-modes)
-;; :cmd #'std::mu4e
-;; :quit #'mu4e-quit)
