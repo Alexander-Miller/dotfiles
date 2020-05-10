@@ -50,12 +50,7 @@
   (evil-set-initial-state 'dired-mode 'dired)
 
   (setf
-   dired-listing-switches "-alh --group-directories-first"
-   dired-compress-files-alist
-   '(("\\.tar\\.gz\\'" . "tar -cf - %i | gzip -c9 > %o")
-     ("\\.tar\\.bz2\\'" . "tar -cf - %i | bzip2 -c9 > %o")
-     ("\\.tar\\.xz\\'" . "tar -cf - %i | xz -c9 > %o")
-     ("\\.zip\\'" . "zip %o -r --filesync %i")))
+   dired-listing-switches "-alh --group-directories-first")
 
   (std::add-advice #'revert-buffer :after #'dired-do-compress-to :ignore-args)
 
@@ -117,14 +112,14 @@
    "K"   #'std::evil::backward-five-lines
    "q"   #'std::dired::quit
    ;; File CRUD
-   "d" #'dired-flag-file-deletion
-   "D" #'dired-do-delete
-   "m" #'diredp-move-file
-   "c" #'dired-do-copy
-   "r" #'dired-do-rename
-   "s" #'dired-do-symlink
-   "x" #'dired-do-flagged-delete
-   "Cd" #'dired-create-directory
+   "d"  #'dired-flag-file-deletion
+   "D"  #'dired-do-delete
+   "m"  #'dired-do-rename
+   "Y"  #'dired-do-copy
+   "r"  #'dired-do-rename
+   "s"  #'dired-do-symlink
+   "x"  #'dired-do-flagged-delete
+   "cd" #'dired-create-directory
    ;;Marking
    "M-j" #'dired-mark
    "M-k" #'std::dired::mark-up
