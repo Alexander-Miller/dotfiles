@@ -6,7 +6,7 @@
 (std::autoload compile
   #'std::multi-compile
   #'std::compile::mode-hook
-  #'std::comint-hook)
+  #'std::compile::filter-hook)
 
 (std::keybind
  :leader
@@ -14,7 +14,8 @@
 
 (std::after compile
   (setf
+   compilation-scroll-output       'first-error
    multi-compile-completion-system 'helm)
 
-  (add-hook 'compilation-filter-hook #'std::compile::ansify)
+  (add-hook 'compilation-filter-hook #'std::compile::filter-hook)
   (add-hook 'compilation-mode-hook #'std::compile::mode-hook))

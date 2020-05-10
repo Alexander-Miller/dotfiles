@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
-(defun std::compile::ansify ()
+(require 'multi-compile)
+
+(defun std::compile::filter-hook ()
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region compilation-filter-start (point))))
 

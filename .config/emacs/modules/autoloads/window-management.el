@@ -20,3 +20,15 @@ Delete it if it is shown already."
       (with-current-buffer buf
         (goto-char (point-max))
         (pop-to-buffer (current-buffer))))))
+
+(defun std::pop-to-compile-buffer ()
+  (interactive)
+  (-if-let (buf (--first
+                 (eq 'compilation-mode (buffer-local-value 'major-mode it))
+                 (buffer-list)))
+    (--if-let (get-buffer-window buf)
+        (delete-window it)
+      (with-current-buffer buf
+        (goto-char (point-max))
+        (pop-to-buffer (current-buffer))))
+    (message "No compilation buffers.")))

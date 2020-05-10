@@ -110,6 +110,7 @@
    (comint-mode              . bottom)
    (calendar-mode            . bottom)
    (inferior-emacs-lisp-mode . bottom)
+   (special-mode             . bottom)
    (xref--xref-buffer-mode   . right)
    (help-mode                . help)
    (helpful-mode             . help)))
@@ -151,6 +152,7 @@
  ;; Buffers
  :leader
  "bm"    #'std::pop-to-messages-buffer
+ "bc"    #'std::pop-to-compile-buffer
  "bd"    #'std::kill-this-buffer
  "b C-d" #'kill-buffer-and-window
  :evil (normal motion) messages-buffer-mode-map
