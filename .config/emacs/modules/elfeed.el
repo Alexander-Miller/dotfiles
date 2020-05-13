@@ -59,5 +59,7 @@
     "i"   #'std::elfeed::ignore-entry
     "b"   #'std::elfeed::visit-entry-dwim
     "RET" #'elfeed-search-show-entry
+    "+"   #'elfeed-search-tag-all
+    "-"   #'elfeed-search-untag-all
     :mode-leader elfeed-search-mode
     "C-o" #'std::elfeed::visit-entry-dwim))
