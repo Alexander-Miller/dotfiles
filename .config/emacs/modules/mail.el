@@ -61,11 +61,11 @@
         mu4e-headers-encrypted-mark       '("x" . "⚴")
         mu4e-headers-signed-mark          '("s" . "☡")
         mu4e-headers-unread-mark          '("u" . "⎕")
-        mu4e-headers-fields               `((:date . 8)
+        mu4e-headers-fields               `((:date . 10)
                                             (:flags . 6)
                                             (:mailing-list . 10)
                                             (:from . 22)
-                                            (:subject . ,(- (frame-width) (+ 8 6 10 22 8)))))
+                                            (:subject . ,(- (frame-width) (+ 10 6 10 22 8)))))
 
   (setf mu4e-bookmarks
         (list
