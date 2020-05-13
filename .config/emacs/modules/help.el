@@ -21,6 +21,9 @@
   "hdF" #'describe-face
   "hda" #'helm-apropos
   "hdP" #'std::help::pacman-pkg-info
-  "hm"  #'helm-man-woman)
+  "hm"  #'helm-man-woman
+  :evil motion helpful-mode-map
+  "TAB" #'forward-button
+  "<backtab>" #'backward-button)
 
 (evil-set-initial-state 'helpful-mode 'motion)
