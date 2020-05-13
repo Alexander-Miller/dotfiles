@@ -42,12 +42,14 @@
    (dolist (file (std::files std::module-dir))
      (when (string= "el" (file-name-extension file))
        (std::log (format "  Compile %s" (file-name-nondirectory file)))
-       (byte-compile-file file)))
+       (byte-compile-file file)
+       (std::clear-line)))
 
    (std::log "Compiling Autoloads")
    (dolist (file (std::files std::autoloads-dir))
      (when (string= "el" (file-name-extension file))
        (std::log (format "  Compile %s" (file-name-nondirectory file)))
-       (byte-compile-file file))))
+       (byte-compile-file file)
+       (std::clear-line))))
 
  (std::log "Compilation Complete"))

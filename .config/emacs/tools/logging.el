@@ -38,3 +38,6 @@
 ;; escape codes make the '[λ]' part red
 (defun std::err (&optional str)
   (std::loud (message " \u001b[1m\u001b[31m[λ]\u001b[0m %s" (or str ""))))
+
+(defun std::clear-line ()
+  (std::loud (message "\033[2K\033[F\033[2K\033[F")))
