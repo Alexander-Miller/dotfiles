@@ -19,3 +19,18 @@
   (setq-local company-backends
               '((company-shell company-fish-shell company-shell-env company-capf company-files company-dabbrev-code :with company-yasnippet)
                 (company-dabbrev company-dabbrev-code company-keywords))))
+
+(defun std::vterm ()
+  (interactive)
+  (require 'vterm)
+  (let ((buffer (get-buffer-create "*vterm*")))
+    (with-current-buffer buffer
+      (unless (eq major-mode 'vterm-mode)
+        (vterm-mode)))
+    (pop-to-buffer buffer)))
+
+(defun std::vterm::kill-window-on-exit (buffer _)
+  (-when-let (w (--first (eq 'vterm-mode (->> it (window-buffer) (buffer-local-value 'major-mode)))
+                         (window-list)))
+    (kill-buffer (window-buffer w))
+    (unless (one-window-p) (delete-window w))))
