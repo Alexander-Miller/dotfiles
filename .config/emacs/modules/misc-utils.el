@@ -2,7 +2,7 @@
 
 (std::using-packages
  pretty-hydra
- wttrin
+ (wttrin :type git :host github :repo "emacle/emacs-wttrin")
  buttercup
  gcmh)
 
@@ -62,7 +62,6 @@
   #'std::weather
   #'std::toggles/body)
 
-
 (std::keybind
  :global
  "C-x ö" #'std::what-face
@@ -71,6 +70,7 @@
  "t"  #'std::toggles/body
  "aw" #'std::weather
  "ac" #'calendar
+ "u"  #'universal-argument
  :keymap evil-normal-state-map
  "M-." #'xref-find-definitions
  "M-," #'xref-pop-marker-stack)
