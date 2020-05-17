@@ -5,6 +5,6 @@ function em
 	    case "sync"
 	        env EMACS_INIT_PACKAGES=1 emacs -q --batch -l $EMACS_HOME/tools/sync.el $argv[2..-1]
 	    case "prune"
-	        env EMACS_INIT_PACKAGES=1 emacs -q --batch -l $EMACS_HOME/tools/prune.el
+	        env EMACS_INIT_PACKAGES=1 emacs -q --batch -l $EMACS_HOME/tools/prune.el $argv[2..-1]
     end
 end

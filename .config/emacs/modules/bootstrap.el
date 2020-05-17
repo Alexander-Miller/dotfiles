@@ -7,6 +7,7 @@
 (defconst std::org-dir "~/Documents/Org")
 (defconst std::module-dir (concat std::emacs-dir "modules"))
 (defconst std::autoloads-dir (concat std::emacs-dir "modules/autoloads"))
+(defconst std::pkg-repos-dir (concat user-emacs-directory "straight/repos"))
 (defconst std::pkg-build-dir (concat user-emacs-directory "straight/build"))
 (defconst std::pkg-autoloads-file (concat user-emacs-directory "cache/pkg-autoloads.el"))
 (defconst std::pkg-directories
