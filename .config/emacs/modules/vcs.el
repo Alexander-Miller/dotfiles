@@ -14,6 +14,7 @@
  :leader
  "gs"  #'magit-status
  "gp"  #'std::vcs::magit-pkg-status
+ "gb"  #'magit-blame
  "gfl" #'magit-log-buffer-file)
 ;; (spacemacs/set-leader-keys TODO
 ;;  "gb"  'spacemacs/git-blame-micro-state
