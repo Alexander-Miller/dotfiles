@@ -42,11 +42,7 @@
      (vids     font-lock-constant-face)
      (work     font-lock-variable-name-face)
      (blog     font-lock-doc-face)
-     (webcomic font-lock-builtin-face)))
-
-  (doom-modeline-def-segment std::elfeed::dummy-header "" " ")
-  (doom-modeline-def-modeline 'empty '(std::elfeed::dummy-header))
-  (setf elfeed-search-header-function #'doom-modeline-format--empty))
+     (webcomic font-lock-builtin-face))))
 
 ;; Keybinds
 (std::after elfeed
