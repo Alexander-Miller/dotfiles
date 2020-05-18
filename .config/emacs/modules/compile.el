@@ -10,7 +10,8 @@
 
 (std::keybind
  :leader
- "pc" #'std::multi-compile)
+ "pc" #'std::multi-compile
+ "pC" #'recompile)
 
 (std::after compile
   (setf
