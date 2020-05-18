@@ -142,10 +142,7 @@
       std::modeline::major-mode
       std::modeline::buffer-process))
 
-  (defun std::modeline::magit-modeline ()
-    (doom-modeline-set-modeline 'magit))
-
-  (add-hook 'magit-mode-hook #'std::modeline::magit-modeline))
+  (std::add-hook 'magit-mode-hook (doom-modeline-set-modeline 'magit)))
 
 ;; Treemacs
 (std::after treemacs
@@ -155,10 +152,7 @@
       std::modeline::desktop-number
       std::modeline::major-mode))
 
-  (defun std::modeline::treemacs ()
-    (doom-modeline-set-modeline 'treemy))
-
-  (add-hook 'treemacs-mode-hook #'std::modeline::treemacs))
+  (std::add-hook 'treemacs-mode-hook (doom-modeline-set-modeline 'treemy)))
 
 
 ;; Elfeed
@@ -173,10 +167,7 @@
       std::modeline::major-mode
       std::modeline::feeds))
 
-  (defun std::modeline::elfeed ()
-    (doom-modeline-set-modeline 'elfeed))
-
-  (add-hook 'elfeed-search-mode-hook #'std::modeline::elfeed))
+  (std::add-hook 'elfeed-search-mode-hook (doom-modeline-set-modeline 'elfeed)))
 
 ;; Mu4e
 (std::after mu4e
@@ -189,7 +180,21 @@
       std::modeline::major-mode
       std::modeline::mail-search))
 
-  (defun std::modeline::mail ()
-    (doom-modeline-set-modeline 'mail))
+  (std::add-hook 'mu4e-headers-mode-hook (doom-modeline-set-modeline 'mail)))
 
-  (add-hook 'mu4e-headers-mode-hook #'std::modeline::mail))
+;; Dired
+(std::after dired
+
+  (doom-modeline-def-segment std::modeline::dired-major-mode
+    (propertize " Dired" 'face (if (doom-modeline--active)
+                                   'std::modeline::major-mode-face
+                                 'std::modeline::major-mode-inactive-face)))
+
+  (doom-modeline-def-modeline 'dired
+    '(std::modeline::window-bar
+      std::modeline::window-number
+      std::modeline::desktop-number
+      std::modeline::buffer-id
+      std::modeline::dired-major-mode))
+
+  (std::add-hook 'dired-mode-hook (doom-modeline-set-modeline 'dired)))
