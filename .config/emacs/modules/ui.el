@@ -8,10 +8,11 @@
  fill-column-indicator)
 
 (std::autoload ui
-  #'std::ui::writeroom-hide-line-numbers)
+  #'std::ui::writeroom-hide-line-numbers
+  #'std::ui::change-font)
 
-(setf (alist-get 'font default-frame-alist)
-      (font-xlfd-name (font-spec :family "Fantasque Sans Mono" :size 16)))
+(defvar std::default-font-spec '(:family "Fantasque Sans Mono" :size 16))
+(setf (alist-get 'font default-frame-alist) (eval `(font-xlfd-name (font-spec ,@std::default-font-spec))))
 
 (std::schedule 1 :no-repeat
   (add-hook 'prog-mode-hook #'prettify-symbols-mode))
@@ -90,8 +91,3 @@
    writeroom-bottom-divider-width 0
    writeroom-global-effects
    (delete 'writeroom-set-fullscreen writeroom-global-effects)))
-
-(defconst std::fontsizes
-  '((:default "Fantasque Sans Mono 12")
-    (:large   "Fantasque Sans Mono 14")
-    (:huge    "Fantasque Sans Mono 18")))
