@@ -24,6 +24,9 @@
 (defvar std::dired::saved-window-config nil)
 (defvar std::dired::cache-file (expand-file-name "cache/std-dired-cache" user-emacs-directory))
 
+;; Must happen *before* dired is loaded
+(setf diredp-omit-files-regexp ".^")
+
 ;; Settings
 (std::after dired
 
