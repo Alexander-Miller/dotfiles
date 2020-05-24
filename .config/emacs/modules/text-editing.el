@@ -216,6 +216,7 @@ indent yanked text (with universal arg don't indent)."
  "C-e" #'evil-end-of-visual-line
  "C-a" #'evil-beginning-of-visual-line
  :keymap evil-normal-state-map
+ "Q"     #'evil-execute-macro
  "C-j"   #'newline-and-indent
  "C-S-j" #'std::evil::join
  "gx"    #'evil-exchange
