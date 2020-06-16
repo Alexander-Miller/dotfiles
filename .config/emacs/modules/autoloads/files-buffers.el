@@ -99,3 +99,46 @@
                             parsed-localname
                             new-hop)))
            new-fname))))))
+
+(defun std::rename-buffer-file ()
+  (interactive)
+  (let* ((old-short-name (buffer-name))
+         (old-filename (buffer-file-name)))
+    (if (not (and old-filename (file-exists-p old-filename)))
+        (message "Buffer is not visiting a file")
+      (let* ((old-dir        (file-name-directory old-filename))
+             (new-name       (read-file-name "New name: " old-filename))
+             (new-dir        (file-name-directory new-name))
+             (new-short-name (file-name-nondirectory new-name))
+             (file-moved?    (not (string= new-dir old-dir)))
+             (file-renamed?  (not (string= new-short-name old-short-name))))
+        (cond ((get-buffer new-name)
+               (message "A buffer named '%s' already exists!" new-name))
+              ((string= new-name old-filename)
+               (message "Old name is same as new name."))
+              (t
+               (-let [old-directory (file-name-directory new-name)]
+                 (when (and (not (file-exists-p old-directory))
+                            (yes-or-no-p (format "Create directory '%s'?" old-directory)))
+                   (make-directory old-directory :parents)))
+               (rename-file old-filename new-name +1)
+               (rename-buffer new-name)
+               (set-visited-file-name new-name)
+               (set-buffer-modified-p nil)
+               (when (fboundp 'recentf-add-file)
+                 (recentf-add-file new-name)
+                 (recentf-remove-if-non-kept old-filename))
+               (when (projectile-project-p)
+                 (call-interactively #'projectile-invalidate-cache))
+               (message (cond ((and file-moved? file-renamed?)
+                               (concat (std::face "File Moved & Renamed\n" 'font-lock-keyword-face)
+                                       "From: " (std::face old-filename 'font-lock-string-face) "\n"
+                                       "To:   " (std::face new-name 'font-lock-string-face)))
+                              (file-moved?
+                               (concat (std::face "File Moved\n" 'font-lock-keyword-face)
+                                       "From: " (std::face old-filename 'font-lock-string-face) "\n"
+                                       "To:   " (std::face new-name 'font-lock-string-face)))
+                              (file-renamed?
+                               (concat (std::face "File Renamed\n" 'font-lock-keyword-face)
+                                       "From: " (std::face old-short-name 'font-lock-string-face) "\n"
+                                       "To:   " (std::face new-short-name 'font-lock-string-face)))))))))))

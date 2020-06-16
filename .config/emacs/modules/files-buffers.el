@@ -10,6 +10,7 @@
 (std::keybind
  :leader
  "fs"  #'save-buffer
+ "fr"  #'std::rename-buffer-file
  "fE"  #'std::sudo-edit
  "fem" #'std::edit-module
  "bs"  #'std::scratch
