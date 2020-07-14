@@ -34,17 +34,6 @@
 
   (treemacs-icons-dired-mode)
 
-  (defhydra std::dired::goto-hydra (:exit t :hint nil)
-    ("h" (lambda () (interactive) (dired "~"))           "$HOME")
-    ("d" (lambda () (interactive) (dired "~/Documents")) "Documents")
-    ("w" (lambda () (interactive) (dired "~/Downloads")) "Downloads")
-    ("v" (lambda () (interactive) (dired "~/Videos"))    "Videos")
-    ("o" (lambda () (interactive) (dired "~/Dropbox"))   "Dropbox")
-    ("p" (lambda () (interactive) (dired "~/Pictures"))  "Pictures")
-    ("m" (lambda () (interactive) (dired "~/Music"))     "Music")
-    ("M" (lambda () (interactive) (dired "/run/media"))  "/run/media")
-    ("q" nil "cancel"))
-
   (evil-define-state dired
     "Dired state"
     :cursor '(bar . 0)
