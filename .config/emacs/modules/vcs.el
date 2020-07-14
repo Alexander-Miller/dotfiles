@@ -45,8 +45,10 @@
    magit-save-repository-buffers              'dontask
    git-commit-summary-max-length              120
    magit-section-visibility-indicator         nil
-   magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)))
-;TODO(2020/04/16): check rainbow
+   magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)
+   magit-status-initial-section               '(((unstaged) (status)) 1)
+   magit-section-initial-visibility-alist     '((stashes . hide) (untracked . hide))))
+
 ;; Keybinds
 (std::after magit
 
