@@ -3,7 +3,7 @@
 (-let [treemacs-dir "~/Documents/git/treemacs"]
   (when (file-exists-p treemacs-dir)
 
-    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode)
+    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode perspective)
 
     (add-to-list 'load-path (concat treemacs-dir "/src/elisp"))
     (add-to-list 'load-path (concat treemacs-dir "/src/extra"))
