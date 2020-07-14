@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-quote
+#key: <q
+# --
+#+BEGIN_QUOTE
+$0
+#+END_QUOTE
