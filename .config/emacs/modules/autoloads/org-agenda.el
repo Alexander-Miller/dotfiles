@@ -5,3 +5,8 @@
   (evil-goto-line)
   (std::schedule 0 :no-repeat
     (org-agenda-goto-today)))
+
+(std::with-desktop
+ :check (eq major-mode 'org-agenda-mode)
+ :cmd #'org-agenda
+ :quit #'org-agenda-quit)
