@@ -236,6 +236,7 @@ for_window [class="Pamac-updater"]            border pixel 4
 for_window [class="Nautilus"]                 border pixel 4
 for_window [class="Gnome-disks"]              border pixel 4
 for_window [class="Polkit-gnome-.*"]          border pixel 4
+for_window [class="jetbrains-idea-ce"]        border pixel 4
 
 smart_gaps on
 smart_borders on
