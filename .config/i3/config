@@ -43,6 +43,9 @@ bindsym --release Shift+Print exec --no-startup-id "fish -c named_screenshot"
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Pin window in foreground of every workspace
+bindsym $mod+Shift+i sticky toggle
+
 # Split in horizontal orientation
 bindsym $mod+y split h
 
