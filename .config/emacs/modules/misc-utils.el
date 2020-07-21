@@ -70,12 +70,16 @@
 (std::keybind
  :global
  "C-x ö" #'std::what-face
+ "C-x ü" #'std::ui::change-font
  :leader
  "qq" #'save-buffers-kill-terminal
  "t"  #'std::toggles/body
  "aw" #'std::weather
  "ac" #'calendar
  "u"  #'universal-argument
+ "nd" #'narrow-to-defun
+ "nr" #'narrow-to-region
+ "nn" #'widen
  :keymap evil-normal-state-map
  "M-." #'xref-find-definitions
  "M-," #'xref-pop-marker-stack)
