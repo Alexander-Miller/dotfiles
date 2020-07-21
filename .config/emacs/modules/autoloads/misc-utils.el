@@ -27,7 +27,7 @@
 (defun std::weather (&optional arg)
   (interactive "P")
   (require 'wttrin)
-  (if arg (call-interactively #'wttrin) (wttrin-query "")))
+  (if arg (wttrin-query (car wttrin-default-cities)) (wttrin-query "")))
 
 (pretty-hydra-define std::toggles
   (:color teal :quit-key "q" :title (concat (std::face "" 'font-lock-keyword-face) " Toggles"))
@@ -38,12 +38,13 @@
     ("R" rainbow-delimiters-mode   "rainbow delimiters" :toggle t))
    "Emacs"
    (("e" toggle-debug-on-error     "debug on error"     :toggle (default-value 'debug-on-error))
-    ("u" toggle-debug-on-quit      "debug on quit"      :toggle (default-value 'debug-on-quit)))
+    ("u" toggle-debug-on-quit      "debug on quit"      :toggle (default-value 'debug-on-quit))
+    ("o" read-only-mode            "read only"          :toggle buffer-read-only))
    "UI"
-   (("W" writeroom-mode "Writeroom" :toggle t)
-    ("f" fci-mode "Fill Column Indicator" :toggle t)
-    ("L" toggle-truncate-lines     "truncate lines"     :toggle truncate-lines)
-    ("l" hl-line-mode "Hl-Line" :toggle t))
+   (("W" writeroom-mode        "Writeroom"             :toggle t)
+    ("f" fci-mode              "Fill Column Indicator" :toggle t)
+    ("L" toggle-truncate-lines "truncate lines"        :toggle truncate-lines)
+    ("l" hl-line-mode          "Hl-Line"               :toggle t))
    "Coding"
-   (("d" smartparens-mode "smartparens" :toggle t)
+   (("d" smartparens-mode      "smartparens"      :toggle t)
     ("S" show-smartparens-mode "show smartparens" :toggle t))))
