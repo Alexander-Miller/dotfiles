@@ -16,6 +16,11 @@
   "eb" #'eval-buffer
   "ef" #'std::eval-defun
   "dm" #'macrostep-mode
+  "df" #'edebug-defun
+  :evil (normal motion) 'edebug-mode
+  "n" #'edebug-next-mode
+  "c" #'edebug-continue-mode
+  "q" #'top-level
   :evil normal 'macrostep-mode
   "e" #'macrostep-expand
   "c" #'macrostep-collapse
