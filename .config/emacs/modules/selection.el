@@ -23,6 +23,9 @@
   (completing-read read-string read-buffer read-from-minibuffer
                    read-number read-file-name read-directory-name))
 
+(std::schedule 3 :no-repeat
+  (unless helm-mode (std::load-helm #'ignore)))
+
 (std::keybind
  :global
  "M-x" #'helm-M-x
