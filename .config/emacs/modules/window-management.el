@@ -9,7 +9,8 @@
 
 (std::autoload window-management
   #'std::kill-this-buffer
-  #'std::pop-to-messages-buffer)
+  #'std::pop-to-messages-buffer
+  #'std::pop-to-compile-buffer)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
