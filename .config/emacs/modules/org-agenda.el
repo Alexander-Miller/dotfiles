@@ -5,7 +5,8 @@
  german-holidays)
 
 (std::autoload org-agenda
-  #'std::org-agenda::goto-today)
+  #'std::org-agenda::goto-today
+  #'std::org-agenda::switch-to)
 
 (defconst std::org::private-file (expand-file-name "Privat.org" std::org-dir))
 (defconst std::org::work-file (expand-file-name "NT.org" std::org-dir))
@@ -90,7 +91,7 @@
 (std::after org
   (std::keybind
    :evil motion org-agenda-mode-map
-   "RET" #'org-agenda-switch-to
+   "RET" #'std::org-agenda::switch-to
    "gr"  #'org-agenda-redo
    "."   #'std::org-agenda::goto-today
    "t"   #'org-agenda-todo

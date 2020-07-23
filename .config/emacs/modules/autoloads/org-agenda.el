@@ -6,6 +6,11 @@
   (std::schedule 0 :no-repeat
     (org-agenda-goto-today)))
 
+(defun std::org-agenda::switch-to ()
+  (interactive)
+  (eyebrowse-switch-to-window-config (get #'org-agenda 'std::return-to-desktop))
+  (org-agenda-switch-to))
+
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
  :cmd #'org-agenda
