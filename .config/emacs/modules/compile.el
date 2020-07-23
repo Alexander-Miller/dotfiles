@@ -18,5 +18,11 @@
    compilation-scroll-output       'first-error
    multi-compile-completion-system 'helm)
 
+  (std::keybind
+   :keymap compilation-mode-map
+   "SPC" #'evil-send-leader
+   "C-." #'compilation-next-error
+   "C-," #'compilation-previous-error)
+
   (add-hook 'compilation-filter-hook #'std::compile::filter-hook)
   (add-hook 'compilation-mode-hook #'std::compile::mode-hook))
