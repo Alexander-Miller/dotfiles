@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
+(with-current-buffer (get-buffer-create "*Messages*")
+  (evil-motion-state))
+
 (defun std::kill-this-buffer (&optional arg)
   "Kill the current buffer.
 If the universal prefix argument is used then kill also the window."

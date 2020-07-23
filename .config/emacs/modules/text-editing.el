@@ -49,7 +49,6 @@
 (global-evil-surround-mode)
 (global-subword-mode t)
 
-(evil-set-initial-state 'messages-buffer-mode 'motion)
 (evil-set-initial-state 'xref--xref-buffer-mode 'motion)
 (evil-set-leader '(normal visual motion) (kbd "<SPC>"))
 
