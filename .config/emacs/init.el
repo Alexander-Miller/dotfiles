@@ -29,4 +29,5 @@
 (std::load "finance")
 (std::load "lsp")
 (std::load "compile")
+(std::load "docker")
 (message "Config loaded in %ss" (- (float-time) S))
