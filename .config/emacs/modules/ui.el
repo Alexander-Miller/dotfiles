@@ -38,7 +38,9 @@
  display-line-numbers-grow-only   t
  scroll-margin                    10
  scroll-conservatively            10
- scroll-preserve-screen-position  t)
+ scroll-preserve-screen-position  t
+ mouse-wheel-progressive-speed    nil
+ mouse-wheel-scroll-amount        '(2 ((shift) . 8) ((control))))
 
 (load-theme 'morning-star :no-confirm)
 
