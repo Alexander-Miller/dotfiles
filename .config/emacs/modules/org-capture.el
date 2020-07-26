@@ -85,7 +85,7 @@
               :function std::org::capture::bookmark
               :template ("* %^{TODO:|MAYBE|NEXT} %?"
                          "%c"))))
-           (,(concat (treemacs-get-icon-value 'suitcase) (std::face "Arbeit" 'font-lock-function-name-face))
+           (,(concat (treemacs-get-icon-value 'briefcase) (std::face "Arbeit" 'font-lock-function-name-face))
             :keys "n"
             :file ,std::org::work-file
             :children
