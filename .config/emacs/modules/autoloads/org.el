@@ -8,6 +8,11 @@
   (auto-revert-mode)
   (rainbow-delimiters-mode-disable))
 
+(defun std::org::agenda-forced-select ()
+  (interactive)
+  (--when-let (get-buffer "*Org Agenda*") (kill-buffer it))
+  (org-agenda))
+
 (defun std::org::goto-org-file ()
   (interactive)
   (helm :prompt "Org File: "

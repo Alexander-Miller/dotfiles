@@ -7,7 +7,8 @@
 (std::autoload org
   #'std::org::mode-hook
   #'std::org::goto-org-file
-  #'std::org::table-recalc)
+  #'std::org::table-recalc
+  #'std::org::agenda-forced-select)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
@@ -21,7 +22,8 @@
  "aoi" #'org-insert-link
  "aoa" #'org-agenda
  :global
- "<f12>" #'org-agenda)
+ "C-<f12>" #'std::org::agenda-forced-select
+ "<f12>"   #'org-agenda)
 
 ;; Settings
 (std::after org
@@ -79,6 +81,7 @@
    org-edit-src-turn-on-auto-save              nil
    org-edit-src-content-indentation            2
    org-src-fontify-natively                    t
+   org-src-tab-acts-natively                   t
    org-src-preserve-indentation                nil
    org-src-ask-before-returning-to-edit-buffer nil
    org-src-window-setup                        'split-window-right)
