@@ -8,6 +8,11 @@
   #'std::org-agenda::goto-today
   #'std::org-agenda::switch-to)
 
+(std::with-desktop
+ :check (eq major-mode 'org-agenda-mode)
+ :cmd #'org-agenda
+ :quit #'org-agenda-quit)
+
 (defconst std::org::private-file (expand-file-name "Privat.org" std::org-dir))
 (defconst std::org::work-file (expand-file-name "NT.org" std::org-dir))
 
@@ -127,7 +132,6 @@
                     '((:name "Freitags" :tag "fri")
                       (:name "Baldmöglichst" :todo "NEXT")))))
        (agenda "" ()))))))
-
 
 ;; Keybinds
 (std::after org

@@ -10,8 +10,3 @@
   (interactive)
   (eyebrowse-switch-to-window-config (get #'org-agenda 'std::return-to-desktop))
   (org-agenda-switch-to))
-
-(std::with-desktop
- :check (eq major-mode 'org-agenda-mode)
- :cmd #'org-agenda
- :quit #'org-agenda-quit)
