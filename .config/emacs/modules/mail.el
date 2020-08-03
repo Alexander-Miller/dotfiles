@@ -1,13 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- (mu4e :host github :repo "emacsmirror/mu4e" :files (:defaults "mu4e/*.el"))
  mu4e-alert)
 
 (std::autoload mail
   #'std::mail::compose-mode-hook
   #'std::mail::view-mode-hook
   #'std::mail::refresh)
+
+(autoload #'mu4e "mu4e")
 
 (std::with-desktop
  :check (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-compose-mode))
