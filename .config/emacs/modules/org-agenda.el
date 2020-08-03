@@ -6,7 +6,8 @@
 
 (std::autoload org-agenda
   #'std::org-agenda::goto-today
-  #'std::org-agenda::switch-to)
+  #'std::org-agenda::switch-to
+  #'std::org::agenda::mark-habits)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
@@ -31,6 +32,8 @@
   (evil-set-initial-state 'org-agenda-mode 'motion)
 
   (add-hook 'org-agenda-mode-hook #'writeroom-mode)
+
+  (std::add-advice #'std::org::agenda::mark-habits :before #'org-agenda-finalize)
 
   (setf
    org-super-agenda-header-map                      nil
