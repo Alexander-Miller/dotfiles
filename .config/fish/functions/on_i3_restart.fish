@@ -1,7 +1,7 @@
 function on_i3_restart
     setxkbmap -option ctrl:nocaps
     killall xcape
-    killall compton
+    killall picom
     xcape
-    compton &
+    picom --experimental-backends &
 end
