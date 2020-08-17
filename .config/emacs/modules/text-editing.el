@@ -49,8 +49,11 @@
 (global-evil-surround-mode)
 (global-subword-mode t)
 
+(std::keybind
+ :keymap (evil-normal-state-map evil-motion-state-map)
+ "SPC" std::leader-keymap)
+
 (evil-set-initial-state 'xref--xref-buffer-mode 'motion)
-(evil-set-leader '(normal visual motion) (kbd "<SPC>"))
 
 ;; Cursors
 (setf

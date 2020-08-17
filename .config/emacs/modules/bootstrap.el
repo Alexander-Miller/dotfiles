@@ -148,6 +148,8 @@
   :group 'std
   :prefix "std::")
 
+(defconst std::leader-keymap (make-sparse-keymap))
+
 (defmacro std::keybind (&rest keys)
   "All-in-one keybind macro.
 Accepts the following segments:
@@ -164,7 +166,7 @@ Accepts the following segments:
           (:leader
            (while segment
              (push
-              `(evil-define-key '(normal motion visual) 'global ,(kbd (concat "<leader>" (pop segment))) ,(pop segment))
+              `(define-key std::leader-keymap ,(kbd (pop segment)) ,(pop segment))
               forms)))
           (:global
            (while segment
