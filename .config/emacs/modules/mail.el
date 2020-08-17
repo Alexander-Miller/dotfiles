@@ -45,6 +45,7 @@
         user-full-name "Alexander Miller")
 
   (setf mu4e-confirm-quit                 nil
+        mu4e-view-use-gnus                t
         mu4e-sent-messages-behavior       'delete
         mu4e-maildir                      (expand-file-name "~/.mail")
         mu4e-change-filenames-when-moving t
