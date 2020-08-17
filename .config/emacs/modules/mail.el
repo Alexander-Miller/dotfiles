@@ -11,7 +11,7 @@
 (autoload #'mu4e "mu4e")
 
 (std::with-desktop
- :check (memq major-mode '(mu4e-main-mode mu4e-headers-mode mu4e-compose-mode))
+ :check (memq major-mode '(mu4e-main-mode mu4e-view-mode mu4e-headers-mode mu4e-compose-mode))
  :cmd #'mu4e
  :quit #'mu4e-quit)
 
