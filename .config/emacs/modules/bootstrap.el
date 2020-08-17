@@ -199,7 +199,9 @@ Accepts the following segments:
                (unless (listp maps) (setf maps (list maps)))
                (dolist (map maps)
                  (dolist (pair pairs)
-                   (push `(evil-define-key ',states ,map ,(as-kbd (car pair)) ,(cadr pair)) forms))))))))
+                   (push `(evil-define-key ',states ,map ,(as-kbd (car pair)) ,(cadr pair)) forms))))))
+          (other
+           (error "Unkown keybind arg: %s" other))))
       `(progn ,@(nreverse forms)))))
 
 (defmacro std::add-hook (hook-var &rest forms)
