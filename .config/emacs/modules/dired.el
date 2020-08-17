@@ -132,6 +132,6 @@
 
   (std::after wdired
     (std::keybind
-     :keymao wdired-mode-map
+     :keymap wdired-mode-map
      "C-c C-c" #'std::dired::finish-wdired
      "C-c C-k" #'std::dired::abort-wdired)))
