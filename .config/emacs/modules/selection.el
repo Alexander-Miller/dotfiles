@@ -6,7 +6,7 @@
 
 (std::autoload selection
   #'std::helm::org-in-buffer-headings
-  #'std::helm::semantic-or-imenu)
+  #'std::helm::imenu)
 
 (defun std::load-helm (fn &rest args)
   (helm-mode)
@@ -34,7 +34,7 @@
  "fl" #'helm-locate-library
  "fL" #'helm-locate
  "bb" #'helm-mini
- "bi" #'std::helm::semantic-or-imenu
+ "bi" #'std::helm::imenu
  "ry" #'helm-show-kill-ring
  "rr" #'helm-register
  "sr" #'helm-resume)

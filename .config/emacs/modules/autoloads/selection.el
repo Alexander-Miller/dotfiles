@@ -11,9 +11,9 @@
         :truncate-lines helm-org-truncate-lines
         :buffer "*helm org inbuffer*"))
 
-(defun std::helm::semantic-or-imenu ()
-  "Same as `helm-semantic-or-imenu', but will call `std::helm::org-helm-headings' in org-mode buffers."
+(defun std::helm::imenu ()
+  "Same as `helm-imenu', but will call `std::helm::org-helm-headings' in org-mode buffers."
   (interactive)
   (if (eq major-mode 'org-mode)
       (std::helm::org-in-buffer-headings)
-    (call-interactively #'helm-semantic-or-imenu)))
+    (call-interactively #'helm-imenu)))

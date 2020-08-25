@@ -20,7 +20,7 @@
  helm-display-function      #'pop-to-buffer
  shackle-rules
  '(("*helm-ag*"              :select t   :align right :size 0.5)
-   ("*helm semantic/imenu*"  :select t   :align right :size 0.4)
+   ("*helm imenu*"           :select t   :align right :size 0.4)
    ("*helm org inbuffer*"    :select t   :align right :size 0.4)
    ("*xref*"                 :select t   :align right :size 0.4)
    (" *undo-tree*"           :select t   :align right :size 0.3)
