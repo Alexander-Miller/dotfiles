@@ -44,8 +44,9 @@
                               (std::files std::autoloads-dir)))
          (autoloads-alist (--map `(,(concat (file-name-sans-extension (file-name-nondirectory it)) " autoloads") . ,it)
                                  autoloads))
-         (options (cons '("init" . "~/.emacs.d/init.el")
-                        (nconc modules-alist autoloads-alist)))
+         (options (append '(("init" . "~/.emacs.d/init.el")
+                            ("early init" . "~/.emacs.d/early-init.el"))
+                          (nconc modules-alist autoloads-alist)))
          (selection (completing-read
                      "Module: "
                      (--sort (string< (car it) (car other)) options))))

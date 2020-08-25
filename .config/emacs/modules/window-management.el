@@ -15,8 +15,9 @@
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
 (setf
- winum-scope           'frame-local
- helm-display-function #'pop-to-buffer
+ winum-auto-setup-mode-line nil
+ winum-scope                'frame-local
+ helm-display-function      #'pop-to-buffer
  shackle-rules
  '(("*helm-ag*"              :select t   :align right :size 0.5)
    ("*helm semantic/imenu*"  :select t   :align right :size 0.4)

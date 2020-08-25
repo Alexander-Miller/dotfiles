@@ -20,10 +20,7 @@
  load-prefer-newer              nil
  delete-by-moving-to-trash      t
  ffap-machine-p-known           'reject
- inhibit-startup-screen         t
- inhibit-startup-message        t
  inhibit-compacting-font-caches t
- frame-inhibit-implied-resize   t
  package-enable-at-startup      nil
  default-fnha                   file-name-handler-alist
  file-name-handler-alist        nil
@@ -31,13 +28,7 @@
 
 (add-hook
  'emacs-startup-hook
- (lambda ()
-   (setf gc-cons-threshold (* 64 1024 1024)
-         file-name-handler-alist default-fnha)))
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
+ (lambda () (setf file-name-handler-alist default-fnha)))
 
 (eval-when-compile (require 'cl-lib))
 

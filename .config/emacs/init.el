@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-;(package-initialize)
-
 (defconst S (float-time))
 (load (concat (getenv "EMACS_HOME") "modules/bootstrap") nil :no-message)
 (std::load "text-editing")
