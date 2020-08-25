@@ -111,7 +111,7 @@
    org-enforce-todo-dependencies  t
    calendar-date-style            'european
    org-list-demote-modify-bullet  '(("+" . "-") ("-" . "+") ("*" . "+"))
-   org-use-fast-todo-selection    t
+   org-use-fast-todo-selection    'expert
    org-log-into-drawer            t
    org-footnote-section           "Footnotes"
    org-ellipsis                   " …"
