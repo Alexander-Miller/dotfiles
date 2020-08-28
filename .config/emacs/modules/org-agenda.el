@@ -79,7 +79,8 @@
                    :and (:deadline t :not (:habit t :deadline future :scheduled future))
                    :order 2)
             (:name ,(concat (treemacs-get-icon-value 'list) "Heute")
-                   :and (:scheduled t :not (:habit t))
+                   :and (:scheduled today :not (:habit t))
+                   :and (:scheduled past  :not (:habit t))
                    :and (:deadline t :not (:habit t))
                    :order 3)
             (:name ,(concat (treemacs-get-icon-value 'calendar) "Anstehend")
@@ -89,6 +90,12 @@
             (:name ,(concat (treemacs-get-icon-value 'suitcase) "Als nächtes")
                    :todo "NEXT"
                    :order 6)
+            (:name ,(concat (treemacs-get-icon-value 'next) "Eventuell")
+                   :todo "TODO"
+                   :order 7)
+            (:name ,(concat (treemacs-get-icon-value 'wait) "Warteschlange")
+                   :todo "WAIT"
+                   :order 8)
             (:discard (:anything))))))))
      ("s" "Std Agenda"
       ((todo "INBOX"
@@ -99,7 +106,8 @@
                  (:discard (:anything))))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
-                   (org-agenda-sorting-strategy nil)
+                   (org-agenda-sorting-strategy '((agenda priority-down todo-state-up)
+                                                  (todo priority-down todo-state-up)))
                    (org-super-agenda-groups
                     '((:name "Projekte" :and (:tag "dotts" :todo "PROJ"))
                       (:name "Pakete:"  :tag "pkg")
