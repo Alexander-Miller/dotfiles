@@ -18,6 +18,7 @@
    "q" #'kill-buffer-and-window)
 
   (flycheck-pos-tip-mode)
+  (flycheck-set-indication-mode 'right-fringe)
 
   (setf
    flycheck-emacs-lisp-load-path       'inherit
