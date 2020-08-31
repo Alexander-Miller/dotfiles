@@ -105,9 +105,11 @@
 (doom-modeline-def-segment std::modeline::flycheck
   (when flycheck-mode
     (let* ((count    (flycheck-count-errors flycheck-current-errors))
+           (info (alist-get 'info count))
            (warnings (alist-get 'warning count))
            (errors   (alist-get 'error count)))
-      (concat (when warnings (format std::modeline::flycheck-bullet-warn warnings))
+      (concat (when info (format std::modeline::flycheck-bullet-info info))
+              (when warnings (format std::modeline::flycheck-bullet-warn warnings))
               (when errors   (format std::modeline::flycheck-bullet-error errors))))))
 
 (doom-modeline-def-modeline 'std
