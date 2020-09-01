@@ -35,6 +35,7 @@
 
 ;; Other
 (setf
+ transient-values-file        "~/.config/emacs/transient/transient-values.el"
  make-backup-files            t
  backup-directory-alist       '(("." . "~/.emacs.d/backups"))
  delete-old-versions          t
