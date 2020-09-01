@@ -5,7 +5,7 @@ function i3lock_wrapper --description "Sets a blurred screenshot of the current 
     set lock_img ~/.config/i3/i3lock.png
 
     maim $tmpfile
-    convert $tmpfile -gamma 0.7 -scale 10% -scale 1000% $tmpfile
+    convert $tmpfile -gamma 0.7 -scale 5% -scale 2000% $tmpfile
 
     set lock_img_size (file $lock_img | rg -o '[0-9]* x [0-9]*' | string split " x ")
     set lock_img_size_x $lock_img_size[1]
