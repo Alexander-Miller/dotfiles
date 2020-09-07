@@ -34,14 +34,15 @@
  tab-width        4
  indent-tabs-mode nil)
 (setf
- isearch-forward         t
- evil-search-module      'evil-search
- evil-want-C-i-jump      t
- evil-want-fine-undo     t
- evil-want-keybinding    t
- evil-want-Y-yank-to-eol t
- evil-move-beyond-eol    t
- next-line-add-newlines  t)
+ isearch-forward           t
+ evil-search-module        'evil-search
+ evil-want-C-i-jump        t
+ evil-kill-on-visual-paste nil
+ evil-want-fine-undo       t
+ evil-want-keybinding      t
+ evil-want-Y-yank-to-eol   t
+ evil-move-beyond-eol      t
+ next-line-add-newlines    t)
 
 (evil-mode)
 (evil-goggles-mode)
