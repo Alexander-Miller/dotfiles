@@ -13,3 +13,7 @@
     (-let [new-font (eval `(font-xlfd-name (font-spec ,@std::default-font-spec)))]
       (setf (alist-get 'font default-frame-alist) new-font)
       (set-frame-font new-font :keep-size (frame-list)))))
+
+(defun std::ui::reload-theme ()
+  (interactive)
+  (load-theme (car custom-enabled-themes) :no-confirm))

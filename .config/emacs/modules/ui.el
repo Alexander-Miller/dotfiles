@@ -9,14 +9,16 @@
 
 (std::autoload ui
   #'std::ui::writeroom-hide-line-numbers
-  #'std::ui::change-font-size)
+  #'std::ui::change-font-size
+  #'std::ui::reload-theme)
 
 (defvar std::default-font-spec '(:family "Fantasque Sans Mono" :size 16))
 (setf (alist-get 'font default-frame-alist) (eval `(font-xlfd-name (font-spec ,@std::default-font-spec))))
 
 (std::keybind
  :leader
- "if" #'std::ui::change-font-size)
+ "if"  #'std::ui::change-font-size
+ "itr" #'std::ui::reload-theme)
 
 (std::schedule 1 :no-repeat
   (add-hook 'prog-mode-hook #'prettify-symbols-mode))
