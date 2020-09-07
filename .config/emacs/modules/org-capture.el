@@ -46,6 +46,12 @@
               :keys "i"
               :headline "Inbox"
               :template ("* INBOX %i%?"))
+             (,(concat (treemacs-get-icon-value 'fallback) (std::face "Tagebuch" 'font-lock-type-face))
+              :keys "a"
+              :file ,std::org::diary-file
+              :datetree t
+              :headline "Tagebuch"
+              :type plain)
              (,(concat (treemacs-get-icon-value 'list) (std::face "Haushalt Log" 'font-lock-function-name-face))
               :keys "h"
               :olp ("Haushalt" ,std::org::current-year)
