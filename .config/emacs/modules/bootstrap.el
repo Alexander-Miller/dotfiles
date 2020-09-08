@@ -199,6 +199,11 @@ Accepts the following segments:
   (declare (indent 1))
   `(add-hook ,hook-var (lambda () ,@forms)))
 
+(defmacro std::add-hooks (hook-var &rest fns)
+  (declare (indent 1))
+  `(progn
+     ,@(--map `(add-hook ,hook-var ,it) fns)))
+
 (defmacro std::add-advice (advice where fns &optional ignore-args)
   (declare (indent 2))
   (unless (listp fns)

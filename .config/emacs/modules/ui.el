@@ -5,6 +5,7 @@
  rainbow-mode
  (morning-star :type git :host github :repo "Alexander-Miller/morning-star-theme")
  writeroom-mode
+ hl-todo
  fill-column-indicator)
 
 (std::autoload ui
@@ -50,18 +51,25 @@
 
 (load-theme 'morning-star :no-confirm)
 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode-enable)
-(add-hook 'text-mode-hook #'rainbow-delimiters-mode-enable)
-(add-hook 'conf-mode-hook #'rainbow-delimiters-mode-enable)
+(std::add-hooks 'prog-mode-hook
+  #'rainbow-delimiters-mode-enable
+  #'rainbow-mode
+  #'display-line-numbers-mode
+  #'hl-todo-mode)
+
+(std::add-hooks 'text-mode-hook
+  #'rainbow-delimiters-mode-enable
+  #'rainbow-mode
+  #'display-line-numbers-mode
+  #'hl-todo-mode)
+
+(std::add-hooks 'conf-mode-hook
+  #'rainbow-delimiters-mode-enable
+  #'rainbow-mode)
+
+(add-hook 'css-mode-hook  #'rainbow-mode)
+
 (remove-hook 'snippet-mode-hook #'rainbow-delimiters-mode-disable)
-
-(add-hook 'prog-mode-hook #'rainbow-mode)
-(add-hook 'conf-mode-hook #'rainbow-mode)
-(add-hook 'text-mode-hook #'rainbow-mode)
-(add-hook 'css-mode-hook #'rainbow-mode)
-
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
 
 (blink-cursor-mode -1)
 
@@ -99,3 +107,13 @@
    writeroom-bottom-divider-width 0
    writeroom-global-effects
    (delete 'writeroom-set-fullscreen writeroom-global-effects)))
+
+(std::after hl-todo
+  (setf
+   hl-todo-highlight-punctuation ":"
+   hl-todo-keyword-faces
+   `(("TODO" warning bold)
+     ("FIXME" font-lock-variable-name-face bold)
+     ("DEPRECATED" font-lock-doc-face bold)
+     ("BUG" error bold)
+     ("XXX" font-lock-preprocessor-face bold))))
