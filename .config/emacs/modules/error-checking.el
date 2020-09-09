@@ -2,7 +2,8 @@
 
 (std::using-packages
  flycheck
- flycheck-pos-tip)
+ flycheck-pos-tip
+ package-lint)
 
 (std::autoload error-checking
   #'std::flycheck::next-error
