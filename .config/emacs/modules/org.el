@@ -2,7 +2,8 @@
 
 (std::using-packages
  org
- org-bullets)
+ org-bullets
+ toc-org)
 
 (std::autoload org
   #'std::org::mode-hook

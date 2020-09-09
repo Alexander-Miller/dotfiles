@@ -6,6 +6,7 @@
   (org-indent-mode)
   (org-bullets-mode)
   (auto-revert-mode)
+  (toc-org-mode)
   (rainbow-delimiters-mode-disable))
 
 (defun std::org::agenda-forced-select ()
