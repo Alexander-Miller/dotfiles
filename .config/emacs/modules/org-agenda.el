@@ -139,17 +139,43 @@
                       (:name "Videos:" :tag "vid")
                       (:discard (:anything))))))
        (agenda "" ())))
-     ("n" "NT Agenda"
+     ("a" "NT Agenda"
       ((todo "INBOX"
-             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
-              (org-agenda-files (list std::org::private-file))))
-       (tags-todo "task"
-                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'list) "Aufgaben"))
-                   (org-agenda-sorting-strategy nil)
-                   (org-super-agenda-groups
-                    '((:name "Freitags" :tag "fri")
-                      (:name "Baldmöglichst" :todo "NEXT")))))
-       (agenda "" ()))))))
+             ((org-agenda-overriding-header "Inbox")
+              (org-agenda-files (list std::org::work-file))))
+       (todo ""
+             ((org-agenda-overriding-header "Heute")
+              (org-agenda-files (list std::org::work-file))
+              (org-super-agenda-groups
+               '((:name "Kunde"
+                        :and (:scheduled today :tag "kunde")
+                        :and (:scheduled past  :tag "kunde"))
+                 (:name "NT"
+                        :scheduled today
+                        :scheduled past)
+                 (:discard (:anything))))))
+       (tags-todo "kunde"
+             ((org-agenda-overriding-header "Kundenprojekt")
+              (org-agenda-files (list std::org::work-file))
+              (org-super-agenda-groups
+               '((:name "Stories"        :todo "STORY")
+                 (:name "Offene Frangen" :todo "FRAGE")
+                 (:name "Offene TODOs"   :todo "TODO")
+                 (:name "Anderes"        :anything)))))
+       (todo ""
+             ((org-agenda-overriding-header "NT & AQE & AEP")
+              (org-agenda-files (list std::org::work-file))
+              (org-super-agenda-groups
+               '((:name "Freitagsmaterial" :tag "fri")
+                 (:name "Andere Aufgaben"
+                        :and (:todo "PROJ" :tag "nt")
+                        :and (:todo "TASK" :tag "nt")
+                        :and (:todo "TODO" :tag "nt")
+                        :and (:todo "NEXT" :tag "nt"))
+                 (:name "Warteschleife"
+                        :and (:todo "WAIT" :tag "nt"))
+                 (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
+                 (:discard (:todo "INBOX" :tag "kunde")))))))))))
 
 ;; Keybinds
 (std::after org
