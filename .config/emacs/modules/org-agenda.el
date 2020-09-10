@@ -54,15 +54,21 @@
    org-deadline-warning-days                        7
    org-extend-today-until                           2
    org-todo-keyword-faces
-   `(("INBOX" . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("HABIT" . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("PROJ"  . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("NEXT"  . (:background "#D46168" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("TODO"  . (:background "#9F8B6F" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("TASK"  . (:background "#B87348" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("MAYBE" . (:background "#BAAF71" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("DONE"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("WAIT"  . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000"))))
+   `(("INBOX"    . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("APPT"     . (:background "#997799" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("HABIT"    . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("PROJ"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("FRAGE"    . (:background "#55A9A9" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("STORY"    . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("NEXT"     . (:background "#D46168" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("TODO"     . (:background "#9F8B6F" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("TASK"     . (:background "#B87348" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("MAYBE"    . (:background "#BAAF71" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("WAIT"     . (:background "#999999" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("DONE"     . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("OBSOLET"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("ENTFÄLLT" . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("GEKLÄRT"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000"))))
    org-agenda-custom-commands
    '(("t" "Tagesagenda"
       ((alltodo ""
