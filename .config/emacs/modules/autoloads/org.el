@@ -6,6 +6,7 @@
   (org-indent-mode)
   (org-bullets-mode)
   (auto-revert-mode)
+  (hl-todo-mode -1)
   (toc-org-mode)
   (rainbow-delimiters-mode-disable))
 
