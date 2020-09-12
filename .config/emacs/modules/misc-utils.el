@@ -35,6 +35,7 @@
 
 ;; Other
 (setf
+ xref-prompt-for-identifier   nil
  transient-values-file        "~/.config/emacs/transient/transient-values.el"
  make-backup-files            t
  backup-directory-alist       '(("." . "~/.emacs.d/backups"))
@@ -86,7 +87,9 @@
  "nn"  #'widen
  :keymap evil-normal-state-map
  "M-." #'xref-find-definitions
- "M-," #'xref-pop-marker-stack)
+ "M-," #'xref-pop-marker-stack
+ :evil 'motion xref--xref-buffer-mode-map
+ "RET" #'xref-goto-xref)
 
 (std::after wttrin
   (setf wttrin-default-cities '("Stuttgart")
