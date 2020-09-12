@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: with-selected-window
+#key: wsw
+# --
+(with-selected-window ${1:window}
+$0)
