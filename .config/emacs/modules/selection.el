@@ -34,6 +34,7 @@
  "fl" #'helm-locate-library
  "fL" #'helm-locate
  "bb" #'helm-mini
+ "br" #'helm-recentf
  "bi" #'std::helm::imenu
  "ry" #'helm-show-kill-ring
  "rr" #'helm-register
