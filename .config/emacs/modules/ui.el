@@ -113,6 +113,7 @@
    hl-todo-highlight-punctuation ":"
    hl-todo-keyword-faces
    `(("TODO" warning bold)
+     ("NOTE" font-lock-string-face bold)
      ("FIXME" font-lock-variable-name-face bold)
      ("DEPRECATED" font-lock-doc-face bold)
      ("BUG" error bold)
