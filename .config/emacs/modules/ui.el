@@ -82,7 +82,7 @@
 (std::downscale ?\→ :font "Symbola" :size 10)
 (std::downscale ?\❯ :font "Symbola")
 (std::downscale ?\✔ :font "Symbola" :size 9)
-(std::downscale ?\⎯ :font "Symbola" :size 10)
+(std::downscale ?\⎯ :font "Symbola" :size 8)
 (std::downscale ?\➊ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➋ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➌ :font "DejaVu Sans" :size 14)
@@ -102,7 +102,7 @@
   (add-to-list 'writeroom-global-effects #'std::ui::writeroom-hide-line-numbers)
 
   (setf
-   writeroom-width                120
+   writeroom-width                (round (* 0.75 (frame-width)))
    writeroom-extra-line-spacing   0
    writeroom-bottom-divider-width 0
    writeroom-global-effects

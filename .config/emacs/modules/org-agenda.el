@@ -39,8 +39,8 @@
   (setf
    org-super-agenda-header-map                      nil
    calendar-holidays                                holiday-german-BW-holidays
-   org-agenda-block-separator                       (concat (propertize (make-string (round (* 0.57 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
-   org-super-agenda-header-separator                (concat (propertize (make-string (round (* 0.57 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
+   org-agenda-block-separator                       (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
+   org-super-agenda-header-separator                (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
    org-agenda-dim-blocked-tasks                     nil
    org-agenda-include-diary                         t
    org-agenda-inhibit-startup                       nil
