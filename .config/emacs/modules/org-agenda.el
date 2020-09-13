@@ -7,7 +7,8 @@
 (std::autoload org-agenda
   #'std::org-agenda::goto-today
   #'std::org-agenda::switch-to
-  #'std::org::agenda::mark-habits)
+  #'std::org::agenda::mark-habits
+  #'std::org::agenda::compare-by-todo-state)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
@@ -41,6 +42,7 @@
    calendar-holidays                                holiday-german-BW-holidays
    org-agenda-block-separator                       (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
    org-super-agenda-header-separator                (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
+   org-agenda-cmp-user-defined                      #'std::org::agenda::compare-by-todo-state
    org-agenda-dim-blocked-tasks                     nil
    org-agenda-include-diary                         t
    org-agenda-inhibit-startup                       nil
@@ -69,12 +71,15 @@
      ("OBSOLET"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("ENTFÄLLT" . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("GEKLÄRT"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000"))))
+   org-agenda-sorting-strategy
+   '((agenda priority-down user-defined-down)
+     (tags priority-down category-keep)
+     (search category-keep))
    org-agenda-custom-commands
    '(("t" "Tagesagenda"
       ((alltodo ""
         ((org-agenda-span 1)
          (org-agenda-overriding-header "Tagesagenda")
-         (org-agenda-sorting-strategy '((agenda todo-state-up)))
          (org-super-agenda-groups
           `((:name ,(concat (treemacs-get-icon-value 'info) "Wichtig")
                    :and (:priority>= "A" :not (:scheduled future))
@@ -113,8 +118,6 @@
                  (:discard (:anything))))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
-                   (org-agenda-sorting-strategy '((agenda priority-down todo-state-up)
-                                                  (todo priority-down todo-state-up)))
                    (org-super-agenda-groups
                     '((:name "Projekte" :and (:tag "dotts" :todo "PROJ"))
                       (:name "Pakete:"  :tag "pkg")
@@ -131,7 +134,6 @@
                  (:discard (:anything))))))
        (tags-todo "bm"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
-                   (org-agenda-sorting-strategy '((agenda todo-state-down)))
                    (org-super-agenda-groups
                     '((:name "Bücher:" :tag "book")
                       (:name "Artikel: & Blogs [Klein]:" :and (:tag "small" :tag "art"))
