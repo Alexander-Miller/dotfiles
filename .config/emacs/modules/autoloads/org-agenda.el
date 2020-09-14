@@ -11,6 +11,10 @@
   (eyebrowse-switch-to-window-config (get #'org-agenda 'std::return-to-desktop))
   (org-agenda-switch-to))
 
+(defun std::org::agenda::unschedule ()
+  (interactive)
+  (org-agenda-schedule '(4)))
+
 (defun std::org::agenda::mark-habits ()
   "https://emacs.stackexchange.com/a/17328/16972"
   (when (not (get-text-property (point) 'org-series))

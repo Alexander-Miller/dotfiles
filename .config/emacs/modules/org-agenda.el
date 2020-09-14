@@ -7,6 +7,7 @@
 (std::autoload org-agenda
   #'std::org::agenda::goto-today
   #'std::org::agenda::switch-to
+  #'std::org::agenda::unschedule
   #'std::org::agenda::mark-habits
   #'std::org::agenda::compare-by-todo-state)
 
@@ -192,4 +193,5 @@
    "M-k" #'org-agenda-backward-block
    :mode-leader org-agenda-mode
    "ss" #'org-agenda-schedule
+   "sx" #'std::org::agenda::unschedule
    "P"  #'org-agenda-priority))
