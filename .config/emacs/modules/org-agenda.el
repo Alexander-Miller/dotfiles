@@ -5,8 +5,8 @@
  german-holidays)
 
 (std::autoload org-agenda
-  #'std::org-agenda::goto-today
-  #'std::org-agenda::switch-to
+  #'std::org::agenda::goto-today
+  #'std::org::agenda::switch-to
   #'std::org::agenda::mark-habits
   #'std::org::agenda::compare-by-todo-state)
 
@@ -183,9 +183,13 @@
 (std::after org
   (std::keybind
    :evil motion org-agenda-mode-map
-   "RET" #'std::org-agenda::switch-to
+   "RET" #'std::org::agenda::switch-to
    "gr"  #'org-agenda-redo
-   "."   #'std::org-agenda::goto-today
+   "."   #'std::org::agenda::goto-today
    "t"   #'org-agenda-todo
+   "T"   #'org-agenda-todo-yesterday
    "M-j" #'org-agenda-forward-block
-   "M-k" #'org-agenda-backward-block))
+   "M-k" #'org-agenda-backward-block
+   :mode-leader org-agenda-mode
+   "ss" #'org-agenda-schedule
+   "P"  #'org-agenda-priority))
