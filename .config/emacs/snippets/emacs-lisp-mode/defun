@@ -3,5 +3,5 @@
 #key: defun
 # --
 (${1:cl-}defun ${2:name} (${3:args})
-  "${4:docstring}"
-  $0)
+${4:"${5:docstring}"
+}$0)
