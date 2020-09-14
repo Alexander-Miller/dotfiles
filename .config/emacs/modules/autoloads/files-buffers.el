@@ -50,7 +50,7 @@
          (selection (completing-read
                      "Module: "
                      (--sort (string< (car it) (car other)) options))))
-    (find-file-existing (cdr (assoc selection options)))))
+    (-some-> (assoc selection options) (cdr) (find-file-existing))))
 
 (defun std::move-buffer-to-parent-frame ()
   "Move current child frame's buffer to its parent and close the child frame."
