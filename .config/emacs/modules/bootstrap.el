@@ -24,7 +24,7 @@
  package-enable-at-startup      nil
  default-fnha                   file-name-handler-alist
  file-name-handler-alist        nil
- load-path                      (delete "/usr/share/emacs/26.3/lisp/org" load-path))
+ load-path                      (delete "/usr/share/emacs/27.1/lisp/org" (delete "/usr/share/emacs/26.3/lisp/org" load-path)))
 
 (add-hook
  'emacs-startup-hook
