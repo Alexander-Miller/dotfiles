@@ -28,4 +28,5 @@
 (std::load "lsp")
 (std::load "compile")
 (std::load "docker")
+(std::load "spellcheck")
 (message "Config loaded in %ss" (- (float-time) S))

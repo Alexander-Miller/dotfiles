@@ -1,0 +1,54 @@
+;; -*- lexical-binding: t -*-
+
+(std::using-packages
+ auto-dictionary
+ flyspell-correct
+ frog-menu
+ flyspell)
+
+(std::autoload spellcheck
+  #'std::spellcheck::use-en-dict
+  #'std::spellcheck::use-de-dict
+  #'std::spellcheck::frog-correct-menu )
+
+(add-hook 'text-mode-hook #'flyspell-mode)
+
+(std::after flyspell
+
+  (add-hook 'flyspell-mode-hook #'auto-dictionary-mode)
+
+  (std::pushnew ispell-skip-region-alist
+    `(,(rx "-*-") . ,(rx "-*-"))
+    `(,(rx ":" (or "PROPERTIES" "LOGBOOOK") ":"). ":END:")
+    `(,(rx "#+BEGIN_" (or "SRC" "QUOTE" "EXAMPLE")) . ,(rx "#+END_" (or "SRC" "QUOTE" "EXAMPLE"))))
+
+  (setf
+   flyspell-mark-duplications-flag nil
+   ispell-check-comments           t
+   ispell-lazy-highlight           t
+   ispell-quietly                  t
+   ispell-highlight-p              'block
+   ispell-keep-choices-win         nil
+   ispell-following-word           nil
+   ispell-program-name             "aspell"
+   ispell-extra-args               '("--sug-mode=ultra" "--dont-tex-check-comments"))
+
+  (ispell-set-spellchecker-params))
+
+(std::after flyspell-correct
+  (setf
+   flyspell-correct-interface      #'std::spellcheck::frog-correct-menu
+   frog-menu-posframe-border-width 2
+   frog-menu-avy-padding           t
+   frog-menu-posframe-parameters   '((minibuffer . t))))
+
+(std::keybind
+ :global
+ "M-ö" #'flyspell-correct-wrapper
+ :leader
+ "SS" #'flyspell-mode
+ "SE" #'std::spellcheck::use-en-dict
+ "SD" #'std::spellcheck::use-de-dict
+ "Sa" #'auto-dictionary-mode
+ "Sw" #'flyspell-word
+ "Sb" #'flyspell-buffer)

@@ -134,6 +134,12 @@
        (`((function ,_)) (car body))
        (_ `(lambda () ,@body)))))
 
+(defmacro std::pushnew (place &rest values)
+  (declare (indent 1))
+  (let ((var (make-symbol "value")))
+    `(dolist (,var (list ,@values) ,place)
+       (cl-pushnew ,var ,place :test #'equal))))
+
 (defgroup std nil
   "Std faces."
   :group 'std
