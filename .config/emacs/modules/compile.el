@@ -26,3 +26,7 @@
 
   (add-hook 'compilation-filter-hook #'std::compile::filter-hook)
   (add-hook 'compilation-mode-hook #'std::compile::mode-hook))
+
+(std::add-hook 'makefile-mode-hook
+  (setf company-backends
+        '((company-capf company-files company-dabbrev-code company-keywords :with company-yasnippet))))
