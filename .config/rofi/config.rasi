@@ -1,7 +1,7 @@
 /* -*- mode: css -*- */
 
 configuration {
-    modi:                 "window,run";
+    modi:                 "window,run,drun";
     width:                95;
     lines:                4;
     columns:              3;
@@ -46,6 +46,8 @@ configuration {
     window-format:        "{w}    {c}   {t}";
     click-to-exit:        true;
     pid:                  "/run/user/1000/rofi.pid";
+    kb-mode-next:         "Control+Alt+j";
+    kb-mode-previous:     "Control+Alt+k";
     kb-primary-paste:     "Control+V";
     kb-secondary-paste:   "Control+Shift+v";
     kb-move-front:        "Control+a";
