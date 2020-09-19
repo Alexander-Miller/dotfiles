@@ -2,8 +2,7 @@
 
 (std::using-packages
  company
- company-quickhelp
- (company-makefile :host github :repo "nverno/company-makefile"))
+ company-quickhelp)
 
 (std::schedule 1 :no-repeat
   (global-company-mode))
