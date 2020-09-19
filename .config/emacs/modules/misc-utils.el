@@ -50,6 +50,8 @@
  user-mail-address            "alexanderm@web.de"
  user-full-name               "Alexander Miller")
 
+(put 'narrow-to-region 'disabled nil)
+
 (setq-default
  safe-local-variable-values
  '((org-list-indent-offset . 1)
