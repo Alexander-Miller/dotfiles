@@ -73,76 +73,54 @@
      ("ENTFÄLLT" . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("GEKLÄRT"  . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000"))))
    org-agenda-sorting-strategy
-   '((agenda priority-down user-defined-down)
-     (tags priority-down category-keep)
+   '((agenda user-defined-down priority-down)
+     (tags user-defined-down priority-down)
      (search category-keep))
    org-agenda-custom-commands
-   '(("t" "Tagesagenda"
-      ((alltodo ""
-        ((org-agenda-span 1)
-         (org-agenda-overriding-header "Tagesagenda")
-         (org-super-agenda-groups
-          `((:name ,(concat (treemacs-get-icon-value 'info) "Wichtig")
-                   :and (:priority>= "A" :not (:scheduled future))
-                   :order 1)
-            (:name ,(concat (treemacs-get-icon-value 'repeat) "Habits")
-                   :and (:habit t :not (:scheduled future))
-                   :order 4)
-            (:name ,(concat (treemacs-get-icon-value 'error) "Dringend")
-                   :and (:deadline t :not (:habit t :deadline future :scheduled future))
-                   :order 2)
-            (:name ,(concat (treemacs-get-icon-value 'list) "Heute")
-                   :and (:scheduled today :not (:habit t))
-                   :and (:scheduled past  :not (:habit t))
-                   :and (:deadline t :not (:habit t))
-                   :order 3)
-            (:name ,(concat (treemacs-get-icon-value 'calendar) "Anstehend")
-                   :and (:scheduled t :deadline t)
-                   :timestamp future
-                   :order 5)
-            (:name ,(concat (treemacs-get-icon-value 'suitcase) "Als nächtes")
-                   :todo "NEXT"
-                   :order 6)
-            (:name ,(concat (treemacs-get-icon-value 'next) "Eventuell")
-                   :todo "TODO"
-                   :order 7)
-            (:name ,(concat (treemacs-get-icon-value 'wait) "Warteschlange")
-                   :todo "WAIT"
-                   :order 8)
-            (:discard (:anything))))))))
-     ("s" "Std Agenda"
-      ((todo "INBOX"
-             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
+   '(("q" "Private Agenda"
+      ((todo ""
+             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
+              (org-agenda-files (list std::org::private-file))
+              (org-super-agenda-retain-sorting t)
               (org-super-agenda-groups
-               '((:name "Privat:" :file-path "Privat.org")
-                 (:name "Arbeit:" :file-path "NT.org")
+               '((:name "Dringend"
+                        :deadline today
+                        :deadline past
+                        :face (:append t :background "#661A1A" :weight bold))
+                 (:name "Wichtig"
+                        :and (:scheduled past :priority>= "B")
+                        :and (:scheduled today :priority>= "B"))
+                 (:name "Anstehend" :scheduled past :scheduled today)
+                 (:name "Bald"
+                        :and (:scheduled t :deadline t)
+                        :timestamp future)
+                 (:name "Inbox" :todo "INBOX")
                  (:discard (:anything))))))
-       (tags-todo "dotts"
-                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
-                   (org-super-agenda-groups
-                    '((:name "Projekte" :and (:tag "dotts" :todo "PROJ"))
-                      (:name "Pakete:"  :tag "pkg")
-                      (:name "Emacs:"   :and (:tag "emacs" :not (:tag "P")))
-                      (:name "Anderes:" :tag "otherdotts")
-                      (:name "Projekteinzelteile:" :tag "dotts")
-                      (:discard (:anything))))))
-       (tags-todo "hh"
-                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))))
        (tags "appt"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'calendar) "Termine"))
+              (org-agenda-sorting-strategy '(ts-up))
               (org-super-agenda-groups
                '((:name none :timestamp future)
                  (:discard (:anything))))))
+       (tags-todo "hh"
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))))
+       (todo "HABIT"
+             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))))
+       (tags-todo "dotts"
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
+                   (org-super-agenda-retain-sorting t)
+                   (org-super-agenda-groups
+                    '((:name "Pakete:"  :tag "pkg")
+                      (:name "Emacs:"   :tag "emacs")
+                      (:name "Anderes:" :tag "otherdotts")))))
        (tags-todo "bm"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
+                   (org-agenda-files (list std::org::private-file))
                    (org-super-agenda-groups
-                    '((:name "Bücher:" :tag "book")
-                      (:name "Artikel: & Blogs [Klein]:" :and (:tag "small" :tag "art"))
-                      (:name "Artikel: & Blogs [Groß]:" :and (:tag "large" :tag "art"))
-                      (:name "Videos:" :tag "vid")
-                      (:discard (:anything))))))
-       (agenda "" ())))
-     ("a" "NT Agenda"
+                    '((:name "Bücher" :tag "book")
+                      (:name "Artikel" :tag "art")
+                      (:name "Videos" :tag "vid")))))))
+     ("w" "NT Agenda"
       ((todo "INBOX"
              ((org-agenda-overriding-header "Inbox")
               (org-agenda-files (list std::org::work-file))))
