@@ -8,9 +8,10 @@
 (std::autoload spellcheck
   #'std::spellcheck::use-en-dict
   #'std::spellcheck::use-de-dict
-  #'std::spellcheck::frog-correct-menu )
+  #'std::spellcheck::start-on-first-edit
+  #'std::spellcheck::frog-correct-menu)
 
-(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'text-mode-hook #'std::spellcheck::start-on-first-edit)
 
 (std::after flyspell
 

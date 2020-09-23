@@ -10,6 +10,13 @@
   (ispell-change-dictionary "de_DE")
   (message "Using de_DE dictionary"))
 
+(defun std::spellcheck::enable-once-locally (&rest _)
+  (flyspell-mode)
+  (remove-hook 'after-change-functions #'std::spellcheck::enable-once-locally :local))
+
+(defun std::spellcheck::start-on-first-edit ()
+  (add-hook 'after-change-functions #'std::spellcheck::enable-once-locally nil :local))
+
 (defun std::spellcheck::frog-correct-menu (candidates word)
   (let* ((corrects (if flyspell-sort-corrections
                        (sort candidates 'string<)
