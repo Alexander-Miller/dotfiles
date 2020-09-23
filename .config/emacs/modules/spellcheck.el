@@ -51,8 +51,8 @@
    frog-menu-posframe-parameters   '((minibuffer . t))))
 
 (std::keybind
- :global
- "M-ö" #'flyspell-correct-wrapper
+ :keymap flyspell-mouse-map
+ "RET" #'flyspell-correct-wrapper
  :leader
  "SS" #'flyspell-mode
  "SE" #'std::spellcheck::use-en-dict
