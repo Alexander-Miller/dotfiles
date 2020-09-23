@@ -5,6 +5,7 @@
  (wttrin :type git :host github :repo "emacle/emacs-wttrin")
  buttercup
  gcmh
+ restart-emacs
  link-hint)
 
 ;; GC
@@ -80,6 +81,7 @@
  "ll"  #'link-hint-open-link
  "ly"  #'link-hint-copy-link
  "qq"  #'save-buffers-kill-terminal
+ "qr"  #'restart-emacs
  "t"   #'std::toggles/body
  "aw"  #'std::weather
  "ac"  #'calendar
