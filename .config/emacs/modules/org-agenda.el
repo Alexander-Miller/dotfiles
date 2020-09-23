@@ -157,7 +157,12 @@
                  (:name "Warteschleife"
                         :and (:todo "WAIT" :tag "nt"))
                  (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
-                 (:discard (:todo "INBOX" :tag "kunde")))))))))))
+                 (:discard (:todo "INBOX" :tag "kunde"))))))
+       (agenda "" ((org-agenda-files (list std::org::work-file))))))
+     ("a" "2 Wochen Agenda"
+      ((agenda "" ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
+                   (org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "HABIT" "INBOX"))))))))))
 
 ;; Keybinds
 (std::after org
