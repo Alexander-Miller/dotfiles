@@ -5,6 +5,9 @@
  frog-menu
  flyspell)
 
+(std::delq 'ispell features)
+(std::delq 'flyspell features)
+
 (std::autoload spellcheck
   #'std::spellcheck::use-en-dict
   #'std::spellcheck::use-de-dict
@@ -12,8 +15,9 @@
   #'std::spellcheck::frog-correct-menu)
 
 (add-hook 'text-mode-hook #'std::spellcheck::start-on-first-edit)
+(add-hook 'mu4e-compose-mode-hook #'std::spellcheck::start-on-first-edit)
 
-(std::after flyspell
+(std::after ispell
 
   (std::pushnew ispell-skip-region-alist
     `(,(rx "-*-") . ,(rx "-*-"))
@@ -22,6 +26,8 @@
 
   (setf
    flyspell-mark-duplications-flag nil
+   flyspell-issue-welcome-flag     nil
+   flyspell-issue-message-flag     nil
    ispell-dictionary               "en_GB"
    ispell-check-comments           t
    ispell-lazy-highlight           t

@@ -140,6 +140,9 @@
     `(dolist (,var (list ,@values) ,place)
        (cl-pushnew ,var ,place :test #'equal))))
 
+(defmacro std::delq (item list)
+  `(setf ,list (delq ,item ,list)))
+
 (defgroup std nil
   "Std faces."
   :group 'std
