@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- auto-dictionary
  flyspell-correct
  frog-menu
  flyspell)
@@ -15,8 +14,6 @@
 
 (std::after flyspell
 
-  (add-hook 'flyspell-mode-hook #'auto-dictionary-mode)
-
   (std::pushnew ispell-skip-region-alist
     `(,(rx "-*-") . ,(rx "-*-"))
     `(,(rx ":" (or "PROPERTIES" "LOGBOOOK") ":"). ":END:")
@@ -24,6 +21,7 @@
 
   (setf
    flyspell-mark-duplications-flag nil
+   ispell-dictionary               "en_GB"
    ispell-check-comments           t
    ispell-lazy-highlight           t
    ispell-quietly                  t
@@ -36,6 +34,7 @@
   (ispell-set-spellchecker-params))
 
 (std::after flyspell-correct
+
   (setf
    flyspell-correct-interface      #'std::spellcheck::frog-correct-menu
    frog-menu-posframe-border-width 2
