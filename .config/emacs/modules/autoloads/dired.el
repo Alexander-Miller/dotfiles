@@ -38,6 +38,7 @@
     (when (eq 'dired-mode (buffer-local-value 'major-mode it))
       (kill-buffer it))))
 
+(autoload #'mailcap-extension-to-mime "mailcap")
 (defun std::dired::open-externally ()
   (interactive)
   (let* ((files (or (dired-get-marked-files :local)
