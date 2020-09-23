@@ -9,6 +9,7 @@
   #'std::org::agenda::switch-to
   #'std::org::agenda::unschedule
   #'std::org::agenda::mark-habits
+  #'std::org::agenda::quit
   #'std::org::agenda::compare-by-todo-state)
 
 (std::with-desktop
@@ -169,6 +170,8 @@
    "T"   #'org-agenda-todo-yesterday
    "M-j" #'org-agenda-forward-block
    "M-k" #'org-agenda-backward-block
+   "q"   #'std::org::agenda::quit
+   "Q"   #'org-agenda-quit
    :mode-leader org-agenda-mode
    "ss" #'org-agenda-schedule
    "sx" #'std::org::agenda::unschedule
