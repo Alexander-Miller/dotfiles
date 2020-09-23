@@ -137,13 +137,13 @@
                         :scheduled past)
                  (:discard (:anything))))))
        (tags-todo "kunde"
-             ((org-agenda-overriding-header "Kundenprojekt")
-              (org-agenda-files (list std::org::work-file))
-              (org-super-agenda-groups
-               '((:name "Stories"        :todo "STORY")
-                 (:name "Offene Frangen" :todo "FRAGE")
-                 (:name "Offene TODOs"   :todo "TODO")
-                 (:name "Anderes"        :anything)))))
+                  ((org-agenda-overriding-header "Kundenprojekt")
+                   (org-agenda-files (list std::org::work-file))
+                   (org-super-agenda-groups
+                    '((:name "Stories"        :todo "STORY")
+                      (:name "Offene Frangen" :todo "FRAGE")
+                      (:name "Offene TODOs"   :todo "TODO")
+                      (:name "Anderes"        :anything)))))
        (todo ""
              ((org-agenda-overriding-header "NT & AQE & AEP")
               (org-agenda-files (list std::org::work-file))
