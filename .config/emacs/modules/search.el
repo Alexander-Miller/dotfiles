@@ -1,12 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- swiper
+ ctrlf
  helm-ag)
-
-(std::if-version 26
-  (std::using-packages
-   (framey :type git :host github :repo "Alexander-Miller/framey")))
 
 (std::autoload search
   #'std::search::rg-in-project)
@@ -18,8 +14,8 @@
 
 (std::keybind
  :global
- "C-s"   #'swiper
- "C-M-S" #'swiper-thing-at-point
+ "C-s"   #'ctrlf-forward-literal
+ "C-M-S" #'ctrlf-forward-symbol-at-point
  "M-o"   #'evil-avy-goto-char-2
  "M-O"   #'evil-avy-goto-char
  :leader
@@ -31,21 +27,13 @@
  "jf" #'find-function
  "jl" #'avy-goto-line)
 
-;; Swiper Settings
-(std::after swiper
-
-  (add-to-list 'swiper-font-lock-exclude 'org-mode)
-
-  (std::if-version 26
-    (require 'framey-swiper)))
-
-;; Swiper Keybinds
-(std::after swiper
-  (std::keybind
-   :keymap swiper-map
-   "C-j" #'ivy-next-line
-   "C-k" #'ivy-previous-line
-   [escape] #'minibuffer-keyboard-quit))
+;; Ctrlf Keybinds
+(std::after ctrlf
+  (setf ctrlf-mode-bindings
+    '(("C-j"      . ctrlf-forward-literal)
+      ("C-k"      . ctrlf-backward-literal)
+      ("C-M-s"    . ctrlf-forward-symbol-at-point)
+      ("<escape>" . ctrlf-cancel))))
 
 ;; Helm Ag Settings
 (std::after helm-ag
