@@ -29,7 +29,9 @@
    ispell-keep-choices-win         nil
    ispell-following-word           nil
    ispell-program-name             "aspell"
-   ispell-extra-args               '("--sug-mode=ultra" "--dont-tex-check-comments"))
+   ispell-extra-args               '("--sug-mode=ultra"
+                                     "--run-together"
+                                     "--dont-tex-check-comments"))
 
   (ispell-set-spellchecker-params))
 
