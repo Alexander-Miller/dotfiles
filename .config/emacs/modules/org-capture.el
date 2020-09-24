@@ -14,10 +14,6 @@
 
   (require 'treemacs)
 
-  (defun std::org::capture::haushalt-log-olp ()
-    (std::org::capture::find-olp
-     (list "Haushalt" std::org::current-year)))
-
   (defun std::org::capture::habit-olp ()
     (std::org::capture::find-olp
      (list "Vorhaben" std::org::current-year "Gewohnheiten")))
@@ -54,12 +50,12 @@
               :type plain)
              (,(concat (treemacs-get-icon-value 'list) (std::face "Haushalt Log" 'font-lock-function-name-face))
               :keys "h"
-              :olp ("Haushalt" ,std::org::current-year)
+              :olp ("Haushalt")
               :file ,std::org::private-file
-              :type item
-              :empty-lines 1
-              :template (" - %^{>_|Wohnung|Strom|Versicherungen|Internet|Sonstiges} :: %(std::org::capture::log-timestamp)"
-                         "   %?"))
+              :datetree t
+              :type plain
+              :template ("~%^{>_|Wohnung|Strom|Versicherungen|Internet|Sonstiges}~"
+                         "%?"))
              (,(concat (treemacs-get-icon-value 'screen) (std::face "Dotts" 'font-lock-builtin-face))
               :keys "d"
               :type entry
