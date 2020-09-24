@@ -11,7 +11,8 @@
   (message "Using de_DE dictionary"))
 
 (defun std::spellcheck::enable-once-locally (&rest _)
-  (flyspell-mode)
+  (save-match-data
+    (flyspell-mode))
   (remove-hook 'after-change-functions #'std::spellcheck::enable-once-locally :local))
 
 (defun std::spellcheck::start-on-first-edit ()
