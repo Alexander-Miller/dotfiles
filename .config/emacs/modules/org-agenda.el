@@ -129,7 +129,11 @@
              ((org-agenda-overriding-header "Heute")
               (org-agenda-files (list std::org::work-file))
               (org-super-agenda-groups
-               '((:name "Kunde"
+               '((:name "Wichtig"
+                        :deadline past
+                        :priority>= "B"
+                        :face (:append t :background "#5D2D2D" :extend t))
+                 (:name "Kunde"
                         :and (:scheduled today :tag "kunde")
                         :and (:scheduled past  :tag "kunde"))
                  (:name "NT"
