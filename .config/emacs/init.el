@@ -28,5 +28,5 @@
 (std::load "lsp")
 (std::load "compile")
 (std::load "docker")
-(std::load "spellcheck")
+(std::load "spellcheck" :if (executable-find "aspell"))
 (message "Config loaded in %ss" (- (float-time) S))

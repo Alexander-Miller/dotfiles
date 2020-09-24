@@ -115,8 +115,9 @@
     `(progn
        ,@(nreverse form))))
 
-(defmacro std::load (file)
-  `(load (concat std::emacs-dir "modules/" ,file ".el") nil :no-messages))
+(cl-defmacro std::load (file &key if)
+  (when (or (null if) (eval if))
+    `(load (concat std::emacs-dir "modules/" ,file ".el") nil :no-messages)))
 
 (defmacro std::schedule (time repeat &rest body)
   (declare (indent 2))
