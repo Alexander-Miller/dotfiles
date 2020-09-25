@@ -9,6 +9,7 @@
  evil-nerd-commenter
  evil-lion
  evil-exchange
+ (evil-numbers :type git :host github :repo "janpath/evil-numbers")
  smartparens
  yasnippet
  (i3wm-config-mode :type git :host github :repo "Alexander-Miller/i3wm-config-mode")
@@ -202,8 +203,10 @@ indent yanked text (with universal arg don't indent)."
 ;; Keybinds
 (std::keybind
  :global
- "M-q" #'std::edit::fill-dwim
- "C-7" #'evilnc-comment-operator
+ "M-q"   #'std::edit::fill-dwim
+ "C-7"   #'evilnc-comment-operator
+ "C-c +" #'evil-numbers/inc-at-pt
+ "C-c -" #'evil-numbers/dec-at-pt
  :keymap evil-operator-state-map
  "üf" #'std::evil::defun-object
  :keymap (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
