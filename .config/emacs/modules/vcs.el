@@ -15,22 +15,13 @@
 
 (std::keybind
  :leader
+ "gm"  #'magit-dispatch
+ "gc"  #'magit-clone
  "gs"  #'magit-status
  "gp"  #'std::vcs::magit-pkg-status
  "gb"  #'magit-blame
+ "gff" #'magit-find-file
  "gfl" #'magit-log-buffer-file)
-;; (spacemacs/set-leader-keys TODO
-;;  "gb"  'spacemacs/git-blame-micro-state
-;;  "gc"  'magit-clone
-;;  "gfF" 'magit-find-file
-;;  "gfl" 'magit-log-buffer-file
-;;  "gfd" 'magit-diff
-;;  "gi"  'magit-init
-;;  "gL"  'magit-list-repositories
-;;  "gm"  'magit-dispatch
-;;  "gs"  'magit-status
-;;  "gS"  'magit-stage-file
-;;  "gU"  'magit-unstage-file)
 
 ;; Magit
 
