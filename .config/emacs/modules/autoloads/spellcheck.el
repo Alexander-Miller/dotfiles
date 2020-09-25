@@ -18,6 +18,9 @@
 (defun std::spellcheck::start-on-first-edit ()
   (add-hook 'after-change-functions #'std::spellcheck::enable-once-locally nil :local))
 
+(std::add-transient-hook 'flyspell-mode-hook
+  (provide 'ispell))
+
 (defun std::spellcheck::frog-correct-menu (candidates word)
   (let* ((corrects (if flyspell-sort-corrections
                        (sort candidates 'string<)
