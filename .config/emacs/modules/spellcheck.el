@@ -57,6 +57,5 @@
  "SS" #'flyspell-mode
  "SE" #'std::spellcheck::use-en-dict
  "SD" #'std::spellcheck::use-de-dict
- "Sa" #'auto-dictionary-mode
  "Sw" #'flyspell-word
  "Sb" #'flyspell-buffer)
