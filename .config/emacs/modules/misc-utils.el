@@ -98,3 +98,8 @@
 (std::after wttrin
   (setf wttrin-default-cities '("Stuttgart")
         wttrin-default-accept-language '("en-gb")) )
+
+(std::after transient
+  (std::keybind
+   :keymap transient-base-map
+   "<escape>" #'transient-quit-one))
