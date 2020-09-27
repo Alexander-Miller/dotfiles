@@ -5,8 +5,7 @@
  (wttrin :type git :host github :repo "emacle/emacs-wttrin")
  buttercup
  gcmh
- restart-emacs
- link-hint)
+ restart-emacs)
 
 ;; GC
 (setf gc-cons-percentage 0.6
@@ -78,8 +77,6 @@
  "C-x ö" #'std::what-face
  "C-x ü" #'std::ui::change-font
  :leader
- "ll"  #'link-hint-open-link
- "ly"  #'link-hint-copy-link
  "qq"  #'save-buffers-kill-terminal
  "qr"  #'restart-emacs
  "t"   #'std::toggles/body

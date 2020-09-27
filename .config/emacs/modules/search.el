@@ -2,6 +2,7 @@
 
 (std::using-packages
  ctrlf
+ link-hint
  helm-ag)
 
 (std::autoload search
@@ -25,7 +26,9 @@
  "sc" #'evil-ex-nohighlight
  ;; jumping
  "jf" #'find-function
- "jl" #'avy-goto-line)
+ "jl" #'avy-goto-line
+ "jl"  #'link-hint-open-link
+ "jy"  #'link-hint-copy-link)
 
 ;; Ctrlf Keybinds
 (std::after ctrlf
