@@ -29,4 +29,5 @@
 (std::load "compile")
 (std::load "docker")
 (std::load "spellcheck" :if (executable-find "aspell"))
+(std::load "rust" :if (executable-find "cargo"))
 (message "Config loaded in %ss" (- (float-time) S))

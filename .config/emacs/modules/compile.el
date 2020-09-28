@@ -16,7 +16,13 @@
 (std::after compile
   (setf
    compilation-scroll-output       'first-error
-   multi-compile-completion-system 'helm)
+   multi-compile-completion-system 'helm
+   multi-compile-alist
+   '((rust-mode
+      ("Debug Build"   "cargo build"           (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Release Build" "cargo build --release" (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Debug Run"     "cargo run"             (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Release Run"   "cargo run --release"   (locate-dominating-file (buffer-file-name) "Cargo.toml")))))
 
   (std::keybind
    :keymap compilation-mode-map
