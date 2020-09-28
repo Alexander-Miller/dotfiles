@@ -40,6 +40,9 @@ bindsym $mod+l   exec "rofi -show window"
 bindsym --release Print       exec --no-startup-id "maim -d 3 ~/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && notify-send 'Screenshot taken' --icon='image'"
 bindsym --release Shift+Print exec --no-startup-id "fish -c named_screenshot"
 
+# yequake
+bindsym $mod+Shift+l exec --no-startup-id "fish -c yequake"
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -209,7 +212,9 @@ for_window [window_role="pop-up"]      floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [class="Xfce4-notifyd"]     floating enable
 
-for_window [class="Emacs" title=".*FRAMEY.*"] floating enable
+for_window [title=".*FRAMEY.*"] floating enable
+for_window [title=".*FRAMEY.*"] move container to workspace current
+
 for_window [class="Emacs" title=".*FRAMEY.*"] border pixel 1
 for_window [class="dropbox"]                  border pixel 4
 for_window [class="Spring Tool Suite 4"]      border pixel 4

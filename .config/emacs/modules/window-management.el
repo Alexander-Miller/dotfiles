@@ -5,12 +5,14 @@
  winum
  shackle
  window-purpose
+ yequake
  (framey :type git :host github :repo "Alexander-Miller/framey"))
 
 (std::autoload window-management
   #'std::kill-this-buffer
   #'std::pop-to-messages-buffer
-  #'std::pop-to-compile-buffer)
+  #'std::pop-to-compile-buffer
+  #'std::yequake-org-capture)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
@@ -126,6 +128,18 @@
    (magit-log-mode            . magit-main)))
 
 (purpose-compile-user-configuration)
+
+(std::after yequake
+  (setf
+   yequake-frames
+   '(("FRAMEY Org Capture"
+      (buffer-fns . (std::yequake-org-capture))
+      (width . 0.75)
+      (height . 0.5)
+      (top . 75)
+      (frame-parameters . ((undecorated . t)
+                           (skip-taskbar . t)
+                           (sticky . t)))))) )
 
 (std::keybind
  ;; Eyebrowse

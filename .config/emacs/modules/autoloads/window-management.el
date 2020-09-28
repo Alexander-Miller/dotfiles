@@ -35,3 +35,7 @@ Delete it if it is shown already."
         (goto-char (point-max))
         (pop-to-buffer (current-buffer))))
     (message "No compilation buffers.")))
+
+(defun std::yequake-org-capture ()
+  (-let [shackle-rules (cons '("*Org Select*" :select t :same t :size  1.0) shackle-rules)]
+    (yequake-org-capture)))
