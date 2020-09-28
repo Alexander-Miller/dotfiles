@@ -8,7 +8,7 @@
 (std::autoload search
   #'std::search::rg-in-project)
 
-(setf avy-all-windows      t
+(setf avy-all-windows      nil
       avy-case-fold-search nil
       ivy-height           4
       isearch-forward      t)
