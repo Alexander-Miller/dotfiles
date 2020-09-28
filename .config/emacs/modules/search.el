@@ -2,33 +2,20 @@
 
 (std::using-packages
  ctrlf
- link-hint
  helm-ag)
 
 (std::autoload search
   #'std::search::rg-in-project)
 
-(setf avy-all-windows      nil
-      avy-case-fold-search nil
-      ivy-height           4
-      isearch-forward      t)
-
 (std::keybind
  :global
  "C-s"   #'ctrlf-forward-literal
  "C-M-S" #'ctrlf-forward-symbol-at-point
- "M-o"   #'evil-avy-goto-char-2
- "M-O"   #'evil-avy-goto-char
  :leader
  "/"  #'std::search::rg-in-project
  "sf" #'helm-do-ag-this-file
  "sd" #'helm-do-ag
- "sc" #'evil-ex-nohighlight
- ;; jumping
- "jf" #'find-function
- "jl" #'avy-goto-line
- "jk" #'link-hint-open-link
- "jy" #'link-hint-copy-link)
+ "sc" #'evil-ex-nohighlight)
 
 ;; Ctrlf Keybinds
 (std::after ctrlf

@@ -2,7 +2,9 @@
 
 (std::using-packages
  helm
- helm-org)
+ helm-org
+ avy
+ link-hint)
 
 (std::autoload selection
   #'std::helm::org-in-buffer-headings
@@ -29,6 +31,8 @@
 (std::keybind
  :global
  "M-x" #'helm-M-x
+ "M-o" #'evil-avy-goto-char-timer
+ "M-O" #'evil-avy-goto-word-1
  :leader
  "ff" #'helm-find-files
  "fl" #'helm-locate-library
@@ -38,7 +42,11 @@
  "bi" #'std::helm::imenu
  "ry" #'helm-show-kill-ring
  "rr" #'helm-register
- "sr" #'helm-resume)
+ "sr" #'helm-resume
+ "jf" #'find-function
+ "jl" #'avy-goto-line
+ "jk" #'link-hint-open-link
+ "jy" #'link-hint-copy-link)
 
 (std::after helm
 
@@ -73,3 +81,7 @@
    :keymap (helm-find-files-map helm-read-file-map)
    "C-h" #'helm-find-files-up-one-level
    "C-l" #'helm-find-files-down-last-level))
+
+(std::after avy
+  (setf avy-all-windows      nil
+        avy-case-fold-search nil))
