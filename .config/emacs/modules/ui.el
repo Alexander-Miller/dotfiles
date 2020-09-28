@@ -19,6 +19,8 @@
 (std::keybind
  :leader
  "if"  #'std::ui::change-font-size
+ "itd" #'disable-theme
+ "itl" #'load-theme
  "itr" #'std::ui::reload-theme)
 
 (std::schedule 1 :no-repeat
