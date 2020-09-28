@@ -27,8 +27,8 @@
  ;; jumping
  "jf" #'find-function
  "jl" #'avy-goto-line
- "jl"  #'link-hint-open-link
- "jy"  #'link-hint-copy-link)
+ "jk" #'link-hint-open-link
+ "jy" #'link-hint-copy-link)
 
 ;; Ctrlf Keybinds
 (std::after ctrlf
