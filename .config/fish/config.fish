@@ -1,5 +1,4 @@
 #!/usr/bin/fish
-set -Ux RUST_SRC_PATH     $HOME/Documents/git/rust/src
 set -Ux XDG_CONFIG_HOME   $HOME/.config
 set -Ux EMACS_HOME        $XDG_CONFIG_HOME/emacs/
 set -Ux EDITOR            "emacsclient -c -n"
@@ -10,7 +9,7 @@ set -e  EMACS
 bind \ej down-or-search
 bind \ek up-or-search
 
-add_to_user_path ~/.cargo/bin cargo
+add_to_user_path ~/.cargo/bin rust-analyzer
 add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
 
 set -x fish_color_autosuggestion    888888
