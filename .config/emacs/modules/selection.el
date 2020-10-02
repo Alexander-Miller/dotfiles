@@ -83,5 +83,7 @@
    "C-l" #'helm-find-files-down-last-level))
 
 (std::after avy
-  (setf avy-all-windows      nil
-        avy-case-fold-search nil))
+  (setf
+   avy-keys             '(?a ?s ?d ?f ?q ?w ?e ?j ?k ?l ?o ?p)
+   avy-all-windows      nil
+   avy-case-fold-search nil))
