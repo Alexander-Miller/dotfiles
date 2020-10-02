@@ -21,4 +21,5 @@
    "M-RET" #'lsp-execute-code-action
    "<f2>"  #'lsp-ui-doc-glance
    :leader
-   "ldf" #'lsp-ui-doc-focus-frame))
+   "ldf" #'lsp-ui-doc-focus-frame
+   "lrr" #'lsp-rename))
