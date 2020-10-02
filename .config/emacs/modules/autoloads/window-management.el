@@ -37,5 +37,9 @@ Delete it if it is shown already."
     (message "No compilation buffers.")))
 
 (defun std::yequake-org-capture ()
-  (-let [shackle-rules (cons '("*Org Select*" :select t :same t :size  1.0) shackle-rules)]
+  (-let [shackle-rules
+         (std::cons
+          '("*Org Select*" :select t :same t :size 1.0)
+          '("CAPTURE.*"    :select t :same t :size 1.0 :regexp t)
+          shackle-rules)]
     (yequake-org-capture)))

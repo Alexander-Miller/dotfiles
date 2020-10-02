@@ -135,6 +135,16 @@
        (`((function ,_)) (car body))
        (_ `(lambda () ,@body)))))
 
+(defmacro std::cons (&rest values)
+  (std::static-assert (>= (length values) 2))
+  (let* ((values (nreverse values))
+         (last (pop values))
+         (2nd-last (pop values))
+         (form `(cons ,2nd-last ,last)))
+    (while values
+      (setf form `(cons ,(pop values) ,form)))
+    form))
+
 (defmacro std::pushnew (place &rest values)
   (declare (indent 1))
   (let ((var (make-symbol "value")))
