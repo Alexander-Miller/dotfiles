@@ -141,6 +141,7 @@
   (show-smartparens-global-mode)
 
   (setf
+   sp-echo-match-when-invisible            nil
    sp-max-prefix-length                    25
    sp-show-pair-delay                      0.2
    sp-show-pair-from-inside                t
