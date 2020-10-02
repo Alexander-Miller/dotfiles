@@ -52,7 +52,7 @@
 
 (std::keybind
  :keymap flyspell-mouse-map
- "RET" #'flyspell-correct-wrapper
+ "<M-return>" #'flyspell-correct-wrapper
  :leader
  "SS" #'flyspell-mode
  "SE" #'std::spellcheck::use-en-dict
