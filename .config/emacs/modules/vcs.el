@@ -5,7 +5,8 @@
  magit-todos
  evil-magit
  forge
- git-gutter-fringe)
+ git-gutter-fringe
+ git-modes)
 
 (std::autoload vcs
   #'std::vcs::with-editor-hook
