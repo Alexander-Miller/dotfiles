@@ -20,7 +20,9 @@
 
   (std::keybind
    :keymap compilation-mode-map
-   "SPC" #'evil-send-leader
+   "SPC" nil
+   "g"   nil
+   "gr"  #'recompile
    "C-." #'compilation-next-error
    "C-," #'compilation-previous-error)
 
