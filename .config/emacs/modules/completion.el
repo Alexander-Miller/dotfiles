@@ -5,6 +5,9 @@
  company-quickhelp
  company-prescient)
 
+(std::autoload completion
+  #'std::completion::prose-complete)
+
 (std::schedule 1 :no-repeat
   (global-company-mode))
 
@@ -12,6 +15,10 @@
  :global
  "C-SPC" #'company-complete
  "C-@"   #'company-complete)
+
+(std::add-hook 'text-mode-hook
+  (setq-local company-backends
+              '((std::completion::prose-complete company-capf company-files :with company-yasnippet))))
 
 ;; Settings
 (std::after company

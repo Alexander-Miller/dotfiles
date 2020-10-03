@@ -10,6 +10,7 @@
 (defconst std::pkg-repos-dir (concat user-emacs-directory "straight/repos"))
 (defconst std::pkg-build-dir (concat user-emacs-directory "straight/build"))
 (defconst std::pkg-autoloads-file (concat user-emacs-directory "cache/pkg-autoloads.el"))
+(defconst std::repos-dir (expand-file-name "~/Documents/git"))
 (defconst std::pkg-directories
   (eval-when-compile
     (when (file-exists-p std::pkg-build-dir)

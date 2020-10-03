@@ -42,7 +42,7 @@
   (setf
    git-commit-summary-max-length              120
    magit-display-buffer-function              #'magit-display-buffer-fullframe-status-v1
-   magit-repository-directories               '(("~/Documents/git/" . 1))
+   magit-repository-directories               `((,std::repos-dir . 1))
    magit-save-repository-buffers              'dontask
    magit-section-visibility-indicator         nil
    magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)
