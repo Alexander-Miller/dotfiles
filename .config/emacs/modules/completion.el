@@ -2,7 +2,8 @@
 
 (std::using-packages
  company
- company-quickhelp)
+ company-quickhelp
+ company-prescient)
 
 (std::schedule 1 :no-repeat
   (global-company-mode))
@@ -14,6 +15,8 @@
 
 ;; Settings
 (std::after company
+
+  (company-prescient-mode)
 
   (std::add-transient-advice std::completion::enable-quickhelp :before #'company-complete
     (require 'company-quickhelp))
