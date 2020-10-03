@@ -2,6 +2,8 @@
 
 (require 'helm)
 
+(autoload 'helm-org-build-sources "helm-org")
+
 (defun std::org::mode-hook ()
   (org-indent-mode)
   (org-bullets-mode)
@@ -14,6 +16,14 @@
   (interactive)
   (--when-let (get-buffer "*Org Agenda*") (kill-buffer it))
   (org-agenda))
+
+(defun std::org::inbox-refile-targets (&optional arg)
+  (interactive "P")
+  (let ((files (list std::org::work-file std::org::private-file)))
+    (helm :sources (helm-org-build-sources files nil arg)
+          :preselect (helm-org-in-buffer-preselect)
+          :truncate-lines helm-org-truncate-lines
+          :buffer "*helm org inbuffer*")))
 
 (defun std::org::goto-org-file ()
   (interactive)

@@ -20,6 +20,7 @@
 (defconst std::org::private-file (expand-file-name "Privat.org" std::org-dir))
 (defconst std::org::work-file (expand-file-name "NT.org" std::org-dir))
 (defconst std::org::diary-file (expand-file-name "Diary.org" std::org-dir))
+(defconst std::org::inbox-file (expand-file-name "Inbox.org" std::org-dir))
 
 ;; Settings
 (std::after org-agenda

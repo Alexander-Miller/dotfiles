@@ -40,7 +40,8 @@
             :children
             ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-string-face))
               :keys "i"
-              :headline "Inbox"
+              :file ,std::org::inbox-file
+              :headline "Private Inbox"
               :template ("* INBOX %i%?"))
              (,(concat (treemacs-get-icon-value 'fallback) (std::face "Tagebuch" 'font-lock-type-face))
               :keys "a"
@@ -93,7 +94,8 @@
             :children
             ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-function-name-face))
               :keys "i"
-              :headline "Inbox"
+              :headline "NT Inbox"
+              :file ,std::org::inbox-file
               :template ("* INBOX %i%?"
                          "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))")))))))
 

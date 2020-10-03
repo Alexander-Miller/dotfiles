@@ -9,7 +9,8 @@
   #'std::org::mode-hook
   #'std::org::goto-org-file
   #'std::org::table-recalc
-  #'std::org::agenda-forced-select)
+  #'std::org::agenda-forced-select
+  #'std::org::inbox-refile-targets)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
@@ -235,6 +236,7 @@
    "C-e" #'org-edit-special
    "C-t" #'org-set-tags-command
    "P"   #'org-priority
+   "ri"  #'std::org::inbox-refile-targets
    :keymap org-mode-map
    "M-q" #'std::edit::fill-dwim
    :evil (normal) org-mode-map
