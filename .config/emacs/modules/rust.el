@@ -16,3 +16,12 @@
   (setf
    rust-format-on-save nil
    lsp-rust-server     'rust-analyzer))
+
+(std::after multi-compile
+  (std::pushnew multi-compile-alist
+    '((memq major-mode '(rust-mode toml-mode))
+      ("Debug Build"   "cargo build"           (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Release Build" "cargo build --release" (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Debug Run"     "cargo run"             (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Release Run"   "cargo run --release"   (locate-dominating-file (buffer-file-name) "Cargo.toml"))
+      ("Cargo check"   "cargo check"           (locate-dominating-file (buffer-file-name) "Cargo.toml")))))
