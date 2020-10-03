@@ -15,7 +15,7 @@
                 (unless (= 0 (shell-command cmd))
                   (std::log (format "Update error: %s"
                                     (with-current-buffer (get-buffer "*Shell Command Output*") (buffer-string)))))))
-          (std::log (format "Package '%s' not found" it)))))))
+          (std::err (format "Package '%s' not found" it)))))))
 
 (std::log "Building Org Version File")
 (let* ((org-build-dir (concat user-emacs-directory "straight/build/org"))
