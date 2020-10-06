@@ -17,3 +17,9 @@
         (insert))
     (goto-char 0)
     (conf-mode)))
+
+(defun std::help::manual-info ()
+  (interactive)
+  (helm :sources '(helm-source-info-emacs
+                   helm-source-info-elisp
+                   helm-source-info-cl)))

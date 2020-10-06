@@ -4,7 +4,8 @@
  helpful)
 
 (std::autoload help
-  #'std::help::pacman-pkg-info)
+  #'std::help::pacman-pkg-info
+  #'std::help::manual-info)
 
 (std::after helpful
   (require 'framey-helpful))
@@ -13,6 +14,7 @@
   :global
   "C-x ß" #'helpful-at-point
   :leader
+  "hdi" #'std::help::manual-info
   "hdv" #'helpful-variable
   "hdf" #'helpful-callable
   "hdk" #'helpful-key
