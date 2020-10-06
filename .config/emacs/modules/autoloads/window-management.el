@@ -43,3 +43,11 @@ Delete it if it is shown already."
           '("CAPTURE.*"    :select t :same t :size 1.0 :regexp t)
           shackle-rules)]
     (yequake-org-capture)))
+
+(defun std::split-window-right ()
+  (interactive)
+  (select-window (split-window-right)))
+
+(defun std::split-window-below ()
+  (interactive)
+  (select-window (split-window-below)))

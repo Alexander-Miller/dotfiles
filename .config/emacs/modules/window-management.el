@@ -12,7 +12,9 @@
   #'std::kill-this-buffer
   #'std::pop-to-messages-buffer
   #'std::pop-to-compile-buffer
-  #'std::yequake-org-capture)
+  #'std::yequake-org-capture
+  #'std::split-window-right
+  #'std::split-window-below)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
@@ -167,12 +169,14 @@
  "M-9" #'winum-select-window-9
  ;; Windows
  :leader
- "w=" #'balance-windows
- "wJ" #'evil-window-move-very-bottom
- "wK" #'evil-window-move-very-top
- "wH" #'evil-window-move-far-left
- "wL" #'evil-window-move-far-right
- "qf" #'delete-frame
+ "w="  #'balance-windows
+ "wJ"  #'evil-window-move-very-bottom
+ "wK"  #'evil-window-move-very-top
+ "wH"  #'evil-window-move-far-left
+ "wL"  #'evil-window-move-far-right
+ "wsl" #'std::split-window-right
+ "wsj" #'std::split-window-below
+ "qf"  #'delete-frame
  ;; Buffers
  :leader
  "bm"    #'std::pop-to-messages-buffer
