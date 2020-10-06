@@ -1,4 +1,4 @@
-" -*- mode: dactyl -*-
+" -*- mode: tridactylrc -*- "
 
 set adjust-open            width
 set abort-clear-search     false
