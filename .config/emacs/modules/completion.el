@@ -7,7 +7,8 @@
 
 (std::autoload completion
   #'std::completion::prose-complete
-  #'std::completion::complete-and-keep-frontend)
+  #'std::completion::complete-and-keep-frontend
+  #'std::completion::prose-hook)
 
 (std::schedule 1 :no-repeat
   (global-company-mode))
@@ -17,9 +18,8 @@
  "C-SPC" #'company-complete
  "C-@"   #'company-complete)
 
-(std::add-hook 'text-mode-hook
-  (setq-local company-backends
-              '((std::completion::prose-complete company-capf company-files :with company-yasnippet))))
+(add-hook 'text-mode-hook     #'std::completion::prose-hook)
+(add-hook 'markdown-mode-hook #'std::completion::prose-hook)
 
 ;; Settings
 (std::after company
