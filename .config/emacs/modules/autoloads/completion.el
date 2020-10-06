@@ -20,3 +20,8 @@
         (module-load lib)
         (setf std::prose-complete-loaded t))
     (fset #'std::completion::prose-complete #'company-dabbrev)))
+
+(defun std::completion::complete-and-keep-frontend ()
+  (interactive)
+  (company-complete-selection)
+  (company-manual-begin))

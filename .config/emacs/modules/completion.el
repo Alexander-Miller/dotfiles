@@ -6,7 +6,8 @@
  company-prescient)
 
 (std::autoload completion
-  #'std::completion::prose-complete)
+  #'std::completion::prose-complete
+  #'std::completion::complete-and-keep-frontend)
 
 (std::schedule 1 :no-repeat
   (global-company-mode))
@@ -54,9 +55,11 @@
 
 ;; Keybinds
 (std::after company
-  (std::keybind :keymap company-active-map
-    "C-j" #'company-select-next
-    "C-k" #'company-select-previous))
+  (std::keybind
+   :keymap company-active-map
+   "C-SPC" #'std::completion::complete-and-keep-frontend
+   "C-j"   #'company-select-next
+   "C-k"   #'company-select-previous))
 
 ;; Backend sorting
 (std::after company
