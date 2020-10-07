@@ -30,9 +30,9 @@
   (require 'german-holidays)
   (require 'treemacs)
 
-  (add-to-list 'org-agenda-files (concat org-directory "NT.org"))
+  (setf org-agenda-files (list std::org::work-file std::org::inbox-file))
   (when (string= "am-laptop" (system-name))
-    (add-to-list 'org-agenda-files (concat org-directory "Privat.org")))
+    (add-to-list 'org-agenda-files std::org::private-file))
 
   (evil-set-initial-state 'org-agenda-mode 'motion)
 
