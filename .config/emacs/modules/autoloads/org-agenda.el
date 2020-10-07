@@ -8,12 +8,12 @@
 
 (defun std::org::agenda::switch-to ()
   (interactive)
-  (eyebrowse-switch-to-window-config (get #'org-agenda 'std::return-to-desktop))
+  (eyebrowse-switch-to-window-config 1)
   (org-agenda-switch-to))
 
 (defun std::org::agenda::quit ()
   (interactive)
-  (eyebrowse-switch-to-window-config (get #'org-agenda 'std::return-to-desktop)))
+  (eyebrowse-switch-to-window-config 1))
 
 (defun std::org::agenda::unschedule ()
   (interactive)

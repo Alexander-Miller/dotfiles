@@ -212,12 +212,10 @@ active desktop."
        (cl-incf std::desktop-slot)
        (advice-add
         ,quit :after
-        (lambda () (eyebrowse-switch-to-window-config
-                    (get ,cmd 'std::return-to-desktop))))
+        (lambda () (eyebrowse-switch-to-window-config 1)))
        (advice-add
         ,cmd :around
         (lambda (fn &rest args)
-          (put ,cmd 'std::return-to-desktop (eyebrowse--get 'current-slot))
           (eyebrowse-switch-to-window-config ,slot)
           (delete-other-windows)
           ;; a timer is needed because it looks like we are still in the old
