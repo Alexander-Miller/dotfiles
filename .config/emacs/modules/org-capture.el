@@ -38,6 +38,7 @@
             :file ,std::org::private-file
             :empty-lines-after 1
             :children
+
             ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-string-face))
               :keys "i"
               :file ,std::org::inbox-file
@@ -71,23 +72,13 @@
                 :keys "t"
                 :todo-state "NEXT"
                 :tag "")))
-             (,(concat (treemacs-get-icon-value 'repeat) (std::face "Gewohnheit" 'font-lock-variable-name-face))
-              :type entry
-              :keys "g"
-              :olp ("Vorhaben" ,std::org::current-year "Gewohnheiten")
-              :template ("* HABIT %?"
-                         "SCHEDULED: %t"
-                         ":PROPERTIES:"
-                         ":STYLE:    habit"
-                         ":END:"
-                         ":LOGBOOK:"
-                         ":END:"))
              (,(concat (treemacs-get-icon-value 'bookmark) "Lesezeichen")
               :type entry
               :keys "l"
               :function std::org::capture::bookmark
               :template ("* %^{TODO:|MAYBE|NEXT} %?"
                          "%c"))))
+
            (,(concat (treemacs-get-icon-value 'briefcase) (std::face "Arbeit" 'font-lock-function-name-face))
             :keys "n"
             :file ,std::org::work-file
