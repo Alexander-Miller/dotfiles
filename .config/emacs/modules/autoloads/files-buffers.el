@@ -12,7 +12,8 @@
                mu4e-view-mode
                helm-major-mode
                help-mode
-               helpful-mode))))
+               helpful-mode
+               org-agenda-mode))))
 
 (defun std::other-buffer ()
   ""
