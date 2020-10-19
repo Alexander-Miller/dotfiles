@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'helm-info)
+
 (defun std::help::pacman-pkg-info ()
   (interactive)
   (let* ((completions
