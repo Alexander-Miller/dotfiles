@@ -8,9 +8,10 @@
     (add-to-list 'load-path (concat treemacs-dir "/src/elisp"))
     (add-to-list 'load-path (concat treemacs-dir "/src/extra"))
 
-    (autoload #'treemacs               (concat treemacs-dir "/src/elisp/treemacs.el"))
-    (autoload #'treemacs-select-window (concat treemacs-dir "/src/elisp/treemacs.el"))
-    (autoload #'treemacs-find-file     (concat treemacs-dir "/src/elisp/treemacs.el"))
+    (autoload #'treemacs                (concat treemacs-dir "/src/elisp/treemacs.el"))
+    (autoload #'treemacs-select-window  (concat treemacs-dir "/src/elisp/treemacs.el"))
+    (autoload #'treemacs-find-file      (concat treemacs-dir "/src/elisp/treemacs.el"))
+    (autoload #'treemacs-get-icon-value (concat treemacs-dir "/src/elisp/treemacs-icons.el"))
     (autoload #'treemacs-icons-dired-mode "treemacs-icons-dired")
 
     (std::after winum
