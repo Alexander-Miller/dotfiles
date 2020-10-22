@@ -9,7 +9,6 @@
   #'std::org::mode-hook
   #'std::org::goto-org-file
   #'std::org::table-recalc
-  #'std::org::agenda-forced-select
   #'std::org::inbox-refile-targets)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
@@ -21,11 +20,7 @@
  "feo" #'std::org::goto-org-file
  "aoc" #'org-capture
  "aol" #'org-store-link
- "aoi" #'org-insert-link
- "aoa" #'org-agenda
- :global
- "C-<f12>" #'std::org::agenda-forced-select
- "<f12>"   #'org-agenda)
+ "aoi" #'org-insert-link)
 
 ;; Settings
 (std::after org

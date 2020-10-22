@@ -1,5 +1,37 @@
 ;; -*- lexical-binding: t -*-
 
+(defun std::org::agenda ()
+  (interactive)
+  (--if-let (get-buffer "*Org Agenda*")
+      (call-interactively #'org-agenda)
+    (std::org::agenda::hydra/body)))
+
+(defun std::org::agenda::forced-select ()
+  (interactive)
+  (std::org::agenda::hydra/body))
+
+(defun std::org::agenda-for-key (key)
+  (--when-let (get-buffer "*Org Agenda*") (kill-buffer it))
+  (-let [inhibit-message t]
+    (org-agenda nil key)))
+
+(pretty-hydra-define std::org::agenda::hydra
+
+  (:color teal :quit-key "q" :title (concat (treemacs-get-icon-value 'calendar)
+                                            (std::face "Agenda" 'font-lock-keyword-face)))
+
+  (#("Allg." 0 5 (face font-lock-constant-face))
+   (("a" (std::org::agenda-for-key "a") "2 Wochen")
+    ("s" (std::org::agenda-for-key "s") "Inbox"))
+
+   #("Privat" 0 6 (face font-lock-function-name-face))
+   (("d" (std::org::agenda-for-key "d") "Kanban")
+    ("f" (std::org::agenda-for-key "f") "Kategorien"))
+
+   #("NT" 0 2 (face font-lock-type-face))
+   (("j" (std::org::agenda-for-key "j") "Kunde")
+    ("k" (std::org::agenda-for-key "k") "NT & AQE & AEP"))))
+
 (defun std::org::agenda::goto-today ()
   (interactive)
   (evil-goto-line)
@@ -58,3 +90,12 @@
      ((= 0 diff) nil)
      ((> diff 0) +1)
      (t          -1))))
+
+(defmacro std::org::agenda::now-plus (amount unit)
+  (let ((slot
+         (pcase unit
+           (`hours 'hours)
+           (`days  'day)
+           (`weeks 'week)
+           (other  (error "Unknown unit '%s'" other)))))
+    `(ts-format "%F %T" (ts-inc ',slot ,amount (ts-now)))))

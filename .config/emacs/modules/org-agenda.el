@@ -5,12 +5,15 @@
  german-holidays)
 
 (std::autoload org-agenda
+  #'std::org::agenda
+  #'std::org::agenda::forced-select
   #'std::org::agenda::goto-today
   #'std::org::agenda::switch-to
   #'std::org::agenda::unschedule
   #'std::org::agenda::mark-habits
   #'std::org::agenda::quit
-  #'std::org::agenda::compare-by-todo-state)
+  #'std::org::agenda::compare-by-todo-state
+  #'std::org::agenda::now-plus)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
@@ -48,6 +51,7 @@
    org-agenda-cmp-user-defined                      #'std::org::agenda::compare-by-todo-state
    org-agenda-dim-blocked-tasks                     nil
    org-agenda-include-diary                         t
+   org-agenda-remove-tags                           t
    org-agenda-inhibit-startup                       nil
    org-agenda-skip-deadline-prewarning-if-scheduled nil
    org-agenda-skip-scheduled-if-deadline-is-shown   'not-today
@@ -58,6 +62,11 @@
    org-agenda-window-setup                          'only-window
    org-deadline-warning-days                        7
    org-extend-today-until                           2
+   org-agenda-prefix-format
+   '((agenda . " %i %-12:c%?-12t% s")
+     (todo   . " %i %-15:c")
+     (tags   . " %i %-15:c")
+     (search . " %i %-15:c"))
    org-todo-keyword-faces
    `(("INBOX"    . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("APPT"     . (:background "#997799" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
@@ -79,30 +88,46 @@
      (tags user-defined-down priority-down)
      (search category-keep))
    org-agenda-custom-commands
-   '(("q" "Private Agenda"
+   '(("a" "2 Wochen"
+      ((agenda ""
+               ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
+                (org-agenda-skip-function
+                 '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "HABIT" "INBOX")))))))
+     ("s" "Inbox"
+      ((todo ""
+             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
+              (org-agenda-files (list std::org::inbox-file))
+              (org-super-agenda-groups
+               '((:name "Privat" :tag "privat")
+                 (:name "Arbeit" :tag "nt")))))))
+     ("d" "Kanban"
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (list std::org::private-file))
               (org-super-agenda-retain-sorting t)
               (org-super-agenda-groups
-               '((:name "Dringend"
-                        :deadline today
-                        :deadline past
+               `((:name "Dringend"
+                        :deadline (before ,(std::org::agenda::now-plus 1 days))
                         :face (:append t :background "#661A1A" :weight bold))
                  (:name "Wichtig"
-                        :and (:scheduled past :priority>= "B")
-                        :and (:scheduled today :priority>= "B"))
-                 (:name "Anstehend" :scheduled past :scheduled today)
+                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B"))
+                 (:name "Aktiv"
+                        :scheduled (before ,(std::org::agenda::now-plus 1 days)))
+                 (:name "Warteschlange"
+                        :todo "WAIT")
                  (:name "Bald"
-                        :and (:scheduled t :deadline t)
-                        :timestamp future)
-                 (:name "Inbox" :todo "INBOX")
-                 (:discard (:anything))))))
-       (tags "appt"
+                        :scheduled (before ,(std::org::agenda::now-plus 10 days)))
+                 (:name "Bereit"
+                        :todo "PROJ"
+                        :todo "NEXT"
+                        :todo "TODO")
+                 (:discard (:anything))))))))
+     ("f" "Kategorien"
+      ((tags "appt"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'calendar) "Termine"))
               (org-agenda-sorting-strategy '(ts-up))
               (org-super-agenda-groups
-               '((:name none :timestamp future)
+               '((:name none :timestamp future :timestamp today)
                  (:discard (:anything))))))
        (tags-todo "hh"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))))
@@ -122,38 +147,30 @@
                     '((:name "Bücher" :tag "book")
                       (:name "Artikel" :tag "art")
                       (:name "Videos" :tag "vid")))))))
-     ("w" "NT Agenda"
-      ((todo "INBOX"
-             ((org-agenda-overriding-header "Inbox")
-              (org-agenda-files (list std::org::work-file))))
-       (todo ""
-             ((org-agenda-overriding-header "Heute")
+     ("j" "Kunde"
+      ((tags-todo "kunde"
+                  ((org-agenda-overriding-header "Kundenprojekt")
+                   (org-agenda-files (list std::org::work-file))
+                   (org-super-agenda-groups
+                    '((:name "Wichtig"
+                             :deadline past
+                             :priority>= "B"
+                             :face (:append t :background "#5D2D2D" :extend t))
+                      (:name "Daily"          :tag "daily")
+                      (:name "Stories"        :todo "STORY")
+                      (:name "Offene Fragen"  :todo "FRAGE")
+                      (:name "Offene TODOs"   :todo "TODO")
+                      (:name "Anderes"        :anything)))))))
+     ("k" "NT & AQE & AEP"
+      ((todo ""
+             ((org-agenda-overriding-header "NT & AQE & AEP")
               (org-agenda-files (list std::org::work-file))
               (org-super-agenda-groups
                '((:name "Wichtig"
                         :deadline past
                         :priority>= "B"
                         :face (:append t :background "#5D2D2D" :extend t))
-                 (:name "Kunde"
-                        :and (:scheduled today :tag "kunde")
-                        :and (:scheduled past  :tag "kunde"))
-                 (:name "NT"
-                        :scheduled today
-                        :scheduled past)
-                 (:discard (:anything))))))
-       (tags-todo "kunde"
-                  ((org-agenda-overriding-header "Kundenprojekt")
-                   (org-agenda-files (list std::org::work-file))
-                   (org-super-agenda-groups
-                    '((:name "Stories"        :todo "STORY")
-                      (:name "Offene Frangen" :todo "FRAGE")
-                      (:name "Offene TODOs"   :todo "TODO")
-                      (:name "Anderes"        :anything)))))
-       (todo ""
-             ((org-agenda-overriding-header "NT & AQE & AEP")
-              (org-agenda-files (list std::org::work-file))
-              (org-super-agenda-groups
-               '((:name "Freitagsmaterial" :tag "fri")
+                 (:name "Freitagsmaterial" :tag "fri")
                  (:name "Andere Aufgaben"
                         :and (:todo "PROJ" :tag "nt")
                         :and (:todo "TASK" :tag "nt")
@@ -162,14 +179,17 @@
                  (:name "Warteschleife"
                         :and (:todo "WAIT" :tag "nt"))
                  (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
-                 (:discard (:todo "INBOX" :tag "kunde"))))))
-       (agenda "" ((org-agenda-files (list std::org::work-file))))))
-     ("a" "2 Wochen Agenda"
-      ((agenda "" ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
-                   (org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "HABIT" "INBOX"))))))))))
+                 (:discard (:todo "INBOX" :tag "kunde")))))))))))
 
 ;; Keybinds
+(std::keybind
+ :leader
+ "aoa"    #'std::org::agenda
+ "ao C-a" #'std::org::agenda::forced-select
+ :global
+ "<f12>"   #'std::org::agenda
+ "C-<f12>" #'std::org::agenda::forced-select)
+
 (std::after org
   (std::keybind
    :evil motion org-agenda-mode-map

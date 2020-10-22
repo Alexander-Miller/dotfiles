@@ -12,11 +12,6 @@
   (toc-org-mode)
   (rainbow-delimiters-mode-disable))
 
-(defun std::org::agenda-forced-select ()
-  (interactive)
-  (--when-let (get-buffer "*Org Agenda*") (kill-buffer it))
-  (org-agenda))
-
 (defun std::org::inbox-refile-targets (&optional arg)
   (interactive "P")
   (let ((files (list std::org::work-file std::org::private-file)))
