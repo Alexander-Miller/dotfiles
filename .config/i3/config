@@ -1,5 +1,3 @@
-# -*- mode: i3wm-config -*-
-
 set $mod Mod4
 
 # Lock Screen
