@@ -51,3 +51,7 @@ Delete it if it is shown already."
 (defun std::split-window-below ()
   (interactive)
   (select-window (split-window-below)))
+
+(defun std::window::maximize ()
+  (interactive)
+  (delete-other-windows))

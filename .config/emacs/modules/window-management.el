@@ -14,7 +14,8 @@
   #'std::pop-to-compile-buffer
   #'std::yequake-org-capture
   #'std::split-window-right
-  #'std::split-window-below)
+  #'std::split-window-below
+  #'std::window::maximize)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
@@ -176,6 +177,7 @@
  "wL"  #'evil-window-move-far-right
  "wsl" #'std::split-window-right
  "wsj" #'std::split-window-below
+ "wm"  #'std::window::maximize
  "qf"  #'delete-frame
  ;; Buffers
  :leader
