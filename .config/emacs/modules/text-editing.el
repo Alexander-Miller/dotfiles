@@ -12,7 +12,7 @@
  (evil-numbers :type git :host github :repo "janpath/evil-numbers")
  smartparens
  yasnippet
- (i3wm-config-mode :type git :host github :repo "Alexander-Miller/i3wm-config-mode")
+ i3wm-config-mode
  (tridactylrc-mode :type git :host github :repo "Alexander-Miller/tridactylrc-mode")
  expand-region
  vimish-fold
