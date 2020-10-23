@@ -4,8 +4,9 @@
  helpful)
 
 (std::autoload help
-  #'std::help::pacman-pkg-info
-  #'std::help::manual-info)
+  #'std::help::pacman-info
+  #'std::help::manual-info
+  #'std::help::hydra)
 
 (std::after helpful
   (require 'framey-helpful))
@@ -14,16 +15,7 @@
   :global
   "C-x ß" #'helpful-at-point
   :leader
-  "hdi" #'std::help::manual-info
-  "hdv" #'helpful-variable
-  "hdf" #'helpful-callable
-  "hdk" #'helpful-key
-  "hdc" #'describe-char
-  "hdC" #'helpful-command
-  "hdF" #'describe-face
-  "hda" #'helm-apropos
-  "hdP" #'std::help::pacman-pkg-info
-  "hm"  #'helm-man-woman
+  "h" #'std::help::hydra
   :evil motion helpful-mode-map
   "TAB" #'forward-button
   "<backtab>" #'backward-button)
