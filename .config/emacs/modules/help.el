@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- helpful)
+ helpful
+ epkg)
 
 (std::autoload help
   #'std::help::pacman-info

@@ -39,5 +39,6 @@
   ("C" #'helpful-command        "Commands")
   ("F" #'describe-face          "Faces")
   ("a" #'helm-apropos           "Apropos")
+  ("p" #'epkg-describe-package  "Packages")
   ("P" #'std::help::pacman-info "System Packages")
   ("m" #'helm-man-woman         "Man"))
