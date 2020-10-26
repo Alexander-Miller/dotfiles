@@ -97,6 +97,7 @@
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
               (org-agenda-files (list std::org::inbox-file))
+              (org-agenda-prefix-format '((todo . " %i %-7:c")))
               (org-super-agenda-groups
                '((:name "Privat" :tag "privat")
                  (:name "Arbeit" :tag "nt")))))))
