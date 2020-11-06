@@ -2,6 +2,7 @@
 
 (defconst S (float-time))
 (load (concat (getenv "EMACS_HOME") "modules/bootstrap") nil :no-message)
+(std::load "stdlib")
 (std::load "text-editing")
 (std::load "misc-utils")
 (std::load "ui")
