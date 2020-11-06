@@ -1,0 +1,44 @@
+" -*- mode: dactyl; eval: (rainbow-delimiters-mode -1) -*- "
+
+set leader <SPC>
+
+" J/K navigation "
+nnoremap J 5j
+vnoremap J 5j
+nnoremap K 5k
+vnoremap K 5k
+
+" C-a/e navigation "
+nnoremap <C-a> ^
+vnoremap <C-a> ^
+inoremap <C-a> <HOME>
+nnoremap <C-e> $
+vnoremap <C-e> $
+inoremap <C-e> <END>
+
+" subword navigation "
+nnoremap w [w
+nnoremap e ]w
+nnoremap b ]b
+vnoremap w [w
+vnoremap e ]w
+vnoremap b ]b
+
+" subword modification"
+nnoremap cw c[w
+nnoremap ce c]w
+nnoremap de d]w
+nnoremap de d]w
+nnoremap ve v]w
+nnoremap ve v]w
+
+" plugins "
+set commentary
+nnoremap <C-7> gc
+vnoremap <C-7> gc
+
+set exchange
+nnoremap gx cx
+vnoremap gx cx
+
+set surround
