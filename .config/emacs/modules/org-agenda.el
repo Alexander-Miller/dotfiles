@@ -161,6 +161,7 @@
                       (:name "Stories"        :todo "STORY")
                       (:name "Offene Fragen"  :todo "FRAGE")
                       (:name "Offene TODOs"   :todo "TODO")
+                      (:name "Warteschlange"  :todo "WAIT")
                       (:name "Anderes"        :anything)))))))
      ("k" "NT & AQE & AEP"
       ((todo ""
@@ -177,7 +178,7 @@
                         :and (:todo "TASK" :tag "nt")
                         :and (:todo "TODO" :tag "nt")
                         :and (:todo "NEXT" :tag "nt"))
-                 (:name "Warteschleife"
+                 (:name "Warteschlange"
                         :and (:todo "WAIT" :tag "nt"))
                  (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
                  (:discard (:todo "INBOX" :tag "kunde")))))))))))
