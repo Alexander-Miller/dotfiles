@@ -186,8 +186,8 @@
 ;; Keybinds
 (std::keybind
  :leader
- "aoa"    #'std::org::agenda
- "ao C-a" #'std::org::agenda::forced-select
+ "aa"    #'std::org::agenda
+ "a C-a" #'std::org::agenda::forced-select
  :global
  "<f12>"   #'std::org::agenda
  "C-<f12>" #'std::org::agenda::forced-select)
