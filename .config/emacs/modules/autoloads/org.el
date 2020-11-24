@@ -6,7 +6,7 @@
 
 (defun std::org::mode-hook ()
   (org-indent-mode)
-  (org-bullets-mode)
+  (org-superstar-mode)
   (auto-revert-mode)
   (hl-todo-mode -1)
   (toc-org-mode)

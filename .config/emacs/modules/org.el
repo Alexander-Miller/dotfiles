@@ -2,7 +2,7 @@
 
 (std::using-packages
  org
- org-bullets
+ org-superstar
  toc-org)
 
 (std::autoload org
@@ -24,13 +24,6 @@
 
 ;; Settings
 (std::after org
-
-  ;; Bullets for headlines & lists
-  (org-bullets-mode)
-  (setq-default org-bullets-bullet-list '("✿"))
-  (font-lock-add-keywords
-   'org-mode
-   `((,(rx bol (group "-") " ") (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   ;; A small bit of custom font locking for '==>'
   (defface std::result-face
@@ -130,6 +123,15 @@
   (defun org-switch-to-buffer-other-window (&rest args)
     "Same as the original, but lacking the wrapping call to `org-no-popups'"
     (apply 'switch-to-buffer-other-window args)))
+
+;; Bullets for headlines & lists
+(std::after org-superstar
+  (setf
+   org-superstar-cycle-headline-bullets nil
+   org-hide-leading-stars               t
+   org-superstar-special-todo-items     nil
+   org-superstar-headline-bullets-list '("✿")
+   org-superstar-item-bullet-alist      '((?- . ?•) (?+ . ?➤))))
 
 ;; Std Keybinds
 (std::after org
@@ -235,5 +237,6 @@
    :keymap org-mode-map
    "M-q" #'std::edit::fill-dwim
    :evil (normal) org-mode-map
+   "^" #'outline-up-heading
    "-" #'org-cycle-list-bullet
    "t" #'org-todo))
