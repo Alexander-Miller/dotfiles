@@ -7,6 +7,9 @@
  gcmh
  restart-emacs)
 
+(std::autoload misc-utils
+  #'std::goto-xref-and-close-search)
+
 ;; GC
 (setf gc-cons-percentage 0.6
       gc-cons-threshold  most-positive-fixnum)
@@ -90,7 +93,8 @@
  "M-." #'xref-find-definitions
  "M-," #'xref-pop-marker-stack
  :evil 'motion xref--xref-buffer-mode-map
- "RET" #'xref-goto-xref)
+ "RET" #'xref-goto-xref
+ "<C-return>" #'std::goto-xref-and-close-search)
 
 (std::after wttrin
   (setf wttrin-default-cities '("Stuttgart")

@@ -48,3 +48,10 @@
    "Coding"
    (("d" smartparens-mode      "smartparens"      :toggle t)
     ("S" show-smartparens-mode "show smartparens" :toggle t))))
+
+(defun std::goto-xref-and-close-search ()
+  (interactive)
+  (-let [window (selected-window)]
+    (xref-goto-xref)
+    (with-selected-window window
+      (quit-window))))
