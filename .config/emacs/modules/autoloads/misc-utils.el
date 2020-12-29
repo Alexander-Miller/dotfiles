@@ -41,10 +41,10 @@
     ("u" toggle-debug-on-quit      "debug on quit"      :toggle (default-value 'debug-on-quit))
     ("o" read-only-mode            "read only"          :toggle buffer-read-only))
    "UI"
-   (("W" writeroom-mode        "Writeroom"             :toggle t)
-    ("f" fci-mode              "Fill Column Indicator" :toggle t)
-    ("L" toggle-truncate-lines "truncate lines"        :toggle truncate-lines)
-    ("l" hl-line-mode          "Hl-Line"               :toggle t))
+   (("W" writeroom-mode                     "Writeroom"             :toggle t)
+    ("f" display-fill-column-indicator-mode "Fill Column Indicator" :toggle t)
+    ("L" toggle-truncate-lines              "truncate lines"        :toggle truncate-lines)
+    ("l" hl-line-mode                       "Hl-Line"               :toggle t))
    "Coding"
    (("d" smartparens-mode      "smartparens"      :toggle t)
     ("S" show-smartparens-mode "show smartparens" :toggle t))))
