@@ -9,6 +9,8 @@
  git-modes)
 
 (std::autoload vcs
+  #'std::vcs::next-5-lines-wrapper
+  #'std::vcs::prev-5-lines-wrapper
   #'std::vcs::with-editor-hook
   #'std::vcs::org-reveal-on-visit
   #'std::vcs::magit-pkg-status
@@ -70,34 +72,34 @@
 (std::after magit
 
   (std::keybind
-    :keymap
-    (magit-mode-map
-     magit-status-mode-map
-     magit-log-mode-map
-     magit-diff-mode-map
-     magit-branch-section-map
-     magit-untracked-section-map
-     magit-file-section-map
-     magit-status-mode-map
-     magit-hunk-section-map
-     magit-stash-section-map
-     magit-stashes-section-map
-     magit-staged-section-map
-     magit-unstaged-section-map)
-    "SPC" nil
-    "J"   #'std::evil::forward-five-lines
-    "K"   #'std::evil::backward-five-lines
-    "M-j" #'magit-section-forward-sibling
-    "M-k" #'magit-section-backward-sibling
-    ",u"  #'magit-section-up
-    ",1"  #'magit-section-show-level-1-all
-    ",2"  #'magit-section-show-level-2-all
-    ",3"  #'magit-section-show-level-3-all
-    ",4"  #'magit-section-show-level-4-all
-    "M-1" #'winum-select-window-1
-    "M-2" #'winum-select-window-2
-    "M-3" #'winum-select-window-3
-    "M-4" #'winum-select-window-4))
+   :keymap
+   (magit-mode-map
+    magit-status-mode-map
+    magit-log-mode-map
+    magit-diff-mode-map
+    magit-branch-section-map
+    magit-untracked-section-map
+    magit-file-section-map
+    magit-status-mode-map
+    magit-hunk-section-map
+    magit-stash-section-map
+    magit-stashes-section-map
+    magit-staged-section-map
+    magit-unstaged-section-map)
+   "SPC" nil
+   "J"   #'std::vcs::next-5-lines-wrapper
+   "K"   #'std::vcs::prev-5-lines-wrapper
+   "M-j" #'magit-section-forward-sibling
+   "M-k" #'magit-section-backward-sibling
+   ",u"  #'magit-section-up
+   ",1"  #'magit-section-show-level-1-all
+   ",2"  #'magit-section-show-level-2-all
+   ",3"  #'magit-section-show-level-3-all
+   ",4"  #'magit-section-show-level-4-all
+   "M-1" #'winum-select-window-1
+   "M-2" #'winum-select-window-2
+   "M-3" #'winum-select-window-3
+   "M-4" #'winum-select-window-4))
 
 ;; Git Gutter
 

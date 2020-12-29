@@ -18,3 +18,13 @@
                                        git-gutter:revert-hunk)))
              (not inhibit-redisplay))
     (ignore (git-gutter))))
+
+(evil-define-motion std::vcs::next-5-lines-wrapper ()
+  "Move the cursor 5 lines down."
+  :type line
+  (evil-next-visual-line 5))
+
+(evil-define-motion std::vcs::prev-5-lines-wrapper ()
+  "Move the cursor 5 lines down."
+  :type line
+  (evil-previous-visual-line 5))
