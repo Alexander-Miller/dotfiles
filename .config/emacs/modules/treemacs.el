@@ -3,16 +3,32 @@
 (-let [treemacs-dir "~/Documents/git/treemacs"]
   (when (file-exists-p treemacs-dir)
 
-    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode perspective)
+    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode perspective posframe)
 
-    (add-to-list 'load-path (concat treemacs-dir "/src/elisp"))
-    (add-to-list 'load-path (concat treemacs-dir "/src/extra"))
+    (-let [cfrs "~/Documents/git/cfrs"]
+      (if (file-exists-p cfrs)
+          (std::pushnew load-path cfrs)
+        (std::using-packages cfrs)))
 
-    (autoload #'treemacs                (concat treemacs-dir "/src/elisp/treemacs.el"))
-    (autoload #'treemacs-select-window  (concat treemacs-dir "/src/elisp/treemacs.el"))
-    (autoload #'treemacs-find-file      (concat treemacs-dir "/src/elisp/treemacs.el"))
-    (autoload #'treemacs-get-icon-value (concat treemacs-dir "/src/elisp/treemacs-icons.el"))
-    (autoload #'treemacs-icons-dired-mode "treemacs-icons-dired")
+    (std::pushnew load-path
+      (concat treemacs-dir "/src/elisp")
+      (concat treemacs-dir "/src/extra"))
+
+    (autoload #'treemacs                            "treemacs.el")
+    (autoload #'treemacs-select-window              "treemacs.el")
+    (autoload #'treemacs-find-file                  "treemacs.el")
+    (autoload #'treemacs-leftclick-action           "treemacs-mouse-interface.el")
+    (autoload #'treemacs-doubleclick-action         "treemacs-mouse-interface.el")
+    (autoload #'treemacs-single-click-expand-action "treemacs-mouse-interface.el")
+    (autoload #'treemacs-dragleftclick-action       "treemacs-mouse-interface.el")
+    (autoload #'treemacs-rightclick-menu            "treemacs-mouse-interface.el")
+    (autoload #'treemacs--expand-file-node          "treemacs-tags.el")
+    (autoload #'treemacs-tag-follow-mode            "treemacs-tag-follow-mode.el")
+    (autoload #'treemacs-get-icon-value             "treemacs-icons.el")
+    (autoload #'treemacs-common-helpful-hydra       "treemacs-hydras.el")
+    (autoload #'treemacs-advanced-helpful-hydra     "treemacs-hydras.el")
+    (autoload #'treemacs-icons-dired-mode           "treemacs-icons-dired.el")
+    (autoload #'cfrs-read                           "cfrs.el")
 
     (std::after winum
       (std::keybind
