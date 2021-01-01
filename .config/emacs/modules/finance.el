@@ -37,27 +37,21 @@
       1 'std::ledger::month-face t))
    'prepend)
 
+  (add-to-list 'ledger-report-format-specifiers
+               (cons "current-year" (lambda () (format-time-string "%Y"))))
+
   (setf ledger-default-date-format           ledger-iso-date-format
         ledger-mode-should-check-version     nil
         ledger-post-amount-alignment-column  62
         ledger-post-account-alignment-column 2
-        ledger-clear-whole-transactions      t)
-
-  ;; (add-to-list 'ledger-report-format-specifiers
-  ;;              (cons "current-year" (lambda () (format-time-string "%Y"))))
-
-  ;; (setf ledger-reports
-  ;;       '(;;("bal" "%(binary) -f %(ledger-file) bal")
-  ;;         ;;("reg" "%(binary) -f %(ledger-file) reg")
-  ;;         ;;("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
-  ;;         ;;("account" "%(binary) -f %(ledger-file) reg %(account)")
-  ;;         ("Register"
-  ;;          "%(binary) reg %(account) --real")
-  ;;         ("Jahresregister"
-  ;;          "%(binary) reg %(account) --real -p %(current-year) ")
-  ;;         ("Jahresbudget"
-  ;;          "%(binary) bal -p \"this year\" /Budget/")))
-  )
+        ledger-clear-whole-transactions      t
+        ledger-reports
+        '(("Register"
+           "%(binary) reg %(account) --real")
+          ("Jahresregister"
+           "%(binary) reg %(account) --real -p %(current-year) ")
+          ("Jahresbudget"
+           "%(binary) bal -p \"this year\" /Budget/"))))
 
 ;; Keybinds
 (std::after ledger-mode
