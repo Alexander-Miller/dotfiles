@@ -47,7 +47,6 @@
  kept-old-versions            2
  version-control              t
  create-lockfiles             nil
- load-prefer-newer            t
  vc-follow-symlinks           t
  browse-url-browser-function  #'browse-url-firefox
  user-mail-address            "alexanderm@web.de"
