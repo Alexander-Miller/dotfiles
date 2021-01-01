@@ -5,8 +5,7 @@
  rainbow-mode
  (morning-star :type git :host github :repo "Alexander-Miller/morning-star-theme")
  writeroom-mode
- hl-todo
- fill-column-indicator)
+ hl-todo)
 
 (std::autoload ui
   #'std::ui::writeroom-hide-line-numbers
@@ -120,3 +119,25 @@
      ("DEPRECATED" font-lock-doc-face bold)
      ("BUG" error bold)
      ("XXX" font-lock-preprocessor-face bold))))
+
+(std::if-version 28
+
+  (std::using-packages
+   (ligature :type git :host github :repo "mickeynp/ligature.el"))
+
+  (ligature-set-ligatures
+   t
+   '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>" ":::"
+     "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!==" "!!." ">=>"
+     ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<" "<~~" "<~>" "<*>"
+     "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->" "<--" "<-<" "<<=" "<<-"
+     "<<<" "<+>" "</>" "###" "#_(" "..<" "..." "+++" "/==" "///" "_|_"
+     "www" "&&" "^=" "~~" "~@" "~=" "~>" "~-" "**" "*>" "*/" "||" "|}"
+     "|]" "|=" "|>" "|-" "{|" "[|" "]#" "::" ":=" ":>" ":<" "$>" "=="
+     "=>" "!=" "!!" ">:" ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~"
+     "<*" "<|" "<:" "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:"
+     "#=" "#!" "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++"
+     "?:" "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+     "://"))
+
+  (global-ligature-mode))
