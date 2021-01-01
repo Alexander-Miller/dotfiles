@@ -20,6 +20,7 @@
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
 (setf
+ winner-ring-size           25
  winum-auto-setup-mode-line nil
  winum-scope                'frame-local
  helm-display-function      #'pop-to-buffer
@@ -110,6 +111,7 @@
 (shackle-mode)
 (purpose-mode)
 (framey-mode)
+(winner-mode)
 
 (setf
  purpose-user-mode-purposes
@@ -179,6 +181,8 @@
  "wsl" #'std::split-window-right
  "wsj" #'std::split-window-below
  "wm"  #'std::window::maximize
+ "wu"  #'winner-undo
+ "wr"  #'winner-redo
  "qf"  #'delete-frame
  ;; Buffers
  :leader
