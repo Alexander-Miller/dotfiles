@@ -23,6 +23,7 @@
  "gs"  #'magit-status
  "gp"  #'std::vcs::magit-pkg-status
  "gb"  #'magit-blame
+ "gg"  #'magit-file-dispatch
  "gff" #'magit-find-file
  "gfl" #'magit-log-buffer-file)
 
