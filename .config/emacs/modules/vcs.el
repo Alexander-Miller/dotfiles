@@ -14,7 +14,10 @@
   #'std::vcs::with-editor-hook
   #'std::vcs::org-reveal-on-visit
   #'std::vcs::magit-pkg-status
-  #'std::vcs::update-gut-gutter)
+  #'std::vcs::update-gut-gutter
+  #'std::vcs::ediff-mode-hook
+  #'std::vcs::ediff-hydra/body
+  #'std::vcs::save-pre-ediff-window-config)
 
 (std::keybind
  :leader
@@ -25,7 +28,8 @@
  "gb"  #'magit-blame
  "gg"  #'magit-file-dispatch
  "gff" #'magit-find-file
- "gfl" #'magit-log-buffer-file)
+ "gfl" #'magit-log-buffer-file
+ "D"   #'std::vcs::ediff-hydra/body)
 
 ;; Magit
 
@@ -144,3 +148,29 @@
   (std::after magit
     (std::add-advice #'std::vcs::update-gut-gutter :after #'magit-stage-file)
     (std::add-advice #'std::vcs::update-gut-gutter :after #'magit-unstage-file)))
+
+;; Ediff
+(std::after ediff
+
+  (add-hook 'ediff-mode-hook #'std::vcs::ediff-mode-hook)
+  (add-hook 'ediff-before-setup-hook #'std::vcs::save-pre-ediff-window-config)
+  (add-hook 'ediff-quit-hook #'std::vcs::restore-pre-ediff-window-config 100)
+
+  (setf
+   ediff-split-window-function #'split-window-horizontally
+   ediff-window-setup-function #'ediff-setup-windows-plain)
+
+  (dolist (msg '(ediff-long-help-message-compare2
+                 ediff-long-help-message-compare3
+                 ediff-long-help-message-narrow2
+                 ediff-long-help-message-word-mode
+                 ediff-long-help-message-merge
+                 ediff-long-help-message-head
+                 ediff-long-help-message-tail))
+    (dolist (chng '(("p,DEL -previous diff " . "    k -previous diff ")
+                    ("n,SPC -next diff     " . "    j -next diff     ")
+                    ("    j -jump to diff  " . "    d -jump to diff  ")
+                    ("    h -highlighting  " . "    H -highlighting  ")
+                    ("  v/V -scroll up/dn  " . "M-J/K -scroll up/dn  ")))
+      (setf (symbol-value msg)
+            (replace-regexp-in-string (car chng) (cdr chng) (symbol-value msg))))))
