@@ -1,5 +1,30 @@
 ;; -*- lexical-binding: t -*-
 
+(defun std::modeline::make-xpm (face width height)
+  (propertize
+   " " 'display
+   (let ((data (make-list height (make-list width 1)))
+         (color (or (face-background face nil t) "None")))
+     (ignore-errors
+       (create-image
+        (concat
+         (format
+          "/* XPM */\nstatic char * percent[] = {\n\"%i %i 2 1\",\n\". c %s\",\n\"  c %s\","
+          (length (car data)) (length data) color color)
+         (apply #'concat
+                (cl-loop with idx = 0
+                         with len = (length data)
+                         for dl in data
+                         do (cl-incf idx)
+                         collect
+                         (concat
+                          "\""
+                          (cl-loop for d in dl
+                                   if (= d 0) collect (string-to-char " ")
+                                   else collect (string-to-char "."))
+                          (if (eq idx len) "\"};" "\",\n")))))
+        'xpm t :ascent 'center)))))
+
 (std::using-packages doom-modeline)
 
 (defface std::modeline::selected-separator-face
@@ -43,12 +68,13 @@
 (declare-function eyebrowse--get "eyebrowse")
 
 (defconst std::modeline::selected-window-xpm
-  (eval-when-compile (doom-modeline--make-xpm 'std::modeline::selected-separator-face 5 30)))
+  (eval-when-compile (std::modeline::make-xpm 'std::modeline::selected-separator-face 5 30)))
 
 (defconst std::modeline::unselected-window-xpm
-  (eval-when-compile (doom-modeline--make-xpm 'std::modeline::separator-inactive-face 5 30)))
+  (eval-when-compile (std::modeline::make-xpm 'std::modeline::separator-inactive-face 5 30)))
 
 (define-inline std::num-to-unicode (n)
+  (declare (pure t) (side-effect-free error-free))
   (inline-letevals (n)
     (inline-quote
      (pcase ,n
@@ -155,7 +181,6 @@
       std::modeline::major-mode))
 
   (std::add-hook 'treemacs-mode-hook (doom-modeline-set-modeline 'treemy)))
-
 
 ;; Elfeed
 (std::after elfeed
