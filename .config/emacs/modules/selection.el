@@ -32,7 +32,7 @@
  :global
  "M-x" #'helm-M-x
  "M-o" #'evil-avy-goto-char-timer
- "M-O" #'evil-avy-goto-word-1
+ "M-i" #'evil-avy-goto-word-1
  :leader
  "ff" #'helm-find-files
  "fl" #'helm-locate-library
