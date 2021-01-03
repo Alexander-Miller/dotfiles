@@ -6,7 +6,8 @@
  evil-magit
  forge
  git-gutter-fringe
- git-modes)
+ git-modes
+ (transient-posframe :type git :host github :repo "yanghaoxie/transient-posframe"))
 
 (std::autoload vcs
   #'std::vcs::next-5-lines-wrapper
@@ -174,3 +175,9 @@
                     ("  v/V -scroll up/dn  " . "M-J/K -scroll up/dn  ")))
       (setf (symbol-value msg)
             (replace-regexp-in-string (car chng) (cdr chng) (symbol-value msg))))))
+
+;; Transient
+
+(std::after transient
+  (transient-posframe-mode)
+  (setf transient-semantic-coloring t))
