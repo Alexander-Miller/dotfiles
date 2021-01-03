@@ -1,9 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
+(autoload 'peep-dired-display-file-other-window "peep-dired")
+
 (defun std::dired::mode-hook ()
   (setq diredp-hide-details-initially-flag t)
   (hl-line-mode)
-  (use-local-map (make-sparse-keymap)))
+  (use-local-map (make-sparse-keymap))
+  (std::dired::setup-preview))
 
 (defun std::dired (&optional dir)
   (interactive)
@@ -86,3 +89,30 @@
   ("m" (dired "~/Music")     "Music")
   ("M" (dired "/run/media")  "/run/media")
   ("q" nil "cancel"))
+
+(defvar std::dired::preview-timer nil)
+
+(define-minor-mode std::dired::preview-mode ""
+  :init-value t
+  :global     t)
+
+(defun std::dired::setup-preview ()
+  (add-hook 'post-command-hook #'std::dired::preview-on-post-command nil :local)
+  (add-hook 'kill-buffer-hook #'std::dired::stop-preview-on-buffer-kill nil :local))
+
+(defun std::dired::preview-on-post-command ()
+  (when std::dired::preview-mode
+    (if std::dired::preview-timer
+        (timer-set-time std::dired::preview-timer
+                        (time-add (current-time) (seconds-to-time 0.5)))
+      (setf std::dired::preview-timer
+            (std::schedule 0.5 :no-repeat
+              (condition-case _
+                  (peep-dired-display-file-other-window)
+                (error (ignore)))
+              (setf std::dired::preview-timer nil))))))
+
+(defun std::dired::stop-preview-on-buffer-kill ()
+  (when std::dired::preview-timer
+    (cancel-timer std::dired::preview-timer)
+    (setf std::dired::preview-timer nil)))

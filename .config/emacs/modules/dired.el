@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- dired+)
+ dired+
+ peep-dired)
 
 (std::keybind :leader "ad" #'std::dired)
 
@@ -121,6 +122,7 @@
    "z" #'dired-do-compress
    "Z" #'dired-do-compress-to
    ;; Other
+   "P"   #'std::dired::preview-mode
    "gr"  #'revert-buffer
    "I"   #'std::dired::filesize
    "("   #'dired-hide-details-mode
