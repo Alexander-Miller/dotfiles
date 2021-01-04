@@ -84,6 +84,7 @@
 (std::downscale ?\❯ :font "Symbola")
 (std::downscale ?\✔ :font "Symbola" :size 9)
 (std::downscale ?\⎯ :font "Symbola" :size 8)
+(std::downscale ?\➤ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➊ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➋ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➌ :font "DejaVu Sans" :size 14)
