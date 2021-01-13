@@ -1,5 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-#name : message0
+#name : message
 #key: mm
 # --
 (message "${1:text}")$0
