@@ -108,7 +108,8 @@
       (setf std::dired::preview-timer
             (std::schedule 0.5 :no-repeat
               (condition-case _
-                  (peep-dired-display-file-other-window)
+                  (when (= 1 (winum-get-number))
+                    (peep-dired-display-file-other-window))
                 (error (ignore)))
               (setf std::dired::preview-timer nil))))))
 
