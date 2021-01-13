@@ -78,8 +78,10 @@
 (defmacro std::pushnew (place &rest values)
   (declare (indent 1))
   (let ((var (make-symbol "value")))
-    `(dolist (,var (list ,@values) ,place)
-       (cl-pushnew ,var ,place :test #'equal))))
+    (if (= 1 (length values))
+        `(cl-pushnew ,(car values) ,place :test #'equal)
+      `(dolist (,var (list ,@values) ,place)
+         (cl-pushnew ,var ,place :test #'equal)))))
 
 (defmacro std::delq (item list)
   `(setf ,list (delq ,item ,list)))
@@ -100,9 +102,6 @@
   (declare (indent 1))
   `(progn
      ,@(--map `(add-hook ,hook-var ,it) fns)))
-
-
-
 
 (defmacro std::add-transient-advice (advice-name where fns &rest body)
   (declare (indent 3))
