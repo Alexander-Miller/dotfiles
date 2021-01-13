@@ -44,6 +44,11 @@
               :file ,std::org::inbox-file
               :headline "Private Inbox"
               :template ("* INBOX %i%?"))
+             (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
+              :keys "t"
+              :file ,std::org::private-file
+              :olp ("Termine" ,std::org::current-year)
+              :template ("* APPT %? %^T"))
              (,(concat (treemacs-get-icon-value 'fallback) (std::face "Tagebuch" 'font-lock-type-face))
               :keys "a"
               :file ,std::org::diary-file
