@@ -1,6 +1,10 @@
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+(setf
+ default-frame-alist
+ '((menu-bar-lines . 0)
+   (tool-bar-lines . 0)
+   (vertical-scroll-bars . nil)
+   (horizontal-scroll-bars . nil)
+   (child-frame-border-width . 2)))
 
 (fset #'package--ensure-init-file #'ignore)
 (fset #'x-apply-session-resources #'ignore)
