@@ -1,0 +1,18 @@
+[user]
+	email = alexanderm@web.de
+	name = Alexander Miller
+[github]
+	user = Alexander-Miller
+[alias]
+	l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ro = rebase origin/master --autostash
+	s = status
+	fa = fetch --all --prune
+[color]
+	ui = yes
+[color "status"]
+	added = magenta bold
+    changed = green bold
+    untracked = yellow bold
+[core]
+	editor = emacsclient

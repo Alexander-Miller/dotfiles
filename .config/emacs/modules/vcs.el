@@ -18,7 +18,8 @@
   #'std::vcs::update-gut-gutter
   #'std::vcs::ediff-mode-hook
   #'std::vcs::ediff-hydra/body
-  #'std::vcs::save-pre-ediff-window-config)
+  #'std::vcs::save-pre-ediff-window-config
+  #'std::vcs::maybe-setup-commit-buffer)
 
 (std::keybind
  :leader
@@ -31,6 +32,8 @@
  "gff" #'magit-find-file
  "gfl" #'magit-log-buffer-file
  "D"   #'std::vcs::ediff-hydra/body)
+
+(add-hook 'server-visit-hook #'std::vcs::maybe-setup-commit-buffer)
 
 ;; Magit
 

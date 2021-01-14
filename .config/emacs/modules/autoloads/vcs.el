@@ -72,3 +72,8 @@
 
 (defun std::vcs::restore-pre-ediff-window-config ()
   (set-window-configuration std::vcs::pre-ediff-window-config))
+
+(defun std::vcs::maybe-setup-commit-buffer ()
+  (when (string= (buffer-name) "COMMIT_EDITMSG")
+    (require 'git-commit)
+    (git-commit-setup-check-buffer)))
