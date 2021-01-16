@@ -167,13 +167,11 @@
 indent yanked text (with universal arg don't indent)."
   (evil-start-undo-step)
   (prog1
-      (let ((prefix (car args))
-            (enable (and (not (member major-mode '(python-mode)))
+      (let ((enable (and (not (member major-mode '(python-mode)))
                          (derived-mode-p 'prog-mode))))
         (prog1 (apply yank-func args)
           (when enable
             (let ((transient-mark-mode nil)
-                  (save-undo buffer-undo-list)
                   (beg (region-beginning))
                   (end (region-end)))
               (when (<= (- end beg) 5000)

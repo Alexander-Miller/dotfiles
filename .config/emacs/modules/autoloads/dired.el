@@ -94,7 +94,8 @@
 
 (define-minor-mode std::dired::preview-mode ""
   :init-value t
-  :global     t)
+  :global     t
+  :group      'std)
 
 (defun std::dired::setup-preview ()
   (add-hook 'post-command-hook #'std::dired::preview-on-post-command nil :local)

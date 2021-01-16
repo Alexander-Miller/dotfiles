@@ -7,7 +7,7 @@
 
 (std::after lsp-mode
   (setf
-   lsp-prefer-capf         t
+   lsp-completion-provider :capf
    read-process-output-max (* 1024 1024)))
 
 (std::after lsp-ui

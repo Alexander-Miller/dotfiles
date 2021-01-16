@@ -139,7 +139,7 @@
 (std::after git-gutter
   (require 'git-gutter-fringe)
 
-  (add-hook 'focus-in-hook #'git-gutter:update-all-windows)
+  (std::add-advice #'git-gutter:update-all-windows :after #'after-focus-change-function)
 
   (define-fringe-bitmap 'git-gutter-fr:added    [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))

@@ -199,9 +199,9 @@
    :command '("systemctl" "--user" "start" "mbsync.service"))
 
   ;;WIP font-lock improvement
-  (defun mu4e~headers-line-apply-flag-face (msg line) line)
+  (defun mu4e~headers-line-apply-flag-face (_msg line) line)
 
-  (defun mu4e~headers-field-apply-basic-properties (msg field val width)
+  (defun mu4e~headers-field-apply-basic-properties (msg field val _width)
     (cl-case field
       (:subject
        (propertize

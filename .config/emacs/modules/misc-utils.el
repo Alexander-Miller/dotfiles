@@ -20,7 +20,7 @@
    gcmh-high-cons-threshold (* 128 1024 1024)
    gcmh-verbose             nil
    gc-cons-percentage       0.25)
-  (add-hook 'focus-out-hook #'gcmh-idle-garbage-collect))
+  (std::add-advice #'gcmh-idle-garbage-collect :after #'after-focus-change-function))
 
 ;; Startup
 (setf

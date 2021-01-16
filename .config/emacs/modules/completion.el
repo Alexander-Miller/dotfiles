@@ -106,7 +106,7 @@
 ;; Keymap corrections for quickhelp
 (std::after company-quickhelp
 
-  (defun std::company::off (arg)
+  (defun std::company::off (_)
     "Use default keys when company is not active. ARG is ignored."
     (std::keybind
      :keymap (evil-normal-state-map evil-insert-state-map)
@@ -116,7 +116,7 @@
      :keymap evil-insert-state-map
      "C-l" #'yas-expand))
 
-  (defun std::company::on (arg)
+  (defun std::company::on (_)
     "Use company's keys when company is active.
   Necessary due to company-quickhelp using global key maps.
   ARG is ignored."

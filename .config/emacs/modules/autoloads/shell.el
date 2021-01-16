@@ -29,7 +29,7 @@
         (vterm-mode)))
     (pop-to-buffer buffer)))
 
-(defun std::vterm::kill-window-on-exit (buffer _)
+(defun std::vterm::kill-window-on-exit (_buffer _event)
   (-when-let (w (--first (eq 'vterm-mode (->> it (window-buffer) (buffer-local-value 'major-mode)))
                          (window-list)))
     (kill-buffer (window-buffer w))

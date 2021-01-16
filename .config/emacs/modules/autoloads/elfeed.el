@@ -3,7 +3,6 @@
 (defun std::elfeed::draw-entry (entry)
   (let* ((tag-width   24)
          (src-width   16)
-         (date-width  14)
          (date        (elfeed-search-format-date (elfeed-entry-date entry)))
          (title       (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
          (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
@@ -11,13 +10,6 @@
          (feed-title  (when feed (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
          (tags        (mapcar #'symbol-name (elfeed-entry-tags entry)))
          (tags-str    (concat "[" (mapconcat 'identity tags ",") "]"))
-         (title-width (- (window-width) 16 24 4))
-         (title-column (elfeed-format-column
-                        title (elfeed-clamp
-                               elfeed-search-title-min-width
-                               title-width
-                               title-width)
-                        :left))
          (tag-column (elfeed-format-column
                       tags-str
                       (elfeed-clamp (length tags-str) tag-width tag-width)

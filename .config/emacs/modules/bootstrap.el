@@ -18,14 +18,14 @@
 
 (setf
  custom-file                    "~/.emacs.d/custom.el"
- load-prefer-newer              nil
+ load-prefer-newer              noninteractive
  delete-by-moving-to-trash      t
  ffap-machine-p-known           'reject
  inhibit-compacting-font-caches t
  package-enable-at-startup      nil
  default-fnha                   file-name-handler-alist
  file-name-handler-alist        nil
- load-path                      (delete "/usr/share/emacs/27.1/lisp/org" (delete "/usr/share/emacs/26.3/lisp/org" load-path)))
+ load-path                      (delete "/usr/share/emacs/28.0.50/lisp/org" (delete "/usr/share/emacs/27.1/lisp/org" load-path)))
 
 (add-hook
  'emacs-startup-hook
@@ -69,7 +69,7 @@
 
 (cl-defmacro std::load (file &key if)
   (when (or (null if) (eval if))
-    `(load (concat std::emacs-dir "modules/" ,file ".el") nil :no-messages)))
+    `(load (concat std::emacs-dir "modules/" ,file) nil :no-messages)))
 
 (defgroup std nil
   "Std faces."
@@ -110,9 +110,8 @@ Accepts the following segments:
            (let* ((mode       (pop segment))
                   (leader-map (intern (format "std::%s-leader-map" (symbol-name mode))))
                   (mode-map   (intern (format "%s-map" (symbol-name mode)))))
-             (unless (boundp leader-map)
-               (push `(defvar ,leader-map (make-sparse-keymap)) forms)
-               (push `(evil-define-key '(normal motion) ,mode-map "," ,leader-map) forms))
+             (push `(defvar ,leader-map (make-sparse-keymap)) forms)
+             (push `(evil-define-key '(normal motion) ,mode-map "," ,leader-map) forms)
              (while segment
                (push `(define-key ,leader-map ,(as-kbd (pop segment)) ,(pop segment)) forms))))
           (:evil
@@ -130,7 +129,8 @@ Accepts the following segments:
                    (push `(evil-define-key ',states ,map ,(as-kbd (car pair)) ,(cadr pair)) forms))))))
           (other
            (error "Unkown keybind arg: %s" other))))
-      `(progn ,@(nreverse forms)))))
+      `(progn
+         ,@(nreverse forms)))))
 
 (defmacro std::add-advice (advice where fns &optional ignore-args)
   (declare (indent 2))

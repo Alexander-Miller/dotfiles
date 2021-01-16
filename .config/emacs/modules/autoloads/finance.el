@@ -18,8 +18,7 @@
   (-let [pcmds (format "%s/ledger.el" std::ledger-dir)]
     (when (file-exists-p pcmds)
       (load-file pcmds)))
-  (let* ((date (calendar-current-date))
-         (year (cl-third (calendar-current-date)))
+  (let* ((year (cl-third (calendar-current-date)))
          (main-file (format "%s/Ledger.ledger" std::ledger-dir))
          (year-file (format "%s/%s.ledger" std::ledger-dir year)))
     (setf std::ledger::saved-window-config (current-window-configuration))
