@@ -14,6 +14,7 @@
   #'std::ledger::backward)
 
 (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
+(add-hook 'ledger-report-after-report-hook #'fit-window-to-buffer)
 
 (std::keybind :leader "aL" #'std::ledger)
 
@@ -51,7 +52,11 @@
           ("Jahresregister"
            "%(binary) reg %(account) --real -p %(current-year) ")
           ("Jahresbudget"
-           "%(binary) bal -p \"this year\" /Budget/"))))
+           "%(binary) bal -p \"this year\" /Budget/ --no-total")
+          ("Fondslage"
+           "fish ~/Documents/Org/Ledger/Fonds.fish")
+          ("Guthaben"
+           "%(binary) bal Guthaben -X EUR"))))
 
 ;; Keybinds
 (std::after ledger-mode
