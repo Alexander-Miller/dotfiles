@@ -39,7 +39,7 @@
   (setq-local ledger-accounts-file (format "%s/Ledger.ledger" std::ledger-dir))
   (setq-local outline-regexp (rx bol "+++ "))
   (setq-local imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2)))
-  (setq-local company-backends '((company-capf :with company-yasnippet))))
+  (setq-local company-backends '((company-capf company-dabbrev :with company-yasnippet))))
 
 (defun std::ledger::save ()
   "First `ledger-mode-clean-buffer', then `save-buffer'."
