@@ -7,3 +7,5 @@
 --input-date-format %Y-%m-%d
 --sort date
 --file ~/Documents/Org/Ledger/Ledger.ledger
+--unrealized-gains Invest Gewinn
+--unrealized-losses Invest Verlust
