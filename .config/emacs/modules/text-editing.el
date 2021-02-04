@@ -10,6 +10,7 @@
  evil-lion
  evil-exchange
  (evil-numbers :type git :host github :repo "janpath/evil-numbers")
+ (undo-tree :type git :host gitlab :repo "tsc25/undo-tree")
  smartparens
  yasnippet
  i3wm-config-mode
@@ -43,13 +44,17 @@
  evil-want-keybinding      t
  evil-want-Y-yank-to-eol   t
  evil-move-beyond-eol      t
- next-line-add-newlines    t)
+ next-line-add-newlines    t
+ evil-undo-system          'undo-tree
+ undo-tree-history-directory-alist
+ `((".+" . "~/.emacs.d/cache")))
 
 (evil-mode)
 (evil-goggles-mode)
 (evil-lion-mode)
 (global-evil-surround-mode)
 (global-subword-mode t)
+(global-undo-tree-mode)
 
 (std::keybind
  :keymap (evil-normal-state-map evil-motion-state-map)
