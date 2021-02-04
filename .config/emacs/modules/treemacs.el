@@ -10,6 +10,7 @@
           (std::pushnew load-path cfrs)
         (std::using-packages cfrs)))
 
+    (std::delete (expand-file-name "~/.emacs.d/straight/build/treemacs") load-path)
     (std::pushnew load-path
       (concat treemacs-dir "/src/elisp")
       (concat treemacs-dir "/src/extra"))
