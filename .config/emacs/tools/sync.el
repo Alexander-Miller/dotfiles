@@ -10,11 +10,7 @@
         (if (file-exists-p repo-dir)
             (let ((default-directory repo-dir))
               (std::log (format "Updating %s" it))
-              (dolist (cmd '("git fetch --all --prune"
-                             "git rebase origin/master --autostash"))
-                (unless (= 0 (shell-command cmd))
-                  (std::log (format "Update error: %s"
-                                    (with-current-buffer (get-buffer "*Shell Command Output*") (buffer-string)))))))
+              (straight-pull-package "consult"))
           (std::err (format "Package '%s' not found" it)))))))
 
 (std::log "Building Org Version File")
