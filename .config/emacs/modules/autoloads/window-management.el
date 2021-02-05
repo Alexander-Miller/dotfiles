@@ -55,3 +55,10 @@ Delete it if it is shown already."
 (defun std::window::maximize ()
   (interactive)
   (delete-other-windows))
+
+(defhydra std::windows::size-change (:exit nil :hint t)
+  ("j" (enlarge-window 5)    "Enlarge Vertically")
+  ("k" (enlarge-window -5)   "Shrink Vertically")
+  ("l" (enlarge-window 5  t) "Enlarge Horizontally")
+  ("h" (enlarge-window -5 t) "Shrink Horizontally")
+  ("q" nil "cancel"))

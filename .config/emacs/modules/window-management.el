@@ -15,7 +15,8 @@
   #'std::yequake-org-capture
   #'std::split-window-right
   #'std::split-window-below
-  #'std::window::maximize)
+  #'std::window::maximize
+  #'std::windows::size-change/body)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
 
@@ -184,6 +185,7 @@
  "wu"  #'winner-undo
  "wr"  #'winner-redo
  "qf"  #'delete-frame
+ "wS"  #'std::windows::size-change/body
  ;; Buffers
  :leader
  "bm"    #'std::pop-to-messages-buffer
