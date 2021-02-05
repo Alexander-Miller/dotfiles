@@ -2,7 +2,6 @@
 
 (std::using-packages
  magit
- magit-todos
  evil-magit
  forge
  git-gutter-fringe
@@ -43,7 +42,6 @@
   (require 'forge)
 
   (evil-magit-init)
-  (magit-todos-mode)
 
   (std::add-hook 'with-editor-mode-hook
     (rainbow-delimiters-mode -1)
@@ -61,21 +59,6 @@
    magit-diff-refine-hunk                     t
    magit-status-initial-section               '(((unstaged) (status)) 1)
    magit-section-initial-visibility-alist     '((stashes . hide) (untracked . hide))))
-
-;; Magit Todos
-(std::after magit-todos
-  (setf
-   magit-todos-section-map      nil
-   magit-todos-item-section-map nil
-   magit-todos-fontify-org      nil
-   magit-todos-max-items        2
-   magit-todos-ignore-case      t
-   magit-todos-insert-at        'bottom
-   magit-todos-keywords         'hl-todo-keyword-faces
-   magit-todos-ignored-keywords '("NOTE")
-   magit-todos-sort-order       '(magit-todos--sort-by-keyword magit-todos--sort-by-filename magit-todos--sort-by-position)
-   magit-todos-exclude-globs    '(".cask/**")
-   magit-todos-group-by         '(magit-todos-item-keyword magit-todos-item-filename)))
 
 ;; Keybinds
 (std::after magit
