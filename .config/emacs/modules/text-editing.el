@@ -18,7 +18,9 @@
  expand-region
  vimish-fold
  evil-vimish-fold
- yaml-mode)
+ adoc-mode
+ yaml-mode
+ csv-mode)
 
 (autoload #'yas-expand "yasnippet")
 (autoload #'evilnc-comment-operator "evil-nerd-commenter")
