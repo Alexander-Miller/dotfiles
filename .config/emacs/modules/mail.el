@@ -8,6 +8,8 @@
   #'std::mail::view-mode-hook
   #'std::mail::refresh)
 
+(std::pushnew load-path "/usr/share/emacs/site-lisp/mu4e")
+
 (autoload #'mu4e "mu4e")
 
 (std::with-desktop
