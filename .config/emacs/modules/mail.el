@@ -269,6 +269,8 @@
     "+"   #'std::mail::add-tag
     "-"   #'std::mail::remove-tag
     "!"   #'mu4e-view-mark-for-read
+    "ü"   #'mu4e-headers-mark-for-flag
+    "Ü"   #'mu4e-headers-mark-for-unflag
     :evil (normal motion) mu4e-main-mode-map
     "j" #'mu4e~headers-jump-to-maildir
     "b" #'mu4e-headers-search-bookmark
