@@ -2,6 +2,7 @@
 
 (std::using-packages
  company
+ company-box
  company-quickhelp
  company-prescient)
 
@@ -25,6 +26,7 @@
 (std::after company
 
   (company-prescient-mode)
+  (add-hook 'company-mode-hook #'company-box-mode)
 
   (std::add-transient-advice std::completion::enable-quickhelp :before #'company-complete
     (require 'company-quickhelp))
@@ -133,3 +135,7 @@
   (add-hook 'company-completion-cancelled-hook #'std::company::off)
 
   (define-key company-active-map (kbd "C-l") #'company-quickhelp-manual-begin))
+
+;; Box
+(std::after company-box
+  (setf company-box-scrollbar nil))
