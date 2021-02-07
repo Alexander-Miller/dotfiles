@@ -86,6 +86,9 @@
 (defmacro std::delq (item list)
   `(setf ,list (delq ,item ,list)))
 
+(defmacro std::delete (item list)
+  `(setf ,list (delete ,item ,list)))
+
 (defmacro std::silent (&rest body)
   `(let ((inhibit-message t)) ,@body))
 
