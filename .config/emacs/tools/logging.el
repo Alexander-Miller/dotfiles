@@ -15,8 +15,8 @@
 ;; runs with `std::loud'
 (defun std::message-filter (msg &rest args)
   (unless (or (null args)
-              (string-match-p "Compiling" (car args))
-              (string-match-p "Loading" (car args)))
+              (string-match-p "Compiling" (format "%s" (car args)))
+              (string-match-p "Loading" (format "%s" (car args))))
     (let* ((str (car args))
            (format-args (cdr args)))
       (if (string-prefix-p " \u001b[1m" str)
