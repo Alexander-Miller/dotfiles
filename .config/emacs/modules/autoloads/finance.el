@@ -32,6 +32,14 @@
       (find-file main-file))
     (std::ledger::goto-current-month)))
 
+(defun std::ledger::file ()
+  (interactive)
+  (let* ((files (--map (cons (f-filename it) it)
+                       (std::files "~/Documents/Org/Ledger" ".ledger")))
+         (selection (completing-read "File: " files))
+         (file (cdr (assoc selection files))))
+    (find-file file)))
+
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)

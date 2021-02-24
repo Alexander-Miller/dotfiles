@@ -6,6 +6,7 @@
 
 (std::autoload finance
   #'std::ledger
+  #'std::ledger::file
   #'std::ledger::mode-hook
   #'std::ledger::save
   #'std::ledger::finish
@@ -16,7 +17,8 @@
 (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 (add-hook 'ledger-report-after-report-hook #'fit-window-to-buffer)
 
-(std::keybind :leader "aL" #'std::ledger)
+(std::keybind :leader "all" #'std::ledger)
+(std::keybind :leader "alf" #'std::ledger::file)
 
 ;; Settings
 (std::after ledger-mode
