@@ -1,9 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-(defun std::flycheck::next-error ()
+(evil-define-motion std::flycheck::next-error ()
   "Move to the next flycheck error.
-  Start searching from the top if point is part the last error."
-  (interactive)
+Start searching from the top if point is part the last error."
+  :jump t
+  :type line
   (-let [it (flycheck-next-error-pos 1)]
     (if (and it
              (not (and (equal (point) (1- (point-min)))
@@ -15,10 +16,11 @@
           (goto-char it)
         (message "No more Flycheck errors.")))))
 
-(defun std::flycheck::previous-error ()
+(evil-define-motion std::flycheck::previous-error ()
   "Move to the previous flycheck error.
   Start searching from the bottom if point is part the first error."
-  (interactive)
+  :jump t
+  :type line
   (-let [it (flycheck-next-error-pos -1)]
     (if (and it
              (not (and (equal (point) (point-min))
