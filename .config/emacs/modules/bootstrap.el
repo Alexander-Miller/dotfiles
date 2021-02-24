@@ -65,7 +65,7 @@
 (require 'dash)
 (unless (bound-and-true-p dash-font-lock-done)
   (defvar dash-font-lock-done t)
-  (dash-enable-font-lock))
+  (global-dash-fontify-mode))
 
 (cl-defmacro std::load (file &key if)
   (when (or (null if) (eval if))
