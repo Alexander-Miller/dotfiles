@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
+(defvar std::spellcheck::exclude-modes '(ledger-mode))
+
 (defun std::spellcheck::use-en-dict ()
   (interactive)
   (ispell-change-dictionary "en_GB")
@@ -11,8 +13,9 @@
   (message "Using de_DE dictionary"))
 
 (defun std::spellcheck::enable-once-locally (&rest _)
-  (save-match-data
-    (flyspell-mode))
+  (unless (memq major-mode std::spellcheck::exclude-modes)
+    (save-match-data
+      (flyspell-mode)))
   (remove-hook 'after-change-functions #'std::spellcheck::enable-once-locally :local))
 
 (defun std::spellcheck::start-on-first-edit ()

@@ -43,7 +43,6 @@
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)
-  (std::spellcheck::use-de-dict)
   (setq-local ledger-accounts-file (format "%s/Ledger.ledger" std::ledger-dir))
   (setq-local outline-regexp (rx bol "+++ "))
   (setq-local imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2)))
