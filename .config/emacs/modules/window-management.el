@@ -182,6 +182,7 @@
  "wsl" #'std::split-window-right
  "wsj" #'std::split-window-below
  "wm"  #'std::window::maximize
+ "wM"  #'treemacs-delete-other-windows
  "wu"  #'winner-undo
  "wr"  #'winner-redo
  "qf"  #'delete-frame
