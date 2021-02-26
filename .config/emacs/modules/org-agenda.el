@@ -158,30 +158,45 @@
                              :priority>= "B"
                              :face (:append t :background "#5D2D2D" :extend t))
                       (:name "Daily"          :tag "daily")
-                      (:name "Stories"        :todo "STORY")
-                      (:name "Offene Fragen"  :todo "FRAGE")
-                      (:name "Offene TODOs"   :todo "TODO")
-                      (:name "Warteschlange"  :todo "WAIT")
-                      (:name "Anderes"        :anything)))))))
+                      (:name "Anderes"        :not (:tag "story"))
+                      (:discard (:anything))))))
+       (tags-todo "kunde+story"
+                  ((org-agenda-overriding-header "Stories")
+                   (org-super-agenda-groups
+                    '((:name "Aufgaben" :auto-category)))))))
      ("k" "NT & AQE & AEP"
-      ((todo ""
-             ((org-agenda-overriding-header "NT & AQE & AEP")
-              (org-agenda-files (list std::org::work-file))
-              (org-super-agenda-groups
-               '((:name "Wichtig"
-                        :deadline past
-                        :priority>= "B"
-                        :face (:append t :background "#5D2D2D" :extend t))
-                 (:name "Freitagsmaterial" :tag "fri")
-                 (:name "Andere Aufgaben"
-                        :and (:todo "PROJ" :tag "nt")
-                        :and (:todo "TASK" :tag "nt")
-                        :and (:todo "TODO" :tag "nt")
-                        :and (:todo "NEXT" :tag "nt"))
-                 (:name "Warteschlange"
-                        :and (:todo "WAIT" :tag "nt"))
-                 (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
-                 (:discard (:todo "INBOX" :tag "kunde")))))))))))
+      ((tags-todo
+        "nt"
+        ((org-agenda-overriding-header "Kanban")
+         (org-super-agenda-groups
+          `((:name "Dringend"
+                   :deadline (before ,(std::org::agenda::now-plus 1 days))
+                   :face (:background "#661A1A" :weight bold  :append t))
+            (:name "Wichtig"
+                   :deadline past
+                   :priority>= "B"
+                   :face (:append t :background "#5D2D2D" :extend t))
+            (:name "Aktiv"
+                   :scheduled (before ,(std::org::agenda::now-plus 1 days)))
+            (:name "Termine"
+                   :and (:todo "APPT" :timestamp today)
+                   :and (:todo "APPT" :timestamp future))
+            (:name "Bald (3d)"
+                   :and (:scheduled
+                         (before ,(std::org::agenda::now-plus 3 days))
+                         :scheduled
+                         (after ,(std::org::agenda::now-plus 0 days))))
+            (:name "Warteschlange"
+                   :and (:todo "WAIT" :tag "nt"))
+            (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
+            (:discard (:anything))))))
+       (tags-todo
+        "nt+@P"
+        ((org-agenda-overriding-header "Projektaufteilung")
+         (org-super-agenda-category-header "Projekt: ")
+         (org-agenda-files (list std::org::work-file))
+         (org-super-agenda-groups
+          `((:name "Projekte" :auto-category t))))))))))
 
 ;; Keybinds
 (std::keybind
