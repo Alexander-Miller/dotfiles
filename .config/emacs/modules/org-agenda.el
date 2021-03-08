@@ -158,6 +158,7 @@
                              :priority>= "B"
                              :face (:append t :background "#5D2D2D" :extend t))
                       (:name "Daily"          :tag "daily")
+                      (:name "Retro"          :tag "@retro")
                       (:name "Anderes"        :not (:tag "story"))
                       (:discard (:anything))))))
        (tags-todo "kunde+story"
@@ -189,6 +190,7 @@
             (:name "Warteschlange"
                    :and (:todo "WAIT" :tag "nt"))
             (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
+            (:name "Anderes" :not (:todo "INBOX" :todo "APPT" :tag "@P"))
             (:discard (:anything))))))
        (tags-todo
         "nt+@P"
