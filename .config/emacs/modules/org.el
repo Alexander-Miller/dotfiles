@@ -208,6 +208,7 @@
    "?"   #'org-table-field-info
    ;; Structural Editing
    :evil (normal insert) org-mode-map
+   [remap consult-imenu] #'helm-org-in-buffer-headings
    "M-RET" #'org-meta-return
    "M-h"   #'org-metaleft
    "M-l"   #'org-metaright

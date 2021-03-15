@@ -3,6 +3,12 @@
 (std::using-packages
  helm
  helm-org
+ selectrum
+ prescient
+ consult
+ consult-selectrum
+ selectrum-prescient
+ marginalia
  avy
  link-hint)
 
@@ -10,43 +16,70 @@
   #'std::helm::org-in-buffer-headings
   #'std::helm::imenu)
 
-(defun std::load-helm (fn &rest args)
-  (helm-mode)
-  (advice-remove #'completing-read      #'std::load-helm)
-  (advice-remove #'read-string          #'std::load-helm)
-  (advice-remove #'read-buffer          #'std::load-helm)
-  (advice-remove #'read-file-name       #'std::load-helm)
-  (advice-remove #'read-directory-name  #'std::load-helm)
-  (advice-remove #'read-number          #'std::load-helm)
-  (advice-remove #'read-from-minibuffer #'std::load-helm)
-  (apply fn args))
+(selectrum-mode)
+(selectrum-prescient-mode)
+(marginalia-mode)
+(mini-frame-mode)
 
-(std::add-advice #'std::load-helm :around
-  (completing-read read-string read-buffer read-from-minibuffer
-                   read-number read-file-name read-directory-name))
+(setf
+ consult-preview-key        nil
+ marginalia-align-offset    1
+ mini-frame-resize          nil
+ marginalia-annotators      '(marginalia-annotators-heavy nil marginalia-annotators-light)
+ mini-frame-show-parameters #'std::mini-frame-show-parameters
+ mini-frame-ignore-commands
+ '(eval-expression
+   "edebug-eval-expression"
+   debugger-eval-expression
+   ".*helm.*"
+   "std::org::inbox-refile-targets"))
 
-(std::schedule 3 :no-repeat
-  (unless helm-mode (std::load-helm #'ignore)))
+(defun std::mini-frame-show-parameters ()
+  (let ((size-args
+         (pcase this-command
+           ('consult-imenu
+            (setf selectrum-max-window-height 15)
+            '((width . 0.6) (height . 15)))
+           ('find-file
+            (setf selectrum-max-window-height 10)
+            '((width . 0.9) (height . 10)))
+           ('find-library
+            (setf selectrum-max-window-height 10)
+            '((width . 0.9) (height . 10)))
+           ((guard (not (null minibuffer-completion-table)))
+            (-let [height (if (listp minibuffer-completion-table)
+                              (min 8 (1+ (length minibuffer-completion-table)))
+                            8)]
+              (setf selectrum-max-window-height height)
+              `((width . 0.9) (height . ,height))))
+           (_
+            (setf selectrum-max-window-height 2)
+            '((width . 0.9) (height . 2))))))
+    `((background-color . "#2E2E32") (left . 0.5) (top . 40) ,@size-args)))
 
 (std::keybind
  :global
- "M-x" #'helm-M-x
  "M-o" #'evil-avy-goto-char-timer
  "M-i" #'evil-avy-goto-word-1
  :leader
- "ff" #'helm-find-files
- "fl" #'helm-locate-library
- "fL" #'helm-locate
- "bb" #'helm-mini
- "br" #'helm-recentf
- "bi" #'std::helm::imenu
- "ry" #'helm-show-kill-ring
- "rr" #'helm-register
+ "ff" #'find-file
+ "fl" #'find-library
+ "bb" #'purpose-switch-buffer-overload
+ "bb" #'consult-buffer
+ ;; "br" #'helm-recentf
+ "bi" #'consult-imenu
+ "ry" #'consult-yank
+ ;; "rr" #'helm-register
  "sr" #'helm-resume
  "jf" #'find-function
  "jl" #'avy-goto-line
  "jk" #'link-hint-open-link
- "jy" #'link-hint-copy-link)
+ "jy" #'link-hint-copy-link
+ :keymap selectrum-minibuffer-map
+ "C-j" #'selectrum-next-candidate
+ "C-k" #'selectrum-previous-candidate
+ "<escape>"   #'keyboard-quit
+ "C-<return>" #'selectrum-submit-exact-input)
 
 (std::after helm
 

@@ -22,12 +22,10 @@
 
 (defun std::org::goto-org-file ()
   (interactive)
-  (helm :prompt "Org File: "
-        :buffer "*helm org files*"
-        :sources (helm-build-sync-source "Org Files"
-                   :candidates (--map (cons (f-filename it) it) (std::files std::org-dir ".org"))
-                   :action #'find-file-existing
-                   :filtered-candidate-transformer #'helm-fuzzy-highlight-matches)))
+  (find-file-existing
+   (std::read "Org File: "
+     (--map (cons (f-filename it) it) (std::files std::org-dir ".org"))
+     nil :require-match)))
 
 (defun std::org::table-recalc ()
   "Reverse the prefix arg bevaviour of `org-table-recalculate', such that

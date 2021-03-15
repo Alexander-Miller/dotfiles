@@ -33,6 +33,10 @@
                       ,form))))
     form))
 
+(defmacro std::read (prompt collection &rest args)
+  (declare (indent 1))
+  `(cdr (assoc (completing-read ,prompt ,collection ,@args) ,collection)))
+
 (defmacro std::static-assert (predicate &optional error-msg &rest error-args)
   (declare (indent 1))
   `(unless ,predicate
