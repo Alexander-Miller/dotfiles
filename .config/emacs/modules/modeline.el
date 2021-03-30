@@ -27,40 +27,47 @@
 
 (std::using-packages doom-modeline)
 
-(defface std::modeline::selected-separator-face
-  '((t (:background "#559955")))
-  ""
-  :group 'std)
+(std::defface std::modeline::selected-separator-face
+  (:background "#559955"))
 
-(defface std::modeline::separator-inactive-face
-  '((t (:background "#25252a")))
-  ""
-  :group 'std)
+(std::defface std::modeline::separator-inactive-face
+  (:background "#25252A"))
 
-(defface std::modeline::num-face
-  '((t (:foreground "#997799" :bold nil)))
-  ""
-  :group 'std)
+(std::defface std::modeline::num-face
+  (:foreground "#997799" :background "#1A1A1A" :bold nil))
 
-(defface std::modeline::num-inactive-face
-  '((t (:foreground "#997799" :background "#25252a" :bold nil)))
-  ""
-  :group 'std)
+(std::defface std::modeline::num-inactive-face
+  (:foreground "#997799" :background "#25252A" :bold nil))
 
-(defface std::modeline::major-mode-face
-  '((t (:foreground "#997799" :bold t)))
-  ""
-  :group 'std)
+(std::defface std::modeline::major-mode-face
+  (:foreground "#997799" :background "#1A1A1A" :bold t))
 
-(defface std::modeline::major-mode-inactive-face
-  '((t (:foreground "#997799" :background "#25252a" :bold t)))
-  ""
-  :group 'std)
+(std::defface std::modeline::major-mode-inactive-face
+  (:foreground "#997799" :background "#25252A" :bold t))
 
-(defface std::modeline::buffer-id-inactive
-  '((t (:foreground "#c98459" :background "#25252a" :bold t :box "#000000")))
-  ""
-  :group 'std)
+(std::defface std::modeline::buffer-id
+  (:foreground "#C98459" :background "#1A1A1A" :bold t :box "#000000"))
+
+(std::defface std::modeline::buffer-id-inactive
+  (:foreground "#C98459" :background "#25252A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-info-active
+  (:foreground "#66DD66" :background "#1A1A1A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-info-inactive
+  (:foreground "#66DD66" :background "#25252A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-warning-active
+  (:foreground "#DDBA1A" :background "#1A1A1A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-warning-inactive
+  (:foreground "#DDBA1A" :background "#25252A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-error-active
+  (:foreground "#AB3737" :background "#1A1A1A" :bold t :box "#000000"))
+
+(std::defface std::modeline::flycheck-error-inactive
+  (:foreground "#F2777A" :background "#25252A" :bold t :box "#000000"))
 
 (require 'doom-modeline)
 
@@ -97,7 +104,7 @@
 (doom-modeline-def-segment std::modeline::buffer-id
   (propertize (concat " " (buffer-name))
               'face (if (doom-modeline--active)
-                        'mode-line-buffer-id
+                        'std::modeline::buffer-id
                       'std::modeline::buffer-id-inactive)))
 
 (doom-modeline-def-segment std::modeline::window-bar
@@ -123,9 +130,7 @@
                         'std::modeline::major-mode-face
                       'std::modeline::major-mode-inactive-face)))
 
-(defconst std::modeline::flycheck-bullet-info  (eval-when-compile (propertize " • %s" 'face 'doom-modeline-info)))
-(defconst std::modeline::flycheck-bullet-warn  (eval-when-compile (propertize " • %s" 'face 'doom-modeline-warning)))
-(defconst std::modeline::flycheck-bullet-error (eval-when-compile (propertize " • %s" 'face 'doom-modeline-urgent)))
+(defconst std::modeline::flycheck-bullet  " • %s")
 
 (defvar flycheck-mode nil)
 (doom-modeline-def-segment std::modeline::flycheck
@@ -134,9 +139,24 @@
            (info (alist-get 'info count))
            (warnings (alist-get 'warning count))
            (errors   (alist-get 'error count)))
-      (concat (when info (format std::modeline::flycheck-bullet-info info))
-              (when warnings (format std::modeline::flycheck-bullet-warn warnings))
-              (when errors   (format std::modeline::flycheck-bullet-error errors))))))
+      (concat (when info
+                (propertize
+                 (format std::modeline::flycheck-bullet info)
+                 'face (if (doom-modeline--active)
+                           'std::modeline::flycheck-info-active
+                         'std::modeline::flycheck-info-inactive)))
+              (when warnings
+                (propertize
+                 (format std::modeline::flycheck-bullet warnings)
+                 'face (if (doom-modeline--active)
+                           'std::modeline::flycheck-warning-active
+                         'std::modeline::flycheck-warning-inactive)))
+              (when errors
+                (propertize
+                 (format std::modeline::flycheck-bullet errors)
+                 'face (if (doom-modeline--active)
+                           'std::modeline::flycheck-error-active
+                         'std::modeline::flycheck-error-inactive)))))))
 
 (doom-modeline-def-modeline 'std
   '(std::modeline::window-bar
@@ -199,8 +219,28 @@
 ;; Mu4e
 (std::after mu4e
 
+  (std::defface std::modeline::search-query-active
+    (:foreground "#C98459" :background "#1A1A1A" :bold t :box "#000000"))
+
+  (std::defface std::modeline::search-query-inactive
+    (:foreground "#C98459" :background "#25252A" :bold t :box "#000000"))
+
+  (std::defface std::modeline::search-query-bracket-active
+    (:foreground "#559955" :background "#1A1A1A" :bold t :box "#000000"))
+
+  (std::defface std::modeline::search-query-bracket-inactive
+    (:foreground "#559955" :background "#25252A" :bold t :box "#000000"))
+
   (doom-modeline-def-segment std::modeline::mail-search
-    (concat " [" (propertize (mu4e-last-query) 'face 'font-lock-variable-name-face) "]"))
+    (if (doom-modeline--active)
+        (concat
+         (propertize " [" 'face 'std::modeline::search-query-bracket-active)
+         (propertize (propertize (mu4e-last-query) 'face 'std::modeline::search-query-active))
+         (propertize "]" 'face 'std::modeline::search-query-bracket-active) )
+      (concat
+       (propertize " [" 'face 'std::modeline::search-query-bracket-inactive)
+       (propertize (propertize (mu4e-last-query) 'face 'std::modeline::search-query-inactive))
+       (propertize "]" 'face 'std::modeline::search-query-bracket-inactive))))
 
   (doom-modeline-def-modeline 'mail
     '(std::modeline::window-bar

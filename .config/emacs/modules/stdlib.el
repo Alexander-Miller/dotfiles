@@ -105,6 +105,13 @@
 (defmacro std::face (str face)
   `(propertize ,str 'face ,face))
 
+(defmacro std::defface (name definition)
+  (declare (indent 1))
+  `(defface ,name
+     '((t ,definition))
+     ""
+     :group 'std))
+
 (defmacro std::add-hooks (hook-var &rest fns)
   (declare (indent 1))
   `(progn
