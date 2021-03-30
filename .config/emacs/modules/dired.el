@@ -46,6 +46,7 @@
    dired-listing-switches "-alh --group-directories-first")
 
   (std::add-advice #'revert-buffer :after #'dired-do-compress-to :ignore-args)
+  (std::add-advice #'revert-buffer :after #'dired-do-compress    :ignore-args)
 
   (unless (file-exists-p std::dired::cache-file)
     (make-directory (file-name-directory (directory-file-name std::dired::cache-file)) :parents)
