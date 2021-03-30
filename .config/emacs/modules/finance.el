@@ -23,6 +23,8 @@
 ;; Settings
 (std::after ledger-mode
 
+  (put 'ledger-accounts-file 'safe-local-variable #'stringp)
+
   (defface std::ledger::month-face
     '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a") :extend t)))
     ""
