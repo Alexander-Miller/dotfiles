@@ -117,7 +117,8 @@
                  (:name "Warteschlange"
                         :todo "WAIT")
                  (:name "Bald"
-                        :scheduled (before ,(std::org::agenda::now-plus 10 days)))
+                        :scheduled (before ,(std::org::agenda::now-plus 10 days))
+                        :and (:todo "APPT" :timestamp future))
                  (:name "Bereit"
                         :todo "PROJ"
                         :todo "NEXT"
