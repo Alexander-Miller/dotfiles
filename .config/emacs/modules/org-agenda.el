@@ -92,7 +92,7 @@
       ((agenda ""
                ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
                 (org-agenda-skip-function
-                 '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "HABIT" "INBOX")))))))
+                 '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "INBOX")))))))
      ("s" "Inbox"
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
@@ -109,7 +109,7 @@
               (org-super-agenda-groups
                `((:name "Dringend"
                         :deadline (before ,(std::org::agenda::now-plus 1 days))
-                        :face (:append t :background "#661A1A" :weight bold))
+                        :face (:append t :background "#661A1A" :weight bold :extend t))
                  (:name "Wichtig"
                         :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B"))
                  (:name "Aktiv"
