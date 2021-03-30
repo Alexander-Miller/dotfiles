@@ -3,9 +3,9 @@
 (eval-when-compile (require 'treemacs))
 
 (defmacro std::org::capture::find-olp (path)
-    `(-> ,path
-         (org-find-olp :this-buffer)
-         (goto-char)))
+  `(-> ,path
+       (org-find-olp :this-buffer)
+       (goto-char)))
 
 (defun std::org::capture-select-template (&optional keys)
   "Slightly prettier version of the original."

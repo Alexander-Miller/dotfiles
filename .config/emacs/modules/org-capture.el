@@ -14,17 +14,13 @@
 
   (require 'treemacs)
 
-  (defun std::org::capture::habit-olp ()
-    (std::org::capture::find-olp
-     (list "Vorhaben" std::org::current-year "Gewohnheiten")))
-
   (defun std::org::capture::dotts ()
-    (let* ((olp `("Vorhaben" ,(format-time-string "%Y") "Dotts"))
+    (let* ((olp `("Vorhaben" "Dotts"))
            (sub-entry (std::org::capture::select-path olp)))
       (std::org::capture::find-olp (append olp (list sub-entry)))))
 
   (defun std::org::capture::bookmark ()
-    (let* ((olp `("Lesezeichen" ,(format-time-string "%Y")))
+    (let* ((olp `("Lesezeichen"))
            (sub-entry (std::org::capture::select-path olp)))
       (std::org::capture::find-olp (append olp (list sub-entry)))))
 
@@ -38,16 +34,16 @@
             :file ,std::org::private-file
             :empty-lines-after 1
             :children
-
-            ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-string-face))
+            ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-builtin-face))
               :keys "i"
               :file ,std::org::inbox-file
               :headline "Private Inbox"
-              :template ("* INBOX %i%?"))
+              :template("* INBOX %i%?"
+                        "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
              (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
               :keys "t"
               :file ,std::org::private-file
-              :olp ("Termine" ,std::org::current-year)
+              :olp ("Termine")
               :template ("* APPT %? %^T"))
              (,(concat (treemacs-get-icon-value 'fallback) (std::face "Tagebuch" 'font-lock-type-face))
               :keys "a"
@@ -63,21 +59,28 @@
               :type plain
               :template ("~%^{>_|Wohnung|Strom|Versicherungen|Internet|Sonstiges}~"
                          "%?"))
-             (,(concat (treemacs-get-icon-value 'screen) (std::face "Dotts" 'font-lock-builtin-face))
+             (,(concat (treemacs-get-icon-value 'house) (std::face "Haushalt Aufgabe" 'font-lock-constant-face))
+              :keys "w"
+              :olp ("Vorhaben" "Haushalt")
+              :file ,std::org::private-file
+              :type entry
+              :template ("* %^{TODO: |PROJ|TODO|TASK|NEXT} %?"
+                         ""))
+             (,(concat (treemacs-get-icon-value 'screen) (std::face "Dotts Aufgabe" 'font-lock-variable-name-face))
               :keys "d"
               :type entry
               :function std::org::capture::dotts
-              :template ("* %{todo-state} %? %{tag}")
-              :children
-              ((,(std::face "Project" 'font-lock-keyword-face)
-                :keys "p"
-                :todo-state "PROJ"
-                :tag ":P:")
-               (,(std::face "Task" 'font-lock-string-face)
-                :keys "t"
-                :todo-state "NEXT"
-                :tag "")))
-             (,(concat (treemacs-get-icon-value 'bookmark) "Lesezeichen")
+              :template ("* %^{TODO: |PROJ|TODO|TASK|NEXT} %?"))
+             (,(concat (treemacs-get-icon-value 'screen) (std::face "Dauerläufer" 'font-lock-doc-face))
+              :keys "j"
+              :type entry
+              :olp ("Vorhaben" "Gewohnheiten")
+              :template ("* HABIT %?"
+                         ":SCHEDULED: %t"
+                         ":PROPETIES:"
+                         ":STYLE:    habit"
+                         ":END:"))
+             (,(concat (treemacs-get-icon-value 'bookmark) (std::face "Lesezeichen" 'font-lock-builtin-face))
               :type entry
               :keys "l"
               :function std::org::capture::bookmark
