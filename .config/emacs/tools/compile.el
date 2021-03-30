@@ -31,9 +31,12 @@
 (std::log "Load Init File")
 (std::load "~/.emacs.d/init.el")
 
-(let* ((byte-compile-warnings '(not unresolved free-vars make-local)))
+(let* ((filter (cdddr command-line-args))
+       (byte-compile-warnings '(not unresolved free-vars make-local)))
 
-  (std::log "Compiling Modules")
+  (if filter
+      (std::log (format "Compiling modules with filter %s" filter))
+    (std::log "Compiling Modules"))
 
   (dolist (file (std::files std::module-dir))
     (when (string= "el" (file-name-extension file))
