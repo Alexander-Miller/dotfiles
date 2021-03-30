@@ -132,16 +132,17 @@
                '((:name none :timestamp future :timestamp today)
                  (:discard (:anything))))))
        (tags-todo "hh"
-                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))))
+                  ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
+                   (org-super-agenda-groups
+                    '((:auto-category)))))
        (todo "HABIT"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
+                   (org-super-agenda-category-header-format "Projekt: %s")
                    (org-super-agenda-retain-sorting t)
                    (org-super-agenda-groups
-                    '((:name "Pakete:"  :tag "pkg")
-                      (:name "Emacs:"   :tag "emacs")
-                      (:name "Anderes:" :tag "otherdotts")))))
+                    '((:auto-category)))))
        (tags-todo "bm"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
                    (org-agenda-files (list std::org::private-file))
