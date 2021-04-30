@@ -88,7 +88,7 @@
      (tags user-defined-down priority-down)
      (search category-keep))
    org-agenda-custom-commands
-   '(("a" "2 Wochen"
+   `(("a" "2 Wochen"
       ((agenda ""
                ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
                 (org-agenda-skip-function
@@ -154,6 +154,7 @@
       ((tags-todo "kunde"
                   ((org-agenda-overriding-header "Kundenprojekt")
                    (org-agenda-files (list std::org::work-file))
+                   (org-agenda-prefix-format '((tags . "   ")))
                    (org-super-agenda-groups
                     '((:name "Wichtig"
                              :deadline past
@@ -161,10 +162,13 @@
                              :face (:append t :background "#5D2D2D" :extend t))
                       (:name "Daily"          :tag "daily")
                       (:name "Retro"          :tag "@retro")
-                      (:name "Anderes"        :not (:tag "story"))
+                      (:name "Aktiv"          :scheduled (before ,(std::org::agenda::now-plus 1 days)))
+                      (:name "Anderes"        :not (:tag "story" :todo "APPT"))
                       (:discard (:anything))))))
        (tags-todo "kunde+story"
                   ((org-agenda-overriding-header "Stories")
+                   (org-agenda-prefix-format '((tags . "   ")))
+                   (org-super-agenda-category-header "Story: ")
                    (org-super-agenda-groups
                     '((:name "Aufgaben" :auto-category)))))))
      ("k" "NT & AQE & AEP"
