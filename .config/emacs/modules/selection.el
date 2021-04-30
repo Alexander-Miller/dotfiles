@@ -27,6 +27,8 @@
  mini-frame-resize          nil
  marginalia-annotators      '(marginalia-annotators-heavy nil marginalia-annotators-light)
  mini-frame-show-parameters #'std::mini-frame-show-parameters
+ selectrum-extend-current-candidate-highlight
+ t
  mini-frame-ignore-commands
  '(eval-expression
    "edebug-eval-expression"
