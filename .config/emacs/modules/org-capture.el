@@ -20,9 +20,8 @@
       (std::org::capture::find-olp (append olp (list sub-entry)))))
 
   (defun std::org::capture::bookmark ()
-    (let* ((olp `("Lesezeichen"))
-           (sub-entry (std::org::capture::select-path olp)))
-      (std::org::capture::find-olp (append olp (list sub-entry)))))
+    (std::org::capture::find-olp
+     `("Lesezeichen" ,(std::read ": " '("Bücher" "Artikel" "Video")))))
 
   (defun std::org::capture::log-timestamp ()
     (format-time-string "[%Y-%m-%d %a]"))

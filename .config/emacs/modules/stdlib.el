@@ -35,7 +35,11 @@
 
 (defmacro std::read (prompt collection &rest args)
   (declare (indent 1))
-  `(cdr (assoc (completing-read ,prompt ,collection ,@args) ,collection)))
+  `(let* ((c ,collection)
+          (choice (completing-read ,prompt c ,@args)))
+     (if (consp (car c))
+         (cdr (assoc choice c))
+       choice)))
 
 (defmacro std::static-assert (predicate &optional error-msg &rest error-args)
   (declare (indent 1))
