@@ -64,48 +64,6 @@
    "C-j"   #'company-select-next
    "C-k"   #'company-select-previous))
 
-;; Backend sorting
-(std::after company
-  (defconst std::completion::backend-priorities
-    '((company-fish-shell   . 10)
-      (company-shell        . 11)
-      (company-shell-env    . 12)
-      (company-anaconda     . 10)
-      (company-capf         . 10)
-      (company-yasnippet    . 60)
-      (company-keywords     . 70)
-      (company-files        . 80)
-      (company-dabbrev-code . 90)
-      (company-dabbrev      . 100))
-    "Alist of backends' priorities.  Smaller number means higher priority.")
-
-  (define-inline std::completion::priority-of-backend (backend)
-    "Will retrieve priority of BACKEND.
-  Defauts to 999 if BACKEND is nul or has no priority defined."
-    (inline-letevals (backend)
-      (inline-quote
-       (or (cdr (assoc ,backend std::completion::backend-priorities))
-           999))))
-
-  (defun std::completion::priority-compare (c1 c2)
-    "Compares the priorities of C1 & C2."
-    (let* ((b1   (get-text-property 0 'company-backend c1))
-           (b2   (get-text-property 0 'company-backend c2))
-           (p1   (std::completion::priority-of-backend b1))
-           (p2   (std::completion::priority-of-backend b2))
-           (diff (- p1 p2)))
-      (< diff 0)))
-
-  (defun std::completion::sort-by-backend-priority (candidates)
-    "Will sort completion CANDIDATES according to their priorities."
-    (sort candidates #'std::completion::priority-compare))
-
-  (defun std::completion::use-completions-priority-sorting ()
-    (add-to-list 'company-transformers #'std::completion::sort-by-backend-priority))
-
-  (add-hook 'fish-mode-hook #'std::completion::use-completions-priority-sorting))
-
-
 ;; Keymap corrections for quickhelp
 (std::after company-quickhelp
 
