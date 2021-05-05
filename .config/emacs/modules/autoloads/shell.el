@@ -17,8 +17,14 @@
 (defun std::fish::mode-hook ()
   (setf imenu-generic-expression std::fish::imenu-expr)
   (setq-local company-backends
-              '((company-shell company-fish-shell company-shell-env company-capf company-files company-dabbrev-code :with company-yasnippet)
-                (company-dabbrev company-dabbrev-code company-keywords))))
+              '((:separate
+                 company-shell company-fish-shell
+                 company-shell-env company-capf
+                 company-files company-dabbrev-code
+                 :with company-yasnippet)
+                (:separate
+                 company-dabbrev company-dabbrev-code
+                 company-keywords))))
 
 (defun std::vterm ()
   (interactive)
