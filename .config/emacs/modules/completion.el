@@ -2,7 +2,7 @@
 
 (std::using-packages
  company
- company-box
+ company-posframe
  company-quickhelp
  company-prescient)
 
@@ -26,7 +26,7 @@
 (std::after company
 
   (company-prescient-mode)
-  (add-hook 'company-mode-hook #'company-box-mode)
+  (company-posframe-mode)
 
   (std::add-transient-advice std::completion::enable-quickhelp :before #'company-complete
     (require 'company-quickhelp))
@@ -49,6 +49,7 @@
    company-selection-wrap-around       t
    company-show-numbers                t
    company-echo-delay                  nil
+   company-format-margin-function      #'company-text-icons-margin
    ;; Tooltip
    company-tooltip-flip-when-above     nil
    company-tooltip-minimum-width       70
