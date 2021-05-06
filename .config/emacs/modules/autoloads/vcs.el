@@ -29,6 +29,14 @@
   :type line
   (evil-previous-visual-line 5))
 
+(defun std::ediff::copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff
+   ediff-current-difference nil 'C nil
+   (concat
+    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+
 (defun std::vcs::ediff-mode-hook ()
   (ediff-setup-keymap)
   (std::keybind
@@ -37,6 +45,9 @@
    "k" #'ediff-previous-difference
    "d" #'ediff-jump-to-difference
    "H" #'ediff-toggle-hilit
+   "a" #'ediff-copy-A-to-C
+   "b" #'ediff-copy-B-to-C
+   "C" #'std::ediff::copy-both-to-C
    "M-J" #'std::vcs::ediff-scroll-down
    "M-K" #'std::vcs::ediff-scroll-up))
 

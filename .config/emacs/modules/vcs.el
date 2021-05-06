@@ -19,7 +19,8 @@
   #'std::vcs::ediff-hydra/body
   #'std::vcs::save-pre-ediff-window-config
   #'std::vcs::maybe-setup-commit-buffer
-  #'std::vcs::ediff-hydra/body)
+  #'std::vcs::ediff-hydra/body
+  #'std::ediff::copy-both-to-C)
 
 (std::keybind
  :leader
