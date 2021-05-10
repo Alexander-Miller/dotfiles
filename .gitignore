@@ -22,3 +22,4 @@ build
 *.elc
 /.config/spacemacs/autoloads.el
 /.config/mpv/watch_later
+/.config/ncmpcpp/error.log
