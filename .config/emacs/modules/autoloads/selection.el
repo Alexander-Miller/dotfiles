@@ -17,3 +17,8 @@
   (if (eq major-mode 'org-mode)
       (std::helm::org-in-buffer-headings)
     (call-interactively #'helm-imenu)))
+
+(defvar std::selectrum-candidates nil)
+
+(defun std::selection::set-selectrum-candidates (_ collection &rest _)
+  (setf std::selectrum-candidates collection))
