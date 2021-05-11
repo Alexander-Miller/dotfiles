@@ -10,7 +10,9 @@
         (if (file-exists-p repo-dir)
             (let ((default-directory repo-dir))
               (std::log (format "Updating %s" it))
-              (straight-pull-package "consult"))
+              (unless (= 0 (shell-command "git pull"))
+                (std::log (format "Update error: %s"
+                                  (with-current-buffer (get-buffer "*Shell Command Output*") (buffer-string))))))
           (std::err (format "Package '%s' not found" it)))))))
 
 (std::log "Building Org Version File")
