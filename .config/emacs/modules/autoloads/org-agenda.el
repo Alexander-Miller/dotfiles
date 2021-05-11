@@ -51,6 +51,10 @@
   (interactive)
   (org-agenda-schedule '(4)))
 
+(defun std::org::agenda::schedule-now ()
+  (interactive)
+  (org-agenda-schedule nil (current-time)))
+
 (defun std::org::agenda::mark-habits ()
   "https://emacs.stackexchange.com/a/17328/16972"
   (when (not (get-text-property (point) 'org-series))

@@ -6,6 +6,7 @@
  toc-org)
 
 (std::autoload org
+  #'std::org::schedule-now
   #'std::org::mode-hook
   #'std::org::goto-org-file
   #'std::org::table-recalc
@@ -156,6 +157,7 @@
    "C-k" #'org-backward-heading-same-level
    ;; Scheduling
    "ss" #'org-schedule
+   "sn" #'std::org::schedule-now
    "st" #'org-time-stamp
    "sd" #'org-deadline
    ;; Subtrees

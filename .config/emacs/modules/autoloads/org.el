@@ -27,6 +27,10 @@
      (--map (cons (f-filename it) it) (std::files std::org-dir ".org"))
      nil :require-match)))
 
+(defun std::org::schedule-now ()
+  (interactive)
+  (org-schedule nil (current-time)))
+
 (defun std::org::table-recalc ()
   "Reverse the prefix arg bevaviour of `org-table-recalculate', such that
 by default the entire table is recalculated, while with a prefix arg recalculates
