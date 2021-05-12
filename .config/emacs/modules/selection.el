@@ -6,7 +6,6 @@
  selectrum
  prescient
  consult
- consult-selectrum
  selectrum-prescient
  marginalia
  avy
@@ -36,6 +35,8 @@
    debugger-eval-expression
    ".*helm.*"
    "std::org::inbox-refile-targets"))
+
+(defvar std::selectrum-candidates nil)
 
 (std::add-advice #'std::selection::set-selectrum-candidates :before
   #'selectrum-completing-read)
