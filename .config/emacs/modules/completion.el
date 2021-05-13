@@ -54,7 +54,12 @@
    company-tooltip-flip-when-above     nil
    company-tooltip-minimum-width       70
    company-tooltip-align-annotations   t
-   company-tooltip-margin              2))
+   company-tooltip-margin              2
+   ;; posframe
+   company-posframe-show-params
+   (list :internal-border-width 2
+         :internal-border-color "#1C1C1C"
+         :child-frame-border-color "#1C1C1C")))
 
 ;; Keybinds
 (std::after company
