@@ -39,30 +39,27 @@
 (defvar std::selectrum-candidates nil)
 
 (std::add-advice #'std::selection::set-selectrum-candidates :before
-  #'selectrum-completing-read)
+  (selectrum-completing-read selectrum-read-file-name))
 
 (defun std::mini-frame-show-parameters ()
-  (let ((size-args
-         (pcase this-command
-           ('consult-imenu
-            (setf selectrum-max-window-height 15)
-            '((width . 0.6) (height . 15)))
-           ('find-file
-            (setf selectrum-max-window-height 10)
-            '((width . 0.9) (height . 10)))
-           ('find-library
-            (setf selectrum-max-window-height 10)
-            '((width . 0.9) (height . 10)))
-           ((guard (not (null std::selectrum-candidates)))
-            (-let [height (if (listp std::selectrum-candidates)
-                              (min 8 (1+ (length std::selectrum-candidates)))
-                            8)]
-              (setf selectrum-max-window-height (1- height))
-              `((width . 0.9) (height . ,height))))
-           (_
-            (setf selectrum-max-window-height 1)
-            '((width . 0.9) (height . 2))))))
-    `((background-color . "#2E2E32") (left . 0.5) (top . 40) ,@size-args)))
+  (let ((width 0.9)
+        height)
+    (pcase this-command
+      ('consult-imenu (setf height 15 width 0.6))
+      ('find-file     (setf height 10))
+      ('find-library  (setf height 10))
+      ((guard (not (null std::selectrum-candidates)))
+       (setf height (if (listp std::selectrum-candidates)
+                        (min 8 (1+ (length std::selectrum-candidates)))
+                      8)))
+      (_ (setf height 2)))
+    (setf selectrum-max-window-height (1- height)
+          std::selectrum-candidates nil)
+    `((background-color . "#2E2E32")
+      (left . 0.5)
+      (top . 40)
+      (height . ,height)
+      (width . ,width))))
 
 (std::keybind
  :global
