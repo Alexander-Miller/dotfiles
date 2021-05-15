@@ -20,7 +20,8 @@
  evil-vimish-fold
  adoc-mode
  yaml-mode
- csv-mode)
+ csv-mode
+ markdown-mode)
 
 (autoload #'yas-expand "yasnippet")
 (autoload #'evilnc-comment-operator "evil-nerd-commenter")
