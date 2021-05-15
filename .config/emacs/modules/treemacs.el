@@ -26,9 +26,11 @@
     (autoload #'treemacs--expand-file-node            "treemacs-tags.el")
     (autoload #'treemacs--create-imenu-index-function "treemacs-tags.el")
     (autoload #'treemacs-tag-follow-mode              "treemacs-tag-follow-mode.el")
+    (autoload #'treemacs--flatten&sort-imenu-index    "treemacs-tag-follow-mode.el")
     (autoload #'treemacs-get-icon-value               "treemacs-icons.el")
     (autoload #'treemacs-common-helpful-hydra         "treemacs-hydras.el")
     (autoload #'treemacs-advanced-helpful-hydra       "treemacs-hydras.el")
+    (autoload #'treemacs-icons-dired-mode             "treemacs-icons-dired.el")
     (autoload #'treemacs-icons-dired-mode             "treemacs-icons-dired.el")
     (autoload #'cfrs-read                             "cfrs.el")
 
