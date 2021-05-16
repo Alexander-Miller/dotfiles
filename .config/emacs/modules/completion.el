@@ -9,7 +9,8 @@
 (std::autoload completion
   #'std::completion::prose-complete
   #'std::completion::complete-and-keep-frontend
-  #'std::completion::prose-hook)
+  #'std::completion::prose-hook
+  #'std::completion::margin-function)
 
 (std::schedule 1 :no-repeat
   (global-company-mode))
@@ -49,13 +50,14 @@
    company-selection-wrap-around       t
    company-show-numbers                t
    company-echo-delay                  nil
-   company-format-margin-function      #'company-text-icons-margin
+   company-format-margin-function      #'std::completion::margin-function
    ;; Tooltip
    company-tooltip-flip-when-above     nil
    company-tooltip-minimum-width       70
    company-tooltip-align-annotations   t
    company-tooltip-margin              2
    ;; posframe
+   company-posframe-show-indicator     nil
    company-posframe-show-params
    (list :internal-border-width 2
          :internal-border-color "#1C1C1C"
