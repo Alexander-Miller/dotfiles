@@ -31,7 +31,8 @@
          (actions `(("C-s" "Save word"         (save    . ,word))
                     ("C-a" "Accept (session)"  (session . ,word))
                     ("C-b" "Accept (buffer)"   (buffer  . ,word))
-                    ("C-c" "Skip"              (skip    . ,word))))
+                    ("C-c" "Skip"              (skip    . ,word))
+                    ("<escape>" "Quit"         (skip    . ,word))))
          (prompt   (format "Dictionary: [%s]"  (or ispell-local-dictionary
                                                    ispell-dictionary
                                                    "default")))
