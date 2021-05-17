@@ -10,7 +10,7 @@
 (std::autoload ui
   #'std::ui::writeroom-hide-line-numbers
   #'std::ui::change-font-size
-  #'std::ui::reload-theme)
+  #'std::ui::theme-hydra/body)
 
 (defvar std::default-font-spec '(:family "Fantasque Sans Mono" :size 16))
 (setf (alist-get 'font default-frame-alist) (eval `(font-xlfd-name (font-spec ,@std::default-font-spec))))
@@ -18,9 +18,7 @@
 (std::keybind
  :leader
  "if"  #'std::ui::change-font-size
- "itd" #'disable-theme
- "itl" #'load-theme
- "itr" #'std::ui::reload-theme)
+ "it"  #'std::ui::theme-hydra/body)
 
 (std::schedule 1 :no-repeat
   (add-hook 'prog-mode-hook #'prettify-symbols-mode))

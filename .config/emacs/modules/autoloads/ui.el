@@ -17,3 +17,8 @@
 (defun std::ui::reload-theme ()
   (interactive)
   (load-theme (car custom-enabled-themes) :no-confirm))
+
+(defhydra std::ui::theme-hydra (:exit t :hint t)
+  ("d" #'disable-theme         "Disable")
+  ("l" #'load-theme            "Load")
+  ("r" #'std::ui::reload-theme "Functions"))
