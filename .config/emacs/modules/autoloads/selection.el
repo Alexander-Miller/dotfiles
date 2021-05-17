@@ -18,5 +18,6 @@
       (std::helm::org-in-buffer-headings)
     (call-interactively #'helm-imenu)))
 
-(defun std::selection::set-selectrum-candidates (_ collection &rest _)
-  (setf std::selectrum-candidates collection))
+(cl-defun std::selection::set-selectrum-candidates
+    (_ collection &rest other-args &key minibuffer-completion-table &allow-other-keys)
+  (setf std::selectrum-candidates (or collection minibuffer-completion-table)))

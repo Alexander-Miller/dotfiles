@@ -38,8 +38,8 @@
 
 (defvar std::selectrum-candidates nil)
 
-(std::add-advice #'std::selection::set-selectrum-candidates :before
-  (selectrum-completing-read selectrum-read-file-name))
+(std::add-advice #'std::selection::set-selectrum-candidates
+    :before #'selectrum--read)
 
 (defun std::mini-frame-show-parameters ()
   (let ((width 0.9)
