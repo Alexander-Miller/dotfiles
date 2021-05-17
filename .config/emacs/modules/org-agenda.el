@@ -197,6 +197,7 @@
             (:name "Warteschlange"
                    :and (:todo "WAIT" :tag "nt"))
             (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
+            (:name "Lesezeichen" :tag "bkm")
             (:name "Anderes" :not (:todo "INBOX" :todo "APPT" :tag "@P"))
             (:discard (:anything))))))
        (tags-todo
