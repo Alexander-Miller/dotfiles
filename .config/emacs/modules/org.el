@@ -83,6 +83,15 @@
    org-fontify-done-headline              nil
    org-fontify-whole-block-delimiter-line t)
 
+  ;; Priority
+  (setf
+   org-priority-highest ?A
+   org-priority-lowest  ?D
+   org-priority-faces
+   '((?A . (:background "#DDBA1A" :foreground "#1A1A1A"
+                        :weight bold
+                        :box (:line-width -1 :color "#000000")))))
+
   ;; Multi-line emphasis
   (setf (nthcdr 4 org-emphasis-regexp-components) '(3))
 
