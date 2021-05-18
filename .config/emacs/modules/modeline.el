@@ -75,10 +75,10 @@
 (declare-function eyebrowse--get "eyebrowse")
 
 (defconst std::modeline::selected-window-xpm
-  (eval-when-compile (std::modeline::make-xpm 'std::modeline::selected-separator-face 5 30)))
+  (eval-when-compile (std::modeline::make-xpm 'std::modeline::selected-separator-face 5 25)))
 
 (defconst std::modeline::unselected-window-xpm
-  (eval-when-compile (std::modeline::make-xpm 'std::modeline::separator-inactive-face 5 30)))
+  (eval-when-compile (std::modeline::make-xpm 'std::modeline::separator-inactive-face 5 25)))
 
 (define-inline std::num-to-unicode (n)
   (declare (pure t) (side-effect-free error-free))
