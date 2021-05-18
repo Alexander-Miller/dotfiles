@@ -99,7 +99,7 @@
         pos-tip-foreground-color "#ccb18b"))
 
 (std::after writeroom-mode
-  (add-to-list 'writeroom-global-effects #'std::ui::writeroom-hide-line-numbers)
+  (add-to-list 'writeroom-local-effects #'std::ui::writeroom-hide-line-numbers)
 
   (setf
    writeroom-width                (round (* 0.75 (frame-width)))
