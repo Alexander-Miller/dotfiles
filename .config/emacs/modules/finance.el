@@ -14,6 +14,8 @@
   #'std::ledger::forward
   #'std::ledger::backward)
 
+(defconst std::ledger-dir (expand-file-name (format "%s/Ledger" std::org-dir)))
+
 (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 (add-hook 'ledger-report-after-report-hook #'fit-window-to-buffer)
 

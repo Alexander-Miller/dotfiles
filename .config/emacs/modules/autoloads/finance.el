@@ -4,8 +4,6 @@
 
 (defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ any)) " +++" eol))
 
-(defconst std::ledger-dir (expand-file-name (format "%s/Ledger" std::org-dir)))
-
 (defconst std::ledger::months
   '((1 . "Januar")   (2 . "Februar")   (3 . "März")
     (4 . "April")    (5 . "Mai")       (6 . "Juni")
