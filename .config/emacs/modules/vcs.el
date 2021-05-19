@@ -52,6 +52,7 @@
   (add-hook 'magit-diff-visit-file-hook #'std::vcs::org-reveal-on-visit)
 
   (setf
+   transient-show-popup                       1
    git-commit-summary-max-length              120
    magit-display-buffer-function              #'magit-display-buffer-fullframe-status-v1
    magit-repository-directories               `((,std::repos-dir . 1))
