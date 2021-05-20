@@ -21,4 +21,4 @@
 (defhydra std::ui::theme-hydra (:exit t :hint t)
   ("d" #'disable-theme         "Disable")
   ("l" #'load-theme            "Load")
-  ("r" #'std::ui::reload-theme "Functions"))
+  ("r" #'std::ui::reload-theme "Reload"))
