@@ -6,6 +6,7 @@
  selectrum
  prescient
  consult
+ orderless
  selectrum-prescient
  marginalia
  avy
@@ -16,25 +17,44 @@
   #'std::helm::org-in-buffer-headings
   #'std::helm::imenu)
 
-(selectrum-mode)
-(selectrum-prescient-mode)
-(marginalia-mode)
-(mini-frame-mode)
-
 (setf
- consult-preview-key        nil
- marginalia-align-offset    1
+ ;; completion
+ completion-styles             '(orderless)
+ completion-category-defaults  nil
+ completion-category-overrides '((file (styles . (partial-completion))))
+
+ ;; orderless
+ orderless-skip-highlighting (lambda () selectrum-is-active)
+ orderless-matching-styles   '(orderless-literal
+                               orderless-initialism
+                               orderless-regexp)
+
+ ;; selectrum
+ selectrum-prescient-enable-filtering         nil
+ selectrum-highlight-candidates-function      #'orderless-highlight-matches
+ selectrum-extend-current-candidate-highlight t
+
+ ;; consult
+ consult-preview-key nil
+
+ ;;marginalia
+ marginalia-align-offset 1
+
+ ;; mini-frame
  mini-frame-resize          nil
- marginalia-annotators      '(marginalia-annotators-heavy nil marginalia-annotators-light)
  mini-frame-show-parameters #'std::mini-frame-show-parameters
- selectrum-extend-current-candidate-highlight
- t
  mini-frame-ignore-commands
  '(eval-expression
    "edebug-eval-expression"
    debugger-eval-expression
    ".*helm.*"
    "std::org::inbox-refile-targets"))
+
+(selectrum-mode)
+(selectrum-prescient-mode)
+(prescient-persist-mode)
+(marginalia-mode)
+(mini-frame-mode)
 
 (defvar std::selectrum-candidates nil)
 
