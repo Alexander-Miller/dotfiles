@@ -4,7 +4,8 @@
   (use-hard-newlines -1))
 
 (defun std::mail::view-mode-hook ()
-  (visual-line-mode))
+  (visual-line-mode)
+  (setq-local face-remapping-alist '((avy-lead-face ((:inherit avy-lead-face :family "Fantasque Sans Mono"))))))
 
 (defhydra std::mail::tag (:exit t :hint nil)
   ("t" (std::mail::do-tag "+T") "T")
