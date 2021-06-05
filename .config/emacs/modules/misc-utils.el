@@ -52,13 +52,15 @@
  user-mail-address            "alexanderm@web.de"
  user-full-name               "Alexander Miller")
 
-(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-region       'disabled            nil)
+(put 'conf-assignment-column 'safe-local-variable #'integerp)
+(put 'org-list-indent-offset 'safe-local-variable #'integerp)
+(put 'fill-column            'safe-local-variable #'integerp)
+(put 'toc-org-max-depth      'safe-local-variable #'integerp)
 
 (setq-default
  safe-local-variable-values
- '((org-list-indent-offset . 1)
-   (fill-column . 120)
-   (eval auto-fill-mode t)))
+ '((eval auto-fill-mode t)))
 
 (defalias #'yes-or-no-p #'y-or-n-p)
 
