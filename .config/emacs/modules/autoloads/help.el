@@ -24,7 +24,8 @@
   (interactive)
   (helm :sources '(helm-source-info-emacs
                    helm-source-info-elisp
-                   helm-source-info-cl)))
+                   helm-source-info-cl)
+        :buffer "*Helm Info*"))
 
 (defun std::help::hydra ()
   (interactive)
