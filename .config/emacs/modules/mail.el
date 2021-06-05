@@ -6,7 +6,8 @@
 (std::autoload mail
   #'std::mail::compose-mode-hook
   #'std::mail::view-mode-hook
-  #'std::mail::refresh)
+  #'std::mail::refresh
+  #'std::mail::tag/body)
 
 (std::pushnew load-path "/usr/share/emacs/site-lisp/mu4e")
 
@@ -65,11 +66,12 @@
         mu4e-headers-encrypted-mark       '("x" . "⚴")
         mu4e-headers-signed-mark          '("s" . "☡")
         mu4e-headers-unread-mark          '("u" . "⎕")
-        mu4e-headers-fields               `((:date . 10)
-                                            (:flags . 6)
+        mu4e-headers-fields               `((:date         . 10)
+                                            (:flags        . 6)
+                                            (:tags         . 4)
                                             (:mailing-list . 10)
-                                            (:from . 22)
-                                            (:subject . ,(- (frame-width) (+ 10 6 10 22 8)))))
+                                            (:from         . 22)
+                                            (:subject . ,(- (frame-width) 10 6 10 22 8 4))))
 
   (setf mu4e-bookmarks
         (list
@@ -254,7 +256,7 @@
       (:tags
        (propertize
         (mapconcat 'identity val ", ")
-        'face 'font-lock-builtin-face))
+        'face 'font-lock-keyword-face))
       (:size (mu4e-display-size val))
       (t (mu4e~headers-custom-field msg field)))))
 
@@ -268,6 +270,7 @@
     "K"   #'std::evil::backward-five-lines
     "RET" #'mu4e-headers-view-message
     "gr"  #'std::mail::refresh
+    "t"   #'std::mail::tag/body
     "+"   #'std::mail::add-tag
     "-"   #'std::mail::remove-tag
     "!"   #'mu4e-view-mark-for-read
