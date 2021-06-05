@@ -14,7 +14,8 @@
   #'std::org::agenda::quit
   #'std::org::agenda::compare-by-todo-state
   #'std::org::agenda::schedule-now
-  #'std::org::agenda::now-plus)
+  #'std::org::agenda::now-plus
+  #'std::org::agenda::open-link-at-line)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
@@ -230,7 +231,8 @@
    "q"   #'std::org::agenda::quit
    "Q"   #'org-agenda-quit
    :mode-leader org-agenda-mode
-   "ss" #'org-agenda-schedule
-   "sn" #'std::org::agenda::schedule-now
-   "sx" #'std::org::agenda::unschedule
-   "P"  #'org-agenda-priority))
+   "ss"  #'org-agenda-schedule
+   "sn"  #'std::org::agenda::schedule-now
+   "sx"  #'std::org::agenda::unschedule
+   "C-o" #'std::org::agenda::open-link-at-line
+   "P"   #'org-agenda-priority))
