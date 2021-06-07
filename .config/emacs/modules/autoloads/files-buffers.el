@@ -64,6 +64,18 @@
       (display-buffer-same-window buffer nil)
       (goto-char point))))
 
+(defun std::dropbox-buffer-cleanup ()
+  (interactive)
+  (let ((dpx (expand-file-name "~/Dropbox"))
+        (org (expand-file-name "~/Documents/Org")))
+    (dolist (b (buffer-list))
+      (-when-let (bf (buffer-file-name b))
+        (when (or (s-starts-with? dpx bf)
+                  (s-starts-with? org bf))
+          (with-current-buffer b
+            (save-buffer))
+          (kill-buffer b))))))
+
 (defun std::sudo-edit (&optional arg)
   (interactive "P")
   (require 'tramp)

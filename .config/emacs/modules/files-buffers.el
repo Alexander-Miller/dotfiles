@@ -5,7 +5,8 @@
   #'std::edit-module
   #'std::sudo-edit
   #'std::move-buffer-to-parent-frame
-  #'std::other-buffer)
+  #'std::other-buffer
+  #'std::dropbox-buffer-cleanup)
 
 (std::keybind
  :leader
@@ -16,4 +17,5 @@
  "bs"  #'std::scratch
  "bp"  #'std::move-buffer-to-parent-frame
  "bR"  #'revert-buffer
+ "bK"  #'std::dropbox-buffer-cleanup
  "TAB" #'std::other-buffer)
