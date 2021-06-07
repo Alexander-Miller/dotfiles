@@ -108,12 +108,16 @@
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (list std::org::private-file))
               (org-super-agenda-retain-sorting t)
+              (org-agenda-sorting-strategy '(priority-down todo-state-up))
               (org-super-agenda-groups
                `((:name "Dringend"
                         :deadline (before ,(std::org::agenda::now-plus 1 days))
                         :face (:append t :background "#661A1A" :weight bold :extend t))
                  (:name "Wichtig"
-                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B"))
+                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B")
+                        :and (:todo "APPT"
+                                    :timestamp (after ,(std::org::agenda::now-plus -2 days))
+                                    :timestamp (before ,(std::org::agenda::now-plus 0 days))))
                  (:name "Aktiv"
                         :scheduled (before ,(std::org::agenda::now-plus 1 days)))
                  (:name "Warteschlange"
