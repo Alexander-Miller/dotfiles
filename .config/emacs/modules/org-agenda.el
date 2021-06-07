@@ -210,6 +210,7 @@
         ((org-agenda-overriding-header "Projektaufteilung")
          (org-super-agenda-category-header "Projekt: ")
          (org-agenda-files (list std::org::work-file))
+         (org-agenda-prefix-format '((tags . "   ")))
          (org-super-agenda-groups
           `((:name "Projekte" :auto-category t))))))))))
 
