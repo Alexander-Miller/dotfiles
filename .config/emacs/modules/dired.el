@@ -33,7 +33,8 @@
 
   (require 'dired+)
 
-  (treemacs-icons-dired-mode)
+  (std::add-transient-hook 'dired-mode-hook
+    (treemacs-icons-dired-mode))
 
   (evil-define-state dired
     "Dired state"
