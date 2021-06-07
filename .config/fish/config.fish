@@ -11,6 +11,7 @@ bind \ek up-or-search
 
 add_to_user_path ~/.cargo/bin rust-analyzer
 add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
+add_to_user_path ~/.cask/bin
 
 set -x fish_color_autosuggestion    888888
 set -x fish_color_command           blue
