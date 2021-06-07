@@ -67,7 +67,7 @@
 (std::after company
   (std::keybind
    :keymap company-active-map
-   "C-SPC" #'std::completion::complete-and-keep-frontend
+   "M-j"   #'std::completion::complete-and-keep-frontend
    "C-j"   #'company-select-next
    "C-k"   #'company-select-previous))
 
