@@ -72,7 +72,7 @@
    org-todo-keyword-faces
    `(("INBOX"    . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("APPT"     . (:background "#997799" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-     ("HABIT"    . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+     ("LOOP"     . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("PROJ"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("FRAGE"    . (:background "#55A9A9" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
      ("STORY"    . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
@@ -137,7 +137,7 @@
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
                    (org-super-agenda-groups
                     '((:auto-category)))))
-       (todo "HABIT"
+       (todo "LOOP"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
@@ -197,7 +197,7 @@
                          (after ,(std::org::agenda::now-plus 0 days))))
             (:name "Warteschlange"
                    :and (:todo "WAIT" :tag "nt"))
-            (:name "Dauerläufer" :and (:todo "HABIT" :not (:scheduled today)))
+            (:name "Dauerläufer" :and (:todo "LOOP" :not (:scheduled today)))
             (:name "Lesezeichen" :tag "bkm")
             (:name "Anderes" :not (:todo "INBOX" :todo "APPT" :tag "@P"))
             (:discard (:anything))))))

@@ -74,7 +74,7 @@
               :keys "j"
               :type entry
               :olp ("Vorhaben" "Gewohnheiten")
-              :template ("* HABIT %?"
+              :template ("* LOOP %?"
                          ":SCHEDULED: %t"
                          ":PROPETIES:"
                          ":STYLE:    habit"

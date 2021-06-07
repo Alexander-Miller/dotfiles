@@ -73,7 +73,7 @@
 (defconst std::org::agenda::todo-priorities
   (ht ("INBOX" 101)
       ("APPT"  100)
-      ("HABIT" 99)
+      ("LOOP"  99)
       ("STORY" 91)
       ("PROJ"  90)
       ("FRAGE" 81)
