@@ -10,10 +10,14 @@
 ;; if compilation fails
 (defun std::compile (file)
   (or (std::loud
-       (if (fboundp 'native-compile)
-           (native-compile file)
-         (byte-recompile-file file t 0 nil))
-       (garbage-collect))
+       (let ((ret
+              (condition-case nil
+                  (if (fboundp 'native-compile)
+                      (native-compile file)
+                    (byte-recompile-file file t 0 nil))
+                (error nil))))
+         (garbage-collect)
+         ret))
       (error (format "Compilation of [%s] failed" file))))
 
 (std::log "Compilation Process Started")
@@ -38,8 +42,8 @@
       (when (or (null filter)
                 (--any? (s-contains? it file) filter))
         (std::log (format "  Compile %s" (file-name-nondirectory file)))
-        (std::compile file)
-        (std::clear-line))))
+        (when (std::compile file)
+          (std::clear-line)))))
 
   (std::log "Compiling Autoloads")
   (dolist (file (std::files std::autoloads-dir))
@@ -47,7 +51,7 @@
       (when (or (null filter)
                 (--any? (s-contains? it file) filter))
         (std::log (format "  Compile %s" (file-name-nondirectory file)))
-        (std::compile file)
-        (std::clear-line)))))
+        (when (std::compile file)
+          (std::clear-line))))))
 
 (std::log "Compilation Complete")
