@@ -9,6 +9,11 @@
 ;; Don't load older .elc files
 (setf load-prefer-newer t)
 
+;; load a file without the 'Loading ...' message that otherwise
+;; cannot be silenced
+(defun std::load (file)
+  (load file nil :no-message))
+
 ;; Advice for `message'
 ;; Will filter info messages that a file is compiling or loading
 ;; but will pass useful byte compiler messages when compilation

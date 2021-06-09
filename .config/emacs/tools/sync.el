@@ -25,8 +25,8 @@
       (shell-command-to-string "make")
       (copy-file "./lisp/org-version.el" build-version-file))))
 
-(std::log "Recompiling User Config")
-(load (concat (getenv "EMACS_HOME") "tools/compile.el") nil :no-message)
+(std::log "Load Init File")
+(std::load "~/.emacs.d/init.el")
 
 (std::log "Creating Bulk Autoloads")
 (with-temp-buffer

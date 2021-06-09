@@ -16,11 +16,6 @@
        (garbage-collect))
       (error (format "Compilation of [%s] failed" file))))
 
-;; load a file without the 'Loading ...' message that otherwise
-;; cannot be silenced
-(defun std::load (file)
-  (load file nil :no-message))
-
 (std::log "Compilation Process Started")
 
 (std::log "Delete previous byte code")
