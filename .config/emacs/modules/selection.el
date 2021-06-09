@@ -49,6 +49,8 @@
    "edebug-eval-expression"
    debugger-eval-expression
    ".*helm.*"
+   "std::search"
+   "std::help::manual"
    "std::org::inbox-refile-targets"))
 
 (selectrum-mode)
