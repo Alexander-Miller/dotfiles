@@ -22,7 +22,7 @@
  ;; completion
  completion-styles             '(orderless)
  completion-category-defaults  nil
- completion-category-overrides '((file (styles . (partial-completion))))
+ completion-category-overrides nil
 
  ;; orderless
  orderless-skip-highlighting (lambda () selectrum-is-active)
