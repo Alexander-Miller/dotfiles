@@ -35,6 +35,7 @@
    (magit-popup-mode         :select t   :align right :size 0.4)
    (magit-diff-mode          :select nil :align right :size 0.5)
    (magit-log-select-mode    :select nil :align right :size 0.5)
+   ("*Ledger Report*"        :select t   :align below :size 0.5)
    (flycheck-error-list-mode :select nil :align below :size 0.25)
    (vterm-mode               :select t   :align below :size 0.25)
    (compilation-mode         :select nil :align below :size 0.25)

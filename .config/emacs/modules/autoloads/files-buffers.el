@@ -48,10 +48,9 @@
          (options (append '(("init" . "~/.emacs.d/init.el")
                             ("early init" . "~/.emacs.d/early-init.el"))
                           (nconc modules-alist autoloads-alist)))
-         (selection (completing-read
-                     "Module: "
-                     (--sort (string< (car it) (car other)) options))))
-    (-some-> (assoc selection options) (cdr) (find-file-existing))))
+         (selection (std::read "Module: "
+                      (--map (propertize (car it) :path (cdr it)) options))))
+    (-some-> (get-text-property 0 :path selection) (find-file-existing))))
 
 (defun std::move-buffer-to-parent-frame ()
   "Move current child frame's buffer to its parent and close the child frame."
@@ -72,6 +71,7 @@
       (-when-let (bf (buffer-file-name b))
         (when (or (s-starts-with? dpx bf)
                   (s-starts-with? org bf))
+          (message "Clean up %s" bf)
           (with-current-buffer b
             (save-buffer))
           (kill-buffer b))))))

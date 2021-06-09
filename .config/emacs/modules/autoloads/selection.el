@@ -21,3 +21,7 @@
 (cl-defun std::selection::set-selectrum-candidates
     (_ collection &rest other-args &key mc-table &allow-other-keys)
   (setf std::selectrum-candidates (or collection mc-table)))
+
+(defun std::selection::annotate-file (cand)
+  "Same as marginalia's own function, but works with hiding the full path in an alist."
+  (marginalia-annotate-file (get-text-property 0 :path cand)))

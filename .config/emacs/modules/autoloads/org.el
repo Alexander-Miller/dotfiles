@@ -24,7 +24,8 @@
   (interactive)
   (find-file-existing
    (std::read "Org File: "
-     (--map (cons (f-filename it) it) (std::files std::org-dir ".org"))
+     (--map (cons (propertize (f-filename it) :path it) it)
+            (std::files std::org-dir ".org"))
      nil :require-match)))
 
 (defun std::org::schedule-now ()

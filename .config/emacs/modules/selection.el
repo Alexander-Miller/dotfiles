@@ -13,6 +13,7 @@
  link-hint)
 
 (std::autoload selection
+  #'std::selection::annotate-file
   #'std::selection::set-selectrum-candidates
   #'std::helm::org-in-buffer-headings
   #'std::helm::imenu)
@@ -80,6 +81,12 @@
       (top . 40)
       (height . ,height)
       (width . ,width))))
+
+(std::pushnew marginalia-command-categories
+  '(std::edit-module . short-file)
+  '(std::org::goto-org-file . short-file))
+(std::pushnew marginalia-annotator-registry
+  '(short-file std::selection::annotate-file))
 
 (std::keybind
  :global
