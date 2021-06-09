@@ -27,6 +27,11 @@
 
   (put 'ledger-accounts-file 'safe-local-variable #'stringp)
 
+  (std::add-transient-hook 'ledger-mode-hook
+    (dolist (file (list (format "%s/utils/load-csv.el" std::ledger-dir)
+                        (format "%s/utils/show-budget.el" std::ledger-dir)))
+      (when (file-exists-p file) (load-file file))))
+
   (defface std::ledger::month-face
     '((t (:foreground "#ccb18b" :bold t :height 1.1 :background "#333366" :box (:line-width -1 :color "#1a1a1a") :extend t)))
     ""
