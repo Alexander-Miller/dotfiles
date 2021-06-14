@@ -181,6 +181,10 @@
  "wK"  #'evil-window-move-very-top
  "wH"  #'evil-window-move-far-left
  "wL"  #'evil-window-move-far-right
+ "wl"  #'evil-window-right
+ "wh"  #'evil-window-left
+ "wj"  #'evil-window-down
+ "wk"  #'evil-window-up
  "wsl" #'std::split-window-right
  "wsj" #'std::split-window-below
  "wm"  #'std::window::maximize
@@ -188,6 +192,7 @@
  "wM"  #'treemacs-delete-other-windows
  "wu"  #'winner-undo
  "wr"  #'winner-redo
+ "ww"  #'ace-window
  "qf"  #'delete-frame
  "wS"  #'std::windows::size-change/body
  ;; Buffers
