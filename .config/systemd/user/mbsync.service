@@ -1,4 +1,3 @@
-# -*- mode:conf -*-
 [Unit]
 Description=Mailbox synchronization service
 

@@ -52,6 +52,10 @@
  undo-tree-history-directory-alist
  `((".+" . "~/.emacs.d/cache")))
 
+(std::pushnew auto-mode-alist
+  '("\\.service\\'" . conf-mode)
+  '("\\.timer\\'" . conf-mode))
+
 (evil-mode)
 (evil-goggles-mode)
 (evil-lion-mode)
