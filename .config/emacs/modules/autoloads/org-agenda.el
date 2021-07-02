@@ -101,9 +101,11 @@
   (interactive)
   (save-excursion
     (save-match-data
-      (re-search-forward (rx "[[" (1+ any) "][" (1+ any) "]]"))
-      (goto-char (match-beginning 0))
-      (org-open-at-point))))
+      (goto-char (next-single-char-property-change
+                  (point-at-bol)
+                  'htmlize-link nil (point-at-eol)))
+      (when (eq 'org-link (get-text-property (point) 'face))
+        (org-open-at-point)))))
 
 (defmacro std::org::agenda::now-plus (amount unit)
   (let ((slot
