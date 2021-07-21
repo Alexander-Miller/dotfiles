@@ -21,6 +21,8 @@
  adoc-mode
  yaml-mode
  csv-mode
+ kotlin-mode
+ groovy-mode
  markdown-mode)
 
 (autoload #'yas-expand "yasnippet")
