@@ -2,7 +2,8 @@
 
 (std::using-packages
  eros
- macrostep)
+ macrostep
+ cask-mode)
 
 (std::autoload elisp
   #'std::eval-last-sexp
