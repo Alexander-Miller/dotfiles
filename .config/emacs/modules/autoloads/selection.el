@@ -25,3 +25,26 @@
 (defun std::selection::annotate-file (cand)
   "Same as marginalia's own function, but works with hiding the full path in an alist."
   (marginalia-annotate-file (get-text-property 0 :path cand)))
+
+(defun std::selection::selectrum-next-candidate (&optional arg)
+  "Same as selectrum's default, but with wrap-around."
+  (interactive "p")
+  (when selectrum--current-candidate-index
+    (let ((selectable-prompt
+           (not (and (selectrum--match-strictly-required-p)
+                     (cond (minibuffer-completing-file-name
+                            (not (selectrum--at-existing-prompt-path-p)))
+                           (t
+                            (not (string-empty-p selectrum--virtual-input)))))))
+          (index (+ selectrum--current-candidate-index (or arg 1)))
+          (max (1- (length selectrum--refined-candidates))))
+      (setq selectrum--current-candidate-index
+            (cond ((< index (if selectable-prompt -1 0))
+                   max)
+                  ((> index max)
+                   (if selectable-prompt -1 0))
+                  (t
+                   index))))))
+
+(std::add-advice #'std::selection::selectrum-next-candidate
+    :override #'selectrum-next-candidate)
