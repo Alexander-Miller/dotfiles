@@ -236,6 +236,8 @@
    "q"   #'std::org::agenda::quit
    "Q"   #'org-agenda-quit
    :mode-leader org-agenda-mode
+   "l"   #'org-agenda-later
+   "h"   #'org-agenda-earlier
    "ss"  #'org-agenda-schedule
    "sn"  #'std::org::agenda::schedule-now
    "sx"  #'std::org::agenda::unschedule
