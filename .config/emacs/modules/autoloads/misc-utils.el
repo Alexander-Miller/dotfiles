@@ -35,7 +35,8 @@
    (("n" display-line-numbers-mode "line number"        :toggle t)
     ("w" whitespace-mode           "whitespace"         :toggle t)
     ("r" rainbow-mode              "rainbow"            :toggle t)
-    ("R" rainbow-delimiters-mode   "rainbow delimiters" :toggle t))
+    ("R" rainbow-delimiters-mode   "rainbow delimiters" :toggle t)
+    ("F" auto-fill-mode            "autofill"           :toggle t))
    "Emacs"
    (("e" toggle-debug-on-error     "debug on error"     :toggle (default-value 'debug-on-error))
     ("u" toggle-debug-on-quit      "debug on quit"      :toggle (default-value 'debug-on-quit))
