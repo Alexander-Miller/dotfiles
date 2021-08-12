@@ -117,8 +117,8 @@
                  (:name "Wichtig"
                         :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B")
                         :and (:todo "APPT"
-                                    :timestamp (after ,(std::org::agenda::now-plus -2 days))
-                                    :timestamp (before ,(std::org::agenda::now-plus 0 days))))
+                                    :timestamp (before ,(std::org::agenda::now-plus 2 days))
+                                    :timestamp (after  ,(std::org::agenda::now-plus 0 days))))
                  (:name "Aktiv"
                         :scheduled (before ,(std::org::agenda::now-plus 1 days)))
                  (:name "Warteschlange"
