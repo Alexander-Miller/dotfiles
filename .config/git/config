@@ -16,3 +16,5 @@
     untracked = yellow bold
 [core]
 	editor = emacsclient
+[init]
+	defaultBranch = master
