@@ -9,6 +9,8 @@
   #'std::flycheck::next-error
   #'std::flycheck::previous-error)
 
+(autoload 'flycheck-buffer "flycheck.el")
+
 ;; Settings
 (std::after flycheck
 
