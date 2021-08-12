@@ -1,5 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
+(std::using-packages
+ sudo-edit)
+
 (std::autoload files-buffers
   #'std::scratch
   #'std::edit-module
@@ -12,7 +15,7 @@
  :leader
  "fs"  #'save-buffer
  "fr"  #'std::rename-buffer-file
- "fE"  #'std::sudo-edit
+ "fE"  #'sudo-edit
  "fem" #'std::edit-module
  "bs"  #'std::scratch
  "bp"  #'std::move-buffer-to-parent-frame

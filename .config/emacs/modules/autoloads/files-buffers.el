@@ -76,44 +76,6 @@
             (save-buffer))
           (kill-buffer b))))))
 
-(defun std::sudo-edit (&optional arg)
-  (interactive "P")
-  (require 'tramp)
-  (let ((fname (if (or arg (not buffer-file-name))
-                   (read-file-name "File: ")
-                 buffer-file-name)))
-    (find-file
-     (if (not (tramp-tramp-file-p fname))
-         (concat "/sudo:root@localhost:" fname)
-       (with-parsed-tramp-file-name fname parsed
-         (when (equal parsed-user "root")
-           (error "Already root!"))
-         (let* ((new-hop (tramp-make-tramp-file-name
-                          ;; Try to retrieve a tramp method suitable for
-                          ;; multi-hopping
-                          (cond ((tramp-get-method-parameter
-                                  parsed 'tramp-login-program))
-                                ((tramp-get-method-parameter
-                                  parsed 'tramp-copy-program))
-                                (t parsed-method))
-                          parsed-user
-                          parsed-domain
-                          parsed-host
-                          parsed-port
-                          nil
-                          parsed-hop))
-                (new-hop (substring new-hop 1 -1))
-                (new-hop (concat new-hop "|"))
-                (new-fname (tramp-make-tramp-file-name
-                            "sudo"
-                            parsed-user
-                            parsed-domain
-                            parsed-host
-                            parsed-port
-                            parsed-localname
-                            new-hop)))
-           new-fname))))))
-
 (defun std::rename-buffer-file ()
   (interactive)
   (let* ((old-short-name (buffer-name))
