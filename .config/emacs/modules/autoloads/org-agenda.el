@@ -15,6 +15,10 @@
   (-let [inhibit-message t]
     (org-agenda nil key)))
 
+(defun std::org::schedule-dot ()
+  (declare (side-effect-free t))
+  (if (org-get-scheduled-time (point)) "•" " "))
+
 (pretty-hydra-define std::org::agenda::hydra
 
   (:color teal :quit-key "q" :title (concat (treemacs-get-icon-value 'calendar)

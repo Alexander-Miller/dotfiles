@@ -15,7 +15,8 @@
   #'std::org::agenda::compare-by-todo-state
   #'std::org::agenda::schedule-now
   #'std::org::agenda::now-plus
-  #'std::org::agenda::open-link-at-line)
+  #'std::org::agenda::open-link-at-line
+  #'std::org::schedule-dot)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
@@ -139,12 +140,14 @@
                  (:discard (:anything))))))
        (tags-todo "hh"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
+                   (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
                    (org-super-agenda-groups
                     '((:auto-category)))))
        (todo "LOOP"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
+                   (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
                    (org-super-agenda-category-header-format "Projekt: %s")
                    (org-super-agenda-retain-sorting t)
                    (org-super-agenda-groups
