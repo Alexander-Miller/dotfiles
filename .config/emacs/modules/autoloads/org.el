@@ -39,3 +39,8 @@ only the current cell."
   (interactive)
   (setf current-prefix-arg (not current-prefix-arg))
   (call-interactively #'org-table-recalculate))
+
+(defun std::org::journal-finish ()
+  (interactive)
+  (save-buffer)
+  (kill-buffer-and-window))

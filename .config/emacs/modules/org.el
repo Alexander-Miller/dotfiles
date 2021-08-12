@@ -3,6 +3,7 @@
 (std::using-packages
  org
  org-superstar
+ org-journal
  toc-org)
 
 (std::autoload org
@@ -10,7 +11,8 @@
   #'std::org::mode-hook
   #'std::org::goto-org-file
   #'std::org::table-recalc
-  #'std::org::inbox-refile-targets)
+  #'std::org::inbox-refile-targets
+  #'std::org::journal-finish)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
@@ -19,6 +21,8 @@
 (setq-default org-directory "~/Documents/Org/")
 
 (std::keybind
+ :global
+ "C-c C-j" #'org-journal-new-entry
  :leader
  "feo" #'std::org::goto-org-file
  "aoc" #'org-capture
@@ -254,3 +258,18 @@
    "^" #'outline-up-heading
    "-" #'org-cycle-list-bullet
    "t" #'org-todo))
+
+;; Journal
+(std::after org-journal
+  (setf
+   org-journal-dir "/home/am/Documents/Org/Journal"
+   org-journal-file-type 'weekly
+   org-journal-date-prefix "\n* "
+   org-journal-file-header
+   (concat "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
+           "#+TITLE: Log %Y-%m-%d\n"
+           "#+STARTUP: showall"))
+
+  (std::keybind
+   :keymap org-journal-mode-map
+   "C-c C-c" #'std::org::journal-finish))
