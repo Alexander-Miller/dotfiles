@@ -144,14 +144,14 @@
                    (org-super-agenda-groups
                     '((:auto-category)))))
        (todo "LOOP"
-             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))))
+             ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'repeat) "Dauerläufer"))
+              (org-agenda-prefix-format '((todo . "  ")))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
                    (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
                    (org-super-agenda-category-header-format "Projekt: %s")
                    (org-super-agenda-retain-sorting t)
-                   (org-super-agenda-groups
-                    '((:auto-category)))))
+                   (org-super-agenda-groups '((:auto-category)))))
        (tags-todo "bm"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
                    (org-agenda-files (list std::org::private-file))
