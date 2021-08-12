@@ -49,25 +49,35 @@
       1 'std::ledger::month-face t))
    'prepend)
 
-  (add-to-list 'ledger-report-format-specifiers
-               (cons "current-year" (lambda () (format-time-string "%Y"))))
+  (std::pushnew ledger-report-format-specifiers
+    (cons "current-year"
+          (lambda () (format-time-string "%Y")))
+    (cons "period"
+          (lambda ()
+            (completing-read "Period: "
+                             '("this year" "last year" "this month")))))
 
-  (setf ledger-default-date-format           ledger-iso-date-format
-        ledger-mode-should-check-version     nil
-        ledger-post-amount-alignment-column  62
-        ledger-post-account-alignment-column 2
-        ledger-clear-whole-transactions      t
-        ledger-reports
-        '(("Register"
-           "%(binary) reg %(account) --real")
-          ("Jahresregister"
-           "%(binary) reg %(account) --real -p %(current-year) ")
-          ("Jahresbudget"
-           "%(binary) bal -p \"this year\" /Budget/ --no-total")
-          ("Fondslage"
-           "fish ~/Documents/Org/Ledger/Fonds.fish")
-          ("Guthaben"
-           "%(binary) bal Guthaben -X EUR"))))
+  (setf
+   ledger-default-date-format           ledger-iso-date-format
+   ledger-mode-should-check-version     nil
+   ledger-post-amount-alignment-column  62
+   ledger-post-account-alignment-column 2
+   ledger-clear-whole-transactions      t
+   ledger-reports
+   `(("Budget"
+      ,(format "emacs -batch -l %s/utils/budget-report.el" std::ledger-dir))
+     ("Invest"
+      ,(format "emacs -batch -l %s/utils/invest-report.el" std::ledger-dir))
+     ("Register (real)"
+      "%(binary) reg %(account) --real -p %(period)")
+     ("Register (+virtuell)"
+      "%(binary) reg %(account) -p %(period)")
+     ("Guthaben (EUR)"
+      "%(binary) bal Guthaben -X EUR")
+     ("Guthaben (alle Währungen)"
+      "%(binary) bal Guthaben")
+     ("Kredit"
+      "%(binary) bal \"/(Ausgaben:Kreditzahlung|Last:Wohnungskredit)/\" --no-total"))))
 
 ;; Keybinds
 (std::after ledger-mode
