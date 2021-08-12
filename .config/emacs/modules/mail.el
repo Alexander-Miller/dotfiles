@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
+ mu4e-column-faces
  mu4e-alert)
 
 (std::autoload mail
@@ -31,6 +32,7 @@
 (std::after mu4e
 
   (require 'org-mu4e)
+  (mu4e-column-faces-mode)
 
   (mu4e-alert-enable-notifications)
   (mu4e-alert-disable-mode-line-display)
