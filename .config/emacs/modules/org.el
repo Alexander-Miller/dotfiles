@@ -14,6 +14,8 @@
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
+(std::delete "/usr/local/share/emacs/28.0.50/lisp/org" load-path)
+
 (setq-default org-directory "~/Documents/Org/")
 
 (std::keybind
