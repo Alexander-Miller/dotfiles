@@ -262,12 +262,22 @@
 ;; Journal
 (std::after org-journal
   (setf
-   org-journal-dir "/home/am/Documents/Org/Journal"
-   org-journal-file-type 'weekly
    org-journal-date-prefix "\n* "
+   org-journal-dir
+   (std::if-work-laptop
+    "/home/am/Documents/Org/Journal-NT"
+    "/home/am/Documents/Org/Journal")
+   org-journal-file-type
+   (std::if-work-laptop 'weekly 'yearly)
    org-journal-file-header
-   (concat "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
-           "#+TITLE: Log %Y-%m-%d\n"
+   (concat "# -*- fill-column: 100;"
+           "ispell-local-dictionary: \"de_DE\""
+           "; eval: (auto-fill-mode t) -*-"
+           "\n"
+           (std::if-work-laptop
+            "#+TITLE: Log %Y-%m-%d"
+            "#+TITLE: Log %Y")
+           "\n"
            "#+STARTUP: showall"))
 
   (std::keybind
