@@ -36,9 +36,10 @@
   (require 'german-holidays)
   (require 'treemacs)
 
-  (setf org-agenda-files (list std::org::work-file std::org::inbox-file))
-  (when (string= "am-laptop" (system-name))
-    (add-to-list 'org-agenda-files std::org::private-file))
+  (setf org-agenda-files
+        (list std::org::work-file std::org::inbox-file std::org::private-file))
+  (std::if-work-laptop
+   (std::delete std::org::private-file org-agenda-files))
 
   (evil-set-initial-state 'org-agenda-mode 'motion)
 

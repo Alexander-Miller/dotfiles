@@ -148,3 +148,8 @@
          ,@body
          (remove-hook ,hook #',fn))
        (add-hook ,hook #',fn))))
+
+(defmacro std::if-work-laptop (then &optional else)
+  `(if (not (string= "am-laptop" (system-name)))
+       ,then
+     ,else))
