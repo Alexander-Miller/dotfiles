@@ -110,7 +110,7 @@
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (list std::org::private-file))
               (org-super-agenda-retain-sorting t)
-              (org-agenda-sorting-strategy '(priority-down todo-state-up))
+              (org-agenda-sorting-strategy '(todo-state-up priority-down))
               (org-super-agenda-groups
                `((:name "Dringend"
                         :deadline (before ,(std::org::agenda::now-plus 1 days))
