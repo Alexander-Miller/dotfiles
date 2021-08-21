@@ -48,3 +48,8 @@
 
 (std::add-advice #'std::selection::selectrum-next-candidate
     :override #'selectrum-next-candidate)
+
+(defun std::selection::orderless-dispatcher (pattern _index _total)
+  (cond
+   ((string-suffix-p "~" pattern) `(orderless-regexp . ,(concat (substring pattern 0 -1))))
+   ((string-suffix-p "*" pattern) `(orderless-flex   . ,(concat (substring pattern 0 -1))))))

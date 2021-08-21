@@ -15,6 +15,7 @@
 (std::autoload selection
   #'std::selection::annotate-file
   #'std::selection::set-selectrum-candidates
+  #'std::selection::orderless-dispatcher
   #'std::helm::org-in-buffer-headings
   #'std::helm::imenu)
 
@@ -26,9 +27,10 @@
 
  ;; orderless
  orderless-skip-highlighting (lambda () selectrum-is-active)
+ orderless-style-dispatchers '(std::selection::orderless-dispatcher)
  orderless-matching-styles   '(orderless-literal
                                orderless-initialism
-                               orderless-regexp)
+                               orderless-prefixes)
 
  ;; selectrum
  selectrum-prescient-enable-filtering         nil
