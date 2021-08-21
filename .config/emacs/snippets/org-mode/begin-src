@@ -2,6 +2,6 @@
 #name: begin-src
 #key: <s
 # --
-#+BEGIN_SRC $0
+ #+BEGIN_SRC $0
 
-#+END_SRC
+ #+END_SRC

@@ -2,6 +2,6 @@
 #name: begin-quote
 #key: <q
 # --
-#+BEGIN_QUOTE
+ #+BEGIN_QUOTE
 $0
-#+END_QUOTE
+ #+END_QUOTE

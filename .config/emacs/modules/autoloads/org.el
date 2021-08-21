@@ -10,7 +10,15 @@
   (auto-revert-mode)
   (hl-todo-mode -1)
   (toc-org-mode)
-  (rainbow-delimiters-mode-disable))
+  (rainbow-delimiters-mode-disable)
+  (setq-local
+   prettify-symbols-alist
+   '(("lambda"        . 955)
+     ("#+BEGIN_QUOTE" . "»")
+     ("#+END_QUOTE"   . "«")
+     ("#+BEGIN_SRC"   . 955)
+     ("#+END_SRC"     . "")))
+  (prettify-symbols-mode))
 
 (defun std::org::inbox-refile-targets (&optional arg)
   (interactive "P")
