@@ -50,6 +50,7 @@
         user-full-name "Alexander Miller")
 
   (setf mu4e-confirm-quit                 nil
+        mu4e-completing-read-function     #'completing-read
         mu4e-view-use-gnus                t
         mu4e-sent-messages-behavior       'sent
         mu4e-maildir                      (expand-file-name "~/.mail")
