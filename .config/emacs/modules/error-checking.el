@@ -16,6 +16,9 @@
 
   (evil-set-initial-state 'flycheck-error-list-mode 'motion)
 
+  (evil-add-command-properties #'std::flycheck::next-error :jump t)
+  (evil-add-command-properties #'std::flycheck::previous-error :jump t)
+
   (std::keybind
    :keymap flycheck-error-list-mode-map
    "q" #'kill-buffer-and-window)
