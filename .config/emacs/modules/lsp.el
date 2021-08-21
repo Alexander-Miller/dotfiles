@@ -1,9 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
+ tree-sitter
+ tree-sitter-langs
  lsp-mode
  lsp-ui
  lsp-treemacs)
+
+(std::autoload lsp
+  #'std::lsp::enable-tree-sitter-font-lock)
+
+(add-hook 'python-mode-hook #'std::lsp::enable-tree-sitter-font-lock)
 
 (std::after lsp-mode
   (setf
