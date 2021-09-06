@@ -56,3 +56,8 @@ abbr -a sysu  'systemctl --user'
 abbr -a rmr   'rm -rf'
 abbr -a lag   'la | rg'
 abbr -a pa    'paru'
+
+set -l LOCAL_CFG "$XDG_CONFIG_HOME/fish/local.fish"
+if test -e $LOCAL_CFG
+    source $LOCAL_CFG
+end
