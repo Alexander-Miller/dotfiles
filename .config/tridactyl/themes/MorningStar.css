@@ -24,9 +24,9 @@
     --tridactyl-hintspan-font-weight: bold;
     --tridactyl-hintspan-fg: #ddba1a;
     --tridactyl-hintspan-bg: #ab3737;
-    --tridactyl-hintspan-border-color: ButtonShadow;
-    --tridactyl-hintspan-border-width: 0px;
-    --tridactyl-hintspan-border-radius: 10px;
+    --tridactyl-hintspan-border-color: #1C1C1C;
+    --tridactyl-hintspan-border-width: 3px;
+    --tridactyl-hintspan-border-radius: 30px;
     --tridactyl-hintspan-border-style: solid;
 
     /* Element highlights */
