@@ -164,13 +164,18 @@
       ((tags-todo "kunde"
                   ((org-agenda-overriding-header "Kundenprojekt")
                    (org-agenda-files (list std::org::work-file))
-                   (org-agenda-prefix-format '((tags . "   ")))
+                   (org-agenda-prefix-format '((tags . " %i %-19:c")))
                    (org-super-agenda-groups
                     '((:name "Wichtig"
                              :deadline past
-                             :priority>= "B"
+                             :and (:todo "APPT"
+                                         :timestamp (after ,(std::org::agenda::now-plus -1 days))
+                                         :timestamp (before ,(std::org::agenda::now-plus 2 days)))
+                             :and (:priority>= "B"
+                                               :timestamp (after ,(std::org::agenda::now-plus -2 days))
+                                               :timestamp (before ,(std::org::agenda::now-plus 0 days)))
                              :face (:append t :background "#5D2D2D" :extend t))
-                      (:name "Daily"          :tag "daily")
+                      (:name "Daily"          :tag "@daily")
                       (:name "Retro"          :tag "@retro")
                       (:name "Aktiv"          :scheduled (before ,(std::org::agenda::now-plus 1 days)))
                       (:name "Anderes"        :not (:tag "story" :todo "APPT"))
@@ -191,7 +196,13 @@
                    :face (:background "#661A1A" :weight bold  :append t))
             (:name "Wichtig"
                    :deadline past
-                   :priority>= "B"
+                   :and (:priority>= "B" :not (:todo "TASK"))
+                   :and (:priority>= "B"
+                         :todo "TASK"
+                         :deadline (after ,(std::org::agenda::now-plus -2 days)))
+                   :and (:todo "APPT"
+                         :timestamp (after ,(std::org::agenda::now-plus -2 days))
+                         :timestamp (before ,(std::org::agenda::now-plus 0 days)))
                    :face (:append t :background "#5D2D2D" :extend t))
             (:name "Aktiv"
                    :scheduled (before ,(std::org::agenda::now-plus 1 days)))
