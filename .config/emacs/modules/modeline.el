@@ -69,6 +69,12 @@
 (std::defface std::modeline::flycheck-error-inactive
   (:foreground "#F2777A" :background "#25252A" :bold t :box "#000000"))
 
+(std::defface std::modeline::window-purpose-active
+  (:foreground "#F2777A" :background "#1A1A1A" :bold t :box "#000000"))
+
+(std::defface std::modeline::window-purpose-inactive
+  (:foreground "#F2777A" :background "#25252A" :bold t :box "#000000"))
+
 (require 'doom-modeline)
 
 (declare-function winum-get-number "winum")
@@ -130,6 +136,15 @@
                         'std::modeline::major-mode-face
                       'std::modeline::major-mode-inactive-face)))
 
+(doom-modeline-def-segment std::modeline::window-purpose
+  (propertize (symbol-name (purpose-buffer-purpose (current-buffer)))
+              'face (if (doom-modeline--active)
+                        'std::modeline::window-purpose-active
+                      'std::modeline::window-purpose-inactive)))
+
+(doom-modeline-def-segment std::modeline::margin
+  "   " "   ")
+
 (defconst std::modeline::flycheck-bullet  " • %s")
 
 (defvar flycheck-mode nil)
@@ -164,7 +179,9 @@
     std::modeline::desktop-number
     std::modeline::buffer-id
     std::modeline::major-mode
-    std::modeline::flycheck))
+    std::modeline::flycheck)
+  '(std::modeline::window-purpose
+    std::modeline::margin))
 
 (doom-modeline-set-modeline 'std :global-default)
 
@@ -188,7 +205,9 @@
       std::modeline::desktop-number
       std::modeline::buffer-id
       std::modeline::major-mode
-      std::modeline::buffer-process))
+      std::modeline::buffer-process)
+    '(std::modeline::window-purpose
+      std::modeline::margin))
 
   (std::add-hook 'magit-mode-hook (doom-modeline-set-modeline 'magit)))
 
@@ -212,7 +231,9 @@
     '(std::modeline::window-bar
       std::modeline::desktop-number
       std::modeline::major-mode
-      std::modeline::feeds))
+      std::modeline::feeds)
+    '(std::modeline::window-purpose
+      std::modeline::margin))
 
   (std::add-hook 'elfeed-search-mode-hook (doom-modeline-set-modeline 'elfeed)))
 
