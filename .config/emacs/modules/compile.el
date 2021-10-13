@@ -16,7 +16,7 @@
 (std::after compile
   (setf
    compilation-scroll-output       'first-error
-   multi-compile-completion-system 'helm)
+   multi-compile-completion-system 'default)
 
   (std::keybind
    :keymap compilation-mode-map
