@@ -33,16 +33,16 @@
   (:color teal :quit-key "q" :title (concat (std::face "" 'font-lock-keyword-face) " Toggles"))
   ("Basic"
    (("n" display-line-numbers-mode "line number"        :toggle t)
-    ("w" whitespace-mode           "whitespace"         :toggle t)
+    ("W" whitespace-mode           "whitespace"         :toggle t)
     ("r" rainbow-mode              "rainbow"            :toggle t)
     ("R" rainbow-delimiters-mode   "rainbow delimiters" :toggle t)
-    ("F" auto-fill-mode            "autofill"           :toggle t))
+    ("F" auto-fill-mode            "autofill"           :toggle auto-fill-function))
    "Emacs"
    (("e" toggle-debug-on-error     "debug on error"     :toggle (default-value 'debug-on-error))
     ("u" toggle-debug-on-quit      "debug on quit"      :toggle (default-value 'debug-on-quit))
     ("o" read-only-mode            "read only"          :toggle buffer-read-only))
    "UI"
-   (("W" writeroom-mode                     "Writeroom"             :toggle t)
+   (("w" writeroom-mode                     "Writeroom"             :toggle t)
     ("f" display-fill-column-indicator-mode "Fill Column Indicator" :toggle t)
     ("L" toggle-truncate-lines              "truncate lines"        :toggle truncate-lines)
     ("l" hl-line-mode                       "Hl-Line"               :toggle t))
