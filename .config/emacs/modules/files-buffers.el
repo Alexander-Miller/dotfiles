@@ -19,6 +19,6 @@
  "fem" #'std::edit-module
  "bs"  #'std::scratch
  "bp"  #'std::move-buffer-to-parent-frame
- "bR"  #'revert-buffer
+ "br"  #'revert-buffer
  "bK"  #'std::dropbox-buffer-cleanup
  "TAB" #'std::other-buffer)
