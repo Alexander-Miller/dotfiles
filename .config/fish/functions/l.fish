@@ -1,6 +1,6 @@
 function l
-    set -l has_exa (which exa) &> /dev/null
-    if $has_exa
+    which exax &> /dev/null
+    if test $status -eq 0
         exa  $argv
     else
         ls -h $argv
