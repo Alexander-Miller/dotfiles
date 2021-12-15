@@ -128,6 +128,7 @@
    (calendar-mode             . bottom)
    (inferior-emacs-lisp-mode  . bottom)
    (special-mode              . bottom)
+   (ledger-report-mode        . bottom)
    (xref--xref-buffer-mode    . right)
    (undo-tree-visualizer-mode . right)
    (help-mode                 . help)
