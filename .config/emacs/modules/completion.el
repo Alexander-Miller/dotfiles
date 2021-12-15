@@ -58,6 +58,7 @@
    company-tooltip-margin              2
    ;; posframe
    company-posframe-show-indicator     nil
+   company-posframe-show-metadata      nil
    company-posframe-show-params
    (list :internal-border-width 2
          :internal-border-color "#1C1C1C"
