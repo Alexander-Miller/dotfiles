@@ -9,7 +9,7 @@
   #'std::org::capture::find-olp)
 
 (defconst std::org::current-year (format-time-string "%Y"))
-(defconst std::org::work-project (getenv "_NT_PROJECT"))
+(defconst std::org::work-project (or (getenv "_NT_PROJECT") ""))
 
 (std::after org-capture
 
