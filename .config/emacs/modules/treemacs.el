@@ -32,6 +32,14 @@
     (autoload #'treemacs-advanced-helpful-hydra       "treemacs-hydras.el")
     (autoload #'treemacs-icons-dired-mode             "treemacs-icons-dired.el")
     (autoload #'treemacs-icons-dired-enable-once      "treemacs-icons-dired.el")
+    (autoload #'treemacs-delete-file                  "treemacs-file-management.el")
+    (autoload #'treemacs-move-file                    "treemacs-file-management.el")
+    (autoload #'treemacs-copy-file                    "treemacs-file-management.el")
+    (autoload #'treemacs-rename-file                  "treemacs-file-management.el")
+    (autoload #'treemacs-create-file                  "treemacs-file-management.el")
+    (autoload #'treemacs-create-dir                   "treemacs-file-management.el")
+    (autoload #'treemacs-peek-mode                    "treemacs-peek-mode.el")
+    (autoload #'treemacs-mu4e-TEST                    "treemacs-mu4e.el")
     (autoload #'cfrs-read                             "cfrs.el")
 
     (std::after winum
