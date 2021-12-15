@@ -28,7 +28,7 @@
 
 (defun std::completion::prose-hook ()
   (setq-local
-   company-idle-delay            0.25
+   company-idle-delay            0.50
    company-minimum-prefix-length 4
    company-backends
    '((std::completion::prose-complete company-capf company-files company-dabbrev :with company-yasnippet))))
