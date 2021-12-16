@@ -3,7 +3,6 @@
 configuration {
     modi:                 "window,run,drun";
     width:                95;
-    lines:                4;
     columns:              3;
     font:                 "Fantasque Sans Mono 18";
     bw:                   1;
@@ -62,6 +61,7 @@ configuration {
 }
 
 * {
+    lines:                       5;
     spacing:                     2;
     foreground:                  rgba(204, 177, 139, 100%);
     background:                  rgba(45, 45, 49, 100%);
