@@ -109,8 +109,8 @@
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (list std::org::private-file))
-              (org-super-agenda-retain-sorting t)
-              (org-agenda-sorting-strategy '(todo-state-up priority-down))
+              (org-super-agenda-keep-order t)
+              (org-agenda-sorting-strategy '(category-up todo-state-up priority-down))
               (org-super-agenda-groups
                `((:name "Dringend"
                         :deadline (before ,(std::org::agenda::now-plus 1 days))
@@ -118,8 +118,8 @@
                  (:name "Wichtig"
                         :and (:scheduled (before ,(std::org::agenda::now-plus 1 days)) :priority>= "B")
                         :and (:todo "APPT"
-                                    :timestamp (before ,(std::org::agenda::now-plus 2 days))
-                                    :timestamp (after  ,(std::org::agenda::now-plus 0 days))))
+                                    :timestamp (before "+2d")
+                                    :timestamp (after  "+0d")))
                  (:name "Aktiv"
                         :scheduled (before ,(std::org::agenda::now-plus 1 days)))
                  (:name "Warteschlange"
@@ -142,6 +142,7 @@
        (tags-todo "hh"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
                    (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
+                   (org-super-agenda-keep-order t)
                    (org-super-agenda-groups
                     '((:auto-category)))))
        (todo "LOOP"
@@ -151,7 +152,7 @@
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
                    (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
                    (org-super-agenda-category-header-format "Projekt: %s")
-                   (org-super-agenda-retain-sorting t)
+                   (org-super-agenda-keep-order t)
                    (org-super-agenda-groups '((:auto-category)))))
        (tags-todo "bm"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
