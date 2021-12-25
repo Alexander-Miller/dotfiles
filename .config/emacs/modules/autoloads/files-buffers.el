@@ -50,7 +50,7 @@
                           (nconc modules-alist autoloads-alist)))
          (selection (std::read "Module: "
                       (--map (propertize (car it) :path (cdr it)) options))))
-    (-some-> (get-text-property 0 :path selection) (find-file-existing))))
+    (-some-> selection (assoc options) (cdr) (find-file-existing))))
 
 (defun std::move-buffer-to-parent-frame ()
   "Move current child frame's buffer to its parent and close the child frame."
