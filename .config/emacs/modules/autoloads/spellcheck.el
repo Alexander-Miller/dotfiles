@@ -28,15 +28,14 @@
   (let* ((corrects (if flyspell-sort-corrections
                        (sort candidates 'string<)
                      candidates))
-         (actions `(("C-s" "Save word"         (save    . ,word))
-                    ("C-a" "Accept (session)"  (session . ,word))
-                    ("C-b" "Accept (buffer)"   (buffer  . ,word))
-                    ("C-c" "Skip"              (skip    . ,word))
-                    ("<escape>" "Quit"         (skip    . ,word))))
+         (actions `(("C-s"   "Save word"       (save    . ,word))
+                    ("C-a"   "Accept (session)"(session . ,word))
+                    ("C-b"   "Accept (buffer)" (buffer  . ,word))
+                    ("C-c"   "Skip"            (skip    . ,word))
+                    ("<ESC>" "Quit"            (break   . ,word))))
          (prompt   (format "Dictionary: [%s]"  (or ispell-local-dictionary
                                                    ispell-dictionary
                                                    "default")))
          (res      (frog-menu-read prompt corrects actions)))
-    (unless res
-      (error "Quit"))
+    (unless res (throw 'exit))
     res))
