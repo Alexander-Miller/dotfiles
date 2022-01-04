@@ -49,32 +49,46 @@
   (setf user-mail-address "alexanderm@web.de"
         user-full-name "Alexander Miller")
 
-  (setf mu4e-confirm-quit                 nil
-        mu4e-completing-read-function     #'completing-read
-        mu4e-view-use-gnus                t
-        mu4e-sent-messages-behavior       'sent
-        mu4e-maildir                      (expand-file-name "~/.mail")
-        mu4e-change-filenames-when-moving t
-        mu4e-use-fancy-chars              nil
-        mu4e-get-mail-command             "mbsync -a"
-        mu4e-headers-draft-mark           '("D" . "⚒")
-        mu4e-headers-flagged-mark         '("F" . "✚")
-        mu4e-headers-new-mark             '("N" . "✱")
-        mu4e-headers-passed-mark          '("P" . "❯")
-        mu4e-headers-replied-mark         '("R" . "❮")
-        mu4e-headers-seen-mark            '("S" . "✔")
-        mu4e-headers-trashed-mark         '("T" . "⏚")
-        mu4e-headers-attach-mark          '("a" . "📎")
-        mu4e-headers-attach-mark          '("a" . "a")
-        mu4e-headers-encrypted-mark       '("x" . "⚴")
-        mu4e-headers-signed-mark          '("s" . "☡")
-        mu4e-headers-unread-mark          '("u" . "⎕")
-        mu4e-headers-fields               `((:date         . 10)
-                                            (:flags        . 6)
-                                            (:tags         . 4)
-                                            (:mailing-list . 10)
-                                            (:from         . 22)
-                                            (:subject . ,(- (frame-width) 10 6 10 22 8 4))))
+  (setf
+   mu4e-attachment-dir                      "~/Downloads"
+   mu4e-confirm-quit                        nil
+   mu4e-completing-read-function            #'completing-read
+   mu4e-view-use-gnus                       t
+   mu4e-sent-messages-behavior              'sent
+   mu4e-maildir                             (expand-file-name "~/.mail")
+   mu4e-change-filenames-when-moving        t
+   mu4e-use-fancy-chars                     t
+   mu4e-get-mail-command                    "mbsync -a"
+   mu4e-headers-draft-mark                  '("D" . "D")
+   mu4e-headers-flagged-mark                '("F" . "F")
+   mu4e-headers-new-mark                    '("N" . "N")
+   mu4e-headers-passed-mark                 '("P" . "P")
+   mu4e-headers-replied-mark                '("R" . "R")
+   mu4e-headers-seen-mark                   '("S" . "S")
+   mu4e-headers-trashed-mark                '("T" . "T")
+   mu4e-headers-attach-mark                 '("a" . "a")
+   mu4e-headers-encrypted-mark              '("x" . "x")
+   mu4e-headers-signed-mark                 '("s" . "s")
+   mu4e-headers-unread-mark                 '("u" . "u")
+   mu4e-headers-thread-root-prefix          '("* " . "* ")
+   mu4e-headers-thread-first-child-prefix   '("┬ " . "┬ ")
+   mu4e-headers-thread-child-prefix         '("│ " . "│ ")
+   mu4e-headers-thread-connection-prefix    '("│ " . "│ ")
+   mu4e-headers-thread-last-child-prefix    '("└ " . "└ ")
+   mu4e-headers-thread-blank-prefix         '("  " . "  ")
+   mu4e-headers-thread-orphan-prefix        '("• " . "• ")
+   mu4e-headers-thread-single-orphan-prefix '("• " . "• ")
+   mu4e-headers-thread-duplicate-prefix     '("= " . "= ")
+   mu4e-headers-threaded-label              '("T " . "T ")
+   mu4e-headers-full-label                  '("F " . "F ")
+   mu4e-headers-related-label               '("R " . "R ")
+   mu4e-headers-fields
+   `((:date         . 10)
+     (:flags        . 6)
+     (:tags         . 4)
+     (:mailing-list . 10)
+     (:from         . 22)
+     (:subject . ,(- (frame-width) 10 6 10 22 8 4))))
 
   (setf mu4e-bookmarks
         (list
@@ -109,7 +123,7 @@
            (lambda (docid msg target) (mu4e-action-retag-message msg target)))
 
           (refile
-           :char ("r" . "▶")
+           :char ("r" . "r")
            :prompt "refile"
            :dyn-target
            (lambda (target msg) (mu4e-get-refile-folder msg))
@@ -118,13 +132,13 @@
              (mu4e~proc-move docid (mu4e~mark-check-target target) "-N")))
 
           (delete
-           :char ("D" . "❌ ")
+           :char ("D" . "D")
            :prompt "Delete"
            :show-target (lambda (target) "delete")
            :action (lambda (docid msg target) (mu4e~proc-remove docid)))
 
           (flag
-           :char ("+" . "⚑")
+           :char ("+" . "+")
            :prompt "+flag"
            :show-target (lambda (target) "flag")
            :action
@@ -132,7 +146,7 @@
              (mu4e~proc-move docid nil "+F-u-N")))
 
           (move
-           :char ("m" . "▶")
+           :char ("m" . "m")
            :prompt "move"
            :ask-target mu4e~mark-get-move-target
            :action (lambda (docid msg target)
@@ -141,14 +155,14 @@
                                      "-N")))
 
           (read
-           :char ("!" . "👁")
+           :char ("!" . "!")
            :prompt "!read"
            :show-target (lambda (target) "read")
            :action (lambda (docid msg target)
                      (mu4e~proc-move docid nil "+S-u-N")))
 
           (trash
-           :char ("d" . "🗑")
+           :char ("d" . "d")
            :prompt "dtrash"
            :dyn-target (lambda (target msg)
                          (mu4e-get-trash-folder msg))
@@ -158,14 +172,14 @@
                                      "+T-N")))
 
           (unflag
-           :char ("-" . "➖")
+           :char ("-" . "-")
            :prompt "-unflag"
            :show-target (lambda (target) "unflag")
            :action (lambda (docid msg target)
                      (mu4e~proc-move docid nil "-F-N")))
 
           (untrash
-           :char ("=" . "▲")
+           :char ("=" . "=")
            :prompt "=untrash"
            :show-target (lambda (target) "untrash")
            :action (lambda (docid msg target)
@@ -184,7 +198,7 @@
            :action (mu4e-error "No action for unmarking"))
 
           (action
-           :char ("a" . "◎")
+           :char ("a" . "a")
            :prompt "action"
            :ask-target (lambda ()
                          (mu4e-read-option "Action: " mu4e-headers-actions))
@@ -194,7 +208,7 @@
                          (mu4e-headers-action actionfunc)))))
 
           (something
-           :char ("*" . "✱")
+           :char ("*" . "*")
            :prompt "*something"
            :action (mu4e-error "No action for deferred mark")))))
 
