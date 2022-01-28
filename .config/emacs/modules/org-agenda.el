@@ -194,17 +194,15 @@
          (org-super-agenda-groups
           `((:name "Dringend"
                    :deadline (before ,(std::org::agenda::now-plus 1 days))
-                   :face (:background "#661A1A" :weight bold  :append t))
+                   :face (:background "#661A1A" :weight bold))
             (:name "Wichtig"
                    :deadline past
-                   :and (:priority>= "B" :not (:todo "TASK"))
-                   :and (:priority>= "B"
-                         :todo "TASK"
-                         :deadline (after ,(std::org::agenda::now-plus -2 days)))
+                   :and (:priority>= "B" :scheduled today)
+                   :and (:priority>= "B" :deadline (before ,(std::org::agenda::now-plus 3 days)))
                    :and (:todo "APPT"
-                         :timestamp (after ,(std::org::agenda::now-plus -2 days))
-                         :timestamp (before ,(std::org::agenda::now-plus 0 days)))
-                   :face (:append t :background "#5D2D2D" :extend t))
+                         :timestamp (after "-2d")
+                         :timestamp (before "+0d"))
+                   :face (:background "#5D2D2D" :extend t))
             (:name "Aktiv"
                    :scheduled (before ,(std::org::agenda::now-plus 1 days)))
             (:name "Termine"
