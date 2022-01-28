@@ -1,6 +1,7 @@
 " -*- mode: dactyl; eval: (rainbow-delimiters-mode -1) -*- "
 
 set leader <SPC>
+let mapleader = "\<Space>"
 
 " J/K navigation "
 nnoremap J 5j
@@ -31,6 +32,25 @@ nnoremap de d]w
 nnoremap de d]w
 nnoremap ve v]w
 nnoremap ve v]w
+
+nnoremap <Leader>lrr :action RenameElement<CR>
+nnoremap <Leader>w0 :action CloseEditor<CR>
+nnoremap <Leader>tt :action GotoTest<CR>
+nnoremap <C-A-j> :action NextTab<CR>
+nnoremap <C-A-k> :action PreviousTab<CR>
+nnoremap <Leader>bi :action FileStructurePopup<CR>
+nnoremap <Leader>/ :action SearchEverywhere<CR>
+nnoremap <C-j> i<CR><ESC>
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
+nnoremap <C-A-a> :action MethodUp<CR>
+nnoremap <C-A-e> :action MethodDown<CR>
+
+" set handler "
+sethandler <C-.> a:ide
+sethandler <C-b> a:ide
+sethandler <C-A-j> a:vim
+sethandler <C-A-k> a:vim
 
 " plugins "
 set commentary
