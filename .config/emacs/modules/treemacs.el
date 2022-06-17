@@ -39,6 +39,7 @@
     (autoload #'treemacs-create-file                  "treemacs-file-management.el")
     (autoload #'treemacs-create-dir                   "treemacs-file-management.el")
     (autoload #'treemacs-peek-mode                    "treemacs-peek-mode.el")
+    (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el")
     (autoload #'treemacs-mu4e-TEST                    "treemacs-mu4e.el")
     (autoload #'cfrs-read                             "cfrs.el")
 
@@ -66,6 +67,7 @@
       (treemacs-follow-mode t)
       (treemacs-filewatch-mode t)
       (treemacs-fringe-indicator-mode t)
+      (treemacs-git-commit-diff-mode t)
       (setf checkdoc-arguments-in-order-flag t)
       (require 'treemacs-evil))
 
