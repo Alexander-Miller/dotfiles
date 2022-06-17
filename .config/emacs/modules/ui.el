@@ -12,7 +12,8 @@
   #'std::ui::change-font-size
   #'std::ui::theme-hydra/body)
 
-(defvar std::default-font-spec '(:family "Fantasque Sans Mono" :size 16))
+(defvar std::default-font-spec
+  `(:family "Fantasque Sans Mono" :size ,(std::if-work-laptop 22 16)))
 (setf (alist-get 'font default-frame-alist) (eval `(font-xlfd-name (font-spec ,@std::default-font-spec))))
 
 (std::keybind
