@@ -37,5 +37,5 @@
                                                    ispell-dictionary
                                                    "default")))
          (res      (frog-menu-read prompt corrects actions)))
-    (unless res (throw 'exit))
+    (unless res (throw 'exit nil))
     res))
