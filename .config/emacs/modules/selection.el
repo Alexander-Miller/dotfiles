@@ -103,7 +103,7 @@
  "bb" #'consult-buffer
  ;; "br" #'helm-recentf
  "bi" #'consult-imenu
- "ry" #'consult-yank
+ "ry" #'consult-yank-from-kill-ring
  ;; "rr" #'helm-register
  "sr" #'helm-resume
  "jf" #'find-function
