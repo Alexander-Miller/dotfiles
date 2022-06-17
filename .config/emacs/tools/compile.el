@@ -31,7 +31,7 @@
 (std::load "~/.emacs.d/init.el")
 
 (let* ((filter (cdddr command-line-args))
-       (byte-compile-warnings '(not unresolved free-vars make-local)))
+       (byte-compile-warnings '(not unresolved free-vars make-local docstrings)))
 
   (if filter
       (std::log (format "Compiling modules with filter %s" filter))
