@@ -57,7 +57,7 @@
    mu4e-sent-messages-behavior              'sent
    mu4e-maildir                             (expand-file-name "~/.mail")
    mu4e-change-filenames-when-moving        t
-   mu4e-use-fancy-chars                     t
+   mu4e-use-fancy-chars                     nil
    mu4e-get-mail-command                    "mbsync -a"
    mu4e-headers-draft-mark                  '("D" . "D")
    mu4e-headers-flagged-mark                '("F" . "F")
@@ -70,6 +70,9 @@
    mu4e-headers-encrypted-mark              '("x" . "x")
    mu4e-headers-signed-mark                 '("s" . "s")
    mu4e-headers-unread-mark                 '("u" . "u")
+   mu4e-headers-list-mark                   '("s" . "s")
+   mu4e-headers-personal-mark               '("p" . "p")
+   mu4e-headers-calendar-mark               '("c" . "c")
    mu4e-headers-thread-root-prefix          '("* " . "* ")
    mu4e-headers-thread-first-child-prefix   '("┬ " . "┬ ")
    mu4e-headers-thread-child-prefix         '("│ " . "│ ")
@@ -90,192 +93,128 @@
      (:from         . 22)
      (:subject . ,(- (frame-width) 10 6 10 22 8 4))))
 
-  (setf mu4e-bookmarks
-        (list
-         (make-mu4e-bookmark
-          :name "Unread Messages"
-          :query "flag:unread AND NOT flag:trashed"
-          :key ?u)
-         (make-mu4e-bookmark
-          :name "Last 24 hours"
-          :query "date:24h.."
-          :key ?t)
-         (make-mu4e-bookmark
-          :name "Last 7 days"
-          :query "date:7d..now"
-          :key ?w)
-         (make-mu4e-bookmark
-          :name "Github Messages"
-          :query "github"
-          :key ?g)
-         (make-mu4e-bookmark
-          :name "Messages with images"
-          :query "mime:image/*"
-          :key ?p)))
 
-  (setf mu4e-marks
-        '((tag
-           :char "t"
-           :prompt "gtag"
-           :ask-target
-           (lambda nil (read-string "What tag do you want to add? "))
-           :action
-           (lambda (docid msg target) (mu4e-action-retag-message msg target)))
+  (setf
+   mu4e-marks
+   '((tag
+      :char "t"
+      :prompt "gtag"
+      :ask-target
+      (lambda nil (read-string "What tag do you want to add? "))
+      :action
+      (lambda (docid msg target) (mu4e-action-retag-message msg target)))
 
-          (refile
-           :char ("r" . "r")
-           :prompt "refile"
-           :dyn-target
-           (lambda (target msg) (mu4e-get-refile-folder msg))
-           :action
-           (lambda (docid msg target)
-             (mu4e~proc-move docid (mu4e~mark-check-target target) "-N")))
+     (refile
+      :char ("r" . "r")
+      :prompt "refile"
+      :dyn-target
+      (lambda (target msg) (mu4e-get-refile-folder msg))
+      :action
+      (lambda (docid msg target)
+        (mu4e--server-move docid (mu4e~mark-check-target target) "-N")))
 
-          (delete
-           :char ("D" . "D")
-           :prompt "Delete"
-           :show-target (lambda (target) "delete")
-           :action (lambda (docid msg target) (mu4e~proc-remove docid)))
+     (delete
+      :char ("D" . "D")
+      :prompt "Delete"
+      :show-target (lambda (target) "delete")
+      :action (lambda (docid msg target) (mu4e~proc-remove docid)))
 
-          (flag
-           :char ("+" . "+")
-           :prompt "+flag"
-           :show-target (lambda (target) "flag")
-           :action
-           (lambda (docid msg target)
-             (mu4e~proc-move docid nil "+F-u-N")))
+     (flag
+      :char ("+" . "+")
+      :prompt "+flag"
+      :show-target (lambda (target) "flag")
+      :action
+      (lambda (docid msg target)
+        (mu4e--server-move docid nil "+F-u-N")))
 
-          (move
-           :char ("m" . "m")
-           :prompt "move"
-           :ask-target mu4e~mark-get-move-target
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid
-                                     (mu4e~mark-check-target target)
-                                     "-N")))
+     (move
+      :char ("m" . "m")
+      :prompt "move"
+      :ask-target mu4e~mark-get-move-target
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid
+                                (mu4e~mark-check-target target)
+                                "-N")))
 
-          (read
-           :char ("!" . "!")
-           :prompt "!read"
-           :show-target (lambda (target) "read")
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid nil "+S-u-N")))
+     (read
+      :char ("!" . "!")
+      :prompt "!read"
+      :show-target (lambda (target) "read")
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid nil "+S-u-N")))
 
-          (trash
-           :char ("d" . "d")
-           :prompt "dtrash"
-           :dyn-target (lambda (target msg)
-                         (mu4e-get-trash-folder msg))
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid
-                                     (mu4e~mark-check-target target)
-                                     "+T-N")))
+     (trash
+      :char ("d" . "d")
+      :prompt "dtrash"
+      :dyn-target (lambda (target msg)
+                    (mu4e-get-trash-folder msg))
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid
+                                (mu4e~mark-check-target target)
+                                "+T-N")))
 
-          (unflag
-           :char ("-" . "-")
-           :prompt "-unflag"
-           :show-target (lambda (target) "unflag")
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid nil "-F-N")))
+     (unflag
+      :char ("-" . "-")
+      :prompt "-unflag"
+      :show-target (lambda (target) "unflag")
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid nil "-F-N")))
 
-          (untrash
-           :char ("=" . "=")
-           :prompt "=untrash"
-           :show-target (lambda (target) "untrash")
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid nil "-T")))
+     (untrash
+      :char ("=" . "=")
+      :prompt "=untrash"
+      :show-target (lambda (target) "untrash")
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid nil "-T")))
 
-          (unread
-           :char "?"
-           :prompt "?unread"
-           :show-target (lambda (target) "unread")
-           :action (lambda (docid msg target)
-                     (mu4e~proc-move docid nil "-S+u-N")))
+     (unread
+      :char "?"
+      :prompt "?unread"
+      :show-target (lambda (target) "unread")
+      :action (lambda (docid msg target)
+                (mu4e--server-move docid nil "-S+u-N")))
 
-          (unmark
-           :char " "
-           :prompt "unmark"
-           :action (mu4e-error "No action for unmarking"))
+     (unmark
+      :char " "
+      :prompt "unmark"
+      :action (mu4e-error "No action for unmarking"))
 
-          (action
-           :char ("a" . "a")
-           :prompt "action"
-           :ask-target (lambda ()
-                         (mu4e-read-option "Action: " mu4e-headers-actions))
-           :action (lambda (docid msg actionfunc)
-                     (save-excursion
-                       (when (mu4e~headers-goto-docid docid)
-                         (mu4e-headers-action actionfunc)))))
+     (action
+      :char ("a" . "a")
+      :prompt "action"
+      :ask-target (lambda ()
+                    (mu4e-read-option "Action: " mu4e-headers-actions))
+      :action (lambda (docid msg actionfunc)
+                (save-excursion
+                  (when (mu4e~headers-goto-docid docid)
+                    (mu4e-headers-action actionfunc)))))
 
-          (something
-           :char ("*" . "*")
-           :prompt "*something"
-           :action (mu4e-error "No action for deferred mark")))))
+     (something
+      :char ("*" . "*")
+      :prompt "*something"
+      :action (mu4e-error "No action for deferred mark"))))
 
-;; Functions
-(std::after mu4e
-
-  (make-process
-   :name "Mbsync Update"
-   :command '("systemctl" "--user" "start" "mbsync.service"))
-
-  ;;WIP font-lock improvement
-  (defun mu4e~headers-line-apply-flag-face (_msg line) line)
-
-  (defun mu4e~headers-field-apply-basic-properties (msg field val _width)
-    (cl-case field
-      (:subject
-       (propertize
-        (concat
-         (mu4e~headers-thread-prefix (mu4e-message-field msg :thread))
-         (truncate-string-to-width val 600))
-        'face
-        (let ((flags (mu4e-message-field msg :flags)))
-          (cond
-           ((memq 'trashed flags) 'mu4e-trashed-face)
-           ((memq 'draft flags) 'mu4e-draft-face)
-           ((or (memq 'unread flags) (memq 'new flags))
-            'mu4e-unread-face)
-           ((memq 'flagged flags) 'mu4e-flagged-face)
-           ((memq 'replied flags) 'mu4e-replied-face)
-           ((memq 'passed flags) 'mu4e-forwarded-face)
-           (t 'mu4e-header-face)))))
-      (:thread-subject
-       (propertize
-        (mu4e~headers-thread-subject msg)
-        'face 'font-lock-doc-face))
-      ((:maildir :path :message-id)
-       (propertize val 'face 'font-lock-keyword-face))
-      ((:to :from :cc :bcc)
-       (propertize
-        (mu4e~headers-contact-str val)
-        'face 'font-lock-variable-name-face))
-      (:from-or-to (mu4e~headers-from-or-to msg))
-      (:date
-       (propertize
-        (format-time-string mu4e-headers-date-format val)
-        'face 'font-lock-string-face))
-      (:mailing-list
-       (propertize
-        (mu4e~headers-mailing-list val)
-        'face 'font-lock-builtin-face))
-      (:human-date
-       (propertize
-        (mu4e~headers-human-date msg)
-        'help-echo (format-time-string
-                    mu4e-headers-long-date-format
-                    (mu4e-msg-field msg :date))
-        'face 'font-lock-string-face))
-      (:flags
-       (propertize (mu4e~headers-flags-str val)
-                   'help-echo (format "%S" val)
-                   'face 'font-lock-type-face))
-      (:tags
-       (propertize
-        (mapconcat 'identity val ", ")
-        'face 'font-lock-keyword-face))
-      (:size (mu4e-display-size val))
-      (t (mu4e~headers-custom-field msg field)))))
+  (setf mu4e-bookmarks nil)
+  (mu4e-bookmark-define
+   "Unread Messages"
+   "flag:unread AND NOT flag:trashed"
+   ?u)
+   (mu4e-bookmark-define
+    "Last 24 hours"
+    "date:24h.."
+     ?t)
+   (mu4e-bookmark-define
+    "Last 7 days"
+    "date:7d..now"
+    ?w)
+   (mu4e-bookmark-define
+    "Github Messages"
+    "github"
+    ?g)
+   (mu4e-bookmark-define
+    "Messages with images"
+    "mime:image/*"
+    ?p))
 
 ;; Keybinds
 (std::after mu4e
@@ -290,9 +229,14 @@
     "t"   #'std::mail::tag/body
     "+"   #'std::mail::add-tag
     "-"   #'std::mail::remove-tag
-    "!"   #'mu4e-view-mark-for-read
+    "!"   #'mu4e-headers-mark-for-read
+    "\""  #'mu4e-headers-mark-for-unread
     "ü"   #'mu4e-headers-mark-for-flag
     "Ü"   #'mu4e-headers-mark-for-unflag
+    "d"   #'mu4e-headers-mark-for-trash
+    "="   #'mu4e-headers-mark-for-trash
+    "D"   #'mu4e-headers-mark-for-delete
+    "e"   #'mu4e-headers-mark-for-refile
     :evil (normal motion) mu4e-main-mode-map
     "j" #'mu4e~headers-jump-to-maildir
     "b" #'mu4e-headers-search-bookmark
