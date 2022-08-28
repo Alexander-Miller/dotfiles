@@ -111,13 +111,13 @@
       (lambda (target msg) (mu4e-get-refile-folder msg))
       :action
       (lambda (docid msg target)
-        (mu4e--server-move docid (mu4e~mark-check-target target) "-N")))
+        (mu4e--server-move docid (mu4e--mark-check-target target) "-N")))
 
      (delete
       :char ("D" . "D")
       :prompt "Delete"
       :show-target (lambda (target) "delete")
-      :action (lambda (docid msg target) (mu4e~proc-remove docid)))
+      :action (lambda (docid msg target) (mu4e--server-remove docid)))
 
      (flag
       :char ("+" . "+")
@@ -130,10 +130,10 @@
      (move
       :char ("m" . "m")
       :prompt "move"
-      :ask-target mu4e~mark-get-move-target
+      :ask-target mu4e--mark-get-move-target
       :action (lambda (docid msg target)
                 (mu4e--server-move docid
-                                (mu4e~mark-check-target target)
+                                (mu4e--mark-check-target target)
                                 "-N")))
 
      (read
@@ -150,7 +150,7 @@
                     (mu4e-get-trash-folder msg))
       :action (lambda (docid msg target)
                 (mu4e--server-move docid
-                                (mu4e~mark-check-target target)
+                                (mu4e--mark-check-target target)
                                 "+T-N")))
 
      (unflag
