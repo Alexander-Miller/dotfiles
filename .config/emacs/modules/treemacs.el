@@ -38,9 +38,12 @@
     (autoload #'treemacs-rename-file                  "treemacs-file-management.el")
     (autoload #'treemacs-create-file                  "treemacs-file-management.el")
     (autoload #'treemacs-create-dir                   "treemacs-file-management.el")
+    (autoload #'treemacs-bulk-file-actions            "treemacs-file-management.el")
     (autoload #'treemacs-peek-mode                    "treemacs-peek-mode.el")
     (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el")
     (autoload #'treemacs-mu4e-TEST                    "treemacs-mu4e.el")
+    (autoload #'treemacs-project-follow-mode          "treemacs-project-follow-mode.el" nil t)
+    (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el" nil t)
     (autoload #'cfrs-read                             "cfrs.el")
 
     (std::after winum
