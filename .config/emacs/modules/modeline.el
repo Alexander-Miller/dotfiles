@@ -214,10 +214,14 @@
 ;; Treemacs
 (std::after treemacs
 
+  (doom-modeline-def-segment std::modeline::treemacs-ws
+    (format " Treemacs: %s"
+            (treemacs-workspace->name (treemacs-current-workspace))))
+
   (doom-modeline-def-modeline 'treemy
     '(std::modeline::window-bar
       std::modeline::desktop-number
-      std::modeline::major-mode))
+      std::modeline::treemacs-ws))
 
   (std::add-hook 'treemacs-mode-hook (doom-modeline-set-modeline 'treemy)))
 
