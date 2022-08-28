@@ -19,6 +19,8 @@
 (let* ((org-build-dir (concat user-emacs-directory "straight/build/org"))
        (build-version-file (concat org-build-dir "/org-version.el"))
        (org-repo-dir (concat user-emacs-directory "straight/repos/org")))
+  (unless (file-exists-p org-build-dir)
+    (make-directory org-build-dir :parents))
   (unless (or (file-exists-p build-version-file)
               (not (file-exists-p org-repo-dir)))
     (let ((default-directory org-repo-dir))
