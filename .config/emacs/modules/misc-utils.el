@@ -38,6 +38,7 @@
 
 ;; Other
 (setf
+ warning-suppress-types       '(comp)
  xref-prompt-for-identifier   nil
  transient-values-file        "~/.config/emacs/transient/transient-values.el"
  make-backup-files            t
