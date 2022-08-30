@@ -18,3 +18,5 @@
 	editor = emacsclient
 [init]
 	defaultBranch = master
+[push]
+	autoSetupRemote = true
