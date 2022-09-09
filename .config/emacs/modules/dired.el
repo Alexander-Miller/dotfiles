@@ -9,9 +9,11 @@
 (std::autoload dired
   #'std::dired
   #'std::dired::quit
+  #'std::dired::quit-forget
   #'std::dired::mode-hook
   #'std::dired::open-externally
   #'std::dired::filesize
+  #'std::dired::preview
   #'std::dired::mark-up)
 
 (std::with-desktop
@@ -21,14 +23,9 @@
 
 (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
-(defvar std::dired::saved-positions nil)
-(defvar std::dired::saved-window-config nil)
-(defvar std::dired::cache-file (expand-file-name "cache/std-dired-cache" user-emacs-directory))
-
 ;; Must happen *before* dired is loaded
 (setf diredp-omit-files-regexp ".^")
 
-;; Settings
 (std::after dired
 
   (require 'dired+)
@@ -48,27 +45,12 @@
   (std::add-advice #'revert-buffer :after #'dired-do-compress-to :ignore-args)
   (std::add-advice #'revert-buffer :after #'dired-do-compress    :ignore-args)
 
-  (unless (file-exists-p std::dired::cache-file)
-    (make-directory (file-name-directory (directory-file-name std::dired::cache-file)) :parents)
-    (f-touch std::dired::cache-file))
-
   (defun std::dired::quit ()
     (interactive)
-    (let ((left) (right))
-      (winum-select-window-1)
-      (setf left default-directory)
-      (winum-select-window-2)
-      (setf right default-directory
-	    std::dired::saved-positions (list left right))
-      (unless (f-exists? std::dired::cache-file)
-	(f-touch std::dired::cache-file))
-      (f-write (format "%s\n%s" left right) 'utf-8 std::dired::cache-file))
-    (set-window-configuration std::dired::saved-window-config)
     (--each (buffer-list)
       (when (eq 'dired-mode (buffer-local-value 'major-mode it))
 	(kill-buffer it)))))
 
-;; WDired Settings
 (std::after wdired
 
   (defun std::dired::finish-wdired ()
@@ -81,18 +63,7 @@
     (wdired-abort-changes)
     (evil-dired-state)))
 
-;; Keybinds
 (std::after dired
-
-  ;; (defmacro std::dired::dwim-target-wrap (command name)
-  ;;   (let* ((command (cadr command))
-  ;;          (command-name (symbol-name command)))
-  ;;     `(progn
-  ;;        (defun ,name (&optional arg)
-  ;;          ,(format "Run %s. Set `dired-dwim-target' to t with a prefix arg." command-name)
-  ;;          (interactive "P")
-  ;;          (-let [dired-dwim-target arg] (call-interactively #',command)))
-  ;;        #',name)))
 
   (std::keybind
    :keymap evil-dired-state-map
@@ -102,9 +73,10 @@
    "l"   #'dired-find-file
    "RET" #'dired-find-file
    "ox"  #'std::dired::open-externally
-   "J"   #'std::evil::forward-five-lines
-   "K"   #'std::evil::backward-five-lines
+   "J"   #'std::edit::evil-forward-five-lines
+   "K"   #'std::edit::evil-backward-five-lines
    "q"   #'std::dired::quit
+   "Q"   #'std::dired::quit-forget
    ;; File CRUD
    "d"  #'dired-flag-file-deletion
    "D"  #'dired-do-delete
@@ -123,7 +95,7 @@
    "z" #'dired-do-compress
    "Z" #'dired-do-compress-to
    ;; Other
-   "P"   #'std::dired::preview-mode
+   "p"   #'std::dired::preview
    "gr"  #'revert-buffer
    "I"   #'std::dired::filesize
    "("   #'dired-hide-details-mode

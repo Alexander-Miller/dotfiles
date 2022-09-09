@@ -1,18 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
 (autoload #'eros-eval-last-sexp "eros")
-(autoload #'eros-eval-defun "eros")
 
-(defun std::eval-last-sexp ()
+(defun std::elisp::eval-last-sexp ()
+  "Eval the last sexp before point."
   (interactive)
-  (let ((func #'eros-eval-last-sexp))
-    (if (and (evil-normal-state-p)
-	     (string= ")" (string (or (char-after) 0))))
-	(save-excursion
-	  (forward-char)
-	  (call-interactively func))
-      (call-interactively func))))
-
-(defun std::eval-defun (arg)
-  (interactive "P")
-  (eros-eval-defun arg))
+  (save-excursion
+    (when (and (evil-normal-state-p)
+	           (string= ")" (string (or (char-after) 0))))
+	  (forward-char))
+    (call-interactively #'eros-eval-last-sexp)))

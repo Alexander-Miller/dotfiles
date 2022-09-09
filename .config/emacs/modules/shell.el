@@ -6,15 +6,15 @@
  vterm)
 
 (std::autoload shell
-  #'std::fish::mode-hook
-  #'std::vterm
-  #'std::vterm::kill-window-on-exit)
+  #'std::shell::fish-mode-hook
+  #'std::shell::vterm
+  #'std::shell::kill-vterm-window-on-exit)
 
 (std::keybind
  :leader
- "bt" #'std::vterm)
+ "bt" #'std::shell::vterm)
 
-(add-hook 'fish-mode-hook #'std::fish::mode-hook)
+(add-hook 'fish-mode-hook #'std::shell::fish-mode-hook)
 
 (std::after fish-mode
   (setf
@@ -27,4 +27,4 @@
 
   (evil-set-initial-state 'vterm-mode 'emacs)
 
-  (add-hook 'vterm-exit-functions #'std::vterm::kill-window-on-exit))
+  (add-hook 'vterm-exit-functions #'std::shell::kill-vterm-window-on-exit))

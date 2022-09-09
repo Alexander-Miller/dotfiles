@@ -1,13 +1,15 @@
 ;; -*- lexical-binding: t -*-
 
 (defun std::vcs::org-reveal-on-visit ()
+  "Reveal org' overlays when jumping from magit."
   (when (eq 'org-mode major-mode)
     (org-reveal)))
 
 (defun std::vcs::magit-pkg-status ()
+  "Magit status for a straight-installed package."
   (interactive)
   (let* ((alist (--map (cons (f-filename it) it)
-                       (std::files (concat user-emacs-directory "straight/repos"))))
+                       (std::files std::dirs::pkg-repos)))
          (repo (completing-read "Repo: " alist))
          (path (cdr (assoc repo alist))))
     (when path (magit-status path))))
@@ -29,7 +31,7 @@
   :type line
   (evil-previous-visual-line 5))
 
-(defun std::ediff::copy-both-to-C ()
+(defun std::vcs::ediff-copy-both-to-C ()
   (interactive)
   (ediff-copy-diff
    ediff-current-difference nil 'C nil
@@ -38,6 +40,7 @@
     (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 
 (defun std::vcs::ediff-mode-hook ()
+  "Ediff mode key setup."
   (ediff-setup-keymap)
   (std::keybind
    :keymap ediff-mode-map
@@ -45,9 +48,9 @@
    "k" #'ediff-previous-difference
    "d" #'ediff-jump-to-difference
    "H" #'ediff-toggle-hilit
-   "a" #'ediff-copy-A-to-C
-   "b" #'ediff-copy-B-to-C
-   "C" #'std::ediff::copy-both-to-C
+   "a" #'ediff-copy-A-to-B
+   "b" #'ediff-copy-B-to-A
+   "C" #'std::vcs::ediff-copy-both-to-C
    "M-J" #'std::vcs::ediff-scroll-down
    "M-K" #'std::vcs::ediff-scroll-up))
 
@@ -88,3 +91,13 @@
   (when (string= (buffer-name) "COMMIT_EDITMSG")
     (require 'git-commit)
     (git-commit-setup-check-buffer)))
+
+(defhydra std::vcs::magit-hydra (:exit t :hint t)
+  ("gm" #'magit-dispatch             "Dispatch")
+  ("gc" #'magit-clone                "Clone")
+  ("gs" #'magit-status               "Status")
+  ("gp" #'std::vcs::magit-pkg-status "Pkg Status")
+  ("gb" #'magit-blame                "Blame")
+  ("gg" #'magit-file-dispatch        "File Dispatch")
+  ("gfl" #'magit-log-buffer-file     "Log File")
+  ("gff" #'magit-find-file           "Find File"))

@@ -11,11 +11,9 @@
 (defun std::compile (file)
   (or (std::loud
        (let ((ret
-              (condition-case nil
-                  (if (fboundp 'native-compile)
-                      (native-compile file)
-                    (byte-recompile-file file t 0 nil))
-                (error nil))))
+              (if (fboundp 'native-compile)
+                  (native-compile file)
+                (byte-recompile-file file t 0 nil))))
          (garbage-collect)
          ret))
       (error (format "Compilation of [%s] failed" file))))
@@ -37,20 +35,20 @@
       (std::log (format "Compiling modules with filter %s" filter))
     (std::log "Compiling Modules"))
 
-  (dolist (file (std::files std::module-dir))
+  (dolist (file (std::files std::dirs::modules))
     (when (string= "el" (file-name-extension file))
       (when (or (null filter)
                 (--any? (s-contains? it file) filter))
-        (std::log (format "  Compile %s" (file-name-nondirectory file)))
+        (std::log (format "Compile %s" (file-name-nondirectory file)) 2)
         (when (std::compile file)
           (std::clear-line)))))
 
   (std::log "Compiling Autoloads")
-  (dolist (file (std::files std::autoloads-dir))
+  (dolist (file (std::files std::dirs::autoloads))
     (when (string= "el" (file-name-extension file))
       (when (or (null filter)
                 (--any? (s-contains? it file) filter))
-        (std::log (format "  Compile %s" (file-name-nondirectory file)))
+        (std::log (format "Compile '%s'" (file-name-nondirectory file)) 2)
         (when (std::compile file)
           (std::clear-line))))))
 

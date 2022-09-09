@@ -11,19 +11,18 @@
 (std::autoload vcs
   #'std::vcs::next-5-lines-wrapper
   #'std::vcs::prev-5-lines-wrapper
-  #'std::vcs::with-editor-hook
   #'std::vcs::org-reveal-on-visit
   #'std::vcs::magit-pkg-status
   #'std::vcs::update-gut-gutter
   #'std::vcs::ediff-mode-hook
-  #'std::vcs::ediff-hydra/body
   #'std::vcs::save-pre-ediff-window-config
   #'std::vcs::maybe-setup-commit-buffer
   #'std::vcs::ediff-hydra/body
-  #'std::ediff::copy-both-to-C)
+  #'std::vcs::magit-hydra/body)
 
 (std::keybind
  :leader
+ "G"   #'std::vcs::magit-hydra/body
  "gm"  #'magit-dispatch
  "gc"  #'magit-clone
  "gs"  #'magit-status
@@ -38,7 +37,6 @@
 
 ;; Magit
 
-;; Settings
 (std::after magit
 
   (require 'forge)
@@ -55,16 +53,13 @@
    transient-show-popup                       0.3
    git-commit-summary-max-length              120
    magit-display-buffer-function              #'magit-display-buffer-fullframe-status-v1
-   magit-repository-directories               `((,std::repos-dir . 1))
+   magit-repository-directories               `((,std::dirs::repos . 1))
    magit-save-repository-buffers              'dontask
    magit-section-visibility-indicator         nil
    magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)
    magit-diff-refine-hunk                     t
    magit-status-initial-section               '(((unstaged) (status)) 1)
-   magit-section-initial-visibility-alist     '((stashes . hide) (untracked . hide))))
-
-;; Keybinds
-(std::after magit
+   magit-section-initial-visibility-alist     '((stashes . hide) (untracked . hide)))
 
   (std::keybind
    :keymap
@@ -96,9 +91,17 @@
    "M-3" #'winum-select-window-3
    "M-4" #'winum-select-window-4))
 
+(std::after magit-section
+  (std::keybind
+   :keymap magit-section-mode-map
+   "SPC" std::leader-keymap
+   "M-1" #'winum-select-window-1
+   "M-2" #'winum-select-window-2
+   "M-3" #'winum-select-window-3
+   "M-4" #'winum-select-window-4))
+
 ;; Git Gutter
 
-;; Enable
 (add-hook
  'find-file-hook
  (defun std::vcs::enable-git-gutter ()
@@ -121,8 +124,8 @@
          (git-gutter-mode +1)
          (remove-hook 'after-save-hook #'std::vcs::enable-git-gutter :local))))))
 
-;; Settings
 (std::after git-gutter
+
   (require 'git-gutter-fringe)
 
   (std::add-advice #'git-gutter:update-all-windows :after #'after-focus-change-function)
@@ -140,6 +143,7 @@
     (std::add-advice #'std::vcs::update-gut-gutter :after #'magit-unstage-file)))
 
 ;; Ediff
+
 (std::after ediff
 
   (add-hook 'ediff-mode-hook #'std::vcs::ediff-mode-hook)
@@ -169,4 +173,8 @@
 
 (std::after transient
   (transient-posframe-mode)
-  (setf transient-semantic-coloring t))
+  (setf transient-semantic-coloring t)
+
+  (std::keybind
+   :keymap transient-base-map
+   "<escape>" #'transient-quit-one) )

@@ -32,7 +32,7 @@
 
 (std::log "Creating Bulk Autoloads")
 (with-temp-buffer
-  (dolist (pkg-dir (directory-files std::pkg-build-dir :full))
+  (dolist (pkg-dir (directory-files std::dirs::pkg-build :full))
     (dolist (file (directory-files pkg-dir :full "autoloads.el"))
       (goto-char (point-max))
       (insert "\n")

@@ -2,6 +2,7 @@
 
 (std::using-packages
  flyspell-correct
+ guess-language
  frog-menu
  flyspell)
 
@@ -9,6 +10,7 @@
 (std::delq 'flyspell features)
 
 (std::autoload spellcheck
+  #'std::spellcheck::hydra/body
   #'std::spellcheck::use-en-dict
   #'std::spellcheck::use-de-dict
   #'std::spellcheck::start-on-first-edit
@@ -25,6 +27,9 @@
     `(,(rx "#+BEGIN_" (or "SRC" "QUOTE" "EXAMPLE")) . ,(rx "#+END_" (or "SRC" "QUOTE" "EXAMPLE"))))
 
   (setf
+   guess-language-langcodes
+   '((en . ("en_GB" "English" "" "EN_EB"))
+     (de . ("de_DE" "German" "" "DE_DE")))
    flyspell-mark-duplications-flag nil
    flyspell-issue-welcome-flag     nil
    flyspell-issue-message-flag     nil
@@ -54,8 +59,10 @@
  :keymap flyspell-mouse-map
  "<M-return>" #'flyspell-correct-wrapper
  :leader
- "SS" #'flyspell-mode
- "SE" #'std::spellcheck::use-en-dict
- "SD" #'std::spellcheck::use-de-dict
- "Sw" #'flyspell-word
- "Sb" #'flyspell-buffer)
+ "C"  #'std::spellcheck::hydra/body
+ "cc" #'flyspell-mode
+ "cg" #'guess-language-mode
+ "ce" #'std::spellcheck::use-en-dict
+ "cd" #'std::spellcheck::use-de-dict
+ "cw" #'flyspell-word
+ "cb" #'flyspell-buffer)

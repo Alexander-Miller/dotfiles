@@ -13,6 +13,16 @@
   ("x" (std::mail::do-tag "+X") "X")
   ("q" nil "cancel"))
 
+(defhydra std::mail::mark (:exit t :hint t)
+  ("!"   #'mu4e-headers-mark-for-read   "Read")
+  ("\""  #'mu4e-headers-mark-for-unread "Unread")
+  ("ü"   #'mu4e-headers-mark-for-flag   "Flag")
+  ("Ü"   #'mu4e-headers-mark-for-unflag "Unflag")
+  ("d"   #'mu4e-headers-mark-for-trash  "Trash")
+  ("="   #'mu4e-headers-mark-for-trash  "Untrash")
+  ("D"   #'mu4e-headers-mark-for-delete "Delete")
+  ("e"   #'mu4e-headers-mark-for-refile "Refile"))
+
 (defun std::mail::do-tag (tag)
   (-if-let (msg (mu4e-message-at-point :no-error))
       (mu4e-action-retag-message msg tag)

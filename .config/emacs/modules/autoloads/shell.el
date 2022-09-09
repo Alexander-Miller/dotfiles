@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst std::fish::imenu-expr
+(defconst std::shell::fish-imenu-expr
   (list
    (list
     "Function"
@@ -14,8 +14,8 @@
         (group-n 1 symbol-start (1+ (or word "_"))))
     1)))
 
-(defun std::fish::mode-hook ()
-  (setf imenu-generic-expression std::fish::imenu-expr)
+(defun std::shell::fish-mode-hook ()
+  (setf imenu-generic-expression std::shell::fish-imenu-expr)
   (setq-local
    fish-indent-offset 2
    company-backends
@@ -28,7 +28,8 @@
       company-dabbrev company-dabbrev-code
       company-keywords))))
 
-(defun std::vterm ()
+(defun std::shell::vterm ()
+  "Pop to or create vterm buffer."
   (interactive)
   (require 'vterm)
   (let ((buffer (get-buffer-create "*vterm*")))
@@ -37,7 +38,8 @@
         (vterm-mode)))
     (pop-to-buffer buffer)))
 
-(defun std::vterm::kill-window-on-exit (_buffer _event)
+(defun std::shell::kill-vterm-window-on-exit (_buffer _event)
+  "Delete the vterm window on exit."
   (-when-let (w (--first (eq 'vterm-mode (->> it (window-buffer) (buffer-local-value 'major-mode)))
                          (window-list)))
     (kill-buffer (window-buffer w))

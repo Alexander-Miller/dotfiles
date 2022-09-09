@@ -2,7 +2,10 @@
 
 (require 'helm-info)
 
+(evil-set-initial-state 'helpful-mode 'motion)
+
 (defun std::help::pacman-info ()
+  "System package info based on `pacman -Qi $pkg'."
   (interactive)
   (let* ((completions
           (->> "pacman -Q"
@@ -21,15 +24,12 @@
     (conf-mode)))
 
 (defun std::help::manual-info ()
+  "Help from the Emacs manual."
   (interactive)
   (helm :sources '(helm-source-info-emacs
                    helm-source-info-elisp
                    helm-source-info-cl)
         :buffer "*Helm Info*"))
-
-(defun std::help::hydra ()
-  (interactive)
-  (std::help::hydra/body))
 
 (defhydra std::help::hydra (:exit t :hint t)
   ("i" #'std::help::manual-info "Manual")

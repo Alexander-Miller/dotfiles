@@ -10,16 +10,15 @@
  (framey :type git :host github :repo "Alexander-Miller/framey"))
 
 (std::autoload window-management
-  #'std::kill-this-buffer
-  #'std::pop-to-messages-buffer
-  #'std::pop-to-compile-buffer
-  #'std::yequake-org-capture
-  #'std::split-window-right
-  #'std::split-window-below
-  #'std::window::maximize
+  #'std::windows::hydra/body
+  #'std::windows::yequake-org-capture
+  #'std::windows::split-window-right
+  #'std::windows::split-window-below
   #'std::windows::size-change/body)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
+(with-current-buffer (get-buffer-create "*Messages*")
+  (evil-motion-state))
 
 (setf
  winner-ring-size           25
@@ -33,9 +32,11 @@
    ("*xref*"                 :select t   :align right :size 0.4)
    (" *undo-tree*"           :select t   :align right :size 0.3)
    (magit-popup-mode         :select t   :align right :size 0.4)
+   (debugger-mode            :select t   :align below :size 0.4)
    (magit-diff-mode          :select nil :align right :size 0.5)
    (magit-log-select-mode    :select nil :align right :size 0.5)
    ("*Ledger Report*"        :select t   :align below :size 0.5)
+   ("*org-roam*"             :select nil :align right :size 0.25)
    (flycheck-error-list-mode :select nil :align below :size 0.25)
    (vterm-mode               :select t   :align below :size 0.25)
    (compilation-mode         :select nil :align below :size 0.25)
@@ -47,6 +48,7 @@
    (racer-help-mode          :select t   :align right :size 0.5)
    (help-mode                :select t   :align right :size 0.5)
    (helpful-mode             :select t   :align right :size 0.5)
+   (" *Embark Actions*"      :select nil :align below :size 0.5)
    (" *Deletions*"           :select t   :align below :size 0.25)
    (" *Marked Files*"        :select t   :align below :size 0.25)
    ("*Org Select*"           :select t   :align below :size 0.33)
@@ -131,8 +133,11 @@
    (ledger-report-mode        . bottom)
    (xref--xref-buffer-mode    . right)
    (undo-tree-visualizer-mode . right)
+   (org-roam-mode             . right)
+   (mu4e-headers-mode         . mu-main)
    (help-mode                 . help)
    (helpful-mode              . help)
+   (Info-mode                 . help)
    (elfeed-search-mode        . elfeed)
    (magit-status-mode         . magit-main)
    (magit-log-mode            . magit-main)))
@@ -143,7 +148,7 @@
   (setf
    yequake-frames
    '(("FRAMEY Org Capture"
-      (buffer-fns . (std::yequake-org-capture))
+      (buffer-fns . (std::windows::yequake-org-capture))
       (width . 0.75)
       (height . 0.5)
       (top . 75)
@@ -177,6 +182,7 @@
  "M-9" #'winum-select-window-9
  ;; Windows
  :leader
+ "W"   #'std::windows::hydra/body
  "w="  #'balance-windows
  "wJ"  #'evil-window-move-very-bottom
  "wK"  #'evil-window-move-very-top
@@ -186,22 +192,17 @@
  "wh"  #'evil-window-left
  "wj"  #'evil-window-down
  "wk"  #'evil-window-up
- "wsl" #'std::split-window-right
- "wsj" #'std::split-window-below
- "wm"  #'std::window::maximize
+ "wsl" #'std::windows::split-window-right
+ "wsj" #'std::windows::split-window-below
+ "wm"  #'delete-other-windows
  "w0"  #'delete-window
  "wM"  #'treemacs-delete-other-windows
  "wu"  #'winner-undo
  "wr"  #'winner-redo
  "ww"  #'ace-window
+ "wW"  #'ace-swap-window
  "qf"  #'delete-frame
  "wS"  #'std::windows::size-change/body
- ;; Buffers
- :leader
- "bm"    #'std::pop-to-messages-buffer
- "bc"    #'std::pop-to-compile-buffer
- "bd"    #'std::kill-this-buffer
- "b C-d" #'kill-buffer-and-window
  :evil (normal motion) messages-buffer-mode-map
  "q" #'quit-window)
 

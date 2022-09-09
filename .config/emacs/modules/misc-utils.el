@@ -8,7 +8,10 @@
  restart-emacs)
 
 (std::autoload misc-utils
-  #'std::goto-xref-and-close-search)
+  #'std::misc::what-face
+  #'std::misc::weather
+  #'std::misc::toggles/body
+  #'std::misc::goto-xref-and-close-search)
 
 ;; GC
 (setf gc-cons-percentage 0.6
@@ -24,7 +27,7 @@
 
 ;; Startup
 (setf
- initial-major-mode                'fundamental-mode
+ initial-major-mode                'text-mode
  inhibit-startup-message           t
  inhibit-startup-echo-area-message t
  inhibit-default-init              t
@@ -38,11 +41,12 @@
 
 ;; Other
 (setf
+ cl-print-readably            t
  warning-suppress-types       '(comp)
  xref-prompt-for-identifier   nil
  transient-values-file        "~/.config/emacs/transient/transient-values.el"
  make-backup-files            t
- backup-directory-alist       '(("." . "~/.emacs.d/backups"))
+ backup-directory-alist       '(("." . "~/.emacs.d/cache"))
  delete-old-versions          t
  kept-new-versions            6
  kept-old-versions            2
@@ -70,39 +74,23 @@
   (unless (eq t (server-running-p))
     (server-start)))
 
-(std::autoload misc-utils
-  #'std::what-face
-  #'std::notify
-  #'std::schedule
-  #'std::weather
-  #'std::toggles/body)
-
 (std::keybind
  :global
- "C-x ö" #'std::what-face
- "C-x ü" #'std::ui::change-font
+ "C-x ö" #'std::misc::what-face
  :leader
  "qq"  #'save-buffers-kill-terminal
  "qr"  #'restart-emacs
- "t"   #'std::toggles/body
- "aw"  #'std::weather
+ "t"   #'std::misc::toggles/body
+ "aw"  #'std::misc::weather
  "ac"  #'calendar
  "u"   #'universal-argument
- "nd"  #'narrow-to-defun
- "nr"  #'narrow-to-region
- "nn"  #'widen
  :keymap evil-normal-state-map
  "M-." #'xref-find-definitions
- "M-," #'xref-go-back
+ "M-," #'xref-pop-marker-stack
  :evil 'motion xref--xref-buffer-mode-map
  "RET" #'xref-goto-xref
- "<C-return>" #'std::goto-xref-and-close-search)
+ "<C-return>" #'std::misc::goto-xref-and-close-search)
 
 (std::after wttrin
   (setf wttrin-default-cities '("Stuttgart")
         wttrin-default-accept-language '("en-gb")) )
-
-(std::after transient
-  (std::keybind
-   :keymap transient-base-map
-   "<escape>" #'transient-quit-one))

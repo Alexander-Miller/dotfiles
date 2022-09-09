@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-;; TODO(2020/04/09): fringes
+
 (std::using-packages
  rainbow-delimiters
  rainbow-mode
@@ -9,20 +9,24 @@
 
 (std::autoload ui
   #'std::ui::writeroom-hide-line-numbers
-  #'std::ui::change-font-size
-  #'std::ui::theme-hydra/body)
+  #'std::ui::hydra/body)
 
-(defvar std::default-font-spec
+(defvar std::ui::default-font-spec
   `(:family "Fantasque Sans Mono" :size ,(std::if-work-laptop 22 16)))
-(setf (alist-get 'font default-frame-alist) (eval `(font-xlfd-name (font-spec ,@std::default-font-spec))))
+(setf (alist-get 'font default-frame-alist)
+      (eval-when-compile (eval `(font-xlfd-name (font-spec ,@std::ui::default-font-spec)))))
 
 (std::keybind
  :leader
- "if"  #'std::ui::change-font-size
- "it"  #'std::ui::theme-hydra/body)
+ "I"  #'std::ui::hydra/body
+ "id" #'disable-theme
+ "il" #'load-theme
+ "ir" #'std::ui::reload-theme
+ "if" #'std::ui::change-font-size)
 
 (std::schedule 1 :no-repeat
-  (add-hook 'prog-mode-hook #'prettify-symbols-mode))
+  (add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
+  (add-hook 'python-mode-hook     #'prettify-symbols-mode))
 
 (setq-default
  bidi-display-reordering        'left-to-right
@@ -31,11 +35,7 @@
  cursor-in-non-selected-windows nil
  highlight-nonselected-windows  nil
  truncate-lines                 t
- prettify-symbols-alist
- `(("lambda" . "λ")
-   ("!="     . "≠")
-   ("<-"     . "←")
-   ("->"     . "→")))
+ prettify-symbols-alist         '(("lambda" . "λ")))
 
 (setf
  idle-update-delay                1.0
@@ -83,7 +83,7 @@
 (std::downscale ?\❯ :font "Symbola")
 (std::downscale ?\✔ :font "Symbola" :size 9)
 (std::downscale ?\⎯ :font "Symbola" :size 8)
-(std::downscale ?\➤ :font "DejaVu Sans" :size 14)
+(std::downscale ?\➤ :font "DejaVu Sans" :size 12)
 (std::downscale ?\➊ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➋ :font "DejaVu Sans" :size 14)
 (std::downscale ?\➌ :font "DejaVu Sans" :size 14)
@@ -102,6 +102,9 @@
 (std::after writeroom-mode
   (add-to-list 'writeroom-local-effects #'std::ui::writeroom-hide-line-numbers)
 
+  (std::add-hook 'writeroom-mode-hook
+    (setf writeroom-width (round (* 0.75 (frame-width)))))
+
   (setf
    writeroom-width                (round (* 0.75 (frame-width)))
    writeroom-extra-line-spacing   0
@@ -113,12 +116,28 @@
   (setf
    hl-todo-highlight-punctuation ":"
    hl-todo-keyword-faces
-   `(("TODO" warning bold)
-     ("NOTE" font-lock-string-face bold)
-     ("FIXME" font-lock-variable-name-face bold)
-     ("DEPRECATED" font-lock-doc-face bold)
-     ("BUG" error bold)
-     ("XXX" font-lock-preprocessor-face bold))))
+   (-let [bold-box '((bold :box (:line-width -1 :color "#000000")))]
+     `(("TODO"
+        ,@bold-box
+        (:background "#DDBA1A" :foreground "#000000"))
+       ("NOTE"
+        ,@bold-box
+        (:background "#559955" :foreground "#000000"))
+       ("IMPORTANT"
+        ,@bold-box
+        (:background "#BB6666" :foreground "#000000" ))
+       ("FIXME"
+        ,@bold-box
+        (:background "#C98459" :foreground "#000000"))
+       ("DEPRECATED"
+        ,@bold-box
+        (:background "#CCB18B" :foreground "#000000"))
+       ("BUG"
+        ,@bold-box
+        (:background "#AB3737" :foreground "#000000"))
+       ("XXX"
+        ,@bold-box
+        (:background "#1E8F8F" :foreground "#000000"))))))
 
 (std::if-version 28
 

@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t -*-
 
+(std::using-packages doom-modeline)
+
+(require 'doom-modeline)
+
 (defun std::modeline::make-xpm (face width height)
   (propertize
    " " 'display
@@ -24,8 +28,6 @@
                                    else collect (string-to-char "."))
                           (if (eq idx len) "\"};" "\",\n")))))
         'xpm t :ascent 'center)))))
-
-(std::using-packages doom-modeline)
 
 (std::defface std::modeline::selected-separator-face
   (:background "#559955"))
@@ -74,8 +76,6 @@
 
 (std::defface std::modeline::window-purpose-inactive
   (:foreground "#F2777A" :background "#25252A" :bold t :box "#000000"))
-
-(require 'doom-modeline)
 
 (declare-function winum-get-number "winum")
 (declare-function eyebrowse--get "eyebrowse")
@@ -270,7 +270,9 @@
   (doom-modeline-def-modeline 'mail
     '(std::modeline::window-bar
       std::modeline::major-mode
-      std::modeline::mail-search))
+      std::modeline::mail-search)
+    '(std::modeline::window-purpose
+      std::modeline::margin))
 
   (std::add-hook 'mu4e-headers-mode-hook (doom-modeline-set-modeline 'mail)))
 

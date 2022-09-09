@@ -16,19 +16,18 @@
   #'std::org::agenda::schedule-now
   #'std::org::agenda::now-plus
   #'std::org::agenda::open-link-at-line
-  #'std::org::schedule-dot)
+  #'std::org::agenda::schedule-dot)
 
 (std::with-desktop
  :check (eq major-mode 'org-agenda-mode)
  :cmd #'org-agenda
  :quit #'org-agenda-quit)
 
-(defconst std::org::private-file (expand-file-name "Privat.org" std::org-dir))
-(defconst std::org::work-file (expand-file-name "NT.org" std::org-dir))
-(defconst std::org::diary-file (expand-file-name "Diary.org" std::org-dir))
-(defconst std::org::inbox-file (expand-file-name "Inbox.org" std::org-dir))
+(defconst std::org::private-file (expand-file-name "Privat.org" std::dirs::org))
+(defconst std::org::work-file    (expand-file-name "NT.org" std::dirs::org))
+(defconst std::org::diary-file   (expand-file-name "Diary.org" std::dirs::org))
+(defconst std::org::inbox-file   (expand-file-name "Inbox.org" std::dirs::org))
 
-;; Settings
 (std::after org-agenda
 
   (std::silent (org-super-agenda-mode))
@@ -49,9 +48,16 @@
 
   (setf
    org-super-agenda-header-map                      nil
-   calendar-holidays                                holiday-german-BW-holidays
-   org-agenda-block-separator                       (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
-   org-super-agenda-header-separator                (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
+   calendar-holidays
+   (append
+    holiday-german-BW-holidays
+    '((holiday-float 5 0 2 "Muttartag")
+      (holiday-fixed 4 17 "Geburtstag V.")
+      (holiday-fixed 9 28 "Geburtstag A.") ))
+   org-agenda-block-separator
+   (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
+   org-super-agenda-header-separator
+   (concat (propertize (make-string (round (* 0.75 (frame-width))) ?⎯) 'face 'font-lock-function-name-face) "\n")
    org-agenda-cmp-user-defined                      #'std::org::agenda::compare-by-todo-state
    org-agenda-dim-blocked-tasks                     nil
    org-agenda-include-diary                         t
@@ -110,7 +116,7 @@
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (list std::org::private-file))
               (org-super-agenda-keep-order t)
-              (org-agenda-sorting-strategy '(category-up todo-state-up priority-down))
+              (org-agenda-sorting-strategy '(category-up todo-state-up priority-down user-defined-up))
               (org-super-agenda-groups
                `((:name "Dringend"
                         :deadline (before ,(std::org::agenda::now-plus 1 days))
@@ -141,7 +147,7 @@
                  (:discard (:anything))))))
        (tags-todo "hh"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'house) "Haushalt"))
-                   (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
+                   (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::schedule-dot)")))
                    (org-super-agenda-keep-order t)
                    (org-super-agenda-groups
                     '((:auto-category)))))
@@ -150,7 +156,7 @@
               (org-agenda-prefix-format '((todo . "  ")))))
        (tags-todo "dotts"
                   ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'screen) "Dotts"))
-                   (org-agenda-prefix-format '((tags . "%l%(std::org::schedule-dot)")))
+                   (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::schedule-dot)")))
                    (org-super-agenda-category-header-format "Projekt: %s")
                    (org-super-agenda-keep-order t)
                    (org-super-agenda-groups '((:auto-category)))))
@@ -228,7 +234,6 @@
          (org-super-agenda-groups
           `((:name "Projekte" :auto-category t))))))))))
 
-;; Keybinds
 (std::keybind
  :leader
  "aa"    #'std::org::agenda
@@ -237,7 +242,7 @@
  "<f12>"   #'std::org::agenda
  "C-<f12>" #'std::org::agenda::forced-select)
 
-(std::after org
+(std::after org-agenda
   (std::keybind
    :evil motion org-agenda-mode-map
    "RET" #'std::org::agenda::switch-to

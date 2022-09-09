@@ -14,8 +14,8 @@
   (interactive)
   (require 'calendar)
   (let* ((year (cl-third (calendar-current-date)))
-         (main-file (format "%s/Ledger.ledger" std::ledger-dir))
-         (year-file (format "%s/%s.ledger" std::ledger-dir year)))
+         (main-file (format "%s/Ledger.ledger" std::dirs::ledger))
+         (year-file (format "%s/%s.ledger" std::dirs::ledger year)))
     (setf std::ledger::saved-window-config (current-window-configuration))
     (delete-other-windows)
     (find-file year-file)
@@ -30,7 +30,7 @@
 (defun std::ledger::file ()
   (interactive)
   (let* ((files (--map (cons (f-filename it) it)
-                       (std::files "~/Documents/Org/Ledger" ".ledger")))
+                       (std::files std::dirs::ledger ".ledger")))
          (selection (completing-read "File: " files))
          (file (cdr (assoc selection files))))
     (find-file file)))
@@ -38,7 +38,7 @@
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)
-  (setq-local ledger-accounts-file (format "%s/Ledger.ledger" std::ledger-dir))
+  (setq-local ledger-accounts-file (format "%s/Ledger.ledger" std::dirs::ledger))
   (setq-local outline-regexp (rx bol "+++ "))
   (setq-local imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2)))
   (setq-local company-backends '((company-capf company-dabbrev :with company-yasnippet))))
@@ -53,6 +53,7 @@
     (goto-char p)))
 
 (defun std::ledger::finish ()
+  "Kill all ledger buffers and restore saved window config."
   (interactive)
   (cl-loop
    for buf in (buffer-list)
@@ -77,20 +78,26 @@
           (message "'%s' not found." month)
           (goto-char start))))))
 
-(defun std::ledger::forward ()
-  (interactive)
-  (if (s-matches? std::ledger::month-separator-pattern
-                  (thing-at-point 'line))
+(defun std::ledger::forward (&optional arg)
+  "Go to the next transaction.
+With a prefix ARG go to the next month."
+  (interactive "P")
+  (if arg
       (save-match-data
         (end-of-line)
-        (search-forward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (search-forward-regexp
+         std::ledger::month-separator-pattern
+         nil :no-error))
     (call-interactively #'evil-ledger-forward-xact)))
 
-(defun std::ledger::backward ()
-  (interactive)
-  (if (s-matches? std::ledger::month-separator-pattern
-                  (thing-at-point 'line))
+(defun std::ledger::backward (&optional arg)
+  "Go to the previous transaction.
+With a prefix ARG go to the previous month."
+  (interactive "P")
+  (if arg
       (save-match-data
         (beginning-of-line)
-        (search-backward-regexp std::ledger::month-separator-pattern nil :no-error))
+        (search-backward-regexp
+         std::ledger::month-separator-pattern
+         nil :no-error))
     (call-interactively #'evil-ledger-backward-xact)))

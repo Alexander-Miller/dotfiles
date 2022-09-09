@@ -7,6 +7,16 @@
        (org-find-olp :this-buffer)
        (goto-char)))
 
+(defun std::org::capture::select-datetree-tag ()
+  (interactive)
+  (save-excursion
+    (outline-back-to-heading t)
+    (org-set-tags
+     (delete-dups (cons
+                   (std::read "Tag: "
+                     '("Wohnung" "Internet" "Gesundheit" "Versicherungen" "Strom" "Sonstiges"))
+                   (org-get-tags))))))
+
 (defun std::org::capture-select-template (&optional keys)
   "Slightly prettier version of the original."
   (let ((org-capture-templates

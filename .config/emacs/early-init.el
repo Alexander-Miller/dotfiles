@@ -10,10 +10,12 @@
 (fset #'x-apply-session-resources #'ignore)
 
 (setf
- package-enable-at-startup    nil
- gc-cons-threshold            most-positive-fixnum
- inhibit-startup-screen       t
- inhibit-startup-message      t
- frame-inhibit-implied-resize t)
+ package-enable-at-startup        nil
+ gc-cons-threshold                most-positive-fixnum
+ inhibit-startup-screen           t
+ inhibit-startup-message          t
+ frame-inhibit-implied-resize     t
+ native-comp-async-jobs-number    4
+ straight-check-for-modifications '(find-when-checking))
 
 (setq-default mode-line-format nil)

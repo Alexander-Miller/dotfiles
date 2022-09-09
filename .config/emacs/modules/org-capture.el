@@ -6,7 +6,8 @@
   #'std::org::mks
   #'std::org::capture-select-template
   #'std::org::capture::select-path
-  #'std::org::capture::find-olp)
+  #'std::org::capture::find-olp
+  #'std::org::capture::select-datetree-tag)
 
 (defconst std::org::current-year (format-time-string "%Y"))
 (defconst std::org::work-project (or (getenv "_NT_PROJECT") ""))
@@ -55,10 +56,10 @@
               :keys "h"
               :olp ("Haushalt")
               :file ,std::org::private-file
+              :before-finalize std::org::capture::select-datetree-tag
               :datetree t
               :type plain
-              :template ("~%^{>_|Wohnung|Strom|Versicherungen|Internet|Sonstiges}~"
-                         "%?"))
+              :template ("%?"))
              (,(concat (treemacs-get-icon-value 'house) (std::face "Haushalt Aufgabe" 'font-lock-constant-face))
               :keys "w"
               :olp ("Vorhaben" "Haushalt")

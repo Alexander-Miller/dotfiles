@@ -6,8 +6,7 @@
 
 (std::autoload help
   #'std::help::pacman-info
-  #'std::help::manual-info
-  #'std::help::hydra)
+  #'std::help::hydra/body)
 
 (std::after helpful
   (require 'framey-helpful))
@@ -16,9 +15,7 @@
   :global
   "C-x ß" #'helpful-at-point
   :leader
-  "h" #'std::help::hydra
+  "h" #'std::help::hydra/body
   :evil motion helpful-mode-map
   "TAB" #'forward-button
   "<backtab>" #'backward-button)
-
-(evil-set-initial-state 'helpful-mode 'motion)

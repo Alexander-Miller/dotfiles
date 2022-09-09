@@ -1,53 +1,30 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- helm
- helm-org
- selectrum
- prescient
- consult
- orderless
- selectrum-prescient
- marginalia
  avy
- link-hint)
+ consult
+ link-hint
+ marginalia
+ orderless
+ vertico)
 
 (std::autoload selection
   #'std::selection::annotate-file
-  #'std::selection::set-selectrum-candidates
+  #'std::selection::set-last-candidates
   #'std::selection::orderless-dispatcher
-  #'std::helm::org-in-buffer-headings
-  #'std::helm::imenu)
+  #'std::selection::copy-candidate
+  #'std::selection::files-up-one-level)
+
+;; Miniframe
+(mini-frame-mode)
 
 (setf
- ;; completion
- completion-styles             '(orderless)
- completion-category-defaults  nil
- completion-category-overrides nil
-
- ;; orderless
- orderless-skip-highlighting (lambda () selectrum-is-active)
- orderless-style-dispatchers '(std::selection::orderless-dispatcher)
- orderless-matching-styles   '(orderless-literal
-                               orderless-initialism
-                               orderless-prefixes)
-
- ;; selectrum
- selectrum-prescient-enable-filtering         nil
- selectrum-highlight-candidates-function      #'orderless-highlight-matches
- selectrum-extend-current-candidate-highlight t
-
- ;; consult
- consult-preview-key nil
-
- ;;marginalia
- marginalia-align-offset 1
-
- ;; mini-frame
  mini-frame-resize          nil
  mini-frame-show-parameters #'std::mini-frame-show-parameters
  mini-frame-ignore-commands
  '(eval-expression
+   which-key--show-keymap
+   which-key--show-page
    "edebug-eval-expression"
    debugger-eval-expression
    ".*helm.*"
@@ -55,103 +32,101 @@
    "std::help::manual"
    "std::org::inbox-refile-targets"))
 
-(selectrum-mode)
-(selectrum-prescient-mode)
-(prescient-persist-mode)
-(marginalia-mode)
-(mini-frame-mode)
+(defvar std::selection::last-candidates nil)
 
-(defvar std::selectrum-candidates nil)
-
-(std::add-advice #'std::selection::set-selectrum-candidates
-    :before #'selectrum--read)
+(std::add-advice #'std::selection::set-last-candidates
+    :before #'completing-read-default)
+(std::add-advice #'std::selection::set-last-candidates
+    :before #'completing-read-multiple)
 
 (defun std::mini-frame-show-parameters ()
   (let ((width 0.9)
+        (last-cs std::selection::last-candidates)
         height)
     (pcase this-command
       ('consult-imenu (setf height 15 width 0.6))
       ('find-file     (setf height 10))
       ('find-library  (setf height 10))
-      ((guard (not (null std::selectrum-candidates)))
-       (setf height (if (listp std::selectrum-candidates)
-                        (min 8 (1+ (length std::selectrum-candidates)))
+      ((guard last-cs)
+       (setf height (if (listp last-cs)
+                        (min 8 (1+ (length last-cs)))
                       8)))
       (_ (setf height 2)))
-    (setf selectrum-max-window-height (1- height)
-          std::selectrum-candidates nil)
+    (setf vertico-count (1- height)
+          std::selection::last-candidates nil)
     `((background-color . "#2E2E32")
       (left . 0.5)
       (top . 40)
       (height . ,height)
       (width . ,width))))
 
+;; Vertico
+(vertico-mode)
+(savehist-mode)
+
+(setf
+ completion-styles             '(orderless)
+ completion-category-defaults  nil
+ completion-category-overrides nil
+
+ orderless-style-dispatchers '(std::selection::orderless-dispatcher)
+ orderless-matching-styles   '(orderless-literal
+                               orderless-initialism
+                               orderless-prefixes)
+
+ vertico-cycle           t)
+
+;; Marginalia
+(marginalia-mode)
+
+(setf marginalia-align-offset 1)
+
 (std::pushnew marginalia-command-categories
-  '(std::edit-module . short-file)
+  '(std::buffers::edit-module . short-file)
   '(std::org::goto-org-file . short-file))
 (std::pushnew marginalia-annotator-registry
   '(short-file std::selection::annotate-file))
 
-(std::keybind
- :global
- "M-o" #'evil-avy-goto-char-timer
- "M-i" #'evil-avy-goto-word-1
- :leader
- "ff" #'find-file
- "fl" #'find-library
- "bb" #'purpose-switch-buffer-overload
- "bb" #'consult-buffer
- ;; "br" #'helm-recentf
- "bi" #'consult-imenu
- "ry" #'consult-yank-from-kill-ring
- ;; "rr" #'helm-register
- "sr" #'helm-resume
- "jf" #'find-function
- "jl" #'avy-goto-line
- "jk" #'link-hint-open-link
- "jy" #'link-hint-copy-link
- :keymap selectrum-minibuffer-map
- "C-j" #'selectrum-next-candidate
- "C-k" #'selectrum-previous-candidate
- "<escape>"   #'keyboard-quit
- "C-<return>" #'selectrum-submit-exact-input)
+;; Consult
+(setf consult-preview-key (kbd "M-,"))
 
-(std::after helm
+(std::after consult
+  (dolist (cmd '(consult-outline
+                 consult-mark
+                 consult-global-mark
+                 consult-imenu
+                 consult-org-heading
+                 consult-line))
+    (evil-declare-not-repeat cmd)
+    (evil-set-command-property cmd :jump t)))
 
-  (require 'helm-config)
-  (require 'framey-helm)
-
-  (setf helm-move-to-line-cycle-in-source t
-		helm-echo-input-in-header-line    t
-        helm-imenu-delimiter              ": ")
-
-  (std::after org
-    (setf helm-org-format-outline-path t
-          helm-org-headings-fontify t
-          helm-org-headings-actions
-          '(("Go to heading" . helm-org-goto-marker)
-            ("Open in indirect buffer `C-c i'" . helm-org--open-heading-in-indirect-buffer)
-            ("Refile heading(s) (marked-to-selected|current-to-selected) `C-c w`" . helm-org--refile-heading-to)
-            ("Insert link to this heading `C-c l`" . helm-org-insert-link-to-heading-at-marker))) )
-
-  (std::keybind
-    :keymap helm-map
-    "C-j" #'helm-next-line
-    "C-k" #'helm-previous-line
-    "M-j" #'helm-next-source
-    "M-k" #'helm-previous-source
-    "TAB" #'helm-execute-persistent-action
-    "C-ö" #'helm-select-action
-    "<escape>" #'helm-keyboard-quit))
-
-(std::after helm-files
-  (std::keybind
-   :keymap (helm-find-files-map helm-read-file-map)
-   "C-h" #'helm-find-files-up-one-level
-   "C-l" #'helm-find-files-down-last-level))
-
+;; Avy
 (std::after avy
   (setf
    avy-keys             '(?a ?s ?d ?f ?q ?w ?e ?j ?k ?l ?o ?p)
    avy-all-windows      nil
    avy-case-fold-search nil))
+
+;; Keys
+(std::keybind
+ :global
+ "M-o" #'evil-avy-goto-char-timer
+ "M-i" #'evil-avy-goto-word-1
+ [remap list-buffers] #'consult-buffer
+ [remap imenu]        #'consult-imenu
+ [remap locate]       #'consult-locate
+ :leader
+ "ry" #'consult-yank-from-kill-ring
+ "jf" #'find-function
+ "jv" #'find-variable
+ "jl" #'avy-goto-line
+ "jk" #'link-hint-open-link
+ "jy" #'link-hint-copy-link
+ :keymap vertico-map
+ "C-h" #'std::selection::files-up-one-level
+ "C-j" #'vertico-next
+ "M-j" #'vertico-next-group
+ "C-k" #'vertico-previous
+ "M-k" #'vertico-previous-group
+ "M-c" #'std::selection::copy-candidate
+ "<escape>" #'abort-minibuffers)

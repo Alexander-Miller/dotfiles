@@ -7,7 +7,6 @@
  evil-collection
  evil-surround
  evil-nerd-commenter
- evil-lion
  evil-exchange
  (evil-numbers :type git :host github :repo "janpath/evil-numbers")
  (undo-tree :type git :host gitlab :repo "tsc25/undo-tree")
@@ -32,7 +31,13 @@
   #'std::edit::fill-dwim
   #'std::edit::fold-defun
   #'std::edit::fold-list
-  #'std::edit::defun-query-replace)
+  #'std::edit::fold-hydra/body
+  #'std::edit::defun-query-replace
+  #'std::edit::evil-join
+  #'std::edit::evil-forward-five-lines
+  #'std::edit::evil-backward-five-lines
+  #'std::edit::evil-defun-object
+  #'std::edit::indent-after-paste-advice)
 
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
@@ -40,6 +45,7 @@
 (setq-default
  tab-width        4
  indent-tabs-mode nil)
+
 (setf
  isearch-forward           t
  evil-search-module        'evil-search
@@ -60,7 +66,6 @@
 
 (evil-mode)
 (evil-goggles-mode)
-(evil-lion-mode)
 (global-evil-surround-mode)
 (global-subword-mode t)
 (global-undo-tree-mode)
@@ -70,6 +75,10 @@
  "SPC" std::leader-keymap)
 
 (evil-set-initial-state 'xref--xref-buffer-mode 'motion)
+(evil-set-initial-state 'messages-buffer-mode   'motion)
+(evil-set-initial-state 'Custom-mode            'motion)
+(evil-set-initial-state 'special-mode           'motion)
+(evil-set-initial-state 'debugger-mode          'motion)
 
 ;; Cursors
 (setf
@@ -100,45 +109,6 @@
  evil-goggles-enable-surround              t
  evil-goggles-enable-undo                  t
  evil-goggles-enable-yank                  t)
-
-;; Custom Operators & Text Objects
-(evil-define-operator std::evil::join (beg end)
-  "Join the selected lines and indent."
-  :motion evil-line
-  (let ((count (count-lines beg end)))
-    (when (> count 1)
-      (setq count (1- count)))
-    (goto-char beg)
-    (dotimes (_ count)
-      (join-line 1)))
-  (save-excursion
-    (forward-line 1)
-    (indent-for-tab-command)))
-
-(evil-define-motion std::evil::forward-five-lines ()
-  "Move the cursor 5 lines down."
-  :type line
-  (let (line-move-visual)
-    (evil-line-move 5)))
-
-(evil-define-motion std::evil::backward-five-lines ()
-  "Move the cursor 5 lines up."
-  :type line
-  (let (line-move-visual)
-    (evil-line-move -5)))
-
-(evil-define-text-object std::evil::defun-object (count &optional beg end type)
-  "Evil defun text object."
-  (let ((start (point))
-        (beg)
-        (end))
-    (mark-defun)
-    (forward-line 1)
-    (setf beg (region-beginning)
-          end (region-end))
-    (deactivate-mark)
-    (goto-char start)
-    (evil-range beg end type)))
 
 ;; Expand Region
 (std::after expand-region
@@ -176,44 +146,28 @@
    "jn" #'sp-newline))
 
 ;; Paste-Indent
-(defun std::indent-after-paste-advice (yank-func &rest args)
-  "If current mode is not one of spacemacs-indent-sensitive-modes
-indent yanked text (with universal arg don't indent)."
-  (evil-start-undo-step)
-  (prog1
-      (let ((enable (and (not (member major-mode '(python-mode)))
-                         (derived-mode-p 'prog-mode))))
-        (prog1 (apply yank-func args)
-          (when enable
-            (let ((transient-mark-mode nil)
-                  (beg (region-beginning))
-                  (end (region-end)))
-              (when (<= (- end beg) 5000)
-                  (indent-region beg end nil))))))
-    (evil-end-undo-step)))
 
-(std::add-advice #'std::indent-after-paste-advice :around
+(std::add-advice #'std::edit::indent-after-paste-advice :around
   (yank yank-pop evil-paste-before evil-paste-after))
 
 ;; Snippets
 (std::after yasnippet
   (add-hook 'snippet-mode-hook #'whitespace-mode)
   (setf yas-verbosity 3
-        yas-snippet-dirs (list (concat std::emacs-dir "snippets")))
+        yas-snippet-dirs (list (concat std::dirs::emacs "snippets")))
   (yas-reload-all)
   (yas-global-mode))
 
 ;; Folding
 (std::schedule 1 :no-repeat
-  (global-evil-vimish-fold-mode))
-
-(setf
- evil-vimish-fold-target-modes '(prog-mode conf-mode text-mode))
+  (global-evil-vimish-fold-mode)
+  (setf
+   evil-vimish-fold-target-modes
+   '(prog-mode conf-mode text-mode)))
 
 ;; Distinguish C-i & TAB
 (define-key input-decode-map "\C-i" [C-i])
 
-;; Keybinds
 (std::keybind
  :global
  "M-q"   #'std::edit::fill-dwim
@@ -221,11 +175,11 @@ indent yanked text (with universal arg don't indent)."
  "C-c +" #'evil-numbers/inc-at-pt
  "C-c -" #'evil-numbers/dec-at-pt
  :keymap evil-operator-state-map
- "üf" #'std::evil::defun-object
+ "üf" #'std::edit::evil-defun-object
  :keymap (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
  "<C-i>" #'evil-jump-forward
- "J"     #'std::evil::forward-five-lines
- "K"     #'std::evil::backward-five-lines
+ "J"     #'std::edit::evil-forward-five-lines
+ "K"     #'std::edit::evil-backward-five-lines
  "M"     #'evil-goto-mark-line
  "zD"    #'std::edit::fold-defun
  "zL"    #'std::edit::fold-list
@@ -237,12 +191,16 @@ indent yanked text (with universal arg don't indent)."
  :keymap evil-normal-state-map
  "Q"     #'evil-execute-macro
  "C-j"   #'newline-and-indent
- "C-S-j" #'std::evil::join
+ "C-S-j" #'std::edit::evil-join
  "gx"    #'evil-exchange
  "gX"    #'evil-exchange-cancel
  :keymap evil-insert-state-map
  "C-l" #'yas-expand
  :leader
+ "nd" #'narrow-to-defun
+ "nr" #'narrow-to-region
+ "nw" #'widen
+ "Z"  #'std::edit::fold-hydra/body
  "üü" #'anzu-query-replace
  "üf" #'std::edit::defun-query-replace
  "v"  #'er/expand-region)

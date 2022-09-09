@@ -1,20 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
-;; TODO scroll bug report
-
-(defconst std::init-packages (getenv "EMACS_INIT_PACKAGES"))
-(defconst std::emacs-dir (eval-when-compile (getenv "EMACS_HOME")))
-(defconst std::org-dir "~/Documents/Org")
-(defconst std::module-dir (concat std::emacs-dir "modules"))
-(defconst std::autoloads-dir (concat std::emacs-dir "modules/autoloads"))
-(defconst std::pkg-repos-dir (concat user-emacs-directory "straight/repos"))
-(defconst std::pkg-build-dir (concat user-emacs-directory "straight/build"))
+(defconst std::dirs::emacs        (eval-when-compile (getenv "EMACS_HOME")))
+(defconst std::dirs::modules      (concat std::dirs::emacs "modules"))
+(defconst std::dirs::autoloads    (concat std::dirs::emacs "modules/autoloads"))
+(defconst std::dirs::pkg-repos    (concat user-emacs-directory "straight/repos"))
+(defconst std::dirs::pkg-build    (concat user-emacs-directory "straight/build"))
+(defconst std::dirs::repos        (expand-file-name "~/Documents/git"))
+(defconst std::dirs::org          (expand-file-name "~/Documents/Org"))
 (defconst std::pkg-autoloads-file (concat user-emacs-directory "cache/pkg-autoloads.el"))
-(defconst std::repos-dir (expand-file-name "~/Documents/git"))
-(defconst std::pkg-directories
-  (eval-when-compile
-    (when (file-exists-p std::pkg-build-dir)
-      (directory-files std::pkg-build-dir :full))))
 
 (setf
  custom-file                    "~/.emacs.d/custom.el"
@@ -25,7 +18,7 @@
  package-enable-at-startup      nil
  default-fnha                   file-name-handler-alist
  file-name-handler-alist        nil
- load-path                      (delete "/usr/share/emacs/28.0.50/lisp/org" (delete "/usr/share/emacs/27.1/lisp/org" load-path)))
+ load-path                      (delete "/usr/share/emacs/28.1/lisp/org" load-path))
 
 (add-hook
  'emacs-startup-hook
@@ -33,30 +26,28 @@
 
 (eval-when-compile (require 'cl-lib))
 
-(if std::init-packages
-    (progn
-      (defvar bootstrap-version)
-      (let ((bootstrap-file
-             (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
-            (bootstrap-version 5))
-        (unless (file-exists-p bootstrap-file)
-          (with-current-buffer
-              (url-retrieve-synchronously
-               "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-               'silent 'inhibit-cookies)
-            (goto-char (point-max))
-            (eval-print-last-sexp)))
-        (load bootstrap-file nil 'nomessage)))
-  (setf load-path (nconc load-path std::pkg-directories))
-  (load std::pkg-autoloads-file :no-error :no-message)
-  ;; Need a special case for themes
-  (add-to-list 'custom-theme-load-path "/home/am/.emacs.d/straight/build/morning-star"))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setf load-path
+      (nconc load-path (eval-when-compile
+                         (when (file-exists-p std::dirs::pkg-build)
+                           (directory-files std::dirs::pkg-build :full)))))
+(load std::pkg-autoloads-file :no-error :no-message)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/straight/build/morning-star")
 
 (defmacro std::using-packages (&rest pkgs)
-  `(if std::init-packages
-       (dolist (pkg ',(mapcar (lambda (it) it) pkgs))
-	 (straight-use-package pkg))
-     (ignore ',pkgs)))
+  `(dolist (pkg '(,@pkgs))
+     (straight-use-package pkg)))
 
 (std::using-packages
  dash
@@ -69,12 +60,9 @@
 
 (cl-defmacro std::load (file &key if)
   (when (or (null if) (eval if))
-    `(load (concat std::emacs-dir "modules/" ,file) nil :no-messages)))
+    `(load (concat std::dirs::emacs "modules/" ,file) nil :no-messages)))
 
-(defgroup std nil
-  "Std faces."
-  :group 'std
-  :prefix "std::")
+(defgroup std nil "" :group 'std :prefix "std::")
 
 (defconst std::leader-keymap (make-sparse-keymap))
 
@@ -94,7 +82,7 @@ Accepts the following segments:
           (:leader
            (while segment
              (push
-              `(define-key std::leader-keymap ,(kbd (pop segment)) ,(pop segment))
+              `(define-key std::leader-keymap ,(as-kbd (pop segment)) ,(pop segment))
               forms)))
           (:global
            (while segment
@@ -148,7 +136,7 @@ Accepts the following segments:
 
 (defmacro std::add-hook (hook-var &rest forms)
   (declare (indent 1))
-  `(add-hook ,hook-var (lambda () ,@forms)))
+  `(add-hook ,hook-var (lambda (&rest _) ,@forms)))
 
 ;; From DOOM Emacs:
 ;; HACK `tty-run-terminal-initialization' is *tremendously* slow for some

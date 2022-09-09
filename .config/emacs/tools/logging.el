@@ -20,13 +20,13 @@
 ;; runs with `std::loud'
 (defun std::message-filter (msg &rest args)
   (unless (or (null args)
+              (string-blank-p (car args))
               (string-match-p "Compiling" (format "%s" (car args)))
               (string-match-p "Loading" (format "%s" (car args))))
     (let* ((str (car args))
            (format-args (cdr args)))
-      (if (string-prefix-p " \u001b[1m" str)
-          (apply msg args)
-        (apply msg (cons (concat "      " (car args)) (cdr args)))))))
+      (apply msg args))))
+
 (advice-add 'message :around 'std::message-filter)
 
 ;; Overrides `inhibit-message' being set to nil at the start
@@ -35,14 +35,20 @@
      ,@body))
 
 ;; normal log statement
-;; escape codes make the '[λ]' part green
-(defun std::log (&optional str)
-  (std::loud (message " \u001b[1m\u001b[32m[λ]\u001b[0m %s" (or str ""))))
+;; escape codes make the '•' part green
+(defun std::log (&optional str indent)
+  (std::loud
+   (message " %s\u001b[1m\u001b[32m•\u001b[0m %s"
+            (make-string (or indent 0) ?\ )
+            (or str ""))))
 
 ;; error log statement
-;; escape codes make the '[λ]' part red
-(defun std::err (&optional str)
-  (std::loud (message " \u001b[1m\u001b[31m[λ]\u001b[0m %s" (or str ""))))
+;; escape codes make the '•' part red
+(defun std::err (&optional str indent)
+  (std::loud
+   (message " \u001b[1m\u001b[31m•\u001b[0m %s"
+            (make-string (or indent 0) ?\ )
+            (or str ""))))
 
 (defun std::clear-line ()
   (std::loud (message "\033[2K\033[F\033[2K\033[F")))

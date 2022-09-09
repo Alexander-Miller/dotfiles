@@ -14,22 +14,23 @@
   #'std::ledger::forward
   #'std::ledger::backward)
 
-(defconst std::ledger-dir (expand-file-name (format "%s/Ledger" std::org-dir)))
+(defconst std::dirs::ledger (expand-file-name (format "%s/Ledger" std::dirs::org)))
 
 (add-hook 'ledger-mode-hook #'std::ledger::mode-hook)
 (add-hook 'ledger-report-after-report-hook #'fit-window-to-buffer)
 
-(std::keybind :leader "all" #'std::ledger)
-(std::keybind :leader "alf" #'std::ledger::file)
+(std::keybind
+ :leader
+ "all" #'std::ledger
+ "alf" #'std::ledger::file)
 
-;; Settings
 (std::after ledger-mode
 
   (put 'ledger-accounts-file 'safe-local-variable #'stringp)
 
   (std::add-transient-hook 'ledger-mode-hook
-    (dolist (file (list (format "%s/utils/load-csv.el" std::ledger-dir)
-                        (format "%s/utils/show-budget.el" std::ledger-dir)))
+    (dolist (file (list (format "%s/utils/load-csv.el" std::dirs::ledger)
+                        (format "%s/utils/show-budget.el" std::dirs::ledger)))
       (when (file-exists-p file) (load-file file))))
 
   (defface std::ledger::month-face
@@ -65,9 +66,9 @@
    ledger-clear-whole-transactions      t
    ledger-reports
    `(("Budget"
-      ,(format "emacs -batch -l %s/utils/budget-report.el" std::ledger-dir))
+      ,(format "emacs -batch -l %s/utils/budget-report.el" std::dirs::ledger))
      ("Invest"
-      ,(format "emacs -batch -l %s/utils/invest-report.el" std::ledger-dir))
+      ,(format "emacs -batch -l %s/utils/invest-report.el" std::dirs::ledger))
      ("Register (real)"
       "%(binary) reg %(account) --real -p %(period)")
      ("Register (+virtuell)"
@@ -79,7 +80,6 @@
      ("Kredit"
       "%(binary) bal \"/(Ausgaben:Kreditzahlung|Last:Wohnungskredit)/\" --no-total"))))
 
-;; Keybinds
 (std::after ledger-mode
   (std::keybind
     :mode-leader ledger-mode

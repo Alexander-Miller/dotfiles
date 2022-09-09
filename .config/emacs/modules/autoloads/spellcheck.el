@@ -39,3 +39,11 @@
          (res      (frog-menu-read prompt corrects actions)))
     (unless res (throw 'exit nil))
     res))
+
+(defhydra std::spellcheck::hydra (:exit t :hint t)
+  ("c" #'flyspell-mode                "Flyspell")
+  ("g" #'guess-language-mode          "Guess Language")
+  ("e" #'std::spellcheck::use-en-dict "Use EN")
+  ("k" #'std::spellcheck::use-de-dict "Use DE")
+  ("w" #'flyspell-word                "Check Word")
+  ("b" #'flyspell-buffer              "Check Buffer"))

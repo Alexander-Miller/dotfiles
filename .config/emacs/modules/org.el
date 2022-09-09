@@ -2,21 +2,21 @@
 
 (std::using-packages
  org
+ org-appear
  org-superstar
  org-journal
  toc-org)
 
 (std::autoload org
+  #'std::org::ctrl-ret
   #'std::org::schedule-now
   #'std::org::mode-hook
   #'std::org::goto-org-file
   #'std::org::table-recalc
-  #'std::org::inbox-refile-targets
+  #'std::org::refile
   #'std::org::journal-finish)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
-
-(std::delete "/usr/local/share/emacs/28.0.50/lisp/org" load-path)
 
 (setq-default org-directory "~/Documents/Org/")
 
@@ -29,7 +29,6 @@
  "aol" #'org-store-link
  "aoi" #'org-insert-link)
 
-;; Settings
 (std::after org
 
   ;; A small bit of custom font locking for '==>'
@@ -123,6 +122,13 @@
    org-ellipsis                   " …"
    org-tags-column                85
    org-export-use-babel           t
+   org-hide-emphasis-markers      t
+   org-link-frame-setup
+   '((vm      . vm-visit-folder-other-frame)
+     (vm-imap . vm-visit-imap-folder-other-frame)
+     (gnus    . org-gnus-no-new-news)
+     (file    . find-file)
+     (wl      . wl-other-frame))
    org-show-context-detail
    '((agenda . local)
      (bookmark-jump . lineage)
@@ -149,7 +155,6 @@
    org-superstar-headline-bullets-list '("✿")
    org-superstar-item-bullet-alist      '((?- . ?•) (?+ . ?➤))))
 
-;; Std Keybinds
 (std::after org
   (std::keybind
    :mode-leader org-mode
@@ -165,7 +170,6 @@
    "ra" #'outline-show-all
    ;; Headline Navigation
    "u"   #'outline-up-heading
-   "M-u" #'helm-org-parent-headings
    "j"   #'org-next-visible-heading
    "k"   #'org-previous-visible-heading
    "C-j" #'org-forward-heading-same-level
@@ -225,7 +229,9 @@
    "?"   #'org-table-field-info
    ;; Structural Editing
    :evil (normal insert) org-mode-map
-   [remap consult-imenu] #'helm-org-in-buffer-headings
+   [remap imenu] #'consult-org-heading
+   "C-<return>" #'std::org::ctrl-ret
+   "TAB"   #'org-cycle
    "M-RET" #'org-meta-return
    "M-h"   #'org-metaleft
    "M-l"   #'org-metaright
@@ -251,10 +257,11 @@
    "C-e" #'org-edit-special
    "C-t" #'org-set-tags-command
    "P"   #'org-priority
-   "ri"  #'std::org::inbox-refile-targets
+   "ri"  #'std::org::refile
    :keymap org-mode-map
    "M-q" #'std::edit::fill-dwim
    :evil (normal) org-mode-map
+   "M-," #'org-mark-ring-goto
    "^" #'outline-up-heading
    "-" #'org-cycle-list-bullet
    "t" #'org-todo))

@@ -1,11 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-(-let [treemacs-dir "~/Documents/git/treemacs"]
+(-let [treemacs-dir (expand-file-name "~/Documents/git/treemacs")]
   (when (file-exists-p treemacs-dir)
 
-    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode perspective posframe)
+    (std::using-packages ht s dash f ace-window pfuture hydra persp-mode perspective posframe projectile)
 
-    (-let [cfrs "~/Documents/git/cfrs"]
+    (-let [cfrs (expand-file-name "~/Documents/git/cfrs")]
       (if (file-exists-p cfrs)
           (std::pushnew load-path cfrs)
         (std::using-packages cfrs)))
@@ -39,11 +39,10 @@
     (autoload #'treemacs-create-file                  "treemacs-file-management.el")
     (autoload #'treemacs-create-dir                   "treemacs-file-management.el")
     (autoload #'treemacs-bulk-file-actions            "treemacs-file-management.el")
-    (autoload #'treemacs-peek-mode                    "treemacs-peek-mode.el")
-    (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el")
-    (autoload #'treemacs-mu4e-TEST                    "treemacs-mu4e.el")
-    (autoload #'treemacs-project-follow-mode          "treemacs-project-follow-mode.el" nil t)
-    (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el" nil t)
+    (autoload #'treemacs-peek-mode                    "treemacs-peek-mode.el" nil :interactive)
+    (autoload #'treemacs-mu4e                         "treemacs-mu4e.el" nil :interactive)
+    (autoload #'treemacs-project-follow-mode          "treemacs-project-follow-mode.el" nil :interactive)
+    (autoload #'treemacs-git-commit-diff-mode         "treemacs-git-commit-diff-mode.el" nil :interactive)
     (autoload #'cfrs-read                             "cfrs.el")
 
     (std::after winum

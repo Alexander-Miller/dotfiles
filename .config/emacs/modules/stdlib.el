@@ -52,12 +52,15 @@
   (declare (indent 1))
   (let (form)
     (dolist (it cmds)
-      (push `(autoload ,it ,(concat std::emacs-dir "modules/autoloads/" (symbol-name location)))
+      (push `(autoload ,it ,(concat std::dirs::emacs "modules/autoloads/" (symbol-name location)))
             form))
     `(progn
        ,@(nreverse form))))
 
 (defmacro std::schedule (time repeat &rest body)
+  "Schedule code to run after the given TIME in seconds.
+Timer will repeat if REPEAT is `:repeat'.
+BODY can either be raw lambda body or a function reference."
   (declare (indent 2))
   `(run-with-timer
     ,time ,(eq repeat :repeat)
@@ -66,6 +69,9 @@
        (_ `(lambda () ,@body)))))
 
 (defmacro std::idle-schedule (time repeat &rest body)
+  "Schedule code to run after the given idle TIME in seconds.
+Timer will repeat if REPEAT is `:repeat'.
+BODY can either be raw lambda body or a function reference."
   (declare (indent 2))
   `(run-with-idle-timer
     ,time ,(eq repeat :repeat)
@@ -153,3 +159,13 @@
   `(if (not (string= "am-laptop" (system-name)))
        ,then
      ,else))
+
+(cl-defmacro std::notify (title &key (txt "") (icon :NONE))
+  "Show a notification via `notify-send'."
+  (declare (indent 1))
+  (-let [icon-arg
+         (pcase icon
+           (:NONE "--icon=emacs")
+           ((pred stringp) (format "--icon=%s" icon))
+           ((pred null)))]
+    `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil)))

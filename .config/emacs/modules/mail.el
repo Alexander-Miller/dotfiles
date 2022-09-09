@@ -21,15 +21,15 @@
 
 (std::keybind :leader "am" #'mu4e)
 
-(add-hook 'mu4e-compose-mode-hook #'std::mail::compose-mode-hook)
-(add-hook 'mu4e-view-mode-hook #'std::mail::view-mode-hook)
-
-(evil-set-initial-state 'mu4e-main-mode 'motion)
-(evil-set-initial-state 'mu4e-view-mode 'motion)
-(evil-set-initial-state 'mu4e-headers-mode 'motion)
-
-;; Settings
 (std::after mu4e
+
+  (add-hook 'mu4e-compose-mode-hook #'std::mail::compose-mode-hook)
+  (add-hook 'mu4e-view-mode-hook #'std::mail::view-mode-hook)
+
+  (evil-set-initial-state 'mu4e-main-mode    'motion)
+  (evil-set-initial-state 'mu4e-view-mode    'motion)
+  (evil-set-initial-state 'mu4e-headers-mode 'motion)
+
 
   (require 'org-mu4e)
   (mu4e-column-faces-mode)
@@ -38,13 +38,13 @@
   (mu4e-alert-disable-mode-line-display)
   (mu4e-alert-set-default-style 'libnotify)
 
+  (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser) t)
+
   (setf
    mu4e-alert-email-notification-types '(subjects)
    mu4e-alert-notify-repeated-mails    nil
    mu4e-alert-set-window-urgency       nil
    mu4e-alert-icon                     "email")
-
-  (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser) t)
 
   (setf user-mail-address "alexanderm@web.de"
         user-full-name "Alexander Miller")
@@ -65,14 +65,14 @@
    mu4e-headers-passed-mark                 '("P" . "P")
    mu4e-headers-replied-mark                '("R" . "R")
    mu4e-headers-seen-mark                   '("S" . "S")
+   mu4e-headers-unread-mark                 '("U" . "U")
    mu4e-headers-trashed-mark                '("T" . "T")
-   mu4e-headers-attach-mark                 '("a" . "a")
-   mu4e-headers-encrypted-mark              '("x" . "x")
-   mu4e-headers-signed-mark                 '("s" . "s")
-   mu4e-headers-unread-mark                 '("u" . "u")
-   mu4e-headers-list-mark                   '("s" . "s")
-   mu4e-headers-personal-mark               '("p" . "p")
-   mu4e-headers-calendar-mark               '("c" . "c")
+   mu4e-headers-attach-mark                 '("A" . "A")
+   mu4e-headers-encrypted-mark              '("X" . "X")
+   mu4e-headers-signed-mark                 '("G" . "G")
+   mu4e-headers-list-mark                   '("L" . "L")
+   mu4e-headers-personal-mark               '("E" . "E")
+   mu4e-headers-calendar-mark               '("C" . "C")
    mu4e-headers-thread-root-prefix          '("* " . "* ")
    mu4e-headers-thread-first-child-prefix   '("┬ " . "┬ ")
    mu4e-headers-thread-child-prefix         '("│ " . "│ ")
@@ -216,14 +216,13 @@
     "mime:image/*"
     ?p))
 
-;; Keybinds
 (std::after mu4e
   (std::keybind
     :keymap mu4e-main-mode-map
     "u" #'mu4e-update-index
     :evil motion mu4e-headers-mode-map
-    "J"   #'std::evil::forward-five-lines
-    "K"   #'std::evil::backward-five-lines
+    "J"   #'std::edit::evil-forward-five-lines
+    "K"   #'std::edit::evil-backward-five-lines
     "RET" #'mu4e-headers-view-message
     "gr"  #'std::mail::refresh
     "t"   #'std::mail::tag/body
@@ -234,9 +233,11 @@
     "ü"   #'mu4e-headers-mark-for-flag
     "Ü"   #'mu4e-headers-mark-for-unflag
     "d"   #'mu4e-headers-mark-for-trash
-    "="   #'mu4e-headers-mark-for-trash
+    "="   #'mu4e-headers-mark-for-untrash
     "D"   #'mu4e-headers-mark-for-delete
     "e"   #'mu4e-headers-mark-for-refile
+    :mode-leader mu4e-headers-mode
+    "m"   #'std::mail::mark/body
     :evil (normal motion) mu4e-main-mode-map
     "j" #'mu4e~headers-jump-to-maildir
     "b" #'mu4e-headers-search-bookmark

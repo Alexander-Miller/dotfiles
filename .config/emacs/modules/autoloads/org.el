@@ -2,9 +2,10 @@
 
 (require 'helm)
 
-(autoload 'helm-org-build-sources "helm-org")
+(autoload 'consult-org--headings "consult-org")
 
 (defun std::org::mode-hook ()
+  (org-appear-mode)
   (org-indent-mode)
   (org-superstar-mode)
   (auto-revert-mode)
@@ -20,20 +21,48 @@
      ("#+END_SRC"     . "")))
   (prettify-symbols-mode))
 
-(defun std::org::inbox-refile-targets (&optional arg)
-  (interactive "P")
-  (let ((files (list std::org::work-file std::org::private-file)))
-    (helm :sources (helm-org-build-sources files nil arg)
-          :preselect (helm-org-in-buffer-preselect)
-          :truncate-lines helm-org-truncate-lines
-          :buffer "*helm org inbuffer*")))
+(defun std::org::refile ()
+  (interactive)
+  (let* ((point (point-marker))
+         (pointbuf (marker-buffer point))
+         (headings
+          (consult--with-increased-gc
+           (cl-loop
+            for f in (list std::org::work-file std::org::private-file)
+            nconc
+            (with-current-buffer (find-file-noselect f :nowarn)
+              (consult-org--headings nil "-ARCHIVE" nil))
+            into hs
+            finally return hs)))
+         (rfmarker (consult--read
+                    headings
+                    :prompt "Refile to: "
+                    :category 'consult-org-heading
+                    :sort nil
+                    :require-match t
+                    :history '(:input consult-org--history)
+                    :narrow (consult-org--narrow)
+                    :lookup
+                    (lambda (_ candidates cand)
+                      (when-let (found (member cand candidates))
+                        (car (get-text-property 0 'consult-org--heading (car found)))))))
+         (rfbuffer (marker-buffer rfmarker))
+         (rfheading (with-current-buffer rfbuffer
+                      (org-with-point-at rfmarker
+                        (org-get-heading :no-tags :no-todo :no-priority :no-comment))))
+         (rffilename (buffer-file-name rfbuffer))
+         (rfloc (list rfheading rffilename nil rfmarker)))
+    (with-current-buffer pointbuf
+      (org-with-point-at point
+        (org-refile nil nil rfloc))
+      (org-refile '(16) nil nil))))
 
 (defun std::org::goto-org-file ()
   (interactive)
   (find-file-existing
    (std::read "Org File: "
      (--map (cons (propertize (f-filename it) :path it) it)
-            (std::files std::org-dir ".org"))
+            (std::files std::dirs::org ".org"))
      nil :require-match)))
 
 (defun std::org::schedule-now ()
@@ -52,3 +81,14 @@ only the current cell."
   (interactive)
   (save-buffer)
   (kill-buffer-and-window))
+
+(defun std::org::ctrl-ret (&optional arg)
+  (interactive)
+  (-let [faces (plist-get (text-properties-at (point)) 'face)]
+    (unless (listp faces) (setf faces (list faces)))
+    (if (and (not arg)
+             faces
+             (--first (member it faces)
+                      '(org-link org-roam-link org-date)))
+        (org-open-at-point)
+      (funcall-interactively #'org-insert-heading-respect-content))))

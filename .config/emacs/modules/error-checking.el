@@ -6,18 +6,15 @@
  package-lint)
 
 (std::autoload error-checking
-  #'std::flycheck::next-error
-  #'std::flycheck::previous-error)
+  #'std::err-check::hydra/body
+  #'std::err-check::next-error
+  #'std::err-check::previous-error)
 
 (autoload 'flycheck-buffer "flycheck.el")
 
-;; Settings
 (std::after flycheck
 
   (evil-set-initial-state 'flycheck-error-list-mode 'motion)
-
-  (evil-add-command-properties #'std::flycheck::next-error :jump t)
-  (evil-add-command-properties #'std::flycheck::previous-error :jump t)
 
   (std::keybind
    :keymap flycheck-error-list-mode-map
@@ -70,15 +67,15 @@
     :error-list-face 'flycheck-error-list-info
     :fringe-face 'flycheck-fringe-info))
 
-;; Keybinds
 (std::keybind
  :leader
- "ee"    #'flycheck-buffer
- "el"    #'flycheck-list-errors
- "ev"    #'flycheck-verify-setup
- "ed"    #'flycheck-describe-checker
- "ey"    #'flycheck-copy-errors-as-kill
- "e C-e" #'flycheck-mode
+ "E"  #'std::err-check::hydra/body
+ "ee" #'flycheck-buffer
+ "el" #'flycheck-list-errors
+ "ev" #'flycheck-verify-setup
+ "ed" #'flycheck-describe-checker
+ "ey" #'flycheck-copy-errors-as-kill
+ "ee" #'flycheck-mode
  :evil (normal) 'global
- "C-." #'std::flycheck::next-error
- "C-," #'std::flycheck::previous-error)
+ "C-." #'std::err-check::next-error
+ "C-," #'std::err-check::previous-error)

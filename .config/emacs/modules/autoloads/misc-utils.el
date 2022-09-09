@@ -1,41 +1,33 @@
 ;; -*- lexical-binding: t -*-
 
-(defun std::what-face (point)
-  "Reveal face at POINT."
-  (interactive "d")
-  (let ((face (or (get-char-property (point) 'read-face-name)
-                  (get-char-property (point) 'face))))
-    (if face (message "Face: %s" face) (message "No face at %d" point))))
+(defun std::misc::what-face ()
+  "Reveal face(s) at point."
+  (interactive)
+  (->>
+   (list
+    (get-char-property (point) 'read-face-name)
+    (get-char-property (point) 'face)
+    (plist-get (text-properties-at (point)) 'face))
+   (remq nil)
+   (message "%s")))
 
-(defmacro std::schedule (time repeat &rest body)
-  (declare (indent 2))
-  `(run-with-timer
-    ,time ,(eq repeat :repeat)
-    ,(pcase body
-       (`((function ,_)) (car body))
-       (_ `(lambda () ,@body)))))
-
-(cl-defmacro std::notify (title &key (txt "") (icon :NONE))
-    (declare (indent 1))
-    (-let [icon-arg
-           (pcase icon
-             (:NONE "--icon=emacs")
-             ((pred stringp) (format "--icon=%s" icon))
-             ((pred null)))]
-      `(shell-command (format "notify-send '%s' '%s' %s" ,title ,txt ,icon-arg) nil nil)))
-
-(defun std::weather (&optional arg)
+(defun std::misc::weather (&optional arg)
+  "Get the weather.
+With a prefix ARG pick the city."
   (interactive "P")
   (require 'wttrin)
-  (if arg (wttrin-query (car wttrin-default-cities)) (wttrin-query "")))
+  (if arg
+      (wttrin-query (cfrs-read "City: "))
+    (wttrin-query (car wttrin-default-cities))))
 
-(pretty-hydra-define std::toggles
+(pretty-hydra-define std::misc::toggles
   (:color teal :quit-key "q" :title (concat (std::face "" 'font-lock-keyword-face) " Toggles"))
-  ("Basic"
+  ("Text"
    (("n" display-line-numbers-mode "line number"        :toggle t)
     ("W" whitespace-mode           "whitespace"         :toggle t)
     ("r" rainbow-mode              "rainbow"            :toggle t)
     ("R" rainbow-delimiters-mode   "rainbow delimiters" :toggle t)
+    ("p" prettify-symbols-mode     "prettify symbols"   :toggle t)
     ("F" auto-fill-mode            "autofill"           :toggle auto-fill-function))
    "Emacs"
    (("e" toggle-debug-on-error     "debug on error"     :toggle (default-value 'debug-on-error))
@@ -45,12 +37,11 @@
    (("w" writeroom-mode                     "Writeroom"             :toggle t)
     ("f" display-fill-column-indicator-mode "Fill Column Indicator" :toggle t)
     ("L" toggle-truncate-lines              "truncate lines"        :toggle truncate-lines)
-    ("l" hl-line-mode                       "Hl-Line"               :toggle t))
-   "Coding"
-   (("d" smartparens-mode      "smartparens"      :toggle t)
-    ("S" show-smartparens-mode "show smartparens" :toggle t))))
+    ("l" hl-line-mode                       "Hl-Line"               :toggle t)
+    ("S" show-smartparens-mode              "show smartparens"      :toggle t))))
 
-(defun std::goto-xref-and-close-search ()
+(defun std::misc::goto-xref-and-close-search ()
+  "Goto xref result and point and close xref window."
   (interactive)
   (-let [window (selected-window)]
     (xref-goto-xref)

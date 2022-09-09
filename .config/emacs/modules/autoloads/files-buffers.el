@@ -1,26 +1,32 @@
 ;; -*- lexical-binding: t -*-
 
-(defun std::scratch ()
+(defun std::buffers::scratch ()
+  "Open the shared scratch buffer."
   (interactive)
-  (find-file-existing "~/Dropbox/SCRATCH.el"))
+  (pop-to-buffer (find-file-noselect "~/Dropbox/SCRATCH.el")))
 
-(defun std::can-be-other-buffer? (buf)
+(defun std::buffers::can-be-other-buffer? (buf)
+  "Determine buffers not suited for `std::buffers::other-buffer'."
   (not (memq (buffer-local-value 'major-mode buf)
              '(mu4e-main-mode
                mu4e-headers-mode
                mu4e-compose-mode
                mu4e-view-mode
+               dired-mode
                helm-major-mode
                help-mode
                helpful-mode
+               messages-buffer-mode
+               debugger-mode
+               org-roam-mode
                org-agenda-mode))))
 
-(defun std::other-buffer ()
-  ""
+(defun std::buffers::other-buffer ()
+  "Switch back to last used \"other\" buffer."
   (interactive)
   (let* ((buf (current-buffer))
          (next (other-buffer buf)))
-    (when (not (std::can-be-other-buffer? next))
+    (when (not (std::buffers::can-be-other-buffer? next))
       (let* ((cap (length (buffer-list)))
              (i 0)
              (found nil))
@@ -29,30 +35,31 @@
           (setf i (1+ i)
                 buf next
                 next (other-buffer buf))
-          (when (std::can-be-other-buffer? next)
+          (when (std::buffers::can-be-other-buffer? next)
             (setf found t)))
         (unless found
           (setf next (find-file-noselect "~/Dropbox/SCRATCH.el")))))
     (switch-to-buffer next)))
 
-(defun std::edit-module ()
+(defun std::buffers::edit-module ()
+  "Open one of the dotfiles modules."
   (interactive)
-  (let* ((modules (--reject (or (string-suffix-p ".elc" it) (file-directory-p it))
-                            (std::files std::module-dir)))
-         (modules-alist (--map `(,(file-name-sans-extension (file-name-nondirectory it)) . ,it)
-                               modules))
-         (autoloads (--reject (string-suffix-p ".elc" it)
-                              (std::files std::autoloads-dir)))
-         (autoloads-alist (--map `(,(concat (file-name-sans-extension (file-name-nondirectory it)) " autoloads") . ,it)
-                                 autoloads))
+  (let* ((modules (std::files std::dirs::modules "\\.el$"))
+         (autoloads (std::files std::dirs::autoloads "\\.el$"))
+         (modules-alist (--map
+                         `(,(file-name-sans-extension (file-name-nondirectory it)) . ,it)
+                         modules))
+         (autoloads-alist (--map
+                           `(,(concat (file-name-sans-extension (file-name-nondirectory it)) " autoloads") . ,it)
+                           autoloads))
          (options (append '(("init" . "~/.emacs.d/init.el")
                             ("early init" . "~/.emacs.d/early-init.el"))
                           (nconc modules-alist autoloads-alist)))
          (selection (std::read "Module: "
                       (--map (propertize (car it) :path (cdr it)) options))))
-    (-some-> selection (assoc options) (cdr) (find-file-existing))))
+    (-some-> selection (assoc options) (cdr) (find-file-noselect) (pop-to-buffer))))
 
-(defun std::move-buffer-to-parent-frame ()
+(defun std::buffers::move-buffer-to-parent-frame ()
   "Move current child frame's buffer to its parent and close the child frame."
   (interactive)
   (-when-let (parent (frame-parent (selected-frame)))
@@ -60,10 +67,13 @@
           (point (point)))
       (delete-frame (selected-frame))
       (x-focus-frame parent)
+      (when (window-dedicated-p)
+        (select-window (next-window)))
       (display-buffer-same-window buffer nil)
       (goto-char point))))
 
-(defun std::dropbox-buffer-cleanup ()
+(defun std::buffers::dropbox-buffer-cleanup ()
+  "Save and kill all dropbox buffers."
   (interactive)
   (let ((dpx (expand-file-name "~/Dropbox"))
         (org (expand-file-name "~/Documents/Org")))
@@ -76,7 +86,8 @@
             (save-buffer))
           (kill-buffer b))))))
 
-(defun std::rename-buffer-file ()
+(defun std::buffers::rename-buffer-file ()
+  "Rename the file of the current buffer."
   (interactive)
   (let* ((old-short-name (buffer-name))
          (old-filename (buffer-file-name)))
@@ -104,17 +115,52 @@
                (when (fboundp 'recentf-add-file)
                  (recentf-add-file new-name)
                  (recentf-remove-if-non-kept old-filename))
-               (when (projectile-project-p)
-                 (call-interactively #'projectile-invalidate-cache))
-               (message (cond ((and file-moved? file-renamed?)
-                               (concat (std::face "File Moved & Renamed\n" 'font-lock-keyword-face)
-                                       "From: " (std::face old-filename 'font-lock-string-face) "\n"
-                                       "To:   " (std::face new-name 'font-lock-string-face)))
-                              (file-moved?
-                               (concat (std::face "File Moved\n" 'font-lock-keyword-face)
-                                       "From: " (std::face old-filename 'font-lock-string-face) "\n"
-                                       "To:   " (std::face new-name 'font-lock-string-face)))
-                              (file-renamed?
-                               (concat (std::face "File Renamed\n" 'font-lock-keyword-face)
-                                       "From: " (std::face old-short-name 'font-lock-string-face) "\n"
-                                       "To:   " (std::face new-short-name 'font-lock-string-face)))))))))))
+               (message
+                (cond
+                 ((and file-moved? file-renamed?)
+                  (concat (std::face "File Moved & Renamed\n" 'font-lock-keyword-face)
+                          "From: " (std::face old-filename 'font-lock-string-face) "\n"
+                          "To:   " (std::face new-name 'font-lock-string-face)))
+                 (file-moved?
+                  (concat (std::face "File Moved\n" 'font-lock-keyword-face)
+                          "From: " (std::face old-filename 'font-lock-string-face) "\n"
+                          "To:   " (std::face new-name 'font-lock-string-face)))
+                 (file-renamed?
+                  (concat (std::face "File Renamed\n" 'font-lock-keyword-face)
+                          "From: " (std::face old-short-name 'font-lock-string-face) "\n"
+                          "To:   " (std::face new-short-name 'font-lock-string-face)))))))))))
+
+(defun std::buffers::pop-to-messages-buffer ()
+  "Pop to the messages buffer.
+Delete it if it is shown already."
+  (interactive)
+  (-let [buf (messages-buffer)]
+    (--if-let (get-buffer-window buf)
+        (delete-window it)
+      (with-current-buffer buf
+        (goto-char (point-max))
+        (pop-to-buffer (current-buffer))))))
+
+(defun std::buffers::pop-to-compile-buffer ()
+  "Pop to the first compilation buffer.
+Delete it if it is shown already."
+  (interactive)
+  (-if-let (buf (--first
+                 (eq 'compilation-mode (buffer-local-value 'major-mode it))
+                 (buffer-list)))
+      (--if-let (get-buffer-window buf)
+          (delete-window it)
+        (with-current-buffer buf
+          (goto-char (point-max))
+          (pop-to-buffer (current-buffer))))
+    (message "No compilation buffers.")))
+
+(defun std::buffers::kill-this-buffer (&optional arg)
+  "Kill the current buffer.
+If the universal prefix argument is used then kill also the window."
+  (interactive "P")
+  (if (window-minibuffer-p)
+      (abort-recursive-edit)
+    (if (equal '(4) arg)
+        (kill-buffer-and-window)
+      (kill-buffer))))

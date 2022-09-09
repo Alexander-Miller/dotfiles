@@ -7,8 +7,8 @@
 (let ((args (cdddr command-line-args)))
   (when args
     (dolist (it args)
-      (let ((build-path (concat std::pkg-build-dir "/" it))
-            (repo-path  (concat std::pkg-repos-dir "/" it)))
+      (let ((build-path (concat std::dirs::pkg-build "/" it))
+            (repo-path  (concat std::dirs::pkg-repos "/" it)))
         (if (file-executable-p repo-path)
             (progn
               (std::log (format "Remove %s" it))

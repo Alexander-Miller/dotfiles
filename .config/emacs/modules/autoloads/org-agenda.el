@@ -15,7 +15,7 @@
   (-let [inhibit-message t]
     (org-agenda nil key)))
 
-(defun std::org::schedule-dot ()
+(defun std::org::agenda::schedule-dot ()
   (declare (side-effect-free t))
   (if (org-get-scheduled-time (point)) "•" " "))
 

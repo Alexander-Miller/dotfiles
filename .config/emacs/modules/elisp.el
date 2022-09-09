@@ -5,21 +5,24 @@
  macrostep
  cask-mode)
 
-(std::autoload elisp
-  #'std::eval-last-sexp
-  #'std::eval-defun)
+(std::autoload elisp #'std::elisp::eval-last-sexp)
+
+(autoload #'eros-eval-defun "eros")
 
 (std::keybind
   :global
-  [remap eval-last-sexp] #'std::eval-last-sexp
+  [remap eval-last-sexp] #'std::elisp::eval-last-sexp
   :mode-leader emacs-lisp-mode
   "ee" #'std::eval-last-sexp
   "eb" #'eval-buffer
-  "ef" #'std::eval-defun
+  "ef" #'eros-eval-defun
   "dm" #'macrostep-mode
   "df" #'edebug-defun
   :evil (normal motion) 'edebug-mode
   "n" #'edebug-next-mode
+  "s" #'edebug-set-breakpoint
+  "S" #'edebug-unset-breakpoint
+  "b" #'edebug-next-breakpoint
   "c" #'edebug-continue-mode
   "q" #'top-level
   :evil normal 'macrostep-mode

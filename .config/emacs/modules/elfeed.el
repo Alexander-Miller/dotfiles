@@ -16,7 +16,6 @@
 
 (std::keybind :leader "af" #'elfeed)
 
-;; Settings
 (std::after elfeed
 
   (setf rmh-elfeed-org-files (list "~/Documents/Org/Elfeed.org"))
@@ -34,7 +33,7 @@
   (std::add-hook 'elfeed-search-update-hook (hl-line-highlight))
 
   (setf
-   elfeed-db-directory                (format "%s/Elfeed-DB" std::org-dir)
+   elfeed-db-directory                (format "%s/Elfeed-DB" std::dirs::org)
    elfeed-search-filter               "@6-months-ago -ignore"
    elfeed-search-print-entry-function #'std::elfeed::draw-entry
    elfeed-search-face-alist
@@ -44,18 +43,15 @@
      (blog     font-lock-doc-face)
      (webcomic font-lock-builtin-face))))
 
-;; Keybinds
 (std::after elfeed
   (std::keybind
     :keymap evil-elfeed-state-map
     "gr"  #'elfeed-update
-    "J"   #'std::evil::forward-five-lines
-    "K"   #'std::evil::backward-five-lines
+    "J"   #'std::edit::evil-forward-five-lines
+    "K"   #'std::edit::evil-backward-five-lines
     "y"   #'elfeed-search-yank
     "i"   #'std::elfeed::ignore-entry
     "b"   #'std::elfeed::visit-entry-dwim
     "RET" #'elfeed-search-show-entry
     "+"   #'elfeed-search-tag-all
-    "-"   #'elfeed-search-untag-all
-    :mode-leader elfeed-search-mode
-    "C-o" #'std::elfeed::visit-entry-dwim))
+    "-"   #'elfeed-search-untag-all))
