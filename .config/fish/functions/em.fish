@@ -6,5 +6,13 @@ function em
 	  emacs -q --batch -l $EMACS_HOME/tools/sync.el $argv[2..-1]
 	case "prune"
 	  emacs -q --batch -l $EMACS_HOME/tools/prune.el $argv[2..-1]
+    case 'e'
+      if test -e $argv[2]
+        emacsclient --no-wait --create-frame $argv[2]
+      end
+    case '*'
+      if test -e $argv[1]
+        emacsclient --no-wait --create-frame $argv[1]
+      end
   end
 end

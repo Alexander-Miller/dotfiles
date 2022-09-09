@@ -1,7 +1,7 @@
 #!/usr/bin/fish
 set -Ux XDG_CONFIG_HOME   $HOME/.config
 set -Ux EMACS_HOME        $XDG_CONFIG_HOME/emacs/
-set -Ux EDITOR            "emacsclient -c -n"
+set -gx EDITOR            "em e"
 set -e  fish_greeting
 set -eU fish_user_paths
 set -e  EMACS
