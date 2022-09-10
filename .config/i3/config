@@ -8,8 +8,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master 5
 bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master 5%-"
 
 # screen brightness up and down
-bindsym XF86MonBrightnessUp   exec --no-startup-id "xbacklight -inc 10"
-bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 10"
+bindsym XF86MonBrightnessUp   exec --no-startup-id "fish -c 'set_brightness +10'"
+bindsym XF86MonBrightnessDown exec --no-startup-id "fish -c 'set_brightness 10-'"
 
 # Open terminal
 bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
