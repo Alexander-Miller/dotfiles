@@ -20,6 +20,7 @@
 (std::load "org")
 (std::load "org-capture")
 (std::load "org-agenda")
+(std::load "org-roam")
 (std::load "shell")
 (std::load "elfeed")
 (std::load "dired")
