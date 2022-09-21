@@ -6,12 +6,13 @@
 
 (std::autoload org-roam
   #'std::org-roam::hydra/body
+  #'std::org-roam::daily-hydra/body
   #'std::org-roam::preview-visit)
 
 (std::keybind
  :leader
  "R"   #'std::org-roam::hydra/body
- "rD"   #'std::org-roam::daily-hydra/body
+ "rD"  #'std::org-roam::daily-hydra/body
  "rb"  #'org-roam-buffer-toggle
  "rc"  #'org-roam-capture
  "rg"  #'org-roam-graph
