@@ -80,6 +80,9 @@
 (evil-set-initial-state 'special-mode           'motion)
 (evil-set-initial-state 'debugger-mode          'motion)
 
+(evil-set-command-property #'beginning-of-defun :jump t)
+(evil-set-command-property #'end-of-defun       :jump t)
+
 ;; Cursors
 (setf
  evil-normal-state-cursor   '("#ab3737" box)
