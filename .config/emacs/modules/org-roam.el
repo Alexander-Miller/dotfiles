@@ -48,6 +48,17 @@
                  "/Roam")))
   (org-roam-db-autosync-enable)
 
+  (setf org-roam-dailies-capture-templates
+        (std::if-work-laptop
+         '(("d" "default"
+            plain
+            "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
+            :target (file+datetree "journal.org" day)))
+         '(("d" "default"
+            plain
+            "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
+            :target (file+datetree "journal.org" year)))))
+
   (defun std::org-roam::quit-restore-window-advice ()
     (-when-let (w (get-buffer-window org-roam-buffer))
       (set-window-parameter
