@@ -1,5 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 #name: set
-#key: s
+#key: ss
 # --
 (setf ${1:var} ${2:value})

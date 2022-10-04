@@ -1,5 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 #name: std
-#key: ss
+#key: sd
 # --
 std::$0
