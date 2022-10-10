@@ -10,11 +10,12 @@
 (std::autoload lsp
   #'std::lsp::enable-tree-sitter-font-lock)
 
-(add-hook 'python-mode-hook #'std::lsp::enable-tree-sitter-font-lock)
-(add-hook 'rust-mode-hook   #'std::lsp::enable-tree-sitter-font-lock)
-(add-hook 'yaml-mode-hook   #'std::lsp::enable-tree-sitter-font-lock)
-(add-hook 'js-mode-hook     #'std::lsp::enable-tree-sitter-font-lock)
-(add-hook 'java-mode-hook   #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'python-mode-hook     #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'rust-mode-hook       #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'yaml-mode-hook       #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'js-mode-hook         #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'typescript-mode-hook #'std::lsp::enable-tree-sitter-font-lock)
+(add-hook 'java-mode-hook       #'std::lsp::enable-tree-sitter-font-lock)
 
 (std::after lsp-mode
   (setf

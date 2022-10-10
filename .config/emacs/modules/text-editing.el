@@ -21,6 +21,7 @@
  yaml-mode
  csv-mode
  kotlin-mode
+ typescript-mode
  groovy-mode
  markdown-mode)
 
