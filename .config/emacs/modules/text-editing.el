@@ -83,6 +83,7 @@
 
 (evil-set-command-property #'beginning-of-defun :jump t)
 (evil-set-command-property #'end-of-defun       :jump t)
+(evil-set-command-property #'org-open-at-point  :jump t)
 
 ;; Cursors
 (setf
