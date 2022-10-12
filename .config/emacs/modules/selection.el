@@ -82,8 +82,10 @@
 (setf marginalia-align-offset 1)
 
 (std::pushnew marginalia-command-categories
-  '(std::buffers::edit-module . short-file)
-  '(std::org::goto-org-file . short-file))
+  '(std::buffers::edit-module    . short-file)
+  '(std::buffers::edit-fish-file . short-file)
+  '(std::buffers::edit-misc-cfg  . short-file)
+  '(std::org::goto-org-file      . short-file))
 (std::pushnew marginalia-annotator-registry
   '(short-file std::selection::annotate-file))
 
