@@ -59,6 +59,52 @@
                       (--map (propertize (car it) :path (cdr it)) options))))
     (-some-> selection (assoc options) (cdr) (find-file-noselect) (pop-to-buffer))))
 
+(defun std::buffers::edit-fish-file ()
+  "Open a fish config file."
+  (interactive)
+  (let* ((fish-cfg "~/.config/fish/config.fish")
+         (local-cfg "~/.config/fish/local.fish")
+         (funs (std::files "~/.config/fish/functions"))
+         (files (-filter #'file-exists-p (std::cons fish-cfg local-cfg funs)))
+         (alist (--map
+                 `(,(file-name-nondirectory it) . ,it)
+                 files))
+         (selection (std::read "Open: "
+                      (--map (propertize (car it) :path (cdr it)) alist))))
+    (-some-> selection (assoc alist) (cdr) (find-file-noselect) (pop-to-buffer))))
+
+(defun std::buffers::edit-misc-cfg ()
+  "Edit a singular misc config file like git or ncmpcpp."
+  (interactive)
+  (let* ((alist
+          '(("git" . "~/.config/git/config")
+            ("i3" . "~/.config/i3/config")
+            ("mpd" . "~/.config/mpd/mpd.conf")
+            ("mpv" . "~/.config/mpv/mpv.conf")
+            ("mpv keybinds" . "~/.config/mpv/input.conf")
+            ("ncmpcpp" . "~/.config/ncmpcpp/config")
+            ("ncmpcpp keybinds" . "~/.config/ncmpcpp/bindings")
+            ("paru" . "~/.config/paru/paru.conf")
+            ("polybar" . "~/.config/polybar/config")
+            ("polybar py start" . "~/.config/polybar/run_polybar.py")
+            ("rofi" . "~/.config/rofi/config.rasi")
+            ("tridactyl" . "~/.config/tridactyl/tridactylrc")
+            ("tridactyl theme" . "~/.config/tridactyl/themes/MorningStar.css")
+            ("xfce terminal" . "~/.config/xfce4/terminal/terminalrc")
+            ("zathura" . "~/.config/zathura/zathurarc")
+            (".xdefaults" . "~/.Xdefaults")
+            ("ledger" . "~/.ledgerrc")
+            ("tmux" . "~/.tmux.conf")))
+         (selection (std::read "Open: "
+                      (--map (propertize (car it) :path (cdr it)) alist))))
+    (-some-> selection (assoc alist) (cdr) (find-file-noselect) (pop-to-buffer))))
+
+(defun std::buffers::edit-dropbox-file ()
+  "Open a dropbox file."
+  (interactive)
+  (-let [default-directory "~/Dropbox/"]
+    (call-interactively #'find-file)))
+
 (defun std::buffers::move-buffer-to-parent-frame ()
   "Move current child frame's buffer to its parent and close the child frame."
   (interactive)
@@ -164,3 +210,10 @@ If the universal prefix argument is used then kill also the window."
     (if (equal '(4) arg)
         (kill-buffer-and-window)
       (kill-buffer))))
+
+(defhydra std::buffers::open (:exit t :hint nil)
+  ("m" #'std::buffers::edit-module "Emacs Module")
+  ("x" #'std::buffers::dropbox-buffer-cleanup "Dropbox File")
+  ("f" #'std::buffers::edit-fish-file "Fish File")
+  ("c" #'std::buffers::edit-misc-cfg "Misc Config")
+  ("q" nil "cancel"))
