@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-ts-src
+#key: <ts
+# --
+ #+BEGIN_SRC typescript
+$0
+ #+END_SRC

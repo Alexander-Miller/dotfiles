@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-html-src
+#key: <html
+# --
+ #+BEGIN_SRC html
+$0
+ #+END_SRC

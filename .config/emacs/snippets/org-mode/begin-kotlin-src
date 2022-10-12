@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-kotlin-src
+#key: <kt
+# --
+ #+BEGIN_SRC kotlin
+$0
+ #+END_SRC

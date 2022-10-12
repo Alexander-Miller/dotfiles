@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-groovy-src
+#key: <groovy
+# --
+ #+BEGIN_SRC groovy
+$0
+ #+END_SRC

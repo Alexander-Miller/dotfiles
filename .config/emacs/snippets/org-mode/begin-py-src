@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-py-src
+#key: <py
+# --
+ #+BEGIN_SRC python
+$0
+ #+END_SRC

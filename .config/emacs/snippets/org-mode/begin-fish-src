@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: begin-fish-src
+#key: <fish
+# --
+ #+BEGIN_SRC fish
+$0
+ #+END_SRC
