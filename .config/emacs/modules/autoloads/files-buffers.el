@@ -213,7 +213,7 @@ If the universal prefix argument is used then kill also the window."
 
 (defhydra std::buffers::open (:exit t :hint nil)
   ("m" #'std::buffers::edit-module "Emacs Module")
-  ("x" #'std::buffers::dropbox-buffer-cleanup "Dropbox File")
+  ("x" #'std::buffers::edit-dropbox-file "Dropbox File")
   ("f" #'std::buffers::edit-fish-file "Fish File")
-  ("c" #'std::buffers::edit-misc-cfg "Misc Config")
+  ("d" #'std::buffers::edit-misc-cfg "Misc Config")
   ("q" nil "cancel"))
