@@ -41,3 +41,9 @@ ARG it will use the same window."
   (interactive)
   (-let [current-prefix-arg (if arg nil '(4))]
     (call-interactively #'org-roam-preview-visit)))
+
+(defun std::org-roam::project-prompt ()
+  (interactive)
+  (-> (std::read "Projekt: " '("Kunde" "NT"))
+      (assoc '(("Kunde" . "kunde:@P:") ("NT" . "@P:")))
+      (cdr)))

@@ -5,6 +5,7 @@
  org-roam-ui)
 
 (std::autoload org-roam
+  #'std::org-roam::project-prompt
   #'std::org-roam::hydra/body
   #'std::org-roam::daily-hydra/body
   #'std::org-roam::preview-visit)
@@ -48,16 +49,56 @@
                  "/Roam")))
   (org-roam-db-autosync-enable)
 
-  (setf org-roam-dailies-capture-templates
-        (std::if-work-laptop
-         '(("d" "default"
-            plain
-            "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
-            :target (file+datetree "journal.org" day)))
-         '(("d" "default"
-            plain
-            "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
-            :target (file+datetree "journal.org" year)))))
+  (setf
+
+   org-roam-dailies-capture-templates
+   (std::if-work-laptop
+    '(("d" "default"
+       plain
+       "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
+       :target (file+datetree "journal.org" day)))
+    '(("d" "default"
+       plain
+       "%(format-time-string \"=[%H:%M]=\" (current-time))\n%?"
+       :target (file+datetree "journal.org" year))))
+
+   org-roam-capture-templates
+   `(("d" "Plain" plain "%?" :target
+      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+     ("l" "Lib"
+      plain
+      ,(concat
+        "%?\n"
+        "* Referenzmaterial\n")
+      :target
+      (file+head
+       "Lib/${slug}.org"
+       ,(concat
+         "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
+         "#+title: ${title}\n"
+         (format "#+filetags: :lib:%s:\n" std::org::current-year)
+         "#+TODO: TODO(o) LOOP(h) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
+      :unnarrowed t)
+     ("p" "NT Project"
+      plain
+      ,(concat
+        "%?\n"
+        "* Ziel\n"
+        "* Vorbereitung\n"
+        "* Durchführung\n"
+        "* Nachbereitung\n"
+        "* Termine & Protokolle\n"
+        "* Referenzmaterial\n")
+      :target
+      (file+head
+       "NT/${slug}.org"
+       ,(concat
+         "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
+         "#+title: ${title}\n"
+         (format "#+filetags: :nt:%s:%%(std::org-roam::project-prompt)\n" std::org::current-year)
+         "#+TODO: TODO(o) LOOP(h) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
+      :unnarrowed t)))
 
   (defun std::org-roam::quit-restore-window-advice ()
     (-when-let (w (get-buffer-window org-roam-buffer))
@@ -86,9 +127,8 @@
    ))
 
 (std::after org-roam-ui
-  ;; (setf
-  ;;  org-roam-ui-sync-theme t
-  ;;  org-roam-ui-follow t
-  ;;  org-roam-ui-update-on-save t
-  ;;  org-roam-ui-open-on-start t)
-  )
+  (setf
+   org-roam-ui-sync-theme     t
+   org-roam-ui-update-on-save t
+   org-roam-ui-follow         nil
+   org-roam-ui-open-on-start  nil))
