@@ -51,7 +51,7 @@
    calendar-holidays
    (append
     holiday-german-BW-holidays
-    '((holiday-float 5 0 2 "Muttartag")
+    '((holiday-float 5 0 2 "Muttertag")
       (holiday-fixed 4 17 "Geburtstag V.")
       (holiday-fixed 9 28 "Geburtstag A.") ))
    org-agenda-block-separator
