@@ -119,3 +119,16 @@
            (`weeks 'week)
            (other  (error "Unknown unit '%s'" other)))))
     `(ts-format "%F %T" (ts-inc ',slot ,amount (ts-now)))))
+
+(cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
+  (require 'org-roam)
+  (-uniq
+   (-map
+    #'car
+    (org-roam-db-query
+     (vector :select [nodes:file]
+             :from 'tags
+             :left-join 'nodes
+             :on '(= tags:node-id nodes:id)
+             :where `(and (in tag ,(apply #'vector in))
+                          (not-in tag ,(apply #'vector not-in))))))))

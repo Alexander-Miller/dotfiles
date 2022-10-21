@@ -6,6 +6,7 @@
 
 (std::autoload org-agenda
   #'std::org::agenda
+  #'std::org::agenda::roam-files-with-tags
   #'std::org::agenda::forced-select
   #'std::org::agenda::goto-today
   #'std::org::agenda::switch-to
@@ -100,7 +101,8 @@
    org-agenda-custom-commands
    `(("a" "2 Wochen"
       ((agenda ""
-               ((org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
+               ((org-agenda-files (append org-agenda-files (std::org::agenda::roam-files-with-tags :in '("nt" "kunde"))))
+                (org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
                 (org-agenda-skip-function
                  '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "INBOX")))))))
      ("s" "Inbox"
@@ -170,10 +172,10 @@
      ("j" "Kunde"
       ((tags-todo "kunde"
                   ((org-agenda-overriding-header "Kundenprojekt")
-                   (org-agenda-files (list std::org::work-file))
+                   (org-agenda-files (cons std::org::work-file (std::org::agenda::roam-files-with-tags :in '("kunde"))))
                    (org-agenda-prefix-format '((tags . " %i %-19:c")))
                    (org-super-agenda-groups
-                    '((:name "Wichtig"
+                    `((:name "Wichtig"
                              :deadline past
                              :and (:todo "APPT"
                                          :timestamp (after ,(std::org::agenda::now-plus -1 days))
@@ -185,6 +187,10 @@
                       (:name "Daily"          :tag "@daily")
                       (:name "Retro"          :tag "@retro")
                       (:name "Aktiv"          :scheduled (before ,(std::org::agenda::now-plus 1 days)))
+                      (:name "Termine"        :and (:todo "APPT" :scheduled (after ,(std::org::agenda::now-plus -1 days))))
+                      (:name "Als Nächstes"   :todo "TODO" :todo "NEXT")
+                      (:name "Offene Fragen"  :todo "FRAGE")
+                      (:name "Warteschlange"  :todo "WAIT")
                       (:name "Anderes"        :not (:tag "story" :todo "APPT"))
                       (:discard (:anything))))))
        (tags-todo "kunde+story"
@@ -193,12 +199,14 @@
                    (org-super-agenda-category-header "Story: ")
                    (org-super-agenda-groups
                     '((:name "Aufgaben" :auto-category)))))))
-     ("k" "NT & AQE & AEP"
+     ("k" "NT & Gilde"
       ((tags-todo
         "nt"
         ((org-agenda-overriding-header "Kanban")
+         (org-agenda-files (cons std::org::work-file (std::org::agenda::roam-files-with-tags :in '("nt"))))
          (org-super-agenda-groups
           `((:name "Dringend"
+                   :priority>= "A"
                    :deadline (before ,(std::org::agenda::now-plus 1 days))
                    :face (:background "#661A1A" :weight bold))
             (:name "Wichtig"
@@ -206,8 +214,8 @@
                    :and (:priority>= "B" :scheduled today)
                    :and (:priority>= "B" :deadline (before ,(std::org::agenda::now-plus 3 days)))
                    :and (:todo "APPT"
-                         :timestamp (after "-2d")
-                         :timestamp (before "+0d"))
+                         :timestamp (after ,(std::org::agenda::now-plus 1 days))
+                         :timestamp (before ,(std::org::agenda::now-plus 0 days)))
                    :face (:background "#5D2D2D" :extend t))
             (:name "Aktiv"
                    :scheduled (before ,(std::org::agenda::now-plus 1 days)))
@@ -229,7 +237,7 @@
         "nt+@P"
         ((org-agenda-overriding-header "Projektaufteilung")
          (org-super-agenda-category-header "Projekt: ")
-         (org-agenda-files (list std::org::work-file))
+         (org-agenda-files (cons std::org::work-file (std::org::agenda::roam-files-with-tags :in '("nt"))))
          (org-agenda-prefix-format '((tags . "   ")))
          (org-super-agenda-groups
           `((:name "Projekte" :auto-category t))))))))))
