@@ -122,13 +122,31 @@
 
 (cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
   (require 'org-roam)
-  (-uniq
-   (-map
-    #'car
-    (org-roam-db-query
-     (vector :select [nodes:file]
-             :from 'tags
-             :left-join 'nodes
-             :on '(= tags:node-id nodes:id)
-             :where `(and (in tag ,(apply #'vector in))
-                          (not-in tag ,(apply #'vector not-in))))))))
+  (-map
+   #'car
+   (org-roam-db-query
+    (vector :select :distinct 'nodes:file
+            :from 'nodes
+            :where
+            (cond
+             ((and in not-in)
+              `(and
+                (:exists
+                 ,(vector :select 1 :from 'tags :where
+                          `(and (in tag ,(apply #'vector in))
+                                (= tags:node-id nodes:id))))
+                (:exists
+                 ,(vector :select 1 :from 'tags :where
+                          `(and (not (in tag ,(apply #'vector not-in)))
+                                (= tags:node-id nodes:id))))))
+             (in
+              `(:exists
+                ,(vector :select 1 :from 'tags :where
+                         `(and (in tag ,(apply #'vector in))
+                               (= tags:node-id nodes:id)))))
+             (not-in
+              `(:exists
+                ,(vector :select 1 :from 'tags :where
+                         `(and (not (in tag ,(apply #'vector not-in)))
+                               (= tags:node-id nodes:id)))))
+             (t (error "")))))))
