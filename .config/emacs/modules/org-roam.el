@@ -21,8 +21,9 @@
  "ri"  #'org-roam-node-insert
  "rI"  #'org-id-get-create
  "rU"  #'org-roam-ui-open
- "rTT" #'org-roam-tag-add
- "rTR" #'org-roam-tag-remove
+ "rtt" #'org-roam-tag-add
+ "rtr" #'org-roam-tag-remove
+ "rtf" #'std::org-roam::find-node-by-tag
  "rdd" #'org-roam-dailies-goto-today
  "rdD" #'org-roam-dailies-capture-today
  "rdt" #'org-roam-dailies-goto-tomorrow

@@ -8,8 +8,9 @@
   ("i"  #'org-roam-node-insert                "Node Insert")
   ("I"  #'org-id-get-create                   "Insert ID")
   ("U"  #'org-roam-ui-open                    "Roam UI")
-  ("TT" #'org-roam-tag-add                    "Tag Add")
-  ("TR" #'org-roam-tag-remove                 "Tag Remove")
+  ("tt" #'org-roam-tag-add                    "Tag Add")
+  ("tr" #'org-roam-tag-remove                 "Tag Remove")
+  ("tf" #'std::org-roam::find-node-by-tag     "Node Find By Tag")
   ("D"  #'std::org-roam::daily-hydra/body     "Daily Hydra")
   ("dd" #'org-roam-dailies-goto-today         "Goto Today")
   ("dD" #'org-roam-dailies-capture-today      "Capture Today")
@@ -47,3 +48,16 @@ ARG it will use the same window."
   (-> (std::read "Projekt: " '("Kunde" "NT"))
       (assoc '(("Kunde" . "kunde:@P:") ("NT" . "@P:")))
       (cdr)))
+
+(defun std::org-roam::find-node-by-tag ()
+  (interactive)
+  (let* ((tag (completing-read  "Tag :" (org-roam-tag-completions)))
+         (nodes (--filter
+                 (member tag (org-roam-node-tags it))
+                 (org-roam-node-list)))
+         (nodes (--map
+                 (cons (org-roam-node-title it)
+                       (org-roam-node-file it))
+                 nodes))
+         (node (completing-read "File: " nodes)))
+    (find-file-existing (cdr (assoc node nodes)))))
