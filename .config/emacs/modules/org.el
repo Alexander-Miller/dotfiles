@@ -14,7 +14,8 @@
   #'std::org::goto-org-file
   #'std::org::table-recalc
   #'std::org::refile
-  #'std::org::journal-finish)
+  #'std::org::journal-finish
+  #'std::org::file-setup)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 

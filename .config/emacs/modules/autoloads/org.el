@@ -4,6 +4,15 @@
 
 (autoload 'consult-org--headings "consult-org")
 
+(defun std::org::file-setup ()
+  (setq-local
+   fill-column 100
+   ispell-local-dictionary "de_DE")
+  (auto-fill-mode t))
+
+(std::pushnew safe-local-variable-values
+  '(eval std::org::file-setup))
+
 (defun std::org::mode-hook ()
   (org-appear-mode)
   (org-indent-mode)

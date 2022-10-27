@@ -65,6 +65,10 @@
    org-roam-capture-templates
    `(("d" "Plain" plain "%?" :target
       (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      ,(concat
+        "# -*- eval: (std::org::file-setup) -*-\n"
+        "#+title: ${title}\n"
+        "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n")
       :unnarrowed t)
      ("l" "Lib"
       plain
@@ -75,10 +79,10 @@
       (file+head
        "Lib/${slug}.org"
        ,(concat
-         "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
+         "# -*- eval: (std::org::file-setup) -*-\n"
          "#+title: ${title}\n"
          (format "#+filetags: :lib:%s:\n" std::org::current-year)
-         "#+TODO: TODO(o) LOOP(h) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
+         "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
       :unnarrowed t)
      ("p" "NT Project"
       plain
@@ -94,10 +98,10 @@
       (file+head
        "NT/${slug}.org"
        ,(concat
-         "# -*- fill-column: 100; ispell-local-dictionary: \"de_DE\"; eval: (auto-fill-mode t) -*-\n"
+         "# -*- eval: (std::org::file-setup) -*-\n"
          "#+title: ${title}\n"
          (format "#+filetags: :nt:%s:%%(std::org-roam::project-prompt)\n" std::org::current-year)
-         "#+TODO: TODO(o) LOOP(h) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
+         "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
       :unnarrowed t)))
 
   (defun std::org-roam::quit-restore-window-advice ()
@@ -122,9 +126,8 @@
    "M-2" #'winum-select-window-2
    "M-3" #'winum-select-window-3
    "M-4" #'winum-select-window-4
-   ;; :evil motion org-roam-preview-map
-   ;; "TAB" #'magit-section-toggle
-   ))
+   :evil motion org-roam-preview-map
+   "TAB" #'magit-section-toggle))
 
 (std::after org-roam-ui
   (setf
