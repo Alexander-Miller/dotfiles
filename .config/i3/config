@@ -188,7 +188,6 @@ for_window [class="Wicd"]                  floating enable
 for_window [window_role="pop-up"]          floating enable
 for_window [window_role="task_dialog"]     floating enable
 for_window [class="Xfce4-notifyd"]         floating enable
-for_window [class="Microsoft Teams.*"]     floating enable
 for_window [title="^zoom\s?$"]             floating enable
 for_window [title="^join\?action=join.*$"] floating enable
 # no_focus [title="^zoom\s?$"]
