@@ -98,7 +98,8 @@ Accepts the following segments:
            (let* ((mode       (pop segment))
                   (leader-map (intern (format "std::%s-leader-map" (symbol-name mode))))
                   (mode-map   (intern (format "%s-map" (symbol-name mode)))))
-             (push `(defvar ,leader-map (make-sparse-keymap)) forms)
+             (push `(unless (boundp ',leader-map)
+                      (defvar ,leader-map (make-sparse-keymap))) forms)
              (push `(evil-define-key '(normal motion) ,mode-map "," ,leader-map) forms)
              (while segment
                (push `(define-key ,leader-map ,(as-kbd (pop segment)) ,(pop segment)) forms))))
