@@ -29,7 +29,7 @@
  "fem" #'std::buffers::edit-module
  "fex" #'std::buffers::edit-dropbox-file
  "fef" #'std::buffers::edit-fish-file
- "fec" #'std::buffers::edit-misc-cfg
+ "fed" #'std::buffers::edit-misc-cfg
  "fE"  #'std::buffers::open/body
  "bb"  #'list-buffers
  "bi"  #'imenu
