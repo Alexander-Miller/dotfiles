@@ -21,10 +21,12 @@
 
 (std::after ispell
 
-  (std::pushnew ispell-skip-region-alist
-    `(,(rx "-*-") . ,(rx "-*-"))
-    `(,(rx ":" (or "PROPERTIES" "LOGBOOOK") ":"). ":END:")
-    `(,(rx "#+BEGIN_" (or "SRC" "QUOTE" "EXAMPLE")) . ,(rx "#+END_" (or "SRC" "QUOTE" "EXAMPLE"))))
+  (defun std::spell-check::skip-org-comments (start end _)
+    (eq 'font-lock-comment-face
+        (get-text-property start 'face)))
+
+  (std::add-hook 'org-mode-hook
+    (add-hook 'flyspell-incorrect-hook #'std::spell-check::skip-function nil :local))
 
   (setf
    guess-language-langcodes
