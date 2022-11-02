@@ -94,6 +94,8 @@
             ("zathura" . "~/.config/zathura/zathurarc")
             (".xdefaults" . "~/.Xdefaults")
             ("ledger" . "~/.ledgerrc")
+            ("picom" . "~/.config/picom.conf")
+            ("redshift" . "~/.config/redshift.conf")
             ("tmux" . "~/.tmux.conf")))
          (selection (std::read "Open: "
                       (--map (propertize (car it) :path (cdr it)) alist))))
