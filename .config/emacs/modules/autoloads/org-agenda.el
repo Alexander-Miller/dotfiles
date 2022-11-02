@@ -123,7 +123,8 @@
 (cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
   (require 'org-roam)
   (let ((in-clause
-         (format "1 = (SELECT COUNT (*) FROM (SELECT tag FROM tags WHERE tags.node_id = nodes.id AND tags.tag IN (%s)))"
+         (format "%s = (SELECT COUNT (*) FROM (SELECT tag FROM tags WHERE tags.node_id = nodes.id AND tags.tag IN (%s)))"
+                 (length in)
                  (string-join
                   (--map (format "'\"%s\"'" it) in) ", ")))
         (not-in-clause
