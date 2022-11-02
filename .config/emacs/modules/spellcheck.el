@@ -21,12 +21,12 @@
 
 (std::after ispell
 
-  (defun std::spell-check::skip-org-comments (start end _)
+  (defun std::spell-check::skip-org-comments (start _end _)
     (eq 'font-lock-comment-face
         (get-text-property start 'face)))
 
   (std::add-hook 'org-mode-hook
-    (add-hook 'flyspell-incorrect-hook #'std::spell-check::skip-function nil :local))
+    (add-hook 'flyspell-incorrect-hook #'std::spell-check::skip-org-comments nil :local))
 
   (setf
    guess-language-langcodes
