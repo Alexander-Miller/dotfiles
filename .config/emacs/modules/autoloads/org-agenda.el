@@ -130,14 +130,15 @@
          (format "0 = (SELECT COUNT (*) FROM (SELECT tag FROM tags WHERE tags.node_id = nodes.id AND tags.tag IN (%s)))"
                  (string-join
                   (--map (format "'\"%s\"'" it) not-in) ", "))))
-    (-map
-     #'car
-     (org-roam-db-query
-      (format
-       "SELECT nodes.file FROM nodes WHERE %s"
-       (cond
-        ((and in not-in)
-         (format "%s AND %s" in-clause not-in-clause))
-        (in in-clause)
-        (not-in not-in-clause)
-        (t (error "Neither in nor not-in predicates are defined"))))))))
+    (-uniq
+     (-map
+      #'car
+      (org-roam-db-query
+       (format
+        "SELECT nodes.file FROM nodes WHERE %s"
+        (cond
+         ((and in not-in)
+          (format "%s AND %s" in-clause not-in-clause))
+         (in in-clause)
+         (not-in not-in-clause)
+         (t (error "Neither in nor not-in predicates are defined")))))))))
