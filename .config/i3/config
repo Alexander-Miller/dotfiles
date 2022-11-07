@@ -181,7 +181,6 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-exec_always --no-startup-id "python ~/.config/polybar/run_polybar.py"
 exec_always --no-startup-id "fish -c on_i3_restart"
 
 for_window [class="Wicd"]                  floating enable

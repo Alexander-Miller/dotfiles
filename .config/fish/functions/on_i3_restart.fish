@@ -4,4 +4,5 @@ function on_i3_restart
     killall picom
     xcape
     picom --experimental-backends &
+    python ~/.config/polybar/run_polybar.py
 end
