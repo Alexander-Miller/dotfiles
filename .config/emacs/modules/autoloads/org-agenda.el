@@ -34,7 +34,7 @@
 
    #("NT" 0 2 (face font-lock-type-face))
    (("j" (std::org::agenda-for-key "j") "Kunde")
-    ("k" (std::org::agenda-for-key "k") "NT & AQE & AEP"))))
+    ("k" (std::org::agenda-for-key "k") "NT & Gilde"))))
 
 (defun std::org::agenda::goto-today ()
   (interactive)
