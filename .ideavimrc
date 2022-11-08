@@ -49,6 +49,7 @@ nnoremap <C-A-e> :action MethodDown<CR>
 " set handler "
 sethandler <C-.> a:ide
 sethandler <C-b> a:ide
+sethandler <C-n> a:ide
 sethandler <C-A-j> a:vim
 sethandler <C-A-k> a:vim
 
