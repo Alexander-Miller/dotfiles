@@ -196,24 +196,24 @@
 
   (setf mu4e-bookmarks nil)
   (mu4e-bookmark-define
-   "Unread Messages"
    "flag:unread AND NOT flag:trashed"
+   "Unread Messages"
    ?u)
    (mu4e-bookmark-define
-    "Last 24 hours"
     "date:24h.."
+    "Last 24 hours"
      ?t)
    (mu4e-bookmark-define
-    "Last 7 days"
     "date:7d..now"
+    "Last 7 days"
     ?w)
    (mu4e-bookmark-define
-    "Github Messages"
     "github"
+    "Github Messages"
     ?g)
    (mu4e-bookmark-define
-    "Messages with images"
     "mime:image/*"
+    "Messages with images"
     ?p))
 
 (std::after mu4e
@@ -240,7 +240,7 @@
     "m"   #'std::mail::mark/body
     :evil (normal motion) mu4e-main-mode-map
     "j" #'mu4e~headers-jump-to-maildir
-    "b" #'mu4e-headers-search-bookmark
+    "b" #'mu4e-search-bookmark
     :evil motion mu4e-view-mode-map
     "C-j" #'mu4e-view-headers-next
     "C-k" #'mu4e-view-headers-prev))
