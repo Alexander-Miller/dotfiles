@@ -52,7 +52,8 @@ With a prefix ARG select the text that should be replaced in the defun at point.
     (goto-char beg)
     (dotimes (_ count)
       (join-line 1)))
-  (indent-for-tab-command))
+  (when (derived-mode-p 'prog-mode)
+    (indent-for-tab-command)))
 
 (evil-define-motion std::edit::evil-forward-five-lines ()
   "Move the cursor 5 lines down."
