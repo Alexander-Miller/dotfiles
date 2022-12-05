@@ -43,11 +43,9 @@
 
   (evil-set-initial-state 'org-roam-mode 'motion)
 
-  (setf org-roam-directory
-        (concat std::dirs::org
-                (std::if-work-laptop
-                 "/RoamNT"
-                 "/Roam")))
+  (setf
+   org-roam-directory         (concat std::dirs::org "/Roam")
+   org-roam-dailies-directory (std::if-work-laptop "NT/daily" "daily/"))
   (org-roam-db-autosync-enable)
 
   (setf
