@@ -16,10 +16,16 @@ function em
     case 'e'
       if test -e $argv[2]
         emacsclient --no-wait --create-frame $argv[2]
+      else
+        echo " File '$argv[2]' not found"
+        return 1
       end
     case '*'
       if test -e $argv[1]
         emacsclient --no-wait --create-frame $argv[1]
+      else
+        echo " Nothing to do for args [$argv]"
+        return 1
       end
   end
 end
