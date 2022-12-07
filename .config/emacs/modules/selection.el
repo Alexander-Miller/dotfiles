@@ -23,6 +23,7 @@
  mini-frame-show-parameters #'std::mini-frame-show-parameters
  mini-frame-ignore-commands
  '(eval-expression
+   evil-ex
    which-key--show-keymap
    which-key--show-page
    "edebug-eval-expression"
