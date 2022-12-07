@@ -125,6 +125,9 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
+# Reload the screen layout
+bindsym $mod+Shift+comma exec "xrandr --auto"
+
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
