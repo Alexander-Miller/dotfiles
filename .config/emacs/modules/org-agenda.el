@@ -24,10 +24,11 @@
  :cmd #'org-agenda
  :quit #'org-agenda-quit)
 
-(defconst std::org::private-file (expand-file-name "Privat.org" std::dirs::org))
-(defconst std::org::work-file    (expand-file-name "NT.org" std::dirs::org))
-(defconst std::org::diary-file   (expand-file-name "Diary.org" std::dirs::org))
-(defconst std::org::inbox-file   (expand-file-name "Inbox.org" std::dirs::org))
+(defconst std::org::private-file  (expand-file-name "Privat.org" std::dirs::org))
+(defconst std::org::work-file     (expand-file-name "NT.org" std::dirs::org))
+(defconst std::org::diary-file    (expand-file-name "Diary.org" std::dirs::org))
+(defconst std::org::inbox-file    (expand-file-name "Inbox.org" std::dirs::roam))
+(defconst std::org::inbox-nt-file (expand-file-name "NT/NT_Inbox.org" std::dirs::roam))
 
 (std::after org-agenda
 
@@ -101,15 +102,17 @@
    org-agenda-custom-commands
    `(("a" "2 Wochen"
       ((agenda ""
-               ((org-agenda-files (append org-agenda-files (std::org::agenda::roam-files-with-tags :in '("nt" "kunde"))))
+               ((org-agenda-files
+                 (std::if-work-laptop
+                  (std::org::agenda::roam-files-with-tags :in '("nt"))
+                  (std::org::agenda::roam-files-with-tags :in '("nt" "privat"))))
                 (org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
                 (org-agenda-skip-function
                  '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "INBOX")))))))
      ("s" "Inbox"
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'mail) "Inbox"))
-              (org-agenda-files (list std::org::inbox-file))
-              (org-agenda-prefix-format '((todo . " %i %-7:c")))
+              (org-agenda-files (list std::org::inbox-file std::org::inbox-nt-file))
               (org-super-agenda-groups
                '((:name "Privat" :tag "privat")
                  (:name "Arbeit" :tag "nt")))))))

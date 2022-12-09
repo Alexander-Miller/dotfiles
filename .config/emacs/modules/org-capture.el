@@ -95,7 +95,7 @@
             ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-function-name-face))
               :keys "i"
               :headline "NT Inbox"
-              :file ,std::org::inbox-file
+              :file ,std::org::inbox-nt-file
               :template ("* INBOX %i%?"
                          "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
              (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
