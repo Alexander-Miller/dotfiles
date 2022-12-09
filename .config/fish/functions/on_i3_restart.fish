@@ -5,4 +5,5 @@ function on_i3_restart
     xcape
     picom --experimental-backends &
     python ~/.config/polybar/run_polybar.py
+    random_wallpaper
 end
