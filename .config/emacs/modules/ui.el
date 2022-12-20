@@ -5,6 +5,7 @@
  rainbow-mode
  (morning-star :type git :host github :repo "Alexander-Miller/morning-star-theme")
  writeroom-mode
+ dashboard
  hl-todo)
 
 (std::autoload ui
@@ -160,3 +161,21 @@
      "://"))
 
   (global-ligature-mode))
+
+(dashboard-setup-startup-hook)
+
+(setf
+ dashboard-banner-logo-title       "Welcome to Emacs!"
+ dashboard-center-content          t
+ dashboard-footer-icon             ">"
+ dashboard-image-banner-max-width  256
+ dashboard-image-banner-max-height 256
+ dashboard-items                   nil
+ dashboard-startup-banner          'logo
+ dashboard-show-shortcuts          t
+ dashboard-page-separator
+ (let ((w (/ (frame-width) 4)))
+   (format "\n%s%s%s\n"
+           (make-string w ?\ )
+           (make-string (* 2 w) ?―)
+           (make-string w ?\ ) )))
