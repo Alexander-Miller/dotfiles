@@ -253,14 +253,6 @@ font pango: Fantasque Sans Mono 12
 
 # class                 border  backgr. text    indicator
 client.focused          #2d2d31 #6699cc #111111 #2e9ef4
-client.focused_inactive #2d2d31 #2d2d31 #999999 #666666
+client.focused_inactive #2d2d31 #424248 #999999 #666666
 client.unfocused        #2d2d31 #2d2d31 #777777 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
-
-# Original
-# class                  border  backgr. text    indicator
-#client.focused          #4c7899 #2855aa #ffffff #2e9ef4
-#client.focused_inactive #333333 #5f676a #ffffff #484e50
-#client.unfocused        #333333 #222222 #888888 #292d2e
-#client.urgent           #2f343a #900000 #ffffff #900000
-#client.placeholder      #000000 #0c0c0c #ffffff #000000
