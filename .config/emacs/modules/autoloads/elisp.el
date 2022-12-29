@@ -10,3 +10,10 @@
 	           (string= ")" (string (or (char-after) 0))))
 	  (forward-char))
     (call-interactively #'eros-eval-last-sexp)))
+
+(defun std::elisp::eval-buffer ()
+  (interactive)
+  (eval-buffer)
+  (eros--eval-overlay
+   (format "Evaluated %S" (current-buffer))
+   (point)))

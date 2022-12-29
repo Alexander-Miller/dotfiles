@@ -5,7 +5,9 @@
  macrostep
  cask-mode)
 
-(std::autoload elisp #'std::elisp::eval-last-sexp)
+(std::autoload elisp
+  #'std::elisp::eval-last-sexp
+  #'std::elisp::eval-buffer)
 
 (autoload #'eros-eval-defun "eros")
 
@@ -14,7 +16,7 @@
   [remap eval-last-sexp] #'std::elisp::eval-last-sexp
   :mode-leader emacs-lisp-mode
   "ee" #'std::eval-last-sexp
-  "eb" #'eval-buffer
+  "eb" #'std::elisp::eval-buffer
   "ef" #'eros-eval-defun
   "dm" #'macrostep-mode
   "df" #'edebug-defun
