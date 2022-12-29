@@ -44,6 +44,7 @@
  display-line-numbers-widen       t
  display-line-numbers-width-start t
  display-line-numbers-grow-only   t
+ display-line-numbers-width       4
  scroll-margin                    10
  scroll-conservatively            10
  scroll-preserve-screen-position  t
