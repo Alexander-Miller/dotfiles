@@ -38,10 +38,12 @@
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)
-  (setq-local ledger-accounts-file (format "%s/Ledger.ledger" std::dirs::ledger))
-  (setq-local outline-regexp (rx bol "+++ "))
-  (setq-local imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2)))
-  (setq-local company-backends '((company-capf company-dabbrev :with company-yasnippet))))
+  (setq-local
+   ledger-accounts-file     (format "%s/Ledger.ledger" std::dirs::ledger)
+   outline-regexp           (rx bol "+++ ")
+   imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))
+   company-backends         '((company-capf :with company-yasnippet :separate) company-dabbrev)
+   company-idle-delay       4))
 
 (defun std::ledger::save ()
   "First `ledger-mode-clean-buffer', then `save-buffer'."
