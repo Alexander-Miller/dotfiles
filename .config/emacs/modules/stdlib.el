@@ -1,9 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-(defmacro std::files (dir &optional match)
+(defmacro std::files (dir &optional match recursive)
   `(with-temp-buffer
      (cl-loop
-      for file in (directory-files ,dir :full ,match :no-sort)
+      for file in (if ,recursive
+                      (directory-files-recursively ,dir ,match)
+                    (directory-files ,dir :full ,match :no-sort))
       if (not (or (string-suffix-p "/." file)
                   (string-suffix-p "/.." file)))
       collect file)))
