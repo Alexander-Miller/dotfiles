@@ -12,6 +12,7 @@
   #'std::buffers::open/body
   #'std::buffers::rename-buffer-file
   #'std::buffers::kill-this-buffer
+  #'std::buffers::bury-this-buffer
   #'std::buffers::move-buffer-to-parent-frame
   #'std::buffers::other-buffer
   #'std::buffers::pop-to-messages-buffer
@@ -39,6 +40,7 @@
  "bm"  #'std::buffers::pop-to-messages-buffer
  "bc"  #'std::buffers::pop-to-compile-buffer
  "bd"  #'std::buffers::kill-this-buffer
+ "bq"  #'std::buffers::bury-this-buffer
  "bK"  #'std::buffers::dropbox-buffer-cleanup
  "TAB" #'std::buffers::other-buffer
  "b C-d" #'kill-buffer-and-window)

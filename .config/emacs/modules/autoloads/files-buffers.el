@@ -213,6 +213,13 @@ If the universal prefix argument is used then kill also the window."
         (kill-buffer-and-window)
       (kill-buffer))))
 
+(defun std::buffers::bury-this-buffer ()
+  "Bury the current buffer."
+  (interactive)
+  (if (window-minibuffer-p)
+      (abort-recursive-edit)
+    (bury-buffer)))
+
 (defhydra std::buffers::open (:exit t :hint nil)
   ("m" #'std::buffers::edit-module "Emacs Module")
   ("x" #'std::buffers::edit-dropbox-file "Dropbox File")
