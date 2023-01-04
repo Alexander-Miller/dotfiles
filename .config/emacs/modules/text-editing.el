@@ -19,6 +19,7 @@
  evil-vimish-fold
  adoc-mode
  yaml-mode
+ gnuplot
  csv-mode
  kotlin-mode
  typescript-mode
