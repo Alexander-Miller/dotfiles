@@ -2,7 +2,7 @@
 
 (defvar std::ledger::saved-window-config nil)
 
-(defconst std::ledger::month-separator-pattern (rx "+++ " (group-n 2 (1+ any)) " +++" eol))
+(defconst std::ledger::month-separator-pattern (rx "### " (group-n 2 (1+ any)) " ###" eol))
 
 (defconst std::ledger::months
   '((1 . "Januar")   (2 . "Februar")   (3 . "März")
@@ -40,7 +40,7 @@
   (evil-ledger-mode)
   (setq-local
    ledger-accounts-file     (format "%s/Ledger.ledger" std::dirs::ledger)
-   outline-regexp           (rx bol "+++ ")
+   outline-regexp           (rx bol "### ")
    imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))
    company-backends         '((company-capf :with company-yasnippet :separate) company-dabbrev)
    company-idle-delay       4))
@@ -75,7 +75,7 @@
     (save-match-data
       (-let [start (point)]
         (goto-char 0)
-        (if (search-forward (format "+++ %s" month) nil :no-error)
+        (if (search-forward (format "### %s" month) nil :no-error)
             (forward-line 1)
           (message "'%s' not found." month)
           (goto-char start))))))

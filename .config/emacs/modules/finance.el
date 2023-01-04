@@ -43,9 +43,9 @@
    `((,(rx (group-n
             1
             bol
-            "+++ "
+            "### "
             (1+ (or alnum " "))
-            " +++"
+            " ###"
             "\n"))
       1 'std::ledger::month-face t))
    'prepend)
