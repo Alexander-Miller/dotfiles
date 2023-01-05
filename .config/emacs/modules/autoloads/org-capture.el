@@ -12,10 +12,8 @@
   (save-excursion
     (outline-back-to-heading t)
     (org-set-tags
-     (delete-dups (cons
-                   (std::read "Tag: "
-                     '("Wohnung" "Internet" "Gesundheit" "Versicherungen" "Strom" "Sonstiges"))
-                   (org-get-tags))))))
+     (format ":%s:" (std::read "Tag: "
+                      '("Wohnung" "Internet" "Gesundheit" "Versicherungen" "Strom" "Sonstiges"))))))
 
 (defun std::org::capture-select-template (&optional keys)
   "Slightly prettier version of the original."

@@ -8,7 +8,8 @@
   #'std::org-roam::project-prompt
   #'std::org-roam::hydra/body
   #'std::org-roam::daily-hydra/body
-  #'std::org-roam::preview-visit)
+  #'std::org-roam::preview-visit
+  #'std::org-roam-capture-template)
 
 (std::keybind
  :leader
@@ -41,11 +42,16 @@
 
 (std::after org-roam
 
+  (eval-and-compile
+    (defconst std::org-roam::todo-states
+      "#+TODO: LOOP(h) TODO(o) STRY(s) QUST(f) INBX(i) PROJ(p) APPT(a) TIME(t) BKMR(r) INFO(n) | CMPL(x) OBSL(l@) ANSW(g) DONE(d)"))
+
   (evil-set-initial-state 'org-roam-mode 'motion)
 
   (setf
    org-roam-directory         (concat std::dirs::org "/Roam")
    org-roam-dailies-directory (std::if-work-laptop "NT/daily" "daily/"))
+
   (org-roam-db-autosync-enable)
 
   (setf
@@ -62,46 +68,62 @@
        :target (file+datetree "journal.org" year))))
 
    org-roam-capture-templates
-   `(("d" "Plain" plain "%?" :target
-      (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      ,(concat
-        "# -*- eval: (std::org::file-setup) -*-\n"
-        "#+title: ${title}\n"
-        "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n")
-      :unnarrowed t)
-     ("l" "Lib"
-      plain
-      ,(concat
-        "%?\n"
-        "* Referenzmaterial\n")
-      :target
-      (file+head
-       "Lib/${slug}.org"
-       ,(concat
-         "# -*- eval: (std::org::file-setup) -*-\n"
-         "#+title: ${title}\n"
-         (format "#+filetags: :lib:%s:\n" std::org::current-year)
-         "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
-      :unnarrowed t)
-     ("p" "NT Project"
-      plain
-      ,(concat
-        "%?\n"
-        "* Ziel\n"
-        "* Vorbereitung\n"
-        "* Durchführung\n"
-        "* Nachbereitung\n"
-        "* Termine & Protokolle\n"
-        "* Referenzmaterial\n")
-      :target
-      (file+head
-       "NT/${slug}.org"
-       ,(concat
-         "# -*- eval: (std::org::file-setup) -*-\n"
-         "#+title: ${title}\n"
-         (format "#+filetags: :nt:%s:%%(std::org-roam::project-prompt)\n" std::org::current-year)
-         "#+TODO: LOOP(h) TODO(o) STORY(s) FRAGE(f) INBOX(i) PROJ(p) APPT(a) TASK(t) NEXT(n) MAYBE(m) WAIT(w) | FINISHED(x) OBSOLET(l) ENTFÄLLT(e@) GEKLÄRT(g) DONE(d)\n"))
-      :unnarrowed t)))
+   (eval-and-compile
+     (list
+      (std::org-roam-capture-template
+       :key "w"
+       :name "Plain"
+       :type plain
+       :body ("%?")
+       :file "${slug}.org"
+       :head ("# -*- eval: (std::org::file-setup) -*-"
+              "#+title: ${title}"
+              std::org-roam::todo-states))
+      (std::org-roam-capture-template
+       :key "l"
+       :name "Lib"
+       :type plain
+       :body ("%?" "* Referenzmaterial")
+       :file "Lib/${slug}.org"
+       :head ("# -*- eval: (std::org::file-setup) -*-"
+              "#+title: ${title}"
+              "#+filetags: :lib:")
+       :keys (:unnarrowed t))
+      (std::org-roam-capture-template
+       :key "d"
+       :name "Dotts"
+       :type plain
+       :body ("%?" "* Referenzmaterial")
+       :file "Dotts/${slug}.org"
+       :head ("# -*- eval: (std::org::file-setup) -*-"
+              "#+title: ${title}"
+              "#+filetags: :lib:")
+       :keys (:unnarrowed t))
+      (std::org-roam-capture-template
+       :key "e"
+       :name "NT Plain"
+       :type plain
+       :body ("%?")
+       :file "NT/${slug}.org"
+       :head ("# -*- eval: (std::org::file-setup) -*-"
+              "#+title: ${title}"
+              std::org-roam::todo-states))
+      (std::org-roam-capture-template
+       :key "p"
+       :name "NT Projekt"
+       :type plain
+       :body ("%?"
+              "* Ziel"
+              "* Vorbereitung"
+              "* Durchführung"
+              "* Nachbereitung"
+              "* Termine & Protokolle"
+              "* Referenzmaterial")
+       :file "NT/${slug}.org"
+       :head ("# -*- eval: (std::org::file-setup) -*-"
+              "#+title: ${title}"
+              std::org-roam::todo-states)
+       :keys (:unnarrowed t)))))
 
   (defun std::org-roam::quit-restore-window-advice ()
     (-when-let (w (get-buffer-window org-roam-buffer))

@@ -15,11 +15,28 @@
   #'std::org::table-recalc
   #'std::org::refile
   #'std::org::journal-finish
-  #'std::org::file-setup)
+  #'std::org::file-setup
+  #'std::org::toggle-agenda-tag)
 
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
+(std::pushnew safe-local-variable-values
+  '(eval std::org::file-setup))
+
 (setq-default org-directory "~/Documents/Org/")
+
+(defconst std::org::private-file         (expand-file-name "Privat.org"            std::dirs::org))
+(defconst std::org::work-file            (expand-file-name "NT.org"                std::dirs::org))
+(defconst std::org::diary-file           (expand-file-name "Diary.org"             std::dirs::roam))
+(defconst std::org::inbox-file           (expand-file-name "Inbox.org"             std::dirs::roam))
+(defconst std::org::appointments-file    (expand-file-name "Termine.org"           std::dirs::roam))
+(defconst std::org::bookmarks-file       (expand-file-name "Lesezeichen.org"       std::dirs::roam))
+(defconst std::org::private-log-file     (expand-file-name "Haushalt Log.org"      std::dirs::roam))
+(defconst std::org::tasks-file           (expand-file-name "Vorhaben.org"          std::dirs::roam))
+(defconst std::org::inbox-nt-file        (expand-file-name "NT/nt_inbox.org"       std::dirs::roam))
+(defconst std::org::bookmarks-nt-file    (expand-file-name "NT/nt_lesezeichen.org" std::dirs::roam))
+(defconst std::org::appointments-nt-file (expand-file-name "NT/nt_termine.org"     std::dirs::roam))
+(defconst std::org::tasks-nt-file        (expand-file-name "NT/nt_vorhaben.org"    std::dirs::roam))
 
 (std::keybind
  :global
@@ -27,6 +44,7 @@
  :leader
  "feo" #'std::org::goto-org-file
  "aoc" #'org-capture
+ "aoC" #'org-capture-goto-last-stored
  "aol" #'org-store-link
  "aoi" #'org-insert-link)
 
@@ -95,14 +113,15 @@
    org-priority-lowest  ?D
    org-priority-faces
    '((?A . (:background "#DDBA1A" :foreground "#1A1A1A"
-                        :weight bold
-                        :box (:line-width -1 :color "#000000")))))
+                        :weight bold))))
 
   ;; Multi-line emphasis
   (setf (nthcdr 4 org-emphasis-regexp-components) '(3))
 
   ;; Other
   (setf
+   org-use-effective-time         t
+   org-extend-today-until         4
    org-adapt-indentation          nil
    org-cycle-emulate-tab          t
    org-cycle-global-at-bob        nil
@@ -134,13 +153,27 @@
    '((agenda . local)
      (bookmark-jump . lineage)
      (isearch . lineage)
-     (default . ancestors)))
-  org-file-apps
-  '((auto-mode . emacs)
-    ("\\.mm\\'" . default)
-    ("\\.eml\\'" . "thunderbird \"%s\"")
-    ("\\.x?html?\\'" . default)
-    ("\\.pdf\\'" . "zathura \"%s\""))
+     (default . ancestors))
+   org-file-apps
+   '((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.eml\\'" . "thunderbird \"%s\"")
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . "zathura \"%s\""))
+  org-todo-keyword-faces
+  `(("INBX"     . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("APPT"     . (:background "#997799" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("BKMR"     . (:background "#B87348" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("INFO"     . (:background "#9F8B6F" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("LOOP"     . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("QUST"     . (:background "#55A9A9" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("PROJ"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("STRY"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("TIME"     . (:background "#FF4444" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("DONE"     . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("OBSL"     . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("OMPL"     . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("ANSW"     . (:background "#66AA66" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))))
 
   ;; Org thinks it's a good idea to disable display-buffer-alist when displaying its buffers.
   (defun org-switch-to-buffer-other-window (&rest args)
@@ -206,6 +239,7 @@
    "iI" #'org-time-stamp
    ;; Toggles
    "zh" #'org-toggle-heading
+   "zm" #'org-toggle-inline-images
    "zl" #'org-toggle-link-display
    "zx" #'org-toggle-checkbox
    "zc" #'org-toggle-comment
@@ -251,6 +285,7 @@
    :mode-leader org-mode
    "0"   #'org-sort
    "#"   #'org-update-statistics-cookies
+   "tt"  #'std::org::toggle-agenda-tag
    "C-y" #'org-copy-visible
    "C-p" #'org-set-property
    "C-f" #'org-footnote-action

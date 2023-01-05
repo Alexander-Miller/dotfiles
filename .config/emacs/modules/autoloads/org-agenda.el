@@ -15,9 +15,17 @@
   (-let [inhibit-message t]
     (org-agenda nil key)))
 
-(defun std::org::agenda::schedule-dot ()
+(define-inline std::org::agenda::status-mark ()
   (declare (side-effect-free t))
-  (if (org-get-scheduled-time (point)) "•" " "))
+  (inline-quote
+   (if (org-get-scheduled-time (point))
+       "›"
+     (let ((tags (org-get-tags-at (point))))
+       (cond
+        ((member "next" tags) "+")
+        ((member "wait" tags) "-")
+        ((member "maybe" tags) "?")
+        (t " "))))))
 
 (pretty-hydra-define std::org::agenda::hydra
 
@@ -26,6 +34,7 @@
 
   (#("Allg." 0 5 (face font-lock-constant-face))
    (("a" (std::org::agenda-for-key "a") "2 Wochen")
+    ("y" (std::org::agenda-for-key "y") "2 Wochen Ungefiltert")
     ("s" (std::org::agenda-for-key "s") "Inbox"))
 
    #("Privat" 0 6 (face font-lock-function-name-face))
@@ -34,7 +43,8 @@
 
    #("NT" 0 2 (face font-lock-type-face))
    (("j" (std::org::agenda-for-key "j") "Kunde")
-    ("k" (std::org::agenda-for-key "k") "NT & Gilde"))))
+    ("k" (std::org::agenda-for-key "k") "NT & Gilde")
+    ("l" (std::org::agenda-for-key "l") "Kanban"))))
 
 (defun std::org::agenda::goto-today ()
   (interactive)
@@ -111,14 +121,17 @@
       (when (eq 'org-link (get-text-property (point) 'face))
         (org-open-at-point)))))
 
-(defmacro std::org::agenda::now-plus (amount unit)
-  (let ((slot
-         (pcase unit
-           (`hours 'hours)
-           (`days  'day)
-           (`weeks 'week)
-           (other  (error "Unknown unit '%s'" other)))))
-    `(ts-format "%F %T" (ts-inc ',slot ,amount (ts-now)))))
+(define-inline std::org::agenda::now-plus (amount unit)
+  (declare (side-effect-free t))
+  (inline-letevals (amount unit)
+    (inline-quote
+     (let ((slot
+            (pcase ,unit
+              (`hours 'hours)
+              (`days  'day)
+              (`weeks 'week)
+              (other  (error "Unknown unit '%s'" other)))))
+       (ts-format "%F %T" (ts-inc slot ,amount (ts-now)))))))
 
 (cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
   (require 'org-roam)
@@ -143,3 +156,61 @@
          (in in-clause)
          (not-in not-in-clause)
          (t (error "Neither in nor not-in predicates are defined")))))))))
+
+(defun std::org::agenda::format-date (date)
+  (string-pad (concat " " (org-agenda-format-date-aligned date)) 90 ?\ ))
+
+(define-inline std::org::agenda::extract-timestamp (pom)
+  (declare (side-effect-free t))
+  (inline-letevals (pom)
+    (inline-quote
+     (org-with-point-at ,pom
+       (when (re-search-forward org-ts-regexp (org-entry-end-position) :no-error)
+         (org-read-date nil nil (match-string 1)))))))
+
+(define-inline std::org::agenda::show-time-left-tf (entry)
+  (declare (side-effect-free t))
+  (inline-letevals (entry)
+    (inline-quote
+     (let* ((now (ts-now))
+            (str (if (listp ,entry) (car entry) ,entry))
+            (org-marker (get-text-property 0 'org-marker str))
+            (time-str (or (org-entry-get org-marker "SCHEDULED")
+                          (std::org::agenda::extract-timestamp org-marker))))
+       (when time-str
+         (let* ((time (ts-parse-org time-str))
+                (diff (ts-human-duration (ts-difference time now)))
+                (days (plist-get diff :days))
+                (hours (plist-get diff :hours))
+                (len (length str))
+                (offset (max 0 (- 40 len))))
+           (format
+            "%s %s%s"
+            str
+            (make-string offset ?\ )
+            (std::face
+             (cond
+              ((> 0 days)
+               "(Today)")
+              ((= 0 days)
+               (if (equal (ts-day now) (ts-day time))
+                   (if (> 0 hours)
+                       (format "(Today)" hours)
+                     (format "(%s hours)" hours))
+                 "(1 day)"))
+              ((= 1 days)
+               (if (> (+ hours (ts-hour now)) 20)
+                   "(2 days)"
+                 "(1 day)") )
+              (t
+               (if (= 0 hours)
+                   (format "(%s days)" days)
+                 (format "(%s days)" (1+ days)))))
+             'font-lock-comment-face))))))))
+
+(defun std::org::agenda::extend-urgent (str)
+  (concat str (make-string (max 0 (- 80 (length str))) ?\ )))
+
+(defun std::org::agenda::toggle-agenda-tag ()
+  (interactive)
+  (org-agenda-set-tags (std::read "Tag:" '("wait" "next" "maybe"))))

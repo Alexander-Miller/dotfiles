@@ -10,9 +10,6 @@
    ispell-local-dictionary "de_DE")
   (auto-fill-mode t))
 
-(std::pushnew safe-local-variable-values
-  '(eval std::org::file-setup))
-
 (defun std::org::mode-hook ()
   (org-appear-mode)
   (org-indent-mode)
@@ -71,7 +68,7 @@
   (find-file-existing
    (std::read "Org File: "
      (--map (cons (propertize (f-filename it) :path it) it)
-            (std::files std::dirs::org ".org"))
+            (std::files std::dirs::org ".org" :recursive))
      nil :require-match)))
 
 (defun std::org::schedule-now ()
@@ -101,3 +98,8 @@ only the current cell."
                       '(org-link org-roam-link org-date)))
         (org-open-at-point)
       (funcall-interactively #'org-insert-heading-respect-content))))
+
+(defun std::org::toggle-agenda-tag ()
+  (interactive)
+  (org-toggle-tag
+   (std::read "Tag:" '("wait" "next" "maybe"))))
