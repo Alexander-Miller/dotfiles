@@ -55,8 +55,18 @@
           (lambda () (format-time-string "%Y")))
     (cons "period"
           (lambda ()
-            (completing-read "Period: "
-                             '("this year" "last year" "this month")))))
+            (-let [choice
+                   (completing-read
+                    "Period: "
+                    '("this year"
+                      "last year"
+                      "this month"
+                      "all"
+                      "custom"))]
+              (pcase choice
+                ("all" "from 2010 until this day")
+                ("custom" (read-string "Period: "))
+                (other other))))))
 
   (setf
    ledger-default-date-format           ledger-iso-date-format
