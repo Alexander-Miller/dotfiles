@@ -49,7 +49,8 @@
  scroll-conservatively            10
  scroll-preserve-screen-position  t
  mouse-wheel-progressive-speed    nil
- mouse-wheel-scroll-amount        '(2 ((shift) . 8) ((control))))
+ mouse-wheel-scroll-amount        '(2 ((shift) . 8) ((control)))
+ visual-line-fringe-indicators    '(left-curly-arrow right-curly-arrow))
 
 (load-theme 'morning-star :no-confirm)
 
