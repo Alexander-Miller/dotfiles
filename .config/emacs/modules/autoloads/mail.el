@@ -62,3 +62,8 @@
       (progn (mu4e-update-index)
              (mu4e-headers-rerun-search))
       :on-error (message "Mail Update failed: %s" (s-trim (pfuture-callback-output))))))
+
+(defun std::mail::capture-message ()
+  (interactive)
+  (call-interactively 'org-store-link)
+  (org-capture nil "pm"))

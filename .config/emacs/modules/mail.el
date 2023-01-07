@@ -8,6 +8,7 @@
   #'std::mail::compose-mode-hook
   #'std::mail::view-mode-hook
   #'std::mail::refresh
+  #'std::mail::capture-message
   #'std::mail::tag/body)
 
 (std::pushnew load-path "/usr/share/emacs/site-lisp/mu4e")
@@ -218,29 +219,30 @@
 
 (std::after mu4e
   (std::keybind
-    :keymap mu4e-main-mode-map
-    "u" #'mu4e-update-index
-    :evil motion mu4e-headers-mode-map
-    "J"   #'std::edit::evil-forward-five-lines
-    "K"   #'std::edit::evil-backward-five-lines
-    "RET" #'mu4e-headers-view-message
-    "gr"  #'std::mail::refresh
-    "t"   #'std::mail::tag/body
-    "+"   #'std::mail::add-tag
-    "-"   #'std::mail::remove-tag
-    "!"   #'mu4e-headers-mark-for-read
-    "\""  #'mu4e-headers-mark-for-unread
-    "ü"   #'mu4e-headers-mark-for-flag
-    "Ü"   #'mu4e-headers-mark-for-unflag
-    "d"   #'mu4e-headers-mark-for-trash
-    "="   #'mu4e-headers-mark-for-untrash
-    "D"   #'mu4e-headers-mark-for-delete
-    "e"   #'mu4e-headers-mark-for-refile
-    :mode-leader mu4e-headers-mode
-    "m"   #'std::mail::mark/body
-    :evil (normal motion) mu4e-main-mode-map
-    "j" #'mu4e~headers-jump-to-maildir
-    "b" #'mu4e-search-bookmark
-    :evil motion mu4e-view-mode-map
-    "C-j" #'mu4e-view-headers-next
-    "C-k" #'mu4e-view-headers-prev))
+   :keymap mu4e-main-mode-map
+   "u" #'mu4e-update-index
+   :evil motion mu4e-headers-mode-map
+   ";"   #'std::mail::capture-message
+   "J"   #'std::edit::evil-forward-five-lines
+   "K"   #'std::edit::evil-backward-five-lines
+   "RET" #'mu4e-headers-view-message
+   "gr"  #'std::mail::refresh
+   "t"   #'std::mail::tag/body
+   "+"   #'std::mail::add-tag
+   "-"   #'std::mail::remove-tag
+   "!"   #'mu4e-headers-mark-for-read
+   "\""  #'mu4e-headers-mark-for-unread
+   "ü"   #'mu4e-headers-mark-for-flag
+   "Ü"   #'mu4e-headers-mark-for-unflag
+   "d"   #'mu4e-headers-mark-for-trash
+   "="   #'mu4e-headers-mark-for-untrash
+   "D"   #'mu4e-headers-mark-for-delete
+   "e"   #'mu4e-headers-mark-for-refile
+   :mode-leader mu4e-headers-mode
+   "m"   #'std::mail::mark/body
+   :evil (normal motion) mu4e-main-mode-map
+   "j" #'mu4e~headers-jump-to-maildir
+   "b" #'mu4e-search-bookmark
+   :evil motion mu4e-view-mode-map
+   "C-j" #'mu4e-view-headers-next
+   "C-k" #'mu4e-view-headers-prev))
