@@ -35,11 +35,28 @@
   (require 'org-mu4e)
   (mu4e-column-faces-mode)
 
+  (defun std::mail::custom-column-handler (column message)
+    (declare (side-effect-free t))
+    (when (eq column :account)
+      (pcase (aref (mu4e-message-field message :maildir) 1)
+        (?q '(:foreground "#999999"))
+        (?g '(:foreground "#99cc99"))
+        (?w '(:foreground "#cc9999")))))
+
+  (setf mu4e-column-faces-custom-column-handler #'std::mail::custom-column-handler)
+
   (mu4e-alert-enable-notifications)
   (mu4e-alert-disable-mode-line-display)
   (mu4e-alert-set-default-style 'libnotify)
 
-  (add-to-list 'mu4e-view-actions '("View in browser" . mu4e-action-view-in-browser) t)
+  (std::pushnew mu4e-header-info-custom
+    (cons
+     :account
+     '(:name "Email Account"
+       :shortname "Acc"
+       :help "Email Account"
+       :function (lambda (msg)
+                   (cadr (s-split "/" (mu4e-message-field msg :maildir)))))))
 
   (setf
    mu4e-alert-email-notification-types '(subjects)
@@ -56,7 +73,6 @@
    mu4e-completing-read-function            #'completing-read
    mu4e-view-use-gnus                       t
    mu4e-sent-messages-behavior              'sent
-   mu4e-maildir                             (expand-file-name "~/.mail")
    mu4e-change-filenames-when-moving        t
    mu4e-use-fancy-chars                     nil
    mu4e-get-mail-command                    "mbsync -a"
@@ -91,8 +107,9 @@
      (:flags        . 6)
      (:tags         . 4)
      (:mailing-list . 10)
+     (:account      . 6)
      (:from         . 22)
-     (:subject . ,(- (frame-width) 10 6 10 22 8 4))))
+     (:subject . ,(- (frame-width) 10 6 10 6 22 8 4))))
 
 
   (setf
@@ -200,22 +217,22 @@
    "flag:unread AND NOT flag:trashed"
    "Unread Messages"
    ?u)
-   (mu4e-bookmark-define
-    "date:24h.."
-    "Last 24 hours"
-     ?t)
-   (mu4e-bookmark-define
-    "date:7d..now"
-    "Last 7 days"
-    ?w)
-   (mu4e-bookmark-define
-    "github"
-    "Github Messages"
-    ?g)
-   (mu4e-bookmark-define
-    "mime:image/*"
-    "Messages with images"
-    ?p))
+  (mu4e-bookmark-define
+   "date:24h.."
+   "Last 24 hours"
+   ?t)
+  (mu4e-bookmark-define
+   "date:7d..now"
+   "Last 7 days"
+   ?w)
+  (mu4e-bookmark-define
+   "github"
+   "Github Messages"
+   ?g)
+  (mu4e-bookmark-define
+   "mime:image/*"
+   "Messages with images"
+   ?p))
 
 (std::after mu4e
   (std::keybind
