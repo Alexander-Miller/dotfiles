@@ -229,6 +229,7 @@
    "cx" #'org-clock-out
    "cd" #'org-clock-display
    "cq" #'org-clock-remove-overlays
+   "cg" #'org-clock-goto
    ;; "cg" #'spacemacs/org-clock-jump-to-current-clock TODO
    ;; Inserts
    "if" #'org-footnote-new
