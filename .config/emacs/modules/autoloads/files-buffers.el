@@ -96,6 +96,7 @@
             ("ledger" . "~/.ledgerrc")
             ("picom" . "~/.config/picom.conf")
             ("redshift" . "~/.config/redshift.conf")
+            ("ideavim" . "~/.ideavimrc")
             ("tmux" . "~/.tmux.conf")))
          (selection (std::read "Open: "
                       (--map (propertize (car it) :path (cdr it)) alist))))
