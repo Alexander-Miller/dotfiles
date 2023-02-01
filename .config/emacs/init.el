@@ -31,4 +31,5 @@
 (std::load "mail"       :if (executable-find "mu"))
 (std::load "spellcheck" :if (executable-find "aspell"))
 (std::load "rust"       :if (executable-find "cargo"))
+(std::load "local"      :if (file-exists-p (expand-file-name "local.el" std::dirs::modules)))
 (message "Config loaded in %ss" (- (float-time) S))
