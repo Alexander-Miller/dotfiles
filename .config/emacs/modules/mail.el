@@ -31,7 +31,6 @@
   (evil-set-initial-state 'mu4e-view-mode    'motion)
   (evil-set-initial-state 'mu4e-headers-mode 'motion)
 
-
   (require 'org-mu4e)
   (mu4e-column-faces-mode)
 
@@ -110,7 +109,6 @@
      (:account      . 6)
      (:from         . 22)
      (:subject . ,(- (frame-width) 10 6 10 6 22 8 4))))
-
 
   (setf
    mu4e-marks
@@ -262,4 +260,9 @@
    "b" #'mu4e-search-bookmark
    :evil motion mu4e-view-mode-map
    "C-j" #'mu4e-view-headers-next
-   "C-k" #'mu4e-view-headers-prev))
+   "C-k" #'mu4e-view-headers-prev
+   :evil motion
+   (mu4e-main-mode-map
+    mu4e-headers-mode-map
+    mu4e-view-mode-map)
+   "M-0" #'treemacs-mu4e))
