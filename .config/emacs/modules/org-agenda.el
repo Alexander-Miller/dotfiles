@@ -133,7 +133,7 @@
      ("f" "Kategorien"
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'calendar) "Termine"))
-              (org-agenda-files (list std::org::appointments-nt-file))
+              (org-agenda-files (list std::org::appointments-file))
               (org-agenda-sorting-strategy '(ts-up))
               (org-agenda-prefix-format '((todo . "  ")))
               (org-super-agenda-groups
