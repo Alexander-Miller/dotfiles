@@ -3,7 +3,7 @@ function on_i3_restart
     killall xcape
     killall picom
     xcape
-    picom --experimental-backends &
+    picom &
     python ~/.config/polybar/run_polybar.py
     random_wallpaper
 end
