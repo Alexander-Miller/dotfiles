@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (autoload #'eros-eval-last-sexp "eros")
+(autoload #'eros--eval-overlay "eros")
 
 (defun std::elisp::eval-last-sexp ()
   "Eval the last sexp before point."
