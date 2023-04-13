@@ -91,7 +91,7 @@
   '(short-file std::selection::annotate-file))
 
 ;; Consult
-(setf consult-preview-key (kbd "M-,"))
+(setf consult-preview-key "M-,")
 
 (std::after consult
   (dolist (cmd '(consult-outline
