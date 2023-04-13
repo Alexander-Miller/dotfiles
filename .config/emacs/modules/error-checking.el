@@ -75,7 +75,7 @@
  "ev" #'flycheck-verify-setup
  "ed" #'flycheck-describe-checker
  "ey" #'flycheck-copy-errors-as-kill
- "ee" #'flycheck-mode
+ "eE" #'flycheck-mode
  :evil (normal) 'global
  "C-." #'std::err-check::next-error
  "C-," #'std::err-check::previous-error)
