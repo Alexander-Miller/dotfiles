@@ -3,6 +3,7 @@
 (std::using-packages
  rainbow-delimiters
  rainbow-mode
+ prism
  (morning-star :type git :host github :repo "Alexander-Miller/morning-star-theme")
  writeroom-mode
  dashboard
@@ -71,6 +72,7 @@
   #'rainbow-mode)
 
 (add-hook 'css-mode-hook  #'rainbow-mode)
+(add-hook 'json-mode-hook #'prism-mode)
 
 (remove-hook 'snippet-mode-hook #'rainbow-delimiters-mode-disable)
 
@@ -141,6 +143,12 @@
        ("XXX"
         ,@bold-box
         (:background "#1E8F8F" :foreground "#000000"))))))
+
+(std::after prism
+  (prism-set-colors
+    :num 12
+    :lightens '(0)
+    :colors '("red" "purple" "orange" "aqua" "yellow" "green")))
 
 (std::if-version 28
 

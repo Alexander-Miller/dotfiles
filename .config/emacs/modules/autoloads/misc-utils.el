@@ -38,7 +38,8 @@ With a prefix ARG pick the city."
     ("f" display-fill-column-indicator-mode "Fill Column Indicator" :toggle t)
     ("L" toggle-truncate-lines              "truncate lines"        :toggle truncate-lines)
     ("l" hl-line-mode                       "Hl-Line"               :toggle t)
-    ("S" show-smartparens-mode              "show smartparens"      :toggle t))))
+    ("S" show-smartparens-mode              "show smartparens"      :toggle t)
+    ("P" prism-mode                         "prism mode"            :toggle t))))
 
 (defun std::misc::goto-xref-and-close-search ()
   "Goto xref result and point and close xref window."
