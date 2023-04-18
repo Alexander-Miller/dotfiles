@@ -183,9 +183,4 @@
  dashboard-items                   nil
  dashboard-startup-banner          'logo
  dashboard-show-shortcuts          t
- dashboard-page-separator
- (let ((w (/ (frame-width) 4)))
-   (format "\n%s%s%s\n"
-           (make-string w ?\ )
-           (make-string (* 2 w) ?―)
-           (make-string w ?\ ) )))
+ dashboard-page-separator          "")
