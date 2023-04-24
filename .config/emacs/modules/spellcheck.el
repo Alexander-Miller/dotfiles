@@ -57,9 +57,12 @@
    frog-menu-avy-padding           t
    frog-menu-posframe-parameters   '((minibuffer . t))))
 
+(std::after flyspell
+  (std::keybind
+   :keymap flyspell-mouse-map
+   "<M-return>" #'flyspell-correct-wrapper))
+
 (std::keybind
- :keymap flyspell-mouse-map
- "<M-return>" #'flyspell-correct-wrapper
  :leader
  "C"  #'std::spellcheck::hydra/body
  "cc" #'flyspell-mode
