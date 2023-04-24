@@ -102,4 +102,4 @@ only the current cell."
 (defun std::org::toggle-agenda-tag ()
   (interactive)
   (org-toggle-tag
-   (std::read "Tag:" '("wait" "next" "maybe"))))
+   (std::read "Tag:" '("wait" "next" "maybe" "daily" "retro"))))
