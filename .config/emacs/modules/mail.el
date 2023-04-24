@@ -31,7 +31,7 @@
   (evil-set-initial-state 'mu4e-view-mode    'motion)
   (evil-set-initial-state 'mu4e-headers-mode 'motion)
 
-  (require 'org-mu4e)
+  (require 'mu4e-org)
   (mu4e-column-faces-mode)
 
   (defun std::mail::custom-column-handler (column message)
