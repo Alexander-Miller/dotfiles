@@ -57,6 +57,8 @@
    magit-save-repository-buffers              'dontask
    magit-section-visibility-indicator         nil
    magit-diff-highlight-hunk-region-functions '(magit-diff-highlight-hunk-region-using-face)
+   magit-diff-paint-whitespace                t
+   magit-diff-highlight-trailing              t
    magit-diff-refine-hunk                     t
    magit-status-initial-section               '(((unstaged) (status)) 1)
    magit-section-initial-visibility-alist     '((stashes . hide) (untracked . hide)))
