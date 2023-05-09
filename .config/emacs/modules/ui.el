@@ -183,4 +183,4 @@
  dashboard-items                   nil
  dashboard-startup-banner          'logo
  dashboard-show-shortcuts          t
- dashboard-page-separator          "")
+ dashboard-page-separator          "\n\n")
