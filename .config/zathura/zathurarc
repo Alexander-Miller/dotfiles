@@ -88,6 +88,9 @@ map [fullscreen] f toggle_fullscreen
 map [normal]     p toggle_page_mode
 map [fullscreen] p toggle_page_mode
 
+map [normal]     C nohlsearch
+map [fullscreen] C nohlsearch
+
 map [normal]     + zoom in
 map [fullscreen] + zoom in
 map [normal]     - zoom out
