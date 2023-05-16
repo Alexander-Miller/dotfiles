@@ -41,7 +41,6 @@ set -x fish_pager_color_description green
 set -x fish_pager_color_prefix      blue
 set -x fish_pager_color_progress    202020 --background=green
 
-abbr -a fd    'find -iname'
 abbr -a e     'exit'
 abbr -a yt    'yt-dlp'
 abbr -a ytmp3 'yt-dlp --extract-audio --audio-format mp3'
