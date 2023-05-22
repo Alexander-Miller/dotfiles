@@ -3,6 +3,7 @@
 (std::using-packages
  pretty-hydra
  (wttrin :type git :host github :repo "emacle/emacs-wttrin")
+ (go-translate :type git :host github :repo "lorniu/go-translate")
  buttercup
  gcmh
  restart-emacs)
@@ -82,6 +83,7 @@
  "qr"  #'restart-emacs
  "t"   #'std::misc::toggles/body
  "aw"  #'std::misc::weather
+ "at"  #'gts-do-translate
  "ac"  #'calendar
  "u"   #'universal-argument
  :keymap evil-normal-state-map
@@ -94,3 +96,22 @@
 (std::after wttrin
   (setf wttrin-default-cities '("Stuttgart")
         wttrin-default-accept-language '("en-gb")) )
+
+(std::after go-translate
+
+  (std::add-hook 'gts-after-buffer-prepared-hook
+    (evil-motion-state)
+    (define-key evil-motion-state-local-map
+      "?" (keymap-lookup gts-buffer-local-map "h")))
+
+  (setf
+   gts-buffer-follow-p t
+   gts-cache-enable    nil
+   gts-translate-list '(("en" "de") ("de" "en"))
+   gts-default-translator
+   (gts-translator
+    :picker (gts-prompt-picker)
+    :engines (list (gts-bing-engine)
+                   (gts-google-engine :parser (gts-google-summary-parser)))
+    :render (gts-buffer-render)
+    :splitter nil)))

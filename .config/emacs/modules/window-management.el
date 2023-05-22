@@ -57,7 +57,8 @@
    (" *Org todo*"            :select t   :align below :size 0.2)
    ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
    ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
-   ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)))
+   ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)
+   ("*Go-Translate*"         :select t   :align right :size 0.5))
 
 (defun std::maybe-display-shackle (buffer alist)
   (and (shackle-display-buffer-condition buffer alist)
