@@ -11,7 +11,8 @@
 
 (std::autoload ui
   #'std::ui::writeroom-hide-line-numbers
-  #'std::ui::hydra/body)
+  #'std::ui::hydra/body
+  #'std::ui::reload-theme)
 
 (defvar std::ui::default-font-spec
   `(:family "Fantasque Sans Mono" :size ,(std::if-work-laptop 22 16)))
