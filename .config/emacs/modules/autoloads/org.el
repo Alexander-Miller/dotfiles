@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'helm)
-
 (autoload 'consult-org--headings "consult-org")
 
 (defun std::org::file-setup ()

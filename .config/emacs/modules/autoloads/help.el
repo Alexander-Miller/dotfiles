@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'helm-info)
-
 (evil-set-initial-state 'helpful-mode 'motion)
 
 (defun std::help::pacman-info ()
@@ -23,14 +21,6 @@
     (goto-char 0)
     (conf-mode)))
 
-(defun std::help::manual-info ()
-  "Help from the Emacs manual."
-  (interactive)
-  (helm :sources '(helm-source-info-emacs
-                   helm-source-info-elisp
-                   helm-source-info-cl)
-        :buffer "*Helm Info*"))
-
 (defhydra std::help::hydra (:exit t :hint t)
   ("i" #'std::help::manual-info "Manual")
   ("v" #'helpful-variable       "Variables")
@@ -39,7 +29,6 @@
   ("c" #'describe-char          "Char-at-Point")
   ("C" #'helpful-command        "Commands")
   ("F" #'describe-face          "Faces")
-  ("a" #'helm-apropos           "Apropos")
   ("p" #'epkg-describe-package  "Packages")
   ("P" #'std::help::pacman-info "System Packages")
-  ("m" #'helm-man-woman         "Man"))
+  ("m" #'man                    "Man"))

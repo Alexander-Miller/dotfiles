@@ -13,7 +13,6 @@
 (std::load "error-checking")
 (std::load "modeline")
 (std::load "help")
-(std::load "search")
 (std::load "elisp")
 (std::load "projects")
 (std::load "vcs")

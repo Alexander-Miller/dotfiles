@@ -24,12 +24,8 @@
  winner-ring-size           25
  winum-auto-setup-mode-line nil
  winum-scope                'frame-local
- helm-display-function      #'pop-to-buffer
  shackle-rules
- '(("*helm-ag*"              :select t   :align right :size 0.5)
-   ("*helm imenu*"           :select t   :align right :size 0.4)
-   ("*helm org inbuffer*"    :select t   :align right :size 0.4)
-   ("*xref*"                 :select t   :align right :size 0.4)
+ '(("*xref*"                 :select t   :align right :size 0.4)
    (" *undo-tree*"           :select t   :align right :size 0.3)
    (magit-popup-mode         :select t   :align right :size 0.4)
    (debugger-mode            :select t   :align below :size 0.4)
@@ -56,7 +52,6 @@
    ("*Org Links*"            :select t   :align below :size 0.2)
    (" *Org todo*"            :select t   :align below :size 0.2)
    ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
-   ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
    ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)
    ("*Go-Translate*"         :select t   :align right :size 0.5)))
 

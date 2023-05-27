@@ -13,7 +13,6 @@
                mu4e-compose-mode
                mu4e-view-mode
                dired-mode
-               helm-major-mode
                help-mode
                helpful-mode
                messages-buffer-mode
