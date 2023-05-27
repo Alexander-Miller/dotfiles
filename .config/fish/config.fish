@@ -1,6 +1,7 @@
 #!/usr/bin/fish
 set -Ux XDG_CONFIG_HOME   $HOME/.config
 set -Ux EMACS_HOME        $XDG_CONFIG_HOME/emacs/
+set -Ux LS_COLORS         "di=94;1:fi=93;:ln=31:pi=5:so=5:bd=5:cd=5:or=31"
 set -gx EDITOR            "em e"
 set -e  fish_greeting
 set -eU fish_user_paths
