@@ -58,7 +58,7 @@
    ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
    ("*helm.*"                :select t   :align below :size 0.33 :regexp t)
    ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)
-   ("*Go-Translate*"         :select t   :align right :size 0.5))
+   ("*Go-Translate*"         :select t   :align right :size 0.5)))
 
 (defun std::maybe-display-shackle (buffer alist)
   (and (shackle-display-buffer-condition buffer alist)
@@ -155,7 +155,7 @@
       (top . 75)
       (frame-parameters . ((undecorated . t)
                            (skip-taskbar . t)
-                           (sticky . t)))))) )
+                           (sticky . t)))))))
 
 (std::keybind
  ;; Eyebrowse
