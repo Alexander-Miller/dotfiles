@@ -2,18 +2,20 @@
 
 (std::using-packages
  avy
- consult
  link-hint
  marginalia
  orderless
- vertico)
+ vertico
+ ctrlf
+ consult)
 
 (std::autoload selection
   #'std::selection::annotate-file
   #'std::selection::set-last-candidates
   #'std::selection::orderless-dispatcher
   #'std::selection::copy-candidate
-  #'std::selection::files-up-one-level)
+  #'std::selection::files-up-one-level
+  #'std::selection::consult-rg)
 
 ;; Miniframe
 (mini-frame-mode)
@@ -28,7 +30,6 @@
    which-key--show-page
    "edebug-eval-expression"
    debugger-eval-expression
-   ".*helm.*"
    "std::search"
    "std::help::manual"
    "std::org::inbox-refile-targets"))
@@ -45,9 +46,14 @@
         (last-cs std::selection::last-candidates)
         height)
     (pcase this-command
-      ('consult-imenu (setf height 15 width 0.6))
-      ('find-file     (setf height 10))
-      ('find-library  (setf height 10))
+      ('consult-imenu
+       (setf height 15 width 0.6))
+      ('find-file
+       (setf height 10))
+      ('std::selection::consult-rg
+       (setf height 25))
+      ('find-library
+       (setf height 10))
       ((guard last-cs)
        (setf height (if (listp last-cs)
                         (min 8 (1+ (length last-cs)))
@@ -65,6 +71,11 @@
 (vertico-mode)
 (savehist-mode)
 
+(let ((vertico-repeat (expand-file-name "vertico/extensions/vertico-repeat.el" std::dirs::pkg-build)))
+  (autoload 'vertico-repeat-save vertico-repeat)
+  (autoload 'vertico-repeat-last vertico-repeat) )
+(add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
+
 (setf
  completion-styles             '(orderless)
  completion-category-defaults  nil
@@ -75,7 +86,7 @@
                                orderless-initialism
                                orderless-prefixes)
 
- vertico-cycle           t)
+ vertico-cycle t)
 
 ;; Marginalia
 (marginalia-mode)
@@ -91,9 +102,20 @@
   '(short-file std::selection::annotate-file))
 
 ;; Consult
-(setf consult-preview-key "M-,")
-
 (std::after consult
+  (setf consult-preview-key "M-,"
+        consult-ripgrep-args
+        (list "rg"
+              "--null"
+              "--line-buffered"
+              "--color=never"
+              "--max-columns=1000"
+              "--smart-case"
+              "--no-heading"
+              "--with-filename"
+              "--line-number"
+              "--search-zip"
+              "--hidden"))
   (dolist (cmd '(consult-outline
                  consult-mark
                  consult-global-mark
@@ -110,21 +132,35 @@
    avy-all-windows      nil
    avy-case-fold-search nil))
 
+;;Ctrlf
+(std::after ctrlf
+  (std::keybind
+   :keymap ctrlf-mode-map
+   "C-j"   #'ctrlf-forward-literal
+   "C-k"   #'ctrlf-backward-literal
+   "C-M-s" #'ctrlf-forward-symbol-at-point
+   "<escape>" #'ctrlf-cancel))
+
 ;; Keys
 (std::keybind
  :global
- "M-o" #'evil-avy-goto-char-timer
- "M-i" #'evil-avy-goto-word-1
+ "M-o"   #'evil-avy-goto-char-timer
+ "M-i"   #'evil-avy-goto-word-1
+ "C-s"   #'ctrlf-forward-literal
+ "C-M-S" #'ctrlf-forward-symbol-at-point
  [remap list-buffers] #'consult-buffer
  [remap imenu]        #'consult-imenu
  [remap locate]       #'consult-locate
  :leader
- "ry" #'consult-yank-from-kill-ring
- "jf" #'find-function
- "jv" #'find-variable
- "jl" #'avy-goto-line
- "jk" #'link-hint-open-link
- "jy" #'link-hint-copy-link
+ "C-r" #'vertico-repeat-last
+ "ry"  #'consult-yank-from-kill-ring
+ "/"   #'std::selection::consult-rg
+ "jf"  #'find-function
+ "jv"  #'find-variable
+ "jl"  #'avy-goto-line
+ "jk"  #'link-hint-open-link
+ "jy"  #'link-hint-copy-link
+ "sc"  #'evil-ex-nohighlight
  :keymap vertico-map
  "C-h" #'std::selection::files-up-one-level
  "C-j" #'vertico-next

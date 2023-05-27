@@ -1,7 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(autoload 'helm-org-build-sources "helm-org")
-
 (cl-defun std::selection::set-last-candidates
     (_ collection &rest _)
   (setf std::selection::last-candidates collection))
@@ -39,3 +37,12 @@
   (-let [c (vertico--candidate)]
     (kill-new c)
     (message "Copied '%s'" c)))
+
+(defun std::selection::consult-rg (&optional arg)
+  "Ripgrep search in the current project."
+  (interactive "P")
+  (let ((default-directory
+          (if arg
+              (read-directory-name "Dir: ")
+            default-directory)))
+    (consult-ripgrep)))
