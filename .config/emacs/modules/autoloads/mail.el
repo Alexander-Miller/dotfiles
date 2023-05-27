@@ -1,5 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
+(defun std::mail::mu4e-sidebar ()
+  (interactive)
+  (mu4e--init-handlers)
+  (mu4e--start
+   (lambda ()
+     (mu4e--main-view)
+     (treemacs-mu4e))))
+
 (defun std::mail::compose-mode-hook ()
   (use-hard-newlines -1))
 

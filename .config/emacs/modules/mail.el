@@ -5,6 +5,7 @@
  mu4e-alert)
 
 (std::autoload mail
+  #'std::mail::mu4e-sidebar
   #'std::mail::compose-mode-hook
   #'std::mail::view-mode-hook
   #'std::mail::refresh
@@ -20,7 +21,10 @@
  :cmd #'mu4e
  :quit #'mu4e-quit)
 
-(std::keybind :leader "am" #'mu4e)
+(std::keybind
+ :leader
+ "am" #'mu4e
+ "aM" #'std::mail::mu4e-sidebar)
 
 (std::after mu4e
 
@@ -148,9 +152,10 @@
       :prompt "move"
       :ask-target mu4e--mark-get-move-target
       :action (lambda (docid msg target)
-                (mu4e--server-move docid
-                                (mu4e--mark-check-target target)
-                                "-N")))
+                (mu4e--server-move
+                 docid
+                 (mu4e--mark-check-target target)
+                 "-N")))
 
      (read
       :char ("!" . "!")
@@ -165,9 +170,10 @@
       :dyn-target (lambda (target msg)
                     (mu4e-get-trash-folder msg))
       :action (lambda (docid msg target)
-                (mu4e--server-move docid
-                                (mu4e--mark-check-target target)
-                                "+T-N")))
+                (mu4e--server-move
+                 docid
+                 (mu4e--mark-check-target target)
+                 "+T-N")))
 
      (unflag
       :char ("-" . "-")
