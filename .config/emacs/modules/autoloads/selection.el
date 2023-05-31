@@ -4,9 +4,14 @@
     (_ collection &rest _)
   (setf std::selection::last-candidates collection))
 
-(defun std::selection::annotate-file (cand)
-  "Same as marginalia's own function, but works with hiding the full path in an alist."
+(defun std::selection::annotate-file-info (cand)
+  "Same as `marginalia-annotate-file', but works with hiding the full path in an alist."
   (marginalia-annotate-file (get-text-property 0 :path cand)))
+
+(defun std::selection::annotate-file-name (cand)
+  "Annotate just the file name."
+  (marginalia--fields
+   ((file-name-base (get-text-property 0 :path cand)) :face 'font-lock-string-face)))
 
 (defun std::selection::orderless-dispatcher (pattern _index _total)
   (cond

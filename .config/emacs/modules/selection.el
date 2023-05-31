@@ -10,7 +10,8 @@
  consult)
 
 (std::autoload selection
-  #'std::selection::annotate-file
+  #'std::selection::annotate-file-info
+  #'std::selection::annotate-file-name
   #'std::selection::set-last-candidates
   #'std::selection::orderless-dispatcher
   #'std::selection::copy-candidate
@@ -94,12 +95,14 @@
 (setf marginalia-align-offset 1)
 
 (std::pushnew marginalia-command-categories
-  '(std::buffers::edit-module    . short-file)
-  '(std::buffers::edit-fish-file . short-file)
-  '(std::buffers::edit-misc-cfg  . short-file)
-  '(std::org::goto-org-file      . short-file))
+  '(std::buffers::edit-module    . file-info)
+  '(std::buffers::edit-fish-file . file-info)
+  '(std::buffers::edit-misc-cfg  . file-info)
+  '(std::org::goto-org-file      . file-info)
+  '(std::org::refile             . file-name))
 (std::pushnew marginalia-annotator-registry
-  '(short-file std::selection::annotate-file))
+  '(file-info std::selection::annotate-file-info)
+  '(file-name std::selection::annotate-file-name))
 
 ;; Consult
 (std::after consult
