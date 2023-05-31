@@ -47,9 +47,9 @@
                     :history '(:input consult-org--history)
                     :narrow (consult-org--narrow)
                     :lookup
-                    (lambda (_ candidates cand)
+                    (lambda (cand candidates &rest _)
                       (when-let (found (member cand candidates))
-                        (car (get-text-property 0 'consult-org--heading (car found)))))))
+                        (get-text-property 0 'consult--candidate (car found))))))
          (rfbuffer (marker-buffer rfmarker))
          (rfheading (with-current-buffer rfbuffer
                       (org-with-point-at rfmarker
