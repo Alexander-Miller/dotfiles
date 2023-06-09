@@ -214,4 +214,4 @@
 (defun std::org::agenda::toggle-agenda-tag ()
   (interactive)
   (org-agenda-set-tags
-   (std::read "Tag:" '("wait" "next" "maybe" "daily" "retro" "nebenbei"))))
+   (std::read "Tag:" '("wait" "next" "maybe" "daily" "retro"))))

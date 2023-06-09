@@ -108,28 +108,44 @@
               (org-super-agenda-keep-order t)
               (org-agenda-sorting-strategy '(category-up todo-state-up priority-down user-defined-up))
               (org-super-agenda-groups
-               `((:discard (:tag "ARCHIVE" :and (:todo "APPT" :timestamp past)))
+               `((:discard (:tag "ARCHIVE"
+                            :and (:todo "APPT" :timestamp past)))
                  (:name "Dringend"
                   :deadline (before ,(std::org::agenda::now-plus 1 'days))
                   :face (:append t :background "#FF1A1A" :foreground "#FFFFFF" :weight bold :extend t)
                   :transformer #'std::org::agenda::extend-urgent)
                  (:name "Wichtig"
-                  :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days)) :priority>= "B")
+                  :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                        :priority "A")
                   :and (:todo "APPT"
-                        :timestamp ,(std::org::agenda::now-plus 3 'days)
-                        :timestamp ,(std::org::agenda::now-plus -1 'days)))
+                        :timestamp (before ,(std::org::agenda::now-plus 3 'days))
+                        :timestamp (after  ,(std::org::agenda::now-plus -1 'days))))
                  (:name "Dauerläufer"
-                  :and (:todo "LOOP" :scheduled (before ,(std::org::agenda::now-plus 1 'days))))
+                  :and (:todo "LOOP"
+                        :scheduled (before ,(std::org::agenda::now-plus 1 'days))))
                  (:name "Aktiv"
-                  :scheduled (before ,(std::org::agenda::now-plus 1 'days)))
+                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                              :not (:priority "D")
+                              :not (:tag "email")))
+                 (:name "Emails"
+                  :tag "email")
+                 (:name "Nebenher"
+                  :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                        :priority "D"))
                  (:name "Bald"
-                  :and (:todo "APPT" :timestamp future :timestamp (before ,(std::org::agenda::now-plus 20 'days)))
-                  :and (:scheduled future :scheduled (before ,(std::org::agenda::now-plus 10 'days)))
+                  :and (:todo "APPT"
+                        :timestamp future
+                        :timestamp (before ,(std::org::agenda::now-plus 20 'days)))
+                  :and (:scheduled future
+                        :scheduled (before ,(std::org::agenda::now-plus 10 'days)))
                   :transformer #'std::org::agenda::show-time-left-tf)
-                 (:name "Bereit" :tag "next")
-                 (:name "Warteschlange" :tag "wait")
-                 (:name "Vielleicht" :tag "maybe")
-                 (:name "Unsortiert" :anything)))))))
+                 (:name "Bereit"
+                  :tag "next")
+                 (:name "Warteschlange"
+                  :tag "wait")
+                 (:name "Vielleicht"
+                  :tag "maybe")
+                 (:discard (:anything))))))))
      ("f" "Kategorien"
       ((todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'calendar) "Termine"))
@@ -169,9 +185,9 @@
               (org-agenda-files (list std::org::bookmarks-file))
               (org-agenda-prefix-format '((todo . "%l%(std::org::agenda::status-mark)")))
               (org-super-agenda-groups
-               '((:name "Bücher" :tag "book")
+               '((:name "Bücher"  :tag "book")
                  (:name "Artikel" :tag "art")
-                 (:name "Videos" :tag "vid")))))))
+                 (:name "Videos"  :tag "vid")))))))
      ("j" "Kunde"
        (
         ,@(--map
