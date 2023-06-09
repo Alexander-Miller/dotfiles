@@ -1,0 +1,41 @@
+/* -*- mode: css -*- */
+
+/* ARC */
+* {
+    background:     #2F343FFF;
+    background-alt: #383C4AFF;
+    foreground:     #BAC5D0FF;
+    selected:       #5294E2FF;
+    active:         #98C379FF;
+    urgent:         #E06B74FF;
+}
+
+/* /\* BLACK *\/ */
+/* * { */
+/*     background:     #000000FF; */
+/*     background-alt: #101010FF; */
+/*     foreground:     #FFFFFFFF; */
+/*     selected:       #62AEEFFF; */
+/*     active:         #98C379FF; */
+/*     urgent:         #E06B74FF; */
+/* } */
+
+/* /\* CATPUCCIN *\/ */
+/* * { */
+/*     background:     #1E1D2FFF; */
+/*     background-alt: #282839FF; */
+/*     foreground:     #D9E0EEFF; */
+/*     selected:       #7AA2F7FF; */
+/*     active:         #ABE9B3FF; */
+/*     urgent:         #F28FADFF; */
+/* } */
+
+/* /\* TOKYO NIGHT *\/ */
+/* * { */
+/*     background:     #15161EFF; */
+/*     background-alt: #1A1B26FF; */
+/*     foreground:     #C0CAF5FF; */
+/*     selected:       #33467CFF; */
+/*     active:         #414868FF; */
+/*     urgent:         #F7768EFF; */
+/* } */

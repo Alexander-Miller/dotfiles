@@ -1,5 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
+(defun std::org-roam-goto-clock ()
+  (interactive)
+  (find-file (expand-file-name "NT/clock.org" std::dirs::roam)))
+
+(defun std::org-roam-goto-project ()
+  (interactive)
+  (find-file std::org::work-project-file))
+
 (pretty-hydra-define std::org-roam::hydra
   (:exit t :hint t :title (concat (treemacs-get-icon-value "org")
                                   (std::face "Org Roam" 'font-lock-keyword-face)))
@@ -11,6 +19,10 @@
     ("da" #'org-roam-dailies-goto-date          "Goto Date")
     ("dj" #'org-roam-dailies-goto-next-note     "Goto-Next note")
     ("dk" #'org-roam-dailies-goto-previous-note "Goto-Previous note"))
+
+   #("Goto" 0 4 (face font-lock-variable-name-face))
+   (("rrc" #'std::org-roam-goto-clock   "Goto Clock")
+    ("rrp" #'std::org-roam-goto-project "Goto Project"))
 
    #("Dailies Capture" 0 15 (face font-lock-variable-name-face))
    (("dD" #'org-roam-dailies-capture-today      "Capture Today")

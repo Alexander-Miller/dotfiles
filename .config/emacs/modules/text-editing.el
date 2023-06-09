@@ -14,6 +14,7 @@
  yasnippet
  i3wm-config-mode
  (tridactylrc-mode :type git :host github :repo "Alexander-Miller/tridactylrc-mode")
+ dactyl-mode
  expand-region
  vimish-fold
  evil-vimish-fold
@@ -24,6 +25,7 @@
  kotlin-mode
  typescript-mode
  groovy-mode
+ jenkinsfile-mode
  markdown-mode)
 
 (autoload #'yas-expand "yasnippet")
@@ -158,6 +160,7 @@
 
 ;; Snippets
 (std::after yasnippet
+  (std::add-hook 'yas-before-expand-snippet-hook (evil-insert 0))
   (add-hook 'snippet-mode-hook #'whitespace-mode)
   (setf yas-verbosity 3
         yas-snippet-dirs (list (concat std::dirs::emacs "snippets")))

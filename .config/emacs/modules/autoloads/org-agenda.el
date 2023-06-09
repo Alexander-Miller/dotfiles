@@ -195,8 +195,8 @@
               ((= 0 days)
                (if (equal (ts-day now) (ts-day time))
                    (if (> 0 hours)
-                       (format "(Today)" hours)
-                     (format "(%s hours)" hours))
+                       (format "(%s hours)" hours)
+                     "(Today)")
                  "(1 day)"))
               ((= 1 days)
                (if (> (+ hours (ts-hour now)) 20)
@@ -213,4 +213,4 @@
 
 (defun std::org::agenda::toggle-agenda-tag ()
   (interactive)
-  (org-agenda-set-tags (std::read "Tag:" '("wait" "next" "maybe"))))
+  (org-agenda-set-tags (std::read "Tag:" '("wait" "next" "maybe" "nebenbei"))))

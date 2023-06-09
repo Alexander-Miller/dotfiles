@@ -59,7 +59,7 @@
    org-agenda-remove-tags                           t
    org-agenda-inhibit-startup                       nil
    org-agenda-skip-deadline-prewarning-if-scheduled nil
-   org-agenda-skip-scheduled-if-deadline-is-shown   'not-today
+   org-agenda-skip-scheduled-if-deadline-is-shown   t
    org-agenda-skip-scheduled-delay-if-deadline      nil
    org-agenda-skip-additional-timestamps-same-entry nil
    org-agenda-skip-scheduled-if-done                nil
@@ -79,13 +79,16 @@
    org-agenda-custom-commands
    `(("a" "2 Wochen"
       ((agenda ""
-               ((org-agenda-files
-                 (std::if-work-laptop
-                  (std::org::agenda::roam-files-with-tags :in '("agenda" "nt"))
-                  (std::org::agenda::roam-files-with-tags :in '("agenda"))))
+               ((org-agenda-time-grid
+                 '((daily weekly today require-timed)
+                   (800 1000 1200 1400 1600 1800 2000)
+                   " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"))
+                (org-agenda-files
+                 (list "/home/alexanderm/Documents/git/icsorg/O.org"))
                 (org-agenda-sorting-strategy '(habit-down time-up priority-down category-keep))
-                (org-agenda-skip-function
-                 '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "INBOX")))))))
+                ;; (org-agenda-skip-function
+                ;;  '(org-agenda-skip-entry-if 'nottodo '("TASK" "APPT" "INBOX")))
+                ))))
      ("y" "2 Wochen Ungefiltert"
       ((agenda ""
                ((org-agenda-files
@@ -185,20 +188,21 @@
                         (s-join " ")
                         (concat (treemacs-get-icon-value 'root-closed))))
                       (org-agenda-files (list ,it))
-                      (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::status-mark)")))
+                      (org-agenda-prefix-format '((todo . "%l%(std::org::agenda::status-mark)")))
                       (org-super-agenda-auto-category-header-format "Story: %s")
+                      (org-agenda-sorting-strategy '(todo-state-up priority-down user-defined-up))
                       (org-super-agenda-groups
                        '((:discard (:and (:todo "APPT" :timestamp past)))
                          (:name "Termine"
-                          :timestamp future
-                          :timestamp today
+                          :and (:todo "APPT" :timestamp future)
+                          :and (:todo "APPT" :timestamp today)
                           :transformer #'std::org::agenda::show-time-left-tf)
                          (:name "Daily" :tag "daily")
                          (:name "Retro" :tag "retro")
                          (:name "Offene Fragen"  :todo "QUST")
                          (:name "Dauerläufer"
                           :and (:todo "LOOP" :scheduled (before ,(std::org::agenda::now-plus 1 'days))))
-                         (:name "Aufgaben" :auto-category)))))
+                         (:auto-category)))))
            (std::org::agenda::roam-files-with-tags :in '("kunde" "agenda")))))
      ("k" "NT & Gilde"
       ((todo ""
@@ -247,7 +251,8 @@
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (std::org::agenda::roam-files-with-tags :in '("agenda" "nt")))
               (org-super-agenda-keep-order t)
-              (org-agenda-sorting-strategy '(category-up todo-state-up priority-down user-defined-up))
+              (org-super-agenda-retain-sorting t)
+              (org-agenda-sorting-strategy nil)
               (org-super-agenda-groups
                `((:discard
                   (:tag "ARCHIVE"
@@ -260,12 +265,18 @@
                         :transformer #'std::org::agenda::show-time-left-tf
                         :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days)) :priority>= "B")
                         :and (:todo "APPT"
-                              :timestamp (before "+3d")
-                              :timestamp (after  "-1d")))
+                        :timestamp (before ,(std::org::agenda::now-plus 3 'days))
+                        :timestamp (after  ,(std::org::agenda::now-plus -1 'days))))
                  (:name "Dauerläufer"
                         :and (:todo "LOOP" :scheduled today))
+                 (:name "Daily" :tag "daily")
+                 (:name "Retro" :tag "retro")
                  (:name "Aktiv"
-                        :scheduled (before ,(std::org::agenda::now-plus 1 'days)))
+                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                              :not (:tag "nebenbei")))
+                 (:name "Nebenher"
+                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                              :tag "nebenbei"))
                  (:name "Bald"
                         :and (:todo "APPT" :timestamp future :timestamp (before ,(std::org::agenda::now-plus 20 'days)))
                         :and (:scheduled future :scheduled (before ,(std::org::agenda::now-plus 10 'days)))
@@ -277,7 +288,7 @@
                  (:name "Vielleicht"
                         :tag "maybe")
                  (:name "Unsortiert"
-                        :anything))))))) )))
+                        :anything))))))))))
 
 (std::keybind
  :leader

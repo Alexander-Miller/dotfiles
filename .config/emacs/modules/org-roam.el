@@ -9,6 +9,8 @@
   #'std::org-roam::hydra/body
   #'std::org-roam::daily-hydra/body
   #'std::org-roam::preview-visit
+  #'std::org-roam-goto-clock
+  #'std::org-roam-goto-project
   #'std::org-roam-capture-template)
 
 (std::keybind
@@ -17,7 +19,6 @@
  "rD"  #'std::org-roam::daily-hydra/body
  "rb"  #'org-roam-buffer-toggle
  "rc"  #'org-roam-capture
- "rg"  #'org-roam-graph
  "rf"  #'org-roam-node-find
  "ri"  #'org-roam-node-insert
  "rI"  #'org-id-get-create
@@ -25,6 +26,8 @@
  "rtt" #'org-roam-tag-add
  "rtr" #'org-roam-tag-remove
  "rtf" #'std::org-roam::find-node-by-tag
+ "rrc" #'std::org-roam-goto-clock
+ "rrp" #'std::org-roam-goto-project
  "rdd" #'org-roam-dailies-goto-today
  "rdD" #'org-roam-dailies-capture-today
  "rdt" #'org-roam-dailies-goto-tomorrow

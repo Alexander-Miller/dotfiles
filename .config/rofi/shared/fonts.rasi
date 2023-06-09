@@ -1,0 +1,4 @@
+/* -*- mode: css -*- */
+* {
+    font: "Fantasque Sans Mono 14";
+}

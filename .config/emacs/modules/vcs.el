@@ -39,6 +39,7 @@
 
 (std::after magit
 
+  (load-file "~/.emacs.d/straight/build/transient/transient.elc")
   (require 'forge)
 
   (evil-magit-init)
