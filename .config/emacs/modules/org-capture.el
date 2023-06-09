@@ -41,7 +41,7 @@
          :keys "i"
          :file ,std::org::inbox-file
          :headline "Private Inbox"
-         :template("* INBX %i%?"
+         :template("* IDEA %i%?"
                    "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
         (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
          :keys "t"
@@ -106,7 +106,7 @@
          :keys "i"
          :headline "NT Inbox"
          :file ,std::org::inbox-nt-file
-         :template ("* INBX %i%?"
+         :template ("* IDEA %i%?"
                     "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
         (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
          :keys "t"
