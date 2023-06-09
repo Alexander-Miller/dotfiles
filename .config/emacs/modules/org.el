@@ -50,15 +50,15 @@
 
 (std::after org
 
-  ;; A small bit of custom font locking for '==>'
+  ;; A small bit of custom font locking for '-->'
   (defface std::result-face
     `((t (:foreground "#886688" :bold t)))
-    "Face for '==>'."
+    "Face for '-->'."
     :group 'std)
 
   (font-lock-add-keywords
    'org-mode
-   '(("==>" . 'std::result-face)))
+   '(("-->" . 'std::result-face)))
 
   (add-to-list 'org-modules 'org-habit)
   (require 'org-habit)
