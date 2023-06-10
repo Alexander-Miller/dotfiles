@@ -111,8 +111,18 @@
    org-priority-highest ?A
    org-priority-lowest  ?D
    org-priority-faces
-   '((?A . (:background "#DDBA1A" :foreground "#1A1A1A"
-                        :weight bold))))
+   '((?A . (:background "#DDBA1A"
+            :foreground "#1A1A1A"
+            :weight bold))
+     (?B . (:background "#886688"
+                        :foreground "#1A1A1A"
+                        :weight bold))
+     (?C . (:background "#887899"
+                        :foreground "#1A1A1A"
+                        :weight bold))
+     (?D . (:background "#777777"
+            :foreground "#1A1A1A"
+            :weight bold))))
 
   ;; Multi-line emphasis
   (setf (nthcdr 4 org-emphasis-regexp-components) '(3))
