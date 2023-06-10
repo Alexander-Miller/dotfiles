@@ -24,3 +24,4 @@ build
 /.config/mpv/watch_later
 /.config/ncmpcpp/error.log
 /.config/emacs/modules/local.el
+/.config/ncmpcpp/patterns.list
