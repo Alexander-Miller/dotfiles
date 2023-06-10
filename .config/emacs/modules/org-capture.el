@@ -10,7 +10,6 @@
   #'std::org::capture::select-datetree-tag)
 
 (defconst std::org::current-year (format-time-string "%Y"))
-(defconst std::org::work-project-file (or (getenv "_NT_PROJECT") ""))
 
 (std::after org-capture
 
@@ -40,7 +39,6 @@
        ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-builtin-face))
          :keys "i"
          :file ,std::org::inbox-file
-         :headline "Private Inbox"
          :template("* IDEA %i%?"
                    "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
         (,(concat (treemacs-get-icon-value 'calendar) (std::face "Termin" 'font-lock-string-face))
@@ -100,11 +98,9 @@
 
       (,(concat (treemacs-get-icon-value 'briefcase) (std::face "Arbeit" 'font-lock-function-name-face))
        :keys "n"
-       :file ,std::org::work-file
        :children
        ((,(concat (treemacs-get-icon-value 'mail) (std::face "Inbox" 'font-lock-function-name-face))
          :keys "i"
-         :headline "NT Inbox"
          :file ,std::org::inbox-nt-file
          :template ("* IDEA %i%?"
                     "%(format-time-string (car org-time-stamp-formats) (time-add (current-time) (time-add 0 (* 60 60 24 10))))"))
