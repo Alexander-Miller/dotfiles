@@ -201,6 +201,7 @@
  "gx"    #'evil-exchange
  "gX"    #'evil-exchange-cancel
  :keymap evil-insert-state-map
+ "C-y" #'yank
  "C-l" #'yas-expand
  :leader
  "nd" #'narrow-to-defun
