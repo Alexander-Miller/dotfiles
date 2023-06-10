@@ -8,11 +8,6 @@
   "Same as `marginalia-annotate-file', but works with hiding the full path in an alist."
   (marginalia-annotate-file (get-text-property 0 :path cand)))
 
-(defun std::selection::annotate-file-name (cand)
-  "Annotate just the file name."
-  (marginalia--fields
-   ((file-name-base (get-text-property 0 :path cand)) :face 'font-lock-string-face)))
-
 (defun std::selection::orderless-dispatcher (pattern _index _total)
   (cond
    ((string-prefix-p "~" pattern) `(orderless-regexp . ,(concat (substring pattern 1))))

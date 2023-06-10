@@ -25,8 +25,6 @@
 
 (setq-default org-directory "~/Documents/Org/")
 
-(defconst std::org::private-file         (expand-file-name "Privat.org"            std::dirs::org))
-(defconst std::org::work-file            (expand-file-name "NT.org"                std::dirs::org))
 (defconst std::org::diary-file           (expand-file-name "Diary.org"             std::dirs::roam))
 (defconst std::org::inbox-file           (expand-file-name "Inbox.org"             std::dirs::roam))
 (defconst std::org::appointments-file    (expand-file-name "Termine.org"           std::dirs::roam))
@@ -37,6 +35,7 @@
 (defconst std::org::bookmarks-nt-file    (expand-file-name "NT/nt_lesezeichen.org" std::dirs::roam))
 (defconst std::org::appointments-nt-file (expand-file-name "NT/nt_termine.org"     std::dirs::roam))
 (defconst std::org::tasks-nt-file        (expand-file-name "NT/nt_vorhaben.org"    std::dirs::roam))
+(defconst std::org::work-project-file    (getenv "_NT_PROJECT"))
 
 (std::keybind
  :global

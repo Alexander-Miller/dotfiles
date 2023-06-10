@@ -29,15 +29,16 @@
   (interactive)
   (let* ((point (point-marker))
          (pointbuf (marker-buffer point))
+         (file (std::read "File: "
+                 `(("Vorhaben"       . ,std::org::tasks-file)
+                   ("NT Vorhaben"    . ,std::org::tasks-nt-file)
+                   ("Lesezeichen"    . ,std::org::bookmarks-file)
+                   ("NT Lesezeichen" . ,std::org::bookmarks-nt-file)
+                   ("NT Projekt"     . ,std::org::work-project-file))))
          (headings
           (consult--with-increased-gc
-           (cl-loop
-            for f in (list std::org::work-file std::org::private-file)
-            nconc
-            (with-current-buffer (find-file-noselect f :nowarn)
-              (consult-org--headings nil "-ARCHIVE" nil))
-            into hs
-            finally return hs)))
+           (with-current-buffer (find-file-noselect file :nowarn)
+             (consult-org--headings nil nil 'file 'archive))))
          (rfmarker (consult--read
                     headings
                     :prompt "Refile to: "

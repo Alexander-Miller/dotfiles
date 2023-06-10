@@ -11,7 +11,6 @@
 
 (std::autoload selection
   #'std::selection::annotate-file-info
-  #'std::selection::annotate-file-name
   #'std::selection::set-last-candidates
   #'std::selection::orderless-dispatcher
   #'std::selection::copy-candidate
@@ -101,8 +100,7 @@
   '(std::org::goto-org-file      . file-info)
   '(std::org::refile             . file-name))
 (std::pushnew marginalia-annotator-registry
-  '(file-info std::selection::annotate-file-info)
-  '(file-name std::selection::annotate-file-name))
+  '(file-info std::selection::annotate-file-info))
 
 ;; Consult
 (std::after consult
