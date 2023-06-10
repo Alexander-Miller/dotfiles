@@ -2,10 +2,16 @@
 
 (require 'company)
 
-(defvar std::prose-complete-loaded nil)
+(defvar std::completion::prose-complete-loaded nil)
 
 (defun std::completion::prose-complete (command &optional arg &rest ignored)
   (interactive (list 'interactive))
+  (unless std::completion::prose-complete-loaded
+    (setf std::completion::prose-complete-loaded t)
+    (-let [lib (concat std::dirs::repos "/prose-complete/target/release/libprose_complete.so")]
+      (if (file-exists-p lib)
+          (module-load lib)
+        (fset #'std::completion::prose-complete #'company-dabbrev))))
   (cl-case command
     (interactive (company-begin-backend 'std::completion::prose-complete))
     (prefix      (company-grab-symbol))
@@ -15,13 +21,6 @@
     (no-cache    nil)
     (annotation  nil)
     (candidates  (prose-complete-lookup arg))))
-
-(-let [lib (concat std::dirs::repos "/prose-complete/target/release/libprose_complete.so")]
-  (if (file-exists-p lib)
-      (unless std::prose-complete-loaded
-        (module-load lib)
-        (setf std::prose-complete-loaded t))
-    (fset #'std::completion::prose-complete #'company-dabbrev)))
 
 (defun std::completion::complete-and-keep-frontend ()
   (interactive)

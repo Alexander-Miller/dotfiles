@@ -28,7 +28,7 @@
 
 ;; Startup
 (setf
- initial-major-mode                'text-mode
+ initial-major-mode                'fundamental-mode
  inhibit-startup-message           t
  inhibit-startup-echo-area-message t
  inhibit-default-init              t
