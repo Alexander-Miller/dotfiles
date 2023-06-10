@@ -195,7 +195,7 @@
               ((= 0 days)
                (if (equal (ts-day now) (ts-day time))
                    (if (> 0 hours)
-                       (format "(Today)" hours)
+                       "(Today)"
                      (format "(%s hours)" hours))
                  "(1 day)"))
               ((= 1 days)
