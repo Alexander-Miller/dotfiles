@@ -76,7 +76,7 @@
    ledger-clear-whole-transactions      t
    ledger-reports
    `(("Budget"
-      ,(format "emacs -batch -l %s/utils/budget-report.el" std::dirs::ledger))
+      ,(format "python %s/utils/budget-report.py" std::dirs::ledger))
      ("Invest"
       ,(format "emacs -batch -l %s/utils/invest-report.el" std::dirs::ledger))
      ("Register (real)"
