@@ -273,31 +273,38 @@
                   (:tag "ARCHIVE"
                    :and (:todo "APPT" :timestamp past)))
                  (:name "Dringend"
-                        :deadline (before "+1")
-                        :face (:append t :background "#FF1A1A" :foreground "#FFFFFF" :weight bold :extend t)
-                        :transformer #'std::org::agenda::extend-urgent)
+                  :deadline (before "+1")
+                  :face (:append t :background "#FF1A1A" :foreground "#FFFFFF" :weight bold :extend t)
+                  :transformer #'std::org::agenda::extend-urgent)
                  (:name "Wichtig"
-                        :transformer #'std::org::agenda::show-time-left-tf
-                        :and (:scheduled (before "+1") :priority>= "B")
-                        :and (:todo "APPT"
-                              :timestamp (before "+3d")
-                              :timestamp (after  "-1d")))
+                  :transformer #'std::org::agenda::show-time-left-tf
+                  :and (:scheduled (before "+1")
+                        :priority "A")
+                  :and (:todo "APPT"
+                        :timestamp (before "+3d")
+                        :timestamp (after  "-1d")))
                  (:name "Dauerläufer"
-                        :and (:todo "LOOP" :scheduled today))
+                  :and (:todo "LOOP" :scheduled today))
                  (:name "Aktiv"
-                        :scheduled (before "+1"))
+                  :and (:scheduled (before "+1")
+                        :not (:priority "D")))
+                 (:name "Nebenher"
+                  :and (:scheduled (before "+1")
+                        :priority "D"))
                  (:name "Bald"
-                        :and (:todo "APPT" :timestamp future :timestamp (before "+20"))
-                        :and (:scheduled future :scheduled (before "+10"))
-                        :transformer #'std::org::agenda::show-time-left-tf)
+                  :and (:todo "APPT"
+                        :timestamp future
+                        :timestamp (before "+20"))
+                  :and (:scheduled future :scheduled (before "+10"))
+                  :transformer #'std::org::agenda::show-time-left-tf)
                  (:name "Bereit"
-                        :tag "next")
+                  :tag "next")
                  (:name "Warteschlange"
-                        :tag "wait")
+                  :tag "wait")
                  (:name "Vielleicht"
-                        :tag "maybe")
+                  :tag "maybe")
                  (:name "Unsortiert"
-                        :anything))))))) )))
+                  :anything))))))))))
 
 (std::keybind
  :leader
