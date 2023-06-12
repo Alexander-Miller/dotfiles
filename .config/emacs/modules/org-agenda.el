@@ -163,6 +163,7 @@
                    (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::status-mark)")))
                    (org-super-agenda-keep-order t)
                    (org-super-agenda-auto-category-header-format "%s")
+                   (org-super-agenda-auto-category-prefix "Projekt: ")
                    (org-super-agenda-groups
                     '((:auto-category)))))
        (todo "LOOP"
@@ -178,6 +179,7 @@
                    (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::status-mark)")))
                    (org-super-agenda-auto-category-header-format "Projekt: %s")
                    (org-super-agenda-keep-order t)
+                   (org-super-agenda-auto-category-prefix "Projekt: ")
                    (org-super-agenda-groups '((:auto-category)))))
        (todo ""
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))
@@ -201,7 +203,7 @@
                         (concat (treemacs-get-icon-value 'root-closed))))
                       (org-agenda-files (list ,it))
                       (org-agenda-prefix-format '((tags . "%l%(std::org::agenda::status-mark)")))
-                      (org-super-agenda-auto-category-header-format "Story: %s")
+                      (org-super-agenda-auto-category-prefix "Story: ")
                       (org-super-agenda-groups
                        '((:discard (:and (:todo "APPT" :timestamp past)))
                          (:name "Termine"
