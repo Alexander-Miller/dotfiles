@@ -24,6 +24,7 @@
  kotlin-mode
  typescript-mode
  groovy-mode
+ jenkinsfile-mode
  markdown-mode)
 
 (autoload #'yas-expand "yasnippet")
