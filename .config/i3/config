@@ -128,6 +128,9 @@ bindsym $mod+Shift+c reload
 # Reload the screen layout
 bindsym $mod+Shift+comma exec "xrandr --auto"
 
+# Re-Copy from clipboard history
+bindsym $mod+Shift+period exec "fish -c copy_from_clipboard_history"
+
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
