@@ -16,7 +16,6 @@
   #'std::org::agenda::quit
   #'std::org::agenda::compare-by-todo-state
   #'std::org::agenda::schedule-now
-  #'std::org::agenda::now-plus
   #'std::org::agenda::open-link-at-line
   #'std::org::agenda::status-mark
   #'std::org::agenda::show-time-left-tf
@@ -111,33 +110,33 @@
                `((:discard (:tag "ARCHIVE"
                             :and (:todo "APPT" :timestamp past)))
                  (:name "Dringend"
-                  :deadline (before ,(std::org::agenda::now-plus 1 'days))
+                  :deadline (before "+1")
                   :face (:append t :background "#FF1A1A" :foreground "#FFFFFF" :weight bold :extend t)
                   :transformer #'std::org::agenda::extend-urgent)
                  (:name "Wichtig"
-                  :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                  :and (:scheduled (before "+1")
                         :priority "A")
                   :and (:todo "APPT"
-                        :timestamp (before ,(std::org::agenda::now-plus 3 'days))
-                        :timestamp (after  ,(std::org::agenda::now-plus -1 'days))))
+                        :timestamp (before "+3")
+                        :timestamp (after  "-1")))
                  (:name "Dauerläufer"
                   :and (:todo "LOOP"
-                        :scheduled (before ,(std::org::agenda::now-plus 1 'days))))
+                        :scheduled (before "+1")))
                  (:name "Aktiv"
-                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                        :and (:scheduled (before "+1")
                               :not (:priority "D")
                               :not (:tag "email")))
                  (:name "Emails"
                   :tag "email")
                  (:name "Nebenher"
-                  :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days))
+                  :and (:scheduled (before "+1")
                         :priority "D"))
                  (:name "Bald"
                   :and (:todo "APPT"
                         :timestamp future
-                        :timestamp (before ,(std::org::agenda::now-plus 20 'days)))
+                        :timestamp (before "+20"))
                   :and (:scheduled future
-                        :scheduled (before ,(std::org::agenda::now-plus 10 'days)))
+                        :scheduled (before "+10"))
                   :transformer #'std::org::agenda::show-time-left-tf)
                  (:name "Bereit"
                   :tag "next")
@@ -213,7 +212,7 @@
                          (:name "Retro" :tag "retro")
                          (:name "Offene Fragen"  :todo "QUST")
                          (:name "Dauerläufer"
-                          :and (:todo "LOOP" :scheduled (before ,(std::org::agenda::now-plus 1 'days))))
+                          :and (:todo "LOOP" :scheduled (before "+1")))
                          (:name "Aufgaben" :auto-category)))))
            (std::org::agenda::roam-files-with-tags :in '("kunde" "agenda")))))
      ("k" "NT & Gilde"
@@ -269,22 +268,22 @@
                   (:tag "ARCHIVE"
                    :and (:todo "APPT" :timestamp past)))
                  (:name "Dringend"
-                        :deadline (before ,(std::org::agenda::now-plus 1 'days))
+                        :deadline (before "+1")
                         :face (:append t :background "#FF1A1A" :foreground "#FFFFFF" :weight bold :extend t)
                         :transformer #'std::org::agenda::extend-urgent)
                  (:name "Wichtig"
                         :transformer #'std::org::agenda::show-time-left-tf
-                        :and (:scheduled (before ,(std::org::agenda::now-plus 1 'days)) :priority>= "B")
+                        :and (:scheduled (before "+1") :priority>= "B")
                         :and (:todo "APPT"
                               :timestamp (before "+3d")
                               :timestamp (after  "-1d")))
                  (:name "Dauerläufer"
                         :and (:todo "LOOP" :scheduled today))
                  (:name "Aktiv"
-                        :scheduled (before ,(std::org::agenda::now-plus 1 'days)))
+                        :scheduled (before "+1"))
                  (:name "Bald"
-                        :and (:todo "APPT" :timestamp future :timestamp (before ,(std::org::agenda::now-plus 20 'days)))
-                        :and (:scheduled future :scheduled (before ,(std::org::agenda::now-plus 10 'days)))
+                        :and (:todo "APPT" :timestamp future :timestamp (before "+20"))
+                        :and (:scheduled future :scheduled (before "+10"))
                         :transformer #'std::org::agenda::show-time-left-tf)
                  (:name "Bereit"
                         :tag "next")

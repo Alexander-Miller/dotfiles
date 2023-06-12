@@ -121,18 +121,6 @@
       (when (eq 'org-link (get-text-property (point) 'face))
         (org-open-at-point)))))
 
-(define-inline std::org::agenda::now-plus (amount unit)
-  (declare (side-effect-free t))
-  (inline-letevals (amount unit)
-    (inline-quote
-     (let ((slot
-            (pcase ,unit
-              (`hours 'hours)
-              (`days  'day)
-              (`weeks 'week)
-              (other  (error "Unknown unit '%s'" other)))))
-       (ts-format "%F %T" (ts-inc slot ,amount (ts-now)))))))
-
 (cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
   (require 'org-roam)
   (let ((in-clause
