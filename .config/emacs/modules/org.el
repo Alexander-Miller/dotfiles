@@ -171,11 +171,10 @@
      ("\\.pdf\\'" . "zathura \"%s\""))
   org-todo-keyword-faces
   `(("IDEA"     . (:background "#FFDDCC" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-    ("APPT"     . (:background "#997799" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
+    ("APPT"     . (:background "#55A9A9" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("BKMR"     . (:background "#B87348" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("INFO"     . (:background "#9F8B6F" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("LOOP"     . (:background "#53868B" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
-    ("QUST"     . (:background "#55A9A9" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("PROJ"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("STRY"     . (:background "#5588BB" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))
     ("TIME"     . (:background "#FF4444" :foreground "#1A1A1A" :weight bold :box (:line-width -1 :color "#000000")))

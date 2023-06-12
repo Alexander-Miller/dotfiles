@@ -64,7 +64,7 @@
          :olp ("Haushalt")
          :file ,std::org::tasks-file
          :type entry
-         :template ("* %^{TODO: |TODO|TIME|QUST} %?"
+         :template ("* %^{TODO: |TODO|TIME|INFO} %?"
                     ""))
         (,(concat (treemacs-get-icon-value 'screen) (std::face "Dotts Aufgabe" 'font-lock-variable-name-face))
          :keys "d"

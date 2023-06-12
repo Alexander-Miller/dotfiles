@@ -210,9 +210,12 @@
                           :timestamp future
                           :timestamp today
                           :transformer #'std::org::agenda::show-time-left-tf)
-                         (:name "Daily" :tag "daily")
-                         (:name "Retro" :tag "retro")
-                         (:name "Offene Fragen"  :todo "QUST")
+                         (:name "Daily"
+                          :tag "daily")
+                         (:name "Retro"
+                          :tag "retro")
+                         (:name "Offene Fragen"
+                          :todo "INFO")
                          (:name "Dauerläufer"
                           :and (:todo "LOOP" :scheduled (before "+1")))
                          (:name "Aufgaben" :auto-category)))))
@@ -249,7 +252,7 @@
                  (:name "Freitagsmaterial"
                   :and (:tag "einzel" :tag "freitag"))
                  (:name "Offene Fragen"
-                  :todo "QUST")
+                  :todo "INFO")
                  (:name "Projekte" :auto-category t)))))
        (todo "BKMR"
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'bookmark) "Lesezeichen"))

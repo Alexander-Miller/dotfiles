@@ -44,7 +44,7 @@
 
   (eval-and-compile
     (defconst std::org-roam::todo-states
-      "#+TODO: LOOP(h) STRY(s) TODO(o) QUST(f) IDEA(i) PROJ(p) APPT(a) TIME(t) BKMR(r) INFO(n) | CMPL(x) OBSL(l@) ANSW(g) DONE(d)"))
+      "#+TODO: LOOP(h) STRY(s) TODO(o) IDEA(i) PROJ(p) APPT(a) TIME(t) BKMR(r) INFO(n) | CMPL(x) OBSL(l@) ANSW(g) DONE(d)"))
 
   (evil-set-initial-state 'org-roam-mode 'motion)
 
