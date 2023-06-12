@@ -6,7 +6,7 @@ POLYBAR_CMD = 'env POLYBAR_SCREEN={0} POLYBAR_WIFI={1} POLYBAR_ETH={2} POLYBAR_B
 def kill_polybar():
     run('killall -9 polybar')
     while run('pgrep -x polybar'):
-        sleep(1)
+        sleep(0.1)
 
 def get_screens():
     screen_lines = run('xrandr -q | rg " connected"').split('\n')
