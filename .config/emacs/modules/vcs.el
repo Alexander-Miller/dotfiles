@@ -4,6 +4,7 @@
  magit
  evil-magit
  forge
+ sqlite3
  git-gutter-fringe
  git-modes
  (transient-posframe :type git :host github :repo "yanghaoxie/transient-posframe"))
