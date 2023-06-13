@@ -131,6 +131,7 @@
 
   ;; Other
   (setf
+   org-image-actual-width         nil
    org-use-effective-time         t
    org-extend-today-until         4
    org-adapt-indentation          nil
