@@ -2,5 +2,5 @@
 #name: log
 #key: olo
 # --
-`(s-replace-all '(("<" . "[") (">" . "]")) (format-time-string  (car org-time-stamp-formats) (current-time)))`
+[`(format-time-string  (car org-time-stamp-formats) (current-time))`]
 $0
