@@ -18,6 +18,8 @@
   #'std::org::file-setup
   #'std::org::toggle-agenda-tag)
 
+(std::delete "/usr/share/emacs/28.2/lisp/org" load-path)
+
 (add-hook 'org-mode-hook #'std::org::mode-hook)
 
 (std::pushnew safe-local-variable-values
