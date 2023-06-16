@@ -89,7 +89,7 @@
      ("Register (+virtuell)"
       "%(binary) reg %(account) -p %(period)")
      ("Guthaben (EUR)"
-      "%(binary) bal Guthaben -X EUR")
+      "%(binary) bal ^Guthaben -X EUR")
      ("Guthaben (alle Währungen)"
       "%(binary) bal Guthaben")
      ("Kredit"
