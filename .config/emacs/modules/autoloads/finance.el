@@ -35,6 +35,15 @@
          (file (cdr (assoc selection files))))
     (find-file file)))
 
+(defun std::ledger::report ()
+  "Same as `ledger-report', but without saving the current buffer."
+  (interactive)
+  (require 'ledger-mode)
+  (require 'ledger-report)
+  (ledger-report
+   (ledger-report-read-name)
+   (not (null current-prefix-arg))))
+
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)

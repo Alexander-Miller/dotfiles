@@ -7,6 +7,7 @@
 (std::autoload finance
   #'std::ledger
   #'std::ledger::file
+  #'std::ledger::report
   #'std::ledger::mode-hook
   #'std::ledger::save
   #'std::ledger::finish
@@ -22,7 +23,8 @@
 (std::keybind
  :leader
  "all" #'std::ledger
- "alf" #'std::ledger::file)
+ "alf" #'std::ledger::file
+ "alr" #'std::ledger::report)
 
 (std::after ledger-mode
 
@@ -67,6 +69,9 @@
                 ("all" "from 2010 until this day")
                 ("custom" (read-string "Period: "))
                 (other other))))))
+
+
+  (setq-default ledger-master-file (expand-file-name "Ledger.ledger" std::dirs::ledger))
 
   (setf
    ledger-default-date-format           ledger-iso-date-format
