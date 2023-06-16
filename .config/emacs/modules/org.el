@@ -116,12 +116,12 @@
    '((?A . (:background "#DDBA1A"
             :foreground "#1A1A1A"
             :weight bold))
-     (?B . (:background "#886688"
-                        :foreground "#1A1A1A"
-                        :weight bold))
-     (?C . (:background "#887899"
-                        :foreground "#1A1A1A"
-                        :weight bold))
+     (?B . (:background "#669966"
+            :foreground "#1A1A1A"
+            :weight bold))
+     (?C . (:background "#996699"
+            :foreground "#1A1A1A"
+            :weight bold))
      (?D . (:background "#777777"
             :foreground "#1A1A1A"
             :weight bold))))

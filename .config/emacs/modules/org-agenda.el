@@ -105,7 +105,7 @@
              ((org-agenda-overriding-header (concat (treemacs-get-icon-value 'briefcase) "Heute"))
               (org-agenda-files (std::org::agenda::roam-files-with-tags :in '("agenda" "privat")))
               (org-super-agenda-keep-order t)
-              (org-agenda-sorting-strategy '(category-up todo-state-up priority-down user-defined-up))
+              (org-agenda-sorting-strategy '(user-defined-down))
               (org-super-agenda-groups
                `((:discard (:tag "ARCHIVE"
                             :and (:todo "APPT" :timestamp past)))
