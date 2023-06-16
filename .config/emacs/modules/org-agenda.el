@@ -127,7 +127,8 @@
                               :not (:priority "D")
                               :not (:tag "email")))
                  (:name "Emails"
-                  :tag "email")
+                  :and (:tag "email"
+                        :not (:tag "wait")))
                  (:name "Nebenher"
                   :and (:scheduled (before "+1")
                         :priority "D"))
