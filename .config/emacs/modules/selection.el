@@ -82,9 +82,7 @@
  completion-category-overrides nil
 
  orderless-style-dispatchers '(std::selection::orderless-dispatcher)
- orderless-matching-styles   '(orderless-literal
-                               orderless-initialism
-                               orderless-prefixes)
+ orderless-matching-styles   '(orderless-literal orderless-prefixes)
 
  vertico-cycle t)
 
