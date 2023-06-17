@@ -218,6 +218,14 @@
 
   (setf mu4e-bookmarks nil)
   (mu4e-bookmark-define
+   "not maildir:/.*Active/"
+   "Todo Messages"
+   ?a)
+  (mu4e-bookmark-define
+   "maildir:/.*Active/"
+   "Doing Messages"
+   ?A)
+  (mu4e-bookmark-define
    "flag:unread AND NOT flag:trashed"
    "Unread Messages"
    ?u)
@@ -232,11 +240,7 @@
   (mu4e-bookmark-define
    "github"
    "Github Messages"
-   ?g)
-  (mu4e-bookmark-define
-   "mime:image/*"
-   "Messages with images"
-   ?p))
+   ?g))
 
 (std::after mu4e
   (std::keybind
@@ -259,6 +263,7 @@
    "="   #'mu4e-headers-mark-for-untrash
    "D"   #'mu4e-headers-mark-for-delete
    "e"   #'mu4e-headers-mark-for-refile
+   "b"   #'mu4e-search-bookmark
    :mode-leader mu4e-headers-mode
    "m"   #'std::mail::mark/body
    :evil (normal motion) mu4e-main-mode-map
