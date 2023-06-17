@@ -28,6 +28,8 @@
   (std::add-hook 'org-mode-hook
     (add-hook 'flyspell-incorrect-hook #'std::spell-check::skip-org-comments nil :local))
 
+  (setenv "LANG" "en_GB.UTF-8")
+
   (setf
    guess-language-langcodes
    '((en . ("en_GB" "English" "" "EN_EB"))
@@ -35,19 +37,20 @@
    flyspell-mark-duplications-flag nil
    flyspell-issue-welcome-flag     nil
    flyspell-issue-message-flag     nil
-   ispell-dictionary               "en_GB"
+   ispell-dictionary               "en_GB,de_DE"
    ispell-check-comments           t
    ispell-lazy-highlight           t
    ispell-quietly                  t
    ispell-highlight-p              'block
    ispell-keep-choices-win         nil
    ispell-following-word           nil
-   ispell-program-name             "aspell"
-   ispell-extra-args               '("--sug-mode=ultra"
-                                     "--run-together"
-                                     "--dont-tex-check-comments"))
+   ispell-program-name             "hunspell"
+   ispell-personal-dictionary      (expand-file-name "~/.emacs.d/.cache/dict"))
 
-  (ispell-set-spellchecker-params))
+  (unless (file-exists-p ispell-personal-dictionary)
+    (write-region "" nil ispell-personal-dictionary nil 0))
+  (ispell-set-spellchecker-params)
+  (ispell-hunspell-add-multi-dic "en_GB,de_DE"))
 
 (std::after flyspell-correct
 

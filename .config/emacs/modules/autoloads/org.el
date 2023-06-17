@@ -3,9 +3,7 @@
 (autoload 'consult-org--headings "consult-org")
 
 (defun std::org::file-setup ()
-  (setq-local
-   fill-column 100
-   ispell-local-dictionary "de_DE")
+  (setq-local fill-column 100)
   (auto-fill-mode t))
 
 (defun std::org::mode-hook ()
