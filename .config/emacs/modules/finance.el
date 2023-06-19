@@ -2,6 +2,7 @@
 
 (std::using-packages
  ledger-mode
+ flycheck-ledger
  evil-ledger)
 
 (std::autoload finance
@@ -27,6 +28,21 @@
  "alr" #'std::ledger::report)
 
 (std::after ledger-mode
+
+  (eval-and-compile (require 'flycheck-ledger))
+
+  (setf
+   (flycheck-checker-get 'ledger 'command)
+   '("ledger"
+     (option-flag "--explicit" flycheck-ledger-explicit)
+     (option-flag "--pedantic" flycheck-ledger-pedantic)
+     (eval (when (eq flycheck-ledger-pedantic 'check-payees) "--check-payees"))
+     "-f" (eval (format "%s/Ledger.ledger" std::dirs::ledger))
+     "balance"
+     ;; to find non-zero zero accounts:
+     "--flat" "--no-total"
+     "--balance-format" "%(scrub(display_total))\t\t%(account())\n"
+     (eval flycheck-ledger-zero-accounts)))
 
   (put 'ledger-accounts-file 'safe-local-variable #'stringp)
 

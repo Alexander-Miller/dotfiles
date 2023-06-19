@@ -47,6 +47,7 @@
 (defun std::ledger::mode-hook ()
   (outline-minor-mode)
   (evil-ledger-mode)
+  (flycheck-mode)
   (setq-local
    ledger-accounts-file     (format "%s/Ledger.ledger" std::dirs::ledger)
    outline-regexp           (rx bol "### ")
