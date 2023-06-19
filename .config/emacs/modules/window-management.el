@@ -14,6 +14,7 @@
   #'std::windows::yequake-org-capture
   #'std::windows::split-window-right
   #'std::windows::split-window-below
+  #'std::windows::highlight-on-select
   #'std::windows::size-change/body)
 
 (add-to-list 'window-persistent-parameters '(quit-restore . writable))
@@ -113,6 +114,16 @@
 (purpose-mode)
 (framey-mode)
 (winner-mode)
+
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-1)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-2)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-3)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-4)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-5)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-6)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-7)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-8)
+(std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-9)
 
 (setf
  purpose-user-mode-purposes

@@ -47,3 +47,10 @@
   ("W"  #'ace-swap-window                  "Ace Swap")
   ("qf"  #'delete-frame                    "Delete Frame")
   ("S"  #'std::windows::size-change/body   "Change Size"))
+
+(std::defface std::windows::select-face
+  (:background "#999999" :extend t))
+
+(defun std::windows::highlight-on-select (&rest _)
+  (pulse-momentary-highlight-one-line
+   (point) 'std::windows::select-face))
