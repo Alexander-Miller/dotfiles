@@ -17,9 +17,6 @@ bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
 # Settings
 bindsym $mod+p exec --no-startup-id "xfce4-settings-manager"
 
-# Change wallpaper
-bindsym $mod+Shift+p exec --no-startup-id "fish -c change-wallpaper"
-
 # Launch video from scratchpad
 bindsym $mod+Shift+m exec --no-startup-id "fish -c ytmpv"
 
@@ -128,8 +125,8 @@ bindsym $mod+Shift+c reload
 # Reload the screen layout
 bindsym $mod+Shift+comma exec "xrandr --auto"
 
-# Re-Copy from clipboard history
-bindsym $mod+Shift+period exec "fish -c copy_from_clipboard_history"
+# Rofi-based utils
+bindsym $mod+Shift+period exec "fish -c rofi_utils"
 
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
