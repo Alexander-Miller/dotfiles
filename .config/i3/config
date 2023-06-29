@@ -17,9 +17,6 @@ bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
 # Settings
 bindsym $mod+p exec --no-startup-id "xfce4-settings-manager"
 
-# Launch video from scratchpad
-bindsym $mod+Shift+m exec --no-startup-id "fish -c ytmpv"
-
 # Scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
