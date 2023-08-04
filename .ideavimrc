@@ -33,25 +33,54 @@ nnoremap de d]w
 nnoremap ve v]w
 nnoremap ve v]w
 
-nnoremap <Leader>lrr :action RenameElement<CR>
-nnoremap <Leader>w0 :action CloseEditor<CR>
-nnoremap <Leader>tt :action GotoTest<CR>
-nnoremap <C-A-j> :action NextTab<CR>
-nnoremap <C-A-k> :action PreviousTab<CR>
-nnoremap <Leader>bi :action FileStructurePopup<CR>
-nnoremap <Leader>/ :action SearchEverywhere<CR>
-nnoremap <C-j> i<CR><ESC>
-nnoremap <C-o> :action Back<CR>
-nnoremap <C-i> :action Forward<CR>
+map <Leader>wm  <Action>(HideAllWindows)
+map <Leader>w0  <Action>(CloseEditor)
+map <Leader>ft  <Action>(SelectInProjectView)
+map <Leader>bi  <Action>(FileStructurePopup)
+map <Leader>lrr <Action>(RenameElement)
+map <A-1>       <Action>(FocusEditor)
+
+nnoremap <A-1>       :action FocusEditor<CR>
+nnoremap <Leader>tt  :action GotoTest<CR>
+nnoremap <Leader>fn  :action GotoClass<CR>
+map <Leader>fn  <Action>(GotoClass)
+nnoremap <Leader>ff  :action GotoFile<CR>
+nnoremap <Leader>be  :action RecentFiles<CR>
+nnoremap <Leader>/   :action SearchEverywhere<CR>
+nnoremap <C-A-j>     :action NextTab<CR>
+nnoremap <C-A-k>     :action PreviousTab<CR>
+
+nnoremap <C-j>   i<CR><ESC>
+nnoremap <C-o>   :action Back<CR>
+nnoremap <C-n>   :action GotoClass<CR>
+nnoremap <C-i>   :action Forward<CR>
 nnoremap <C-A-a> :action MethodUp<CR>
 nnoremap <C-A-e> :action MethodDown<CR>
+nnoremap <C-A-s> *
+
+nnoremap <C-n> :action List-selectNextRow<CR>
+nnoremap <C-p> :action List-selectPreviousRow<CR>
+nnoremap <C-n> :action PopupMenu-selectNext<CR>
+nnoremap <C-p> :action PopupMenu-selectPrevious<CR>
+nnoremap <C-n> :action Table-selectNext<CR>
+nnoremap <C-p> :action Table-selectPrevious<CR>
+nnoremap <C-n> :action Tree-selectNext<CR>
+nnoremap <C-p> :action Tree-selectPrevious<CR>
 
 " set handler "
 sethandler <C-.> a:ide
+sethandler <A-1> a:ide
 sethandler <C-b> a:ide
-sethandler <C-n> a:ide
+sethandler <C-c> a:ide
+sethandler <C-f> a:ide
+sethandler <C-j> a:vim
+sethandler <C-k> a:vim
+sethandler <C-n> a:vim
+sethandler <C-p> a:vim
+sethandler <C-q> a:ide
 sethandler <C-A-j> a:vim
 sethandler <C-A-k> a:vim
+sethandler <A-i> a:vim
 
 " plugins "
 set commentary
@@ -61,5 +90,8 @@ vnoremap <C-7> gc
 set exchange
 nnoremap gx cx
 vnoremap gx cx
-
 set surround
+set easymotion
+
+map <A-i> <Plug>(easymotion-bd-f)
+let g:EasyMotion_do_mapping = 1
