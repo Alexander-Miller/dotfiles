@@ -129,6 +129,7 @@
  purpose-user-mode-purposes
  '((prog-mode                 . main)
    (text-mode                 . main)
+   (dashboard-mode            . main)
    (vterm-mode                . bottom)
    (flycheck-error-list-mode  . bottom)
    (messages-buffer-mode      . bottom)
