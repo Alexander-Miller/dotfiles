@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
+ htmlize
  org
  org-appear
  org-superstar
@@ -97,6 +98,7 @@
    org-edit-src-turn-on-auto-save              nil
    org-edit-src-content-indentation            2
    org-src-fontify-natively                    t
+   org-fontify-quote-and-verse-blocks          t
    org-src-tab-acts-natively                   t
    org-src-preserve-indentation                nil
    org-src-ask-before-returning-to-edit-buffer nil
