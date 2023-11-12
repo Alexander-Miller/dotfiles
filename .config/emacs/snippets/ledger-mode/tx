@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: tx
+#key: tx
+# expand-env: ((yas-after-exit-snippet-hook #'ledger-post-align-dwim))
+# --
+`(format-time-string "%Y-%m-%d")` * ${1:Payee}
+  ${2:From}
+  ${3:To}  ${4:Amount}
