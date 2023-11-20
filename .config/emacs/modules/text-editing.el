@@ -25,7 +25,8 @@
  typescript-mode
  groovy-mode
  jenkinsfile-mode
- markdown-mode)
+ markdown-mode
+ terraform-mode)
 
 (autoload #'yas-expand "yasnippet")
 (autoload #'evilnc-comment-operator "evil-nerd-commenter")
