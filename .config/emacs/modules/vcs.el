@@ -19,7 +19,8 @@
   #'std::vcs::save-pre-ediff-window-config
   #'std::vcs::maybe-setup-commit-buffer
   #'std::vcs::ediff-hydra/body
-  #'std::vcs::magit-hydra/body)
+  #'std::vcs::magit-hydra/body
+  #'std::vcs::copy-current-branch)
 
 (std::keybind
  :leader
@@ -84,6 +85,7 @@
    "K"   #'std::vcs::prev-5-lines-wrapper
    "M-j" #'magit-section-forward-sibling
    "M-k" #'magit-section-backward-sibling
+   ",b"  #'std::vcs::copy-current-branch
    ",u"  #'magit-section-up
    ",1"  #'magit-section-show-level-1-all
    ",2"  #'magit-section-show-level-2-all

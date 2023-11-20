@@ -92,6 +92,13 @@
     (require 'git-commit)
     (git-commit-setup-check-buffer)))
 
+(defun std::vcs::copy-current-branch ()
+  (interactive)
+  (-if-let (branch (magit-get-current-branch))
+      (progn (kill-new branch)
+             (message "%s" branch))
+    (message "There is no current branch")))
+
 (defhydra std::vcs::magit-hydra (:exit t :hint t)
   ("gm" #'magit-dispatch             "Dispatch")
   ("gc" #'magit-clone                "Clone")
