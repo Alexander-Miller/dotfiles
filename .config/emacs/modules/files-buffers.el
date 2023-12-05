@@ -17,7 +17,8 @@
   #'std::buffers::other-buffer
   #'std::buffers::pop-to-messages-buffer
   #'std::buffers::pop-to-compile-buffer
-  #'std::buffers::dropbox-buffer-cleanup)
+  #'std::buffers::dropbox-buffer-cleanup
+  #'std::buffers::magit-buffers)
 
 (std::keybind
  :leader
@@ -37,6 +38,7 @@
  "bs"  #'std::buffers::scratch
  "bp"  #'std::buffers::move-buffer-to-parent-frame
  "br"  #'revert-buffer
+ "bg"  #'std::buffers::magit-buffers
  "bm"  #'std::buffers::pop-to-messages-buffer
  "bc"  #'std::buffers::pop-to-compile-buffer
  "bd"  #'std::buffers::kill-this-buffer

@@ -220,6 +220,22 @@ If the universal prefix argument is used then kill also the window."
       (abort-recursive-edit)
     (bury-buffer)))
 
+(defun std::buffers::magit-buffers ()
+  (interactive)
+  (consult-buffer
+   (list
+    `(:name "Magit Buffer"
+      :category buffer
+      :face consult-buffer
+      :action ,#'consult--buffer-action
+      :items
+      ,(lambda ()
+         (->>
+          (--filter
+           (with-current-buffer it (eq major-mode 'magit-status-mode))
+           (buffer-list))
+          (-map #'buffer-name)))))))
+
 (defhydra std::buffers::open (:exit t :hint nil)
   ("m" #'std::buffers::edit-module "Emacs Module")
   ("x" #'std::buffers::edit-dropbox-file "Dropbox File")
