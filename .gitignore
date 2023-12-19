@@ -25,3 +25,6 @@ build
 /.config/ncmpcpp/error.log
 /.config/emacs/modules/local.el
 /.config/ncmpcpp/patterns.list
+/.config/fish/completions/sdk.fish
+/.config/fish/functions/__sdkman-noexport-init.sh
+/.config/fish/functions/sdk.fish
