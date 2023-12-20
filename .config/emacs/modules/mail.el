@@ -9,6 +9,7 @@
   #'std::mail::view-mode-hook
   #'std::mail::refresh
   #'std::mail::capture-message
+  #'std::mail::move-mail-to-in-progress
   #'std::mail::tag/body)
 
 (std::pushnew load-path "/usr/share/emacs/site-lisp/mu4e")
@@ -62,8 +63,8 @@
   (setf
    mu4e-attachment-dir                      "~/Downloads"
    mu4e-confirm-quit                        nil
+   mu4e-search-include-related              t
    mu4e-completing-read-function            #'completing-read
-   mu4e-view-use-gnus                       t
    mu4e-sent-messages-behavior              'sent
    mu4e-change-filenames-when-moving        t
    mu4e-use-fancy-chars                     nil
@@ -97,127 +98,30 @@
    mu4e-headers-fields
    `((:date         . 10)
      (:flags        . 6)
-     (:tags         . 4)
      (:mailing-list . 10)
      (:account      . 6)
-     (:from         . 22)
-     (:subject . ,(- (frame-width) 10 6 10 6 22 8 4))))
-
-  (setf
-   mu4e-marks
-   '((tag
-      :char "t"
-      :prompt "gtag"
-      :ask-target
-      (lambda nil (read-string "What tag do you want to add? "))
-      :action
-      (lambda (docid msg target) (mu4e-action-retag-message msg target)))
-
-     (refile
-      :char ("r" . "r")
-      :prompt "refile"
-      :dyn-target
-      (lambda (target msg) (mu4e-get-refile-folder msg))
-      :action
-      (lambda (docid msg target)
-        (mu4e--server-move docid (mu4e--mark-check-target target) "-N")))
-
-     (delete
-      :char ("D" . "D")
-      :prompt "Delete"
-      :show-target (lambda (target) "delete")
-      :action (lambda (docid msg target) (mu4e--server-remove docid)))
-
-     (flag
-      :char ("+" . "+")
-      :prompt "+flag"
-      :show-target (lambda (target) "flag")
-      :action
-      (lambda (docid msg target)
-        (mu4e--server-move docid nil "+F-u-N")))
-
-     (move
-      :char ("m" . "m")
-      :prompt "move"
-      :ask-target mu4e--mark-get-move-target
-      :action (lambda (docid msg target)
-                (mu4e--server-move
-                 docid
-                 (mu4e--mark-check-target target)
-                 "-N")))
-
-     (read
-      :char ("!" . "!")
-      :prompt "!read"
-      :show-target (lambda (target) "read")
-      :action (lambda (docid msg target)
-                (mu4e--server-move docid nil "+S-u-N")))
-
-     (trash
-      :char ("d" . "d")
-      :prompt "dtrash"
-      :dyn-target (lambda (target msg)
-                    (mu4e-get-trash-folder msg))
-      :action (lambda (docid msg target)
-                (mu4e--server-move
-                 docid
-                 (mu4e--mark-check-target target)
-                 "+T-N")))
-
-     (unflag
-      :char ("-" . "-")
-      :prompt "-unflag"
-      :show-target (lambda (target) "unflag")
-      :action (lambda (docid msg target)
-                (mu4e--server-move docid nil "-F-N")))
-
-     (untrash
-      :char ("=" . "=")
-      :prompt "=untrash"
-      :show-target (lambda (target) "untrash")
-      :action (lambda (docid msg target)
-                (mu4e--server-move docid nil "-T")))
-
-     (unread
-      :char "?"
-      :prompt "?unread"
-      :show-target (lambda (target) "unread")
-      :action (lambda (docid msg target)
-                (mu4e--server-move docid nil "-S+u-N")))
-
-     (unmark
-      :char " "
-      :prompt "unmark"
-      :action (mu4e-error "No action for unmarking"))
-
-     (action
-      :char ("a" . "a")
-      :prompt "action"
-      :ask-target (lambda ()
-                    (mu4e-read-option "Action: " mu4e-headers-actions))
-      :action (lambda (docid msg actionfunc)
-                (save-excursion
-                  (when (mu4e~headers-goto-docid docid)
-                    (mu4e-headers-action actionfunc)))))
-
-     (something
-      :char ("*" . "*")
-      :prompt "*something"
-      :action (mu4e-error "No action for deferred mark"))))
+     (:from         . 20)
+     (:subject      . ,(- (frame-width) 10 6 10 6 20 14))
+     (:tags         . 4)))
 
   (setf mu4e-bookmarks nil)
+
   (mu4e-bookmark-define
-   "not maildir:/.*Active/"
-   "Todo Messages"
+   "not tag:T and not tag:W"
+   "Backlog"
+   ?b)
+  (mu4e-bookmark-define
+   "not from:github*"
+   "Not GitHub"
+   ?n)
+  (mu4e-bookmark-define
+   "tag:T"
+   "In Progress"
    ?a)
   (mu4e-bookmark-define
-   "maildir:/.*Active/"
-   "Doing Messages"
-   ?A)
-  (mu4e-bookmark-define
-   "flag:unread AND NOT flag:trashed"
-   "Unread Messages"
-   ?u)
+   "tag:W"
+   "Awaiting Response"
+   ?w)
   (mu4e-bookmark-define
    "date:24h.."
    "Last 24 hours"
@@ -225,11 +129,7 @@
   (mu4e-bookmark-define
    "date:7d..now"
    "Last 7 days"
-   ?w)
-  (mu4e-bookmark-define
-   "github"
-   "Github Messages"
-   ?g))
+   ?o))
 
 (std::after mu4e
   (std::keybind
@@ -253,8 +153,7 @@
    "D"   #'mu4e-headers-mark-for-delete
    "e"   #'mu4e-headers-mark-for-refile
    "b"   #'mu4e-search-bookmark
-   :mode-leader mu4e-headers-mode
-   "m"   #'std::mail::mark/body
+   "M"   #'mu4e-view-mark-thread
    :evil (normal motion) mu4e-main-mode-map
    "j" #'mu4e~headers-jump-to-maildir
    "b" #'mu4e-search-bookmark
