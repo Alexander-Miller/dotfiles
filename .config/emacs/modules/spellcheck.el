@@ -62,6 +62,8 @@
 
 (std::after flyspell
   (std::keybind
+   :leader
+   "cr" #'flyspell-correct-wrapper
    :keymap flyspell-mouse-map
    "<M-return>" #'flyspell-correct-wrapper))
 
