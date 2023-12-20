@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (std::using-packages
- mu4e-column-faces
- mu4e-alert)
+ mu4e-column-faces)
 
 (std::autoload mail
   #'std::mail::mu4e-sidebar
@@ -41,16 +40,12 @@
   (defun std::mail::custom-column-handler (column message)
     (declare (side-effect-free t))
     (when (eq column :account)
-      (pcase (aref (mu4e-message-field message :maildir) 1)
+      (pcase (aref (nth 4 (s-split "/" (mu4e-message-field message :path))) 0)
         (?q '(:foreground "#999999"))
         (?g '(:foreground "#99cc99"))
         (?w '(:foreground "#cc9999")))))
 
   (setf mu4e-column-faces-custom-column-handler #'std::mail::custom-column-handler)
-
-  (mu4e-alert-enable-notifications)
-  (mu4e-alert-disable-mode-line-display)
-  (mu4e-alert-set-default-style 'libnotify)
 
   (std::pushnew mu4e-header-info-custom
     (cons
@@ -59,13 +54,7 @@
        :shortname "Acc"
        :help "Email Account"
        :function (lambda (msg)
-                   (cadr (s-split "/" (mu4e-message-field msg :maildir)))))))
-
-  (setf
-   mu4e-alert-email-notification-types '(subjects)
-   mu4e-alert-notify-repeated-mails    nil
-   mu4e-alert-set-window-urgency       nil
-   mu4e-alert-icon                     "email")
+                   (nth 4 (s-split "/" (mu4e-message-field msg :path)))))))
 
   (setf user-mail-address "alexanderm@web.de"
         user-full-name "Alexander Miller")
