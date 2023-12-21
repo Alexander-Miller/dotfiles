@@ -26,7 +26,7 @@ underline-size = 3
 fixed-center   = false
 bottom         = false
 modules-left   = i3
-modules-right  = cpu memory battery eth wlan date time volume
+modules-right  = mu cpu memory battery eth wlan date time volume
 modules-center = mpd
 font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
@@ -37,6 +37,15 @@ radius         = 0
 module-margin  = 0
 separator      = "    "
 wm-restack     = i3
+
+[module/mu]
+type                     = custom/script
+exec                     = echo $(mu find flag:unread -f i | wc -l)/$(mu find '' -f i | wc -l)
+interval                 = 300
+format-prefix            = " "
+format-prefix-foreground = ${colors.blue}
+background               = ${colors.background}
+foreground               = ${colors.foreground}
 
 [module/i3]
 type                       = internal/i3
