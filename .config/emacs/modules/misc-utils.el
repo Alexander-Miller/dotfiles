@@ -64,6 +64,9 @@
 (put 'fill-column            'safe-local-variable #'integerp)
 (put 'toc-org-max-depth      'safe-local-variable #'integerp)
 
+;; BUG: https://lists.endsoftwarepatents.org/archive/html/bug-gnu-emacs/2014-05/msg00597.html
+(fset 'epg-wait-for-status 'ignore)
+
 (setq-default
  safe-local-variable-values
  '((eval auto-fill-mode t)))
