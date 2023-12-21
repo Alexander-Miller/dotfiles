@@ -29,7 +29,7 @@
          (t
           (when (string-suffix-p "/" input)
             (delete-char -1))
-          (while (not (looking-back "/" (point-at-bol)))
+          (while (not (looking-back "/" (pos-bol)))
             (delete-char -1))))))))
 
 (defun std::selection::copy-candidate ()

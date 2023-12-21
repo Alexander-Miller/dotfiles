@@ -4,7 +4,7 @@
 
 (defvar std::completion::prose-complete-loaded nil)
 
-(defun std::completion::prose-complete (command &optional arg &rest ignored)
+(defun std::completion::prose-complete (command &optional arg &rest _ignored)
   (interactive (list 'interactive))
   (unless std::completion::prose-complete-loaded
     (setf std::completion::prose-complete-loaded t)

@@ -128,8 +128,8 @@
   (save-excursion
     (save-match-data
       (goto-char (next-single-char-property-change
-                  (point-at-bol)
-                  'htmlize-link nil (point-at-eol)))
+                  (pos-bol)
+                  'htmlize-link nil (pos-eol)))
       (when (eq 'org-link (get-text-property (point) 'face))
         (org-open-at-point)))))
 

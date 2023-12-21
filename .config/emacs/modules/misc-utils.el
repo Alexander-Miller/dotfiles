@@ -91,7 +91,7 @@
  "u"   #'universal-argument
  :keymap evil-normal-state-map
  "M-." #'xref-find-definitions
- "M-," #'xref-pop-marker-stack
+ "M-," #'xref-go-back
  :evil 'motion xref--xref-buffer-mode-map
  "RET" #'xref-goto-xref
  "<C-return>" #'std::misc::goto-xref-and-close-search)
