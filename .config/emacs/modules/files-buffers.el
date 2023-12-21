@@ -25,7 +25,7 @@
  "ff"  #'find-file
  "fl"  #'find-library
  "fL"  #'locate
- "fE"  #'sudo-edit
+ "fo"  #'sudo-edit
  "fs"  #'save-buffer
  "fr"  #'std::buffers::rename-buffer-file
  "fem" #'std::buffers::edit-module
