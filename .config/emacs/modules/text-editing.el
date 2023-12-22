@@ -8,6 +8,7 @@
  evil-surround
  evil-nerd-commenter
  evil-exchange
+ evil-owl
  (evil-numbers :type git :host github :repo "janpath/evil-numbers")
  (undo-tree :type git :host gitlab :repo "tsc25/undo-tree")
  smartparens
@@ -118,6 +119,13 @@
  evil-goggles-enable-undo                  t
  evil-goggles-enable-yank                  t)
 
+;; Owl
+(setf
+ evil-owl-display-method    'posframe
+ evil-owl-max-string-length 50
+ evil-owl-extra-posframe-args
+ '(:width 80 :height 20 :border-color "#1f1f1f" :border-width 2))
+
 ;; Expand Region
 (std::after expand-region
   (setf expand-region-contract-fast-key "c"
@@ -185,6 +193,7 @@
  :keymap evil-operator-state-map
  "üf" #'std::edit::evil-defun-object
  :keymap (evil-normal-state-map evil-visual-state-map evil-motion-state-map)
+ "§"     #'evil-owl-use-register
  "<C-i>" #'evil-jump-forward
  "J"     #'std::edit::evil-forward-five-lines
  "K"     #'std::edit::evil-backward-five-lines
