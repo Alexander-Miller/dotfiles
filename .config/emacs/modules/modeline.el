@@ -162,12 +162,22 @@
   (doom-modeline-def-segment std::modeline::buffer-process
     mode-line-process)
 
+  (doom-modeline-def-segment std::modeline::magit-major-mode
+    (propertize (format " %s%s"
+                 (format-mode-line mode-name)
+                 (if (eq major-mode 'magit-log-mode)
+                     (format " [%s]" (string-join magit-buffer-log-args " "))
+                   ""))
+                'mouse-face 'mode-line-highlight
+                'local-map std::modeline::major-mode-local-map
+                'face 'std::modeline::major-mode-face))
+
   (doom-modeline-def-modeline 'magit
     '(std::modeline::window-bar
       std::modeline::window-number
       std::modeline::desktop-number
       std::modeline::buffer-id
-      std::modeline::major-mode
+      std::modeline::magit-major-mode
       std::modeline::buffer-process)
     '(std::modeline::window-purpose
       std::modeline::margin))
