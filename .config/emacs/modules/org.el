@@ -39,7 +39,7 @@
 (defconst std::org::bookmarks-nt-file    (expand-file-name "NT/nt_lesezeichen.org" std::dirs::roam))
 (defconst std::org::appointments-nt-file (expand-file-name "NT/nt_termine.org"     std::dirs::roam))
 (defconst std::org::tasks-nt-file        (expand-file-name "NT/nt_vorhaben.org"    std::dirs::roam))
-(defconst std::org::work-project-file    (getenv "_NT_PROJECT"))
+(defconst std::org::work-project-file    (or (getenv "_NT_PROJECT") ""))
 
 (std::keybind
  :global
