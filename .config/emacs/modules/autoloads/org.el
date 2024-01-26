@@ -96,6 +96,15 @@ only the current cell."
         (org-open-at-point)
       (funcall-interactively #'org-insert-heading-respect-content))))
 
+(defun std::org::copy-link-at-point (&optional arg)
+  (interactive "P")
+  (let* ((link (org-element-lineage (org-element-context) '(link) t))
+         (type (org-element-property :type link))
+         (url (org-element-property :path link))
+         (url (concat type ":" url)))
+    (kill-new url)
+    (message (concat "Copied Link: " url))))
+
 (defun std::org::toggle-agenda-tag ()
   (interactive)
   (org-toggle-tag

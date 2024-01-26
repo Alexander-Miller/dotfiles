@@ -17,6 +17,7 @@
   #'std::org::refile
   #'std::org::journal-finish
   #'std::org::file-setup
+  #'std::org::copy-link-at-point
   #'std::org::toggle-agenda-tag)
 
 (std::delete "/usr/share/emacs/28.2/lisp/org" load-path)
@@ -308,6 +309,7 @@
    "C-t" #'org-set-tags-command
    "P"   #'org-priority
    "ri"  #'std::org::refile
+   "yl"  #'std::org::copy-link-at-point
    :keymap org-mode-map
    "M-q" #'std::edit::fill-dwim
    :evil (normal) org-mode-map
