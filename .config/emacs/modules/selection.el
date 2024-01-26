@@ -71,9 +71,9 @@
 (vertico-mode)
 (savehist-mode)
 
-(let ((vertico-repeat (expand-file-name "vertico/extensions/vertico-repeat.el" std::dirs::pkg-build)))
+(let ((vertico-repeat (expand-file-name "vertico/extensions/vertico-repeat.el" std::dirs::pkg-repos)))
   (autoload 'vertico-repeat-save vertico-repeat)
-  (autoload 'vertico-repeat-last vertico-repeat) )
+  (autoload 'vertico-repeat-last vertico-repeat))
 (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
 
 (setf
