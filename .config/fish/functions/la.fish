@@ -1,6 +1,6 @@
 function la
-    if which exa > /dev/null 2>&1
-        exa -la $argv
+    if which eza > /dev/null 2>&1
+        eza -la $argv
     else
         ls -lah $argv
     end

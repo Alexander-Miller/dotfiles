@@ -1,6 +1,6 @@
 function ll
-  if which exa &> /dev/null
-    exa -l $argv
+  if which eza &> /dev/null
+    eza -l $argv
   else
     ls -lh $argv
   end

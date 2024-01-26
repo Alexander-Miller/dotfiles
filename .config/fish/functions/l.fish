@@ -1,7 +1,7 @@
 function l
-    which exax &> /dev/null
+    which eza &> /dev/null
     if test $status -eq 0
-        exa  $argv
+        eza  $argv
     else
         ls -h $argv
     end
