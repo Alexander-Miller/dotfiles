@@ -18,8 +18,7 @@
  inhibit-compacting-font-caches t
  package-enable-at-startup      nil
  default-fnha                   file-name-handler-alist
- file-name-handler-alist        nil
- load-path                      (delete "/usr/share/emacs/28.1/lisp/org" load-path))
+ file-name-handler-alist        nil)
 
 (add-hook
  'emacs-startup-hook
