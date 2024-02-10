@@ -34,6 +34,10 @@
  inhibit-default-init              t
  initial-scratch-message           nil)
 
+;; Shutdown
+(std::add-hook 'kill-emacs-hook
+  (setf kill-ring (-map #'substring-no-properties kill-ring)))
+
 ;; UTF8
 (set-charset-priority 'unicode)
 (prefer-coding-system 'utf-8)
