@@ -78,7 +78,7 @@
          :file ,std::org::tasks-file
          :olp ("Gewohnheiten")
          :template ("* LOOP %?"
-                    ":SCHEDULED: %t"
+                    "SCHEDULED: %t"
                     ":PROPETIES:"
                     ":STYLE:    habit"
                     ":END:"))
