@@ -40,7 +40,14 @@
   (evil-set-initial-state 'dired-mode 'dired)
 
   (setf
-   dired-listing-switches "-alh -v --group-directories-first")
+   dired-listing-switches             "-alh -v --group-directories-first"
+   dired-compress-file-default-suffix ".zip"
+   dired-compress-file-alist
+   '(("\\.zip\\'" . "zip -r %o %i")
+     ("\\.gz\\'" . "gzip -9f %i")
+     ("\\.bz2\\'" . "bzip2 -9f %i")
+     ("\\.xz\\'" . "xz -9f %i")
+     ("\\.zst\\'" . "zstd -qf -19 --rm -o %o %i")))
 
   (std::add-advice #'revert-buffer :after #'dired-do-compress-to :ignore-args)
   (std::add-advice #'revert-buffer :after #'dired-do-compress    :ignore-args)
