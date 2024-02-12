@@ -96,7 +96,7 @@ only the current cell."
         (org-open-at-point)
       (funcall-interactively #'org-insert-heading-respect-content))))
 
-(defun std::org::copy-link-at-point (&optional arg)
+(defun std::org::copy-link-at-point (&optional _arg)
   (interactive "P")
   (let* ((link (org-element-lineage (org-element-context) '(link) t))
          (type (org-element-property :type link))
