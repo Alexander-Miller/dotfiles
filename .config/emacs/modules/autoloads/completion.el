@@ -64,24 +64,30 @@
       ('value       "symbol-enumerator.svg")
       ('variable    "symbol-variable.svg")))
 
+(defvar std::completion::margin-cache (ht))
+
 (defun std::completion::margin-function (candidate selected)
-  (declare (side-effect-free t))
   (when (window-system)
-    (let* ((root-dir (eval-when-compile (expand-file-name "vscode-dark" company-icons-root)))
-           (kind (company-call-backend 'kind candidate))
+    (let* ((root-dir  (eval-when-compile (expand-file-name "vscode-dark" company-icons-root)))
+           (kind      (company-call-backend 'kind candidate))
            (icon-file (ht-get std::completion::icon-mapping kind "symbol-misc.svg"))
-           (face (if selected 'company-tooltip-selection 'company-tooltip))
-           (bkg (face-attribute face :background))
-           (spec (list 'image
-                       :file (expand-file-name icon-file root-dir)
-                       :type 'svg
-                       :width  company-icon-size
-                       :height company-icon-size
-                       :ascent 'center
-                       :background bkg)))
-      (concat
-       (propertize " " 'display spec)
-       (propertize " ")))))
+           (face      (if selected 'company-tooltip-selection 'company-tooltip))
+           (cache-key (list icon-file selected))
+           (cache-val (ht-get std::completion::margin-cache cache-key)))
+      (unless cache-val
+        (let ((spec (list 'image
+                          :file (expand-file-name icon-file root-dir)
+                          :type 'svg
+                          :width  company-icon-size
+                          :height company-icon-size
+                          :ascent 'center
+                          :background (face-attribute face :background))))
+          (setf cache-val
+                (concat
+                 (propertize " " 'display spec)
+                 (propertize " ")))
+          (ht-set! std::completion::margin-cache cache-key cache-val)))
+      cache-val)))
 
 (defun std::completion::quickhelp-show ()
   "Interactive version of `company-posframe-quickhelp-show'."
