@@ -79,7 +79,7 @@
          :olp ("Gewohnheiten")
          :template ("* LOOP %?"
                     "SCHEDULED: %t"
-                    ":PROPETIES:"
+                    ":PROPERTIES:"
                     ":STYLE:    habit"
                     ":END:"))
         (,(concat (treemacs-get-icon-value 'bookmark) (std::face "Lesezeichen" 'font-lock-builtin-face))
