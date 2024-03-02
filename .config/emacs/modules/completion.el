@@ -42,7 +42,7 @@
    company-dabbrev-code-ignore-case    nil
    company-dabbrev-downcase            nil
    company-dabbrev-ignore-case         nil
-   company-idle-delay                  1
+   company-idle-delay                  nil
    company-posframe-quickhelp-delay    5
    company-minimum-prefix-length       3
    company-require-match               nil

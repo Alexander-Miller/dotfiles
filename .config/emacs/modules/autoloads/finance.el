@@ -52,8 +52,7 @@
    ledger-accounts-file     (format "%s/Ledger.ledger" std::dirs::ledger)
    outline-regexp           (rx bol "### ")
    imenu-generic-expression `(("Monat" ,std::ledger::month-separator-pattern 2))
-   company-backends         '((company-capf :with company-yasnippet :separate) company-dabbrev)
-   company-idle-delay       4))
+   company-backends         '((company-capf :with company-yasnippet :separate) company-dabbrev)))
 
 (defun std::ledger::save ()
   "First `ledger-mode-clean-buffer', then `save-buffer'."
