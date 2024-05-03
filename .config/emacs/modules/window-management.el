@@ -45,6 +45,7 @@
    (racer-help-mode          :select t   :align right :size 0.5)
    (help-mode                :select t   :align right :size 0.5)
    (helpful-mode             :select t   :align right :size 0.5)
+   ("CAPTURE-journal.org"    :select t   :align below :size 0.25)
    (" *Embark Actions*"      :select nil :align below :size 0.5)
    (" *Deletions*"           :select t   :align below :size 0.25)
    (" *Marked Files*"        :select t   :align below :size 0.25)
