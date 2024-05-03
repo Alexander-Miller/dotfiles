@@ -20,7 +20,8 @@
   #'std::vcs::maybe-setup-commit-buffer
   #'std::vcs::ediff-hydra/body
   #'std::vcs::magit-hydra/body
-  #'std::vcs::copy-current-branch)
+  #'std::vcs::copy-current-branch
+  #'std::vcs::copy-current-tag)
 
 (std::keybind
  :leader
@@ -86,6 +87,7 @@
    "M-j" #'magit-section-forward-sibling
    "M-k" #'magit-section-backward-sibling
    ",b"  #'std::vcs::copy-current-branch
+   ",t"  #'std::vcs::copy-current-tag
    ",u"  #'magit-section-up
    ",1"  #'magit-section-show-level-1-all
    ",2"  #'magit-section-show-level-2-all

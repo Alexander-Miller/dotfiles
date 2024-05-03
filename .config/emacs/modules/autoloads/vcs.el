@@ -99,6 +99,13 @@
              (message "%s" branch))
     (message "There is no current branch")))
 
+(defun std::vcs::copy-current-tag ()
+  (interactive)
+  (-if-let (tag (magit-get-current-tag))
+      (progn (kill-new tag)
+             (message "%s" tag))
+    (message "There is no current tag")))
+
 (defhydra std::vcs::magit-hydra (:exit t :hint t)
   ("gm" #'magit-dispatch             "Dispatch")
   ("gc" #'magit-clone                "Clone")
