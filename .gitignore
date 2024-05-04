@@ -28,3 +28,4 @@ build
 /.config/fish/completions/sdk.fish
 /.config/fish/functions/__sdkman-noexport-init.sh
 /.config/fish/functions/sdk.fish
+/.config/emacs/transient/history.el
