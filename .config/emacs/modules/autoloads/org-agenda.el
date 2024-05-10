@@ -130,8 +130,10 @@
       (goto-char (next-single-char-property-change
                   (pos-bol)
                   'htmlize-link nil (pos-eol)))
-      (when (eq 'org-link (get-text-property (point) 'face))
-        (org-open-at-point)))))
+      (-let [face (get-text-property (point) 'face)]
+        (when (or (eq 'org-link face)
+                  (and (listp face) (member 'org-link face)))
+          (org-open-at-point))))))
 
 (cl-defun std::org::agenda::roam-files-with-tags (&key in not-in)
   (require 'org-roam)
