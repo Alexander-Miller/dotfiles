@@ -96,7 +96,7 @@
             ("picom" . "~/.config/picom.conf")
             ("redshift" . "~/.config/redshift.conf")
             ("ideavim" . "~/.ideavimrc")
-            ("tmux" . "~/.tmux.conf")))
+            ("tmux" . "~/.config/tmux/tmux.conf")))
          (selection (std::read "Open: "
                       (--map (propertize (car it) :path (cdr it)) alist))))
     (-some-> selection (assoc alist) (cdr) (find-file-noselect) (pop-to-buffer))))
