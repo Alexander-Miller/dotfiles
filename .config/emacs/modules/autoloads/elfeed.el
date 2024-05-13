@@ -23,6 +23,11 @@
     (insert (std::face tag-column 'elfeed-search-tag-face) " ")
     (insert (propertize title 'face title-faces 'kbd-help title))))
 
+(std::defun-with-desktop
+ :name std::elfeed
+ :command #'elfeed
+ :check (eq major-mode 'elfeed-search-mode))
+
 (defun std::elfeed::visit-entry-dwim (&optional arg)
   "Open an entry in the browser.
 If the entry is a youtube video use mpv instead, unless ARG is non-nil."

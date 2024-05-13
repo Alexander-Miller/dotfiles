@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
+(std::defun-with-desktop
+ :name std::mu4e
+ :command #'mu4e
+ :check (memq major-mode '(mu4e-main-mode mu4e-view-mode mu4e-headers-mode mu4e-compose-mode)))
+
 (defun std::mail::mu4e-sidebar ()
   (interactive)
   (mu4e--init-handlers)

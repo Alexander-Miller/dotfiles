@@ -227,7 +227,7 @@
 
 (defvar std::desktop-slot 11)
 
-(cl-defmacro std::with-desktop (&key cmd check quit)
+(cl-defmacro std::defun-with-desktop (&key name command check)
   "Create a wrapper to launch a command in its own eyebrowse desktop.
 
 CMD is the function to wrap.
@@ -236,22 +236,11 @@ top is sufficient.
 QUIT is the exit command that will be adviced to also return to the previously
 active desktop."
   (-let [slot std::desktop-slot]
-    `(unless (get ,cmd 'std::has-desktop)
-       (put ,cmd 'std::has-desktop t)
+    `(unless (get ,command 'std::has-desktop)
+       (put ,command 'std::has-desktop t)
        (cl-incf std::desktop-slot)
-       (advice-add
-        ,quit :after
-        (lambda () (eyebrowse-switch-to-window-config 1)))
-       (advice-add
-        ,cmd :around
-        (lambda (fn &rest args)
-          (eyebrowse-switch-to-window-config ,slot)
-          (delete-other-windows)
-          ;; a timer is needed because it looks like we are still in the old
-          ;; buffer when the switch has happened
-          (run-with-timer
-           0 nil
-           (lambda (check fn args)
-             (unless (funcall check)
-               (apply fn args)))
-           (lambda () ,check) fn args))))))
+       (defun ,name (&optional force-select)
+         (interactive "P")
+         (eyebrowse-switch-to-window-config ,slot)
+         (when (or force-select (not ,check))
+           (call-interactively ,command))))))

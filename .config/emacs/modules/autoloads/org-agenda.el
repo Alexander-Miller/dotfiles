@@ -1,14 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
-(defun std::org::agenda ()
-  (interactive)
-  (--if-let (get-buffer "*Org Agenda*")
-      (call-interactively #'org-agenda)
-    (std::org::agenda::hydra/body)))
+(std::defun-with-desktop
+ :name std::org::agenda
+ :command #'std::org::agenda::hydra/body
+ :check (eq major-mode 'org-agenda-mode))
 
 (defun std::org::agenda::forced-select ()
   (interactive)
-  (std::org::agenda::hydra/body))
+  (std::org::agenda :force))
 
 (defun std::org::agenda-for-key (key)
   (--when-let (get-buffer "*Org Agenda*") (kill-buffer it))

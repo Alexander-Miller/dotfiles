@@ -16,11 +16,6 @@
   #'std::dired::preview
   #'std::dired::mark-up)
 
-(std::with-desktop
- :check (eq major-mode 'dired-mode)
- :cmd #'std::dired
- :quit #'std::dired::quit)
-
 (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
 ;; Must happen *before* dired is loaded

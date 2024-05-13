@@ -4,6 +4,7 @@
  mu4e-column-faces)
 
 (std::autoload mail
+  #'std::mu4e
   #'std::mail::mu4e-sidebar
   #'std::mail::compose-mode-hook
   #'std::mail::view-mode-hook
@@ -16,14 +17,9 @@
 
 (autoload #'mu4e "mu4e")
 
-(std::with-desktop
- :check (memq major-mode '(mu4e-main-mode mu4e-view-mode mu4e-headers-mode mu4e-compose-mode))
- :cmd #'mu4e
- :quit #'mu4e-quit)
-
 (std::keybind
  :leader
- "am" #'mu4e
+ "am" #'std::mu4e
  "aM" #'std::mail::mu4e-sidebar)
 
 (std::after mu4e

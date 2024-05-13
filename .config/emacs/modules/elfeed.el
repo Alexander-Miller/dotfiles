@@ -5,16 +5,12 @@
  elfeed-org)
 
 (std::autoload elfeed
+  #'std::elfeed
   #'std::elfeed::draw-entry
   #'std::elfeed::ignore-entry
   #'std::elfeed::visit-entry-dwim)
 
-(std::with-desktop
- :check (eq major-mode 'elfeed-search-mode)
- :cmd #'elfeed
- :quit #'elfeed-search-quit-window)
-
-(std::keybind :leader "af" #'elfeed)
+(std::keybind :leader "af" #'std::elfeed)
 
 (std::after elfeed
 

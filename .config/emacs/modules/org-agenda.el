@@ -22,11 +22,6 @@
   #'std::org::agenda::extend-urgent
   #'std::org::agenda::format-date)
 
-(std::with-desktop
- :check (eq major-mode 'org-agenda-mode)
- :cmd #'org-agenda
- :quit #'org-agenda-quit)
-
 (std::after org-agenda
 
   (std::silent (org-super-agenda-mode))

@@ -2,6 +2,11 @@
 
 (autoload 'peep-dired-display-file-other-window "peep-dired")
 
+(std::defun-with-desktop
+ :name std::dired
+ :command #'std::dired::open
+ :check (eq major-mode 'dired-mode))
+
 (defvar std::dired::last-location nil)
 
 (defun std::dired::mode-hook ()
@@ -9,13 +14,12 @@
   (hl-line-mode)
   (use-local-map (make-sparse-keymap)))
 
-(defun std::dired (&optional arg)
+(defun std::dired::open (&optional arg)
   (interactive "P")
   (-let [use-file-dialog nil]
     (dired (if arg
                (read-directory-name "Dir: ")
-             std::dired::last-location))
-    (delete-other-windows)))
+             std::dired::last-location))))
 
 (defun std::dired::quit ()
   "Quit and kill all dired-mode buffers."
