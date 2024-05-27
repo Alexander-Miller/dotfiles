@@ -67,7 +67,7 @@ With a prefix ARG select the text that should be replaced in the defun at point.
   (let (line-move-visual)
     (evil-line-move -5)))
 
-(evil-define-text-object std::edit::evil-defun-object (count &optional _beg _end _type)
+(evil-define-text-object std::edit::evil-defun-object (count &optional beg end type)
   "Evil defun text object."
   (let ((start (point))
         (beg)
