@@ -37,7 +37,9 @@
      (vids     font-lock-constant-face)
      (work     font-lock-variable-name-face)
      (blog     font-lock-doc-face)
-     (webcomic font-lock-builtin-face))))
+     (webcomic font-lock-builtin-face)))
+
+  (elfeed-db-ensure))
 
 (std::after elfeed
   (std::keybind
