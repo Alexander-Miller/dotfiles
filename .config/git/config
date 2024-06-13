@@ -7,7 +7,7 @@
 	l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ro = rebase origin/master --autostash
 	s = status
-	fa = fetch --all --prune
+	fa = fetch --all --prune --tags
 [color]
 	ui = yes
 [color "status"]
