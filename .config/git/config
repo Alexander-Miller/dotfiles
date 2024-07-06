@@ -4,9 +4,10 @@
 [github]
 	user = Alexander-Miller
 [alias]
-	l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	l  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ro = rebase origin/master --autostash
-	s = status
+	s  = status
+	ss = status --short
 	fa = fetch --all --prune --tags
 [color]
 	ui = yes
