@@ -143,6 +143,7 @@
 ;; Keys
 (std::keybind
  :global
+ "M-v"   #'std::selection::select-miniframe
  "M-o"   #'evil-avy-goto-char-timer
  "M-i"   #'evil-avy-goto-word-1
  "C-s"   #'ctrlf-forward-literal

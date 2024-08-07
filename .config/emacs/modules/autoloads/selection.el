@@ -46,3 +46,8 @@
               (read-directory-name "Dir: ")
             default-directory)))
     (consult-ripgrep)))
+
+(defun std::selection::select-miniframe ()
+  (interactive)
+  (when (frame-visible-p mini-frame-frame)
+    (select-frame mini-frame-frame)))
