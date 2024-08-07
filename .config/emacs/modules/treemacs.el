@@ -16,6 +16,7 @@
       (concat treemacs-dir "/src/extra"))
 
     (autoload #'treemacs                              "treemacs.el")
+    (autoload #'treemacs-start-on-boot                "treemacs.el")
     (autoload #'treemacs-select-window                "treemacs.el")
     (autoload #'treemacs-find-file                    "treemacs.el")
     (autoload #'treemacs-leftclick-action             "treemacs-mouse-interface.el")
