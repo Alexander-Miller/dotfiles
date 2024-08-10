@@ -23,14 +23,14 @@ function rofi_utils
     case $copy_clipboard
       history | rofi -dmenu -i | xargs echo -n | xclip -sel clip
 
-    case "$ytmpv"
+    case $ytmpv
       set -l url (xclip -selection c -o)
       set -l resolution (echo -e "480\n720\n1080\nbest" | rofi -dmenu -i -columns 2 -line-margin 5 -padding 10 -p 'Resolution: ')
       switch $resolution
         case "best"
-          mpv --ytdl-format="best" "$url"
+          mpv "$url"
         case '*'
-          mpv --ytdl-format="[height<=?"$resolution"]" "$url"
+          mpv --ytdl-format="bestvideo[height<=$resolution]+bestaudio/best" "$url"
       end
 
     case ''
