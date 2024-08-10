@@ -159,22 +159,7 @@
 
   (setf
    ediff-split-window-function #'split-window-horizontally
-   ediff-window-setup-function #'ediff-setup-windows-plain)
-
-  (dolist (msg '(ediff-long-help-message-compare2
-                 ediff-long-help-message-compare3
-                 ediff-long-help-message-narrow2
-                 ediff-long-help-message-word-mode
-                 ediff-long-help-message-merge
-                 ediff-long-help-message-head
-                 ediff-long-help-message-tail))
-    (dolist (chng '(("p,DEL -previous diff " . "    k -previous diff ")
-                    ("n,SPC -next diff     " . "    j -next diff     ")
-                    ("    j -jump to diff  " . "    d -jump to diff  ")
-                    ("    h -highlighting  " . "    H -highlighting  ")
-                    ("  v/V -scroll up/dn  " . "M-J/K -scroll up/dn  ")))
-      (setf (symbol-value msg)
-            (replace-regexp-in-string (car chng) (cdr chng) (symbol-value msg))))))
+   ediff-window-setup-function #'ediff-setup-windows-plain))
 
 ;; Transient
 

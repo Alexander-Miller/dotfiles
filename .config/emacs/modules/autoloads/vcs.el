@@ -42,15 +42,18 @@
 (defun std::vcs::ediff-mode-hook ()
   "Ediff mode key setup."
   (ediff-setup-keymap)
+  (setf ediff-highlight-all-diffs nil)
   (std::keybind
    :keymap ediff-mode-map
    "j" #'ediff-next-difference
    "k" #'ediff-previous-difference
    "d" #'ediff-jump-to-difference
    "H" #'ediff-toggle-hilit
-   "a" #'ediff-copy-A-to-B
-   "b" #'ediff-copy-B-to-A
-   "C" #'std::vcs::ediff-copy-both-to-C
+   "cab" #'ediff-copy-A-to-B
+   "cba" #'ediff-copy-B-to-A
+   "cac" #'ediff-copy-A-to-C
+   "cbc" #'ediff-copy-B-to-C
+   "cBc" #'std::vcs::ediff-copy-both-to-C
    "M-J" #'std::vcs::ediff-scroll-down
    "M-K" #'std::vcs::ediff-scroll-up))
 
