@@ -242,5 +242,10 @@ active desktop."
        (defun ,name (&optional force-select)
          (interactive "P")
          (eyebrowse-switch-to-window-config ,slot)
-         (when (or force-select (not ,check))
-           (call-interactively ,command))))))
+         ;; timer to ensure the current-buffer changes
+         (run-with-timer
+          0 nil
+          (lambda ()
+            (when (or force-select (not ,check))
+              (delete-other-windows)
+              (call-interactively ,command))))))))
