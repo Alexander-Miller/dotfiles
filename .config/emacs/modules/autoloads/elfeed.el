@@ -40,11 +40,11 @@ If the entry is a youtube video use mpv instead, unless ARG is non-nil."
       (if (s-matches? (rx "https://www.youtube.com/watch" (1+ any))
                       (elfeed-entry-link entry))
           (let* ((quality (completing-read
-                           "Max height resolution (0 for unlimited): "
-                           '("0" "480" "720" "1080")))
-                 (format (if (= 0 (string-to-number quality))
+                           "Max height resolution: "
+                           '("best" "240" "480" "720" "1080")))
+                 (format (if (string= "best" quality)
                              ""
-                           (format "--ytdl-format=[height<=?%s]" quality))))
+                           (format "--ytdl-format=bestvideo[height<=%s]+bestaudio/best" quality))))
             (message "Opening %s with height ≤ %s with mpv..."
                      (std::face (elfeed-entry-link entry) 'font-lock-string-face)
                      (std::face quality 'font-lock-keyword-face))
