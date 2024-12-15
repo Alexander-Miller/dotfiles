@@ -1,5 +1,5 @@
 [colors]
-background = #2d2d31
+background = #111111
 foreground = #bbbbbb
 blue       = #6699cc
 red        = #ab3737
@@ -31,7 +31,7 @@ modules-center = mpd
 font-0         = Terminus (TTF):size=9;0
 font-1         = Font Awesome:fontformat=truetype:size=9:antialias=true;0
 font-2         = Symbola:fontformat=truetype:size=9:antialias=true;0
-border-size    = 1
+border-size    = 0
 border-color   = #000000
 radius         = 0
 module-margin  = 0
