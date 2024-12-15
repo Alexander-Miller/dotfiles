@@ -44,7 +44,7 @@ set -x fish_pager_color_progress    202020 --background=green
 
 abbr -a e     'exit'
 abbr -a yt    'yt-dlp'
-abbr -a ytmp3 'yt-dlp --extract-audio --audio-format mp3'
+abbr -a ytmp3 'yt-dlp --no-playlist --extract-audio --audio-format mp3'
 abbr -a sp    'systemctl suspend'
 abbr -a t2    'tmux -2'
 abbr -a setbg 'feh --bg-scale'
