@@ -22,7 +22,7 @@
  yaml-mode
  gnuplot
  csv-mode
- kotlin-mode
+ kotlin-ts-mode
  typescript-mode
  groovy-mode
  jenkinsfile-mode
@@ -183,6 +183,10 @@
 
 ;; Distinguish C-i & TAB
 (define-key input-decode-map "\C-i" [C-i])
+
+;; TS
+(std::after treesit
+  (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin"))))
 
 (std::keybind
  :global
