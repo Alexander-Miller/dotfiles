@@ -19,7 +19,7 @@
 (add-hook 'dired-mode-hook #'std::dired::mode-hook)
 
 ;; Must happen *before* dired is loaded
-(setf diredp-omit-files-regexp ".^")
+(setf diredp-omit-files-font-lock-regexp ".^")
 
 (std::after dired
 
