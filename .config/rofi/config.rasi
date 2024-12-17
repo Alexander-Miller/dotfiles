@@ -67,13 +67,13 @@ configuration {
 }
 
 * {
-    background:     #2D2D2DFF;
+    background:     #111111FF;
     background-alt: #1D1D1DFF;
     foreground:     #CCCCCCFF;
     selected:       #5588BBFF;
     active:         #66AA66FF;
     urgent:         #BB6666FF;
-    border:         #000000FF;
+    border:         #669966FF;
 }
 
 * {
@@ -119,7 +119,7 @@ window {
     margin:                      0px;
     padding:                     0px;
     border:                      2px solid;
-    border-radius:               10px;
+    border-radius:               3px;
     border-color:                @border-colour;
     cursor:                      "default";
     /* Backgroud Colors */
@@ -211,7 +211,7 @@ case-indicator {
 /*****----- Listview -----*****/
 listview {
     enabled:                     true;
-    columns:                     1;
+    columns:                     2;
     lines:                       8;
     cycle:                       true;
     dynamic:                     true;
@@ -219,7 +219,7 @@ listview {
     layout:                      vertical;
     reverse:                     false;
     fixed-height:                true;
-    fixed-columns:               true;
+    fixed-columns:               false;
 
     spacing:                     5px;
     margin:                      0px;
