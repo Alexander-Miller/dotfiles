@@ -14,6 +14,7 @@
   #'std::dired::open-externally
   #'std::dired::filesize
   #'std::dired::preview
+  #'std::dired::file-crud-hydra/body
   #'std::dired::mark-up)
 
 (add-hook 'dired-mode-hook #'std::dired::mode-hook)
@@ -80,14 +81,9 @@
    "q"   #'std::dired::quit
    "Q"   #'std::dired::quit-forget
    ;; File CRUD
-   "d"  #'dired-flag-file-deletion
-   "D"  #'dired-do-delete
-   "m"  #'dired-do-rename
-   "Y"  #'dired-do-copy
-   "r"  #'dired-do-rename
-   "s"  #'dired-do-symlink
-   "x"  #'dired-do-flagged-delete
-   "cd" #'dired-create-directory
+   "d" #'dired-flag-file-deletion
+   "x" #'dired-do-flagged-delete
+   "f" #'std::dired::file-crud-hydra/body
    ;;Marking
    "M-j" #'dired-mark
    "M-k" #'std::dired::mark-up
