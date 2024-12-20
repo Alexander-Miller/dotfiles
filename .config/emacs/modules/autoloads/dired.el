@@ -27,7 +27,8 @@
   (setf std::dired::last-location default-directory)
   (--each (buffer-list)
     (when (eq 'dired-mode (buffer-local-value 'major-mode it))
-      (kill-buffer it))))
+      (kill-buffer it)))
+  (eyebrowse-switch-to-window-config 1))
 
 (defun std::dired::quit-forget ()
   "Quit and kill all dired-mode buffers and forget dired location."
