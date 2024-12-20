@@ -46,6 +46,7 @@
 
 ;; Other
 (setf
+ calendar-mark-holidays-flag  t
  cl-print-readably            t
  warning-suppress-types       '(comp)
  xref-prompt-for-identifier   nil
