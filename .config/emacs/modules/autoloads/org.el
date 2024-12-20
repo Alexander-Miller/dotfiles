@@ -26,39 +26,39 @@
 (defun std::org::refile ()
   (interactive)
   (let* ((point (point-marker))
-         (pointbuf (marker-buffer point))
+         (from-buffer (marker-buffer point))
          (file (std::read "File: "
                  `(("Vorhaben"       . ,std::org::tasks-file)
                    ("NT Vorhaben"    . ,std::org::tasks-nt-file)
                    ("Lesezeichen"    . ,std::org::bookmarks-file)
                    ("NT Lesezeichen" . ,std::org::bookmarks-nt-file)
                    ("NT Projekt"     . ,std::org::work-project-file))))
-         (headings
-          (consult--with-increased-gc
-           (with-current-buffer (find-file-noselect file :nowarn)
-             (consult-org--headings nil nil 'file 'archive))))
-         (rfmarker (consult--read
-                    headings
-                    :prompt "Refile to: "
-                    :category 'consult-org-heading
-                    :sort nil
-                    :require-match t
-                    :history '(:input consult-org--history)
-                    :narrow (consult-org--narrow)
-                    :lookup
-                    (lambda (cand candidates &rest _)
-                      (when-let (found (member cand candidates))
-                        (get-text-property 0 'consult--candidate (car found))))))
-         (rfbuffer (marker-buffer rfmarker))
-         (rfheading (with-current-buffer rfbuffer
-                      (org-with-point-at rfmarker
+         (into-buffer (find-file-noselect file))
+         (into-marker
+          (with-current-buffer into-buffer
+            (consult--read
+             (consult--slow-operation "Collecting headings..."
+               (or (consult-org--headings nil nil nil)
+                   (user-error "No headings")))
+             :prompt "Heading: "
+             :category 'org-heading
+             :sort nil
+             :require-match t
+             :history '(:input consult-org--history)
+             :narrow (consult-org--narrow)
+             :annotate #'consult-org--annotate
+             :lookup (apply-partially #'consult--lookup-prop 'org-marker))))
+         (into-heading (with-current-buffer into-buffer
+                      (org-with-point-at into-marker
                         (org-get-heading :no-tags :no-todo :no-priority :no-comment))))
-         (rffilename (buffer-file-name rfbuffer))
-         (rfloc (list rfheading rffilename nil rfmarker)))
-    (with-current-buffer pointbuf
+         (into-filename (buffer-file-name into-buffer))
+         (into-loc (list into-heading into-filename nil into-marker)))
+    (with-current-buffer from-buffer
       (org-with-point-at point
-        (org-refile nil nil rfloc))
-      (org-refile '(16) nil nil))))
+        (org-refile nil nil into-loc))
+      (org-refile '(16) nil nil))
+    (save-buffer from-buffer)
+    (save-buffer into-buffer)))
 
 (defun std::org::goto-org-file ()
   (interactive)
