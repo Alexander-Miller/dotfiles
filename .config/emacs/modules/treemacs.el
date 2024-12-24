@@ -51,7 +51,10 @@
        :keymap winum-keymap
        "M-0" #'treemacs-select-window))
 
-    (std::keybind :leader "ft" #'treemacs-find-file)
+    (std::keybind
+     :leader
+     "ft" #'treemacs-find-file
+     "fb" #'treemacs-buftree-find-buffer)
 
     (setf treemacs-follow-after-init          t
           treemacs-width                      35
@@ -72,7 +75,9 @@
       (treemacs-fringe-indicator-mode t)
       (treemacs-git-commit-diff-mode t)
       (setf checkdoc-arguments-in-order-flag t)
-      (require 'treemacs-evil))
+      (require 'treemacs-evil)
+      (require 'treemacs-buftree)
+      (treemacs-buftree-mode t))
 
     (defun std::treemacs::flycheck-activate ()
       (when (s-matches? (rx "treemacs" (0+ (or "-" (1+ alnum))) ".el")
