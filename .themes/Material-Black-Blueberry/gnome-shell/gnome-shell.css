@@ -1675,7 +1675,7 @@ StScrollBar StButton#hhandle:active {
 }
 #panel .panel-button:hover {
   box-shadow: none;
-  color: #bbbbbb;
+  color: #80868b;
   text-shadow: none;
 }
 #panel .panel-button:hover.clock-display {
