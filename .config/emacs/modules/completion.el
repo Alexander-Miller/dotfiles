@@ -42,6 +42,7 @@
    company-dabbrev-code-ignore-case    nil
    company-dabbrev-downcase            nil
    company-dabbrev-ignore-case         nil
+   company-files-chop-trailing-slash   nil
    company-idle-delay                  nil
    company-posframe-quickhelp-delay    5
    company-minimum-prefix-length       3
