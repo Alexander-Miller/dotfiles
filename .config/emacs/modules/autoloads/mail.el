@@ -6,7 +6,10 @@
  :check (memq major-mode '(mu4e-main-mode mu4e-view-mode mu4e-headers-mode mu4e-compose-mode)))
 
 (defun std::mail::compose-mode-hook ()
-  (use-hard-newlines -1))
+  (use-hard-newlines -1)
+  (setq-local
+   company-backends
+   '((company-capf std::completion::prose-complete  company-files company-dabbrev :with company-yasnippet))))
 
 (defun std::mail::view-mode-hook ()
   (visual-line-mode)

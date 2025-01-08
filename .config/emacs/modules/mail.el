@@ -81,6 +81,12 @@
         user-full-name "Alexander Miller")
 
   (setf
+   smtpmail-smtp-server                     "smtp.web.de"
+   smtpmail-smtp-service                    465
+   smtpmail-stream-type                     'tls
+   smtpmail-servers-requiring-authorization ".*"
+   message-send-mail-function               #'smtpmail-send-it
+
    mu4e-attachment-dir                      "~/Downloads"
    mu4e-confirm-quit                        nil
    mu4e-search-include-related              t
@@ -149,7 +155,11 @@
   (mu4e-bookmark-define
    "date:7d..now"
    "Last 7 days"
-   ?o))
+   ?o)
+
+  ;; Use `pass' cli as auth source
+  (auth-source-pass-enable)
+  (setf auth-sources '(password-store)))
 
 (std::after mu4e
   (std::keybind
