@@ -119,9 +119,9 @@
   (org-element-cache-refresh (point))
   (completing-read
    ">_ "
-   (let* ((context (-> (org-element-context) (cadr)))
-          (start (plist-get context :begin))
-          (end (plist-get context :end))
+   (let* ((context (org-element-context))
+          (start (org-element-begin context))
+          (end (org-element-end context))
           (data (save-restriction
                   (org-element-cache-refresh (point))
                   (narrow-to-region start end)
