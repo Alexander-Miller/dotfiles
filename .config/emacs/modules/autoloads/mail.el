@@ -5,14 +5,6 @@
  :command #'mu4e
  :check (memq major-mode '(mu4e-main-mode mu4e-view-mode mu4e-headers-mode mu4e-compose-mode)))
 
-(defun std::mail::mu4e-sidebar ()
-  (interactive)
-  (mu4e--init-handlers)
-  (mu4e--start
-   (lambda ()
-     (mu4e--main-view)
-     (treemacs-mu4e))))
-
 (defun std::mail::compose-mode-hook ()
   (use-hard-newlines -1))
 

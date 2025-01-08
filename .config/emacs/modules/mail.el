@@ -17,10 +17,7 @@
 
 (autoload #'mu4e "mu4e")
 
-(std::keybind
- :leader
- "am" #'std::mu4e
- "aM" #'std::mail::mu4e-sidebar)
+(std::keybind :leader "am" #'std::mu4e)
 
 (std::after mu4e
 
@@ -155,9 +152,4 @@
    "b" #'mu4e-search-bookmark
    :evil motion mu4e-view-mode-map
    "C-j" #'mu4e-view-headers-next
-   "C-k" #'mu4e-view-headers-prev
-   :evil motion
-   (mu4e-main-mode-map
-    mu4e-headers-mode-map
-    mu4e-view-mode-map)
-   "M-0" #'treemacs-mu4e))
+   "C-k" #'mu4e-view-headers-prev))
