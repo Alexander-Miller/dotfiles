@@ -184,7 +184,7 @@
                 (days (plist-get diff :days))
                 (hours (plist-get diff :hours))
                 (len (length str))
-                (offset (max 0 (- 40 len))))
+                (offset (max 0 (- 42 len))))
            (format
             "%s %s%s"
             str
