@@ -33,11 +33,28 @@
 
   (defun std::mail::custom-column-handler (column message)
     (declare (side-effect-free t))
-    (when (eq column :account)
-      (pcase (aref (nth 4 (s-split "/" (mu4e-message-field message :path))) 0)
-        (?q '(:foreground "#999999"))
-        (?g '(:foreground "#99cc99"))
-        (?w '(:foreground "#cc9999")))))
+    (pcase column
+      (:account
+       (pcase (aref (nth 4 (s-split "/" (mu4e-message-field message :path))) 0)
+         (?q '(:foreground "#999999"))
+         (?g '(:foreground "#99cc99"))
+         (?w '(:foreground "#cc9999"))))
+      (:mailbox
+       (-let ((dir (mu4e-message-field message :maildir)))
+         (cond
+          ((string-suffix-p "Inbox" dir)
+           '(:foreground "#55CC55" :weight bold))
+          ((string-suffix-p "Unbekannt" dir)
+           '(:foreground "#6688BB" :weight bold))
+          ((or (string-suffix-p "Spam" dir)
+               (string-suffix-p "Unerwünscht" dir))
+           '(:foreground "#F2777A" :weight bold))
+          ((string-suffix-p "drafts" dir)
+           '(:foreground "#F0C674" :weight bold))
+          ((string-suffix-p "sent" dir)
+           '(:foreground "#999999" :weight bold))
+          (t
+           '(:foreground "#000000" :weight bold)))))))
 
   (setf mu4e-column-faces-custom-column-handler #'std::mail::custom-column-handler)
 
@@ -49,6 +66,16 @@
        :help "Email Account"
        :function (lambda (msg)
                    (nth 4 (s-split "/" (mu4e-message-field msg :path)))))))
+
+  (std::pushnew mu4e-header-info-custom
+    (cons
+     :mailbox
+     '(:name "Mailbox"
+             :shortname "Mailbox"
+             :help "Mailbox"
+             :function (lambda (msg)
+                         (-last-item
+                          (s-split "/" (mu4e-message-field msg :maildir)))))))
 
   (setf user-mail-address "alexanderm@web.de"
         user-full-name "Alexander Miller")
@@ -89,12 +116,12 @@
    mu4e-headers-full-label                  '("F " . "F ")
    mu4e-headers-related-label               '("R " . "R ")
    mu4e-headers-fields
-   `((:date         . 10)
+   `((:human-date   . 10)
      (:flags        . 6)
-     (:mailing-list . 10)
+     (:mailbox      . 11)
      (:account      . 6)
      (:from         . 20)
-     (:subject      . ,(- (frame-width) 10 6 10 6 20 14))
+     (:subject      . ,(- (frame-width) 10 6 11 6 20 14))
      (:tags         . 4)))
 
   (setf mu4e-bookmarks nil)
