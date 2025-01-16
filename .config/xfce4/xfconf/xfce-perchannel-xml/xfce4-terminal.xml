@@ -1,0 +1,61 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="xfce4-terminal" version="1.0">
+  <property name="background-mode" type="string" value="TERMINAL_BACKGROUND_SOLID"/>
+  <property name="background-darkness" type="double" value="1"/>
+  <property name="color-foreground" type="string" value="#ccb18b"/>
+  <property name="color-background" type="string" value="#111111111111"/>
+  <property name="color-cursor-foreground" type="string" value=""/>
+  <property name="color-cursor" type="string" value="#ccb18b"/>
+  <property name="color-cursor-use-default" type="bool" value="true"/>
+  <property name="color-bold" type="string" value="#6699cc"/>
+  <property name="color-palette" type="string" value="#1a1a1a;#d05d5d;#72b072;#f3cc70;#5b87b5;#b17ebd;#3fb0b0;#a3a3a3;#4f4f4f;#e08080;#77bb77;#f6d58a;#6493c3;#c090c6;#2fa7a7;#d1d1d1"/>
+  <property name="color-bold-is-bright" type="bool" value="true"/>
+  <property name="font-name" type="string" value="Fantasque Sans Mono 11"/>
+  <property name="misc-always-show-tabs" type="bool" value="false"/>
+  <property name="misc-bell" type="bool" value="false"/>
+  <property name="misc-bell-urgent" type="bool" value="false"/>
+  <property name="misc-borders-default" type="bool" value="true"/>
+  <property name="misc-cursor-blinks" type="bool" value="true"/>
+  <property name="misc-cursor-shape" type="string" value="TERMINAL_CURSOR_SHAPE_BLOCK"/>
+  <property name="misc-default-geometry" type="string" value="80x24"/>
+  <property name="misc-inherit-geometry" type="bool" value="false"/>
+  <property name="misc-menubar-default" type="bool" value="false"/>
+  <property name="misc-mouse-autohide" type="bool" value="false"/>
+  <property name="misc-mouse-wheel-zoom" type="bool" value="true"/>
+  <property name="misc-toolbar-default" type="bool" value="false"/>
+  <property name="misc-confirm-close" type="bool" value="true"/>
+  <property name="misc-cycle-tabs" type="bool" value="true"/>
+  <property name="misc-tab-close-buttons" type="bool" value="true"/>
+  <property name="misc-tab-close-middle-click" type="bool" value="true"/>
+  <property name="misc-tab-position" type="string" value="GTK_POS_TOP"/>
+  <property name="misc-highlight-urls" type="bool" value="true"/>
+  <property name="misc-middle-click-opens-uri" type="bool" value="true"/>
+  <property name="misc-copy-on-select" type="bool" value="false"/>
+  <property name="misc-show-relaunch-dialog" type="bool" value="true"/>
+  <property name="misc-rewrap-on-resize" type="bool" value="true"/>
+  <property name="misc-slim-tabs" type="bool" value="false"/>
+  <property name="misc-new-tab-adjacent" type="bool" value="false"/>
+  <property name="misc-search-dialog-opacity" type="uint" value="100"/>
+  <property name="misc-show-unsafe-paste-dialog" type="bool" value="false"/>
+  <property name="misc-right-click-action" type="string" value="TERMINAL_RIGHT_CLICK_ACTION_CONTEXT_MENU"/>
+  <property name="scrolling-bar" type="string" value="TERMINAL_SCROLLBAR_NONE"/>
+  <property name="scrolling-lines" type="uint" value="10000"/>
+  <property name="scrolling-unlimited" type="bool" value="true"/>
+  <property name="tab-activity-color" type="string" value="#dc322f"/>
+  <property name="color-background-vary" type="bool" value="false"/>
+  <property name="color-selection" type="string" value=""/>
+  <property name="color-selection-background" type="string" value="#2d2d2d"/>
+  <property name="color-selection-use-default" type="bool" value="false"/>
+  <property name="color-bold-use-default" type="bool" value="false"/>
+  <property name="color-use-theme" type="bool" value="false"/>
+  <property name="font-use-system" type="bool" value="false"/>
+  <property name="text-blink-mode" type="string" value="TERMINAL_TEXT_BLINK_MODE_FOCUSED"/>
+  <property name="font-allow-bold" type="bool" value="true"/>
+  <property name="command-login-shell" type="bool" value="true"/>
+  <property name="encoding" type="string" value="UTF-8"/>
+  <property name="shortcuts-no-menukey" type="bool" value="true"/>
+  <property name="shortcuts-no-mnemonics" type="bool" value="true"/>
+  <property name="title-initial" type="string" value="Term"/>
+  <property name="title-mode" type="string" value="TERMINAL_TITLE_HIDE"/>
+</channel>
