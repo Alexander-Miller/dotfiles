@@ -3,7 +3,8 @@ function rofi_utils
   set -l pick_book "Pick Book"
   set -l copy_clipboard "Copy From Clipboard History"
   set -l ytmpv "Watch Video With MPV"
-  set -l choice (echo -n $change_wallpaper\n$pick_book\n$copy_clipboard\n$ytmpv | rofi -dmenu -i)
+  set -l suspend "Suspend"
+  set -l choice (echo -n $suspend\n$change_wallpaper\n$pick_book\n$copy_clipboard\n$ytmpv | rofi -dmenu -i)
 
   switch $choice
     case $change_wallpaper
@@ -32,6 +33,10 @@ function rofi_utils
         case '*'
           mpv --ytdl-format="bestvideo[height<=$resolution]+bestaudio/best" "$url"
       end
+
+    case $suspend
+      notify-send "Suspending"
+      systemctl suspend
 
     case ''
       # ignore
