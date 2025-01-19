@@ -4,7 +4,18 @@ function rofi_utils
   set -l copy_clipboard "Copy From Clipboard History"
   set -l ytmpv "Watch Video With MPV"
   set -l suspend "Suspend"
-  set -l choice (echo -n $suspend\n$change_wallpaper\n$pick_book\n$copy_clipboard\n$ytmpv | rofi -dmenu -i)
+  set -l bluetooth "Bluetooth"
+  set -l choices \
+    ( \
+    string join "|" \
+    $suspend \
+    $change_wallpaper \
+    $pick_book \
+    $copy_clipboard \
+    $ytmpv \
+    $bluetooth \
+    )
+  set -l choice (echo -n "$choices" | rofi -sep "|" -dmenu -i)
 
   switch $choice
     case $change_wallpaper
@@ -37,6 +48,17 @@ function rofi_utils
     case $suspend
       notify-send "Suspending"
       systemctl suspend
+
+    case $bluetooth
+      set -l bctl_list (bluetoothctl devices)
+      set -l device (echo $bctl_list | awk '{ print $3 }' | rofi -dmenu)
+      set -l addr (echo $bctl_list | rg $device | awk '{ print $2 }')
+      set -l is_connected (bluetoothctl info $addr | rg "Connected: yes")
+      if test -n "$is_connected"
+        bluetoothctl disconnect $addr
+      else
+        bluetoothctl connect $addr
+      end
 
     case ''
       # ignore
