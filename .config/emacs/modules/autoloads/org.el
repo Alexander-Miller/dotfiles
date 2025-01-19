@@ -109,3 +109,13 @@ only the current cell."
   (interactive)
   (org-toggle-tag
    (std::read "Tag:" '("wait" "next" "maybe" "daily" "retro"))))
+
+(defhydra std::org::toggle-hydra (:exit t :hint nil)
+  ("h" #'org-toggle-heading          "Heading")
+  ("m" #'org-toggle-inline-images    "Inline Images")
+  ("l" #'org-toggle-link-display     "Link Diplay")
+  ("x" #'org-toggle-checkbox         "Checkbox")
+  ("c" #'org-toggle-comment          "Comment")
+  ("t" #'org-toggle-tag              "Tag")
+  ("i" #'org-toggle-item             "Item")
+  ("o" #'org-toggle-ordered-property "Ordered Property"))

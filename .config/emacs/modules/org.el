@@ -18,7 +18,8 @@
   #'std::org::journal-finish
   #'std::org::file-setup
   #'std::org::copy-link-at-point
-  #'std::org::toggle-agenda-tag)
+  #'std::org::toggle-agenda-tag
+  #'std::org::toggle-hydra/body)
 
 (std::delete "/usr/share/emacs/29.3/lisp/org" load-path)
 
@@ -253,14 +254,7 @@
    "ii" #'org-time-stamp-inactive
    "iI" #'org-time-stamp
    ;; Toggles
-   "zh" #'org-toggle-heading
-   "zm" #'org-toggle-inline-images
-   "zl" #'org-toggle-link-display
-   "zx" #'org-toggle-checkbox
-   "zc" #'org-toggle-comment
-   "zt" #'org-toggle-tag
-   "zi" #'org-toggle-item
-   "zo" #'org-toggle-ordered-property
+   "z" #'std::org::toggle-hydra/body
    ;; Tables
    "tb"  #'org-table-blank-field
    "ty"  #'org-table-copy-region
