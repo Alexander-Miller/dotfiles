@@ -73,7 +73,7 @@
 
 (let ((vertico-repeat (expand-file-name "vertico/extensions/vertico-repeat.el" std::dirs::pkg-repos)))
   (autoload 'vertico-repeat-save vertico-repeat)
-  (autoload 'vertico-repeat-last vertico-repeat))
+  (autoload 'vertico-repeat vertico-repeat))
 (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
 
 (setf
@@ -152,7 +152,7 @@
  [remap imenu]        #'consult-imenu
  [remap locate]       #'consult-locate
  :leader
- "C-r" #'vertico-repeat-last
+ "C-r" #'vertico-repeat
  "ry"  #'consult-yank-from-kill-ring
  "/"   #'std::selection::consult-rg
  "jf"  #'find-function
