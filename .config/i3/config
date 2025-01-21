@@ -1,7 +1,7 @@
 set $mod Mod4
 
 # Lock Screen
-bindsym $mod+shift+x exec --no-startup-id "fish -c i3lock_wrapper"
+bindsym $mod+shift+x exec --no-startup-id "betterlockscreen -l"
 
 # Volume up and down
 bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master 5%+"
