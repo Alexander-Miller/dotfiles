@@ -49,5 +49,8 @@
 
 (defun std::selection::select-miniframe ()
   (interactive)
-  (when (frame-visible-p mini-frame-frame)
-    (select-frame mini-frame-frame)))
+  (--when-let (--first
+               (and (equal (selected-frame) (frame-parent it))
+                    (frame-visible-p it))
+               (frame-list))
+    (x-focus-frame it)))
