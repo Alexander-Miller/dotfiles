@@ -155,11 +155,7 @@
   (mu4e-bookmark-define
    "date:7d..now"
    "Last 7 days"
-   ?o)
-
-  ;; Use `pass' cli as auth source
-  (auth-source-pass-enable)
-  (setf auth-sources '(password-store)))
+   ?o))
 
 (std::after mu4e
   (std::keybind

@@ -26,6 +26,11 @@
    gc-cons-percentage       0.25)
   (std::add-advice #'gcmh-idle-garbage-collect :after #'after-focus-change-function))
 
+;; Use `pass' cli as auth source
+(std::after auth-source
+  (auth-source-pass-enable)
+  (setf auth-sources '(password-store)))
+
 ;; Startup
 (setf
  initial-major-mode                'fundamental-mode
