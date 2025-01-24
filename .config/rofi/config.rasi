@@ -21,7 +21,6 @@ configuration {
     fake-transparency:    false;
     filter:               "";
     fixed-num-lines:      true;
-    font:                 "Fantasque Sans Mono 18";
     fullscreen:           false;
     hide-scrollbar:       true;
     line-margin:          20;
@@ -77,7 +76,7 @@ configuration {
 }
 
 * {
-    font:                        "Fantasque Sans Mono 15";
+    font:                        "Bedstead 12";
     border-colour:               var(border);
     handle-colour:               var(selected);
     background-colour:           var(background);
@@ -110,7 +109,8 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       800px;
+    width:                       50%;
+    height:                      33%;
     x-offset:                    0px;
     y-offset:                    0px;
 
