@@ -67,18 +67,16 @@ With a prefix ARG select the text that should be replaced in the defun at point.
   (let (line-move-visual)
     (evil-line-move -5)))
 
-(evil-define-text-object std::edit::evil-defun-object (count &optional beg end type)
+(evil-define-text-object std::edit::evil-defun-object (count &optional beg end incl-excl)
   "Evil defun text object."
-  (let ((start (point))
-        (beg)
-        (end))
+  (let ((start (point)))
     (mark-defun)
     (forward-line 1)
     (setf beg (region-beginning)
           end (region-end))
     (deactivate-mark)
     (goto-char start)
-    (evil-range beg end type)))
+    (evil-range beg end incl-excl)))
 
 (defun std::edit::indent-after-paste-advice (yank-func &rest args)
   "If current mode is not one of spacemacs-indent-sensitive-modes
