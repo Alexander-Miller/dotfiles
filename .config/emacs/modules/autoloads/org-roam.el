@@ -2,7 +2,7 @@
 
 (defun std::org-roam-goto-clock ()
   (interactive)
-  (find-file (expand-file-name "NT/clock.org" std::dirs::roam)))
+  (find-file (expand-file-name "Ledger/Clock.ledger" std::dirs::org)))
 
 (defun std::org-roam-goto-project ()
   (interactive)
