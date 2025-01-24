@@ -1,15 +1,142 @@
 " -*- mode: dactyl; eval: (rainbow-delimiters-mode -1) -*- "
 
-set leader <SPC>
-let mapleader = "\<Space>"
+" --- Settings ------------------------------------------------------------------------ "
+let mapleader = " "
+set clipboard=unnamedplus
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set which-key
+set notimeout
+let g:WhichKey_DefaultDelay = 300
 
-" J/K navigation "
+" --- Applications -------------------------------------------------------------------- "
+let g:WhichKeyDesc_windows   = "<leader>a Applications"
+let g:WhichKeyDesc_settings  = "<leader>as Settings"
+let g:WhichKeyDesc_plugins   = "<leader>ak Plugins"
+let g:WhichKeyDesc_todos     = "<leader>at TODOs"
+let g:WhichKeyDesc_processes = "<leader>ap Processes"
+let g:WhichKeyDesc_activity  = "<leader>aP Activity"
+let g:WhichKeyDesc_terminal  = "<leader>af Terminal"
+
+map <leader>as <Action>(WelcomeScreen.Settings)
+map <leader>ak <Action>(WelcomeScreen.Plugins)
+map <leader>at <Action>(ActivateTODOToolWindow)
+map <leader>ap <Action>(ShowProcessWindow)
+map <leader>aP <Action>(Performance.ActivityMonitor)
+map <leader>af <Action>(Terminal.OpenInTerminal)
+
+" --- Buffers ------------------------------------------------------------------------ "
+let g:WhichKeyDesc_buffers        = "<leader>b Buffers"
+let g:WhichKeyDesc_recent_files   = "<leader>br Recent Files"
+let g:WhichKeyDesc_reopen_buffer  = "<leader>bu Re-Open Buffer"
+let g:WhichKeyDesc_kill_others    = "<leader>bd Kill Buffer"
+let g:WhichKeyDesc_kill_others    = "<leader>bD Kill All Other Buffers"
+let g:WhichKeyDesc_copy_buffer    = "<leader>bY Copy Buffer Content"
+let g:WhichKeyDesc_buffer_content = "<leader>bi Copy Content"
+
+map <leader>br <Action>(RecentFiles)
+map <leader>bd <Action>(CloseContent)
+map <leader>bD <Action>(CloseAllEditorsButActive)
+map <leader>bu <Action>(ReopenClosedTab)
+map <Leader>bi <Action>(FileStructurePopup)
+
+nnoremap <leader>bY      :%y<CR>
+vnoremap <leader>bY <Esc>:%y<CR>
+
+" --- Windows ------------------------------------------------------------------------ "
+let g:WhichKeyDesc_windows       = "<leader>w Windows"
+let g:WhichKeyDesc_max_window    = "<leader>wm Maximize Window"
+let g:WhichKeyDesc_kill_window   = "<leader>w0 Kill Window"
+let g:WhichKeyDesc_split         = "<leader>ws Split Window"
+let g:WhichKeyDesc_split_vert    = "<leader>wsl Split Window Right"
+let g:WhichKeyDesc_split_hori    = "<leader>wsj Split Window Below"
+let g:WhichKeyDesc_go_win_left   = "<leader>wh Goto Window Left"
+let g:WhichKeyDesc_go_win_right  = "<leader>wl Goto Window Right"
+let g:WhichKeyDesc_go_win_down   = "<leader>wj Goto Window Down"
+let g:WhichKeyDesc_go_win_up     = "<leader>wk Goto Window Up"
+
+map <Leader>wm   <Action>(HideAllWindows)
+map <Leader>w0   <Action>(CloseEditor)
+map <Leader>wsl  <Action>(SplitVertically)
+map <Leader>wsj  <Action>(SplitHorizontally)
+
+map <leader>wh   <C-w>h
+map <leader>wl   <C-w>l
+map <leader>wj   <C-w>j
+map <leader>wk   <C-w>k
+
+map <C-A-j> <action>(NextTab)
+vmap <C-A-j> <action>(NextTab)
+imap <C-A-j> <action>(NextTab)
+nmap <C-A-k> <action>(PreviousTab)
+vmap <C-A-k> <action>(PreviousTab)
+imap <C-A-k> <action>(PreviousTab)
+
+" --- Errors ------------------------------------------------------------------------- "
+let g:WhichKeyDesc_Errors_ListErrors             = "<leader>el list-errors"
+let g:WhichKeyDesc_Errors_OpenInspectionSettings = "<leader>es inspection-settings"
+let g:WhichKeyDesc_Errors_ExplainError           = "<leader>ex explain-error"
+map <leader>el <action>(CodeInspection.OnEditor)
+map <leader>es <action>(PopupHector)
+map <leader>ex <action>(ShowErrorDescription)
+
+map <C-.> <action>(GotoNextError)
+map <C-,> <action>(GotoPreviousError)
+
+" --- Files -------------------------------------------------------------------------- "
+let g:WhichKeyDesc_Files_GotoFile     = "<leader>ff Goto File"
+let g:WhichKeyDesc_Files_Recent       = "<leader>fr Recent Files"
+let g:WhichKeyDesc_Files_Class        = "<leader>fn Goto Class"
+let g:WhichKeyDesc_Files_Save         = "<leader>fs Save"
+let g:WhichKeyDesc_Files_ReloadCfg    = "<leader>feR Reload Ideavimrc"
+let g:WhichKeyDesc_Files_Copy         = "<leader>fy +Copy"
+let g:WhichKeyDesc_Files_Copy_AbsPath = "<leader>fya Copy Absolute Path"
+let g:WhichKeyDesc_Files_Copy_RelPath = "<leader>fyn Copy File Name"
+
+map <leader>ff  <action>(GotoFile)
+map <leader>fr  <action>(RecentFiles)
+map <leader>fs  <action>(SaveDocument)
+map <Leader>fn  <action>(GotoClass)
+map <leader>fya <action>(CopyAbsolutePath)
+map <leader>fyn <action>(CopyFileName)
+map <leader>feR :source ~/.ideavimrc<CR>
+
+" --- Refactoring -------------------------------------------------------------------- "
+let g:WhichKeyDesc_Ref           = "<leader>l +Refactoring"
+let g:WhichKeyDesc_Ref_Extract   = "<leader>le +Extract"
+let g:WhichKeyDesc_Ref_Rename    = "<leader>lr +Rename+"
+let g:WhichKeyDesc_Ref_Intro     = "<leader>li Introduce+"
+let g:WhichKeyDesc_Ref_Intro_C   = "<leader>lic Introduce Constant"
+let g:WhichKeyDesc_Ref_Intro_V   = "<leader>liv Introduce Variable"
+let g:WhichKeyDesc_Ref_Intro_A   = "<leader>lia Introduce Type Alias"
+let g:WhichKeyDesc_Ref_Intro_F   = "<leader>lip Introduce Parameter"
+let g:WhichKeyDesc_Ref_Inline    = "<leader>lI Inline"
+let g:WhichKeyDesc_Ref_Extract_F = "<leader>lef Extract Function"
+let g:WhichKeyDesc_Ref_Extract_V = "<leader>lev Extract Variable"
+let g:WhichKeyDesc_Ref_Extract_C = "<leader>lec Extract Class"
+
+map <Leader>lem <Action>(ExtractFunction)
+map <Leader>lev <Action>(ExtractVariable)
+map <Leader>lec <Action>(ExtractClass)
+map <Leader>lrr <Action>(RenameElement)
+map <Leader>lrf <Action>(RenameFile)
+map <Leader>lic <Action>(IntroduceConstant)
+map <Leader>liv <Action>(IntroduceVariable)
+map <Leader>lia <Action>(IntroduceTypeAlias)
+map <Leader>lip <Action>(IntroduceParameter)
+map <Leader>lI <Action>(Inline)
+
+" --- General Navigation ---------------------------------------------------------------- "
+
+" J/K 5 lines movement "
 nnoremap J 5j
 vnoremap J 5j
 nnoremap K 5k
 vnoremap K 5k
 
-" C-a/e navigation "
+" C-a/e BOL/EOL "
 nnoremap <C-a> ^
 vnoremap <C-a> ^
 inoremap <C-a> <HOME>
@@ -17,7 +144,7 @@ nnoremap <C-e> $
 vnoremap <C-e> $
 inoremap <C-e> <END>
 
-" subword navigation "
+" subword movement "
 nnoremap w [w
 nnoremap e ]w
 nnoremap b ]b
@@ -33,31 +160,13 @@ nnoremap de d]w
 nnoremap ve v]w
 nnoremap ve v]w
 
-map <Leader>wm  <Action>(HideAllWindows)
-map <Leader>w0  <Action>(CloseEditor)
-map <Leader>ft  <Action>(SelectInProjectView)
-map <Leader>bi  <Action>(FileStructurePopup)
-map <Leader>lrr <Action>(RenameElement)
-map <A-1>       <Action>(FocusEditor)
+" goto "
+map <Leader>gi <action>(GotoImplementation)
+map <Leader>gu <action>(GotoSuperMethod)
+map <Leader>gt <action>(GotoTest)
+map <Leader>gd <action>(GotoTypeDeclaration)
 
-nnoremap <A-1>       :action FocusEditor<CR>
-nnoremap <Leader>tt  :action GotoTest<CR>
-nnoremap <Leader>fn  :action GotoClass<CR>
-map <Leader>fn  <Action>(GotoClass)
-nnoremap <Leader>ff  :action GotoFile<CR>
-nnoremap <Leader>be  :action RecentFiles<CR>
-nnoremap <Leader>/   :action SearchEverywhere<CR>
-nnoremap <C-A-j>     :action NextTab<CR>
-nnoremap <C-A-k>     :action PreviousTab<CR>
-
-nnoremap <C-j>   i<CR><ESC>
-nnoremap <C-o>   :action Back<CR>
-nnoremap <C-n>   :action GotoClass<CR>
-nnoremap <C-i>   :action Forward<CR>
-nnoremap <C-A-a> :action MethodUp<CR>
-nnoremap <C-A-e> :action MethodDown<CR>
-nnoremap <C-A-s> *
-
+" list selection "
 nnoremap <C-n> :action List-selectNextRow<CR>
 nnoremap <C-p> :action List-selectPreviousRow<CR>
 nnoremap <C-n> :action PopupMenu-selectNext<CR>
@@ -67,9 +176,22 @@ nnoremap <C-p> :action Table-selectPrevious<CR>
 nnoremap <C-n> :action Tree-selectNext<CR>
 nnoremap <C-p> :action Tree-selectPrevious<CR>
 
+" other movement "
+nnoremap <C-A-s> *
+nnoremap <C-o>   :action Back<CR>
+nnoremap <C-i>   :action Forward<CR>
+nnoremap <C-A-a> :action MethodUp<CR>
+nnoremap <C-A-e> :action MethodDown<CR>
+nnoremap <C-j>   i<CR><ESC>==
+
+" misc "
+nnoremap <Leader>/   :action SearchEverywhere<CR>
+map      <leader>sc :nohlsearch<CR>
+
 " set handler "
-sethandler <C-.> a:ide
+sethandler <C-.> a:vim
 sethandler <A-1> a:ide
+sethandler <A-0> a:vim
 sethandler <C-b> a:ide
 sethandler <C-c> a:ide
 sethandler <C-f> a:ide
@@ -82,16 +204,25 @@ sethandler <C-A-j> a:vim
 sethandler <C-A-k> a:vim
 sethandler <A-i> a:vim
 
-" plugins "
-set commentary
-nnoremap <C-7> gc
-vnoremap <C-7> gc
+" --- Plugins -------------------------------------------------------------------------- "
 
+set surround
+
+" Commentary "
+set commentary
+set b:commentary_startofline
+xmap <C-7> gc
+
+" NEDTTree "
+set NERDTree
+map <A-0> :NERDTreeFocus<CR>
+
+" Exchange "
 set exchange
 nnoremap gx cx
 vnoremap gx cx
-set surround
 set easymotion
 
+" EasyMotion "
 map <A-i> <Plug>(easymotion-bd-f)
 let g:EasyMotion_do_mapping = 1
