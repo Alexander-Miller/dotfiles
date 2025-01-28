@@ -6,7 +6,6 @@
  shackle
  window-purpose
  yequake
- mini-frame
  (framey :type git :host github :repo "Alexander-Miller/framey"))
 
 (std::autoload window-management

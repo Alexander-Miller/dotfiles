@@ -6,6 +6,7 @@
  marginalia
  orderless
  vertico
+ vertico-posframe
  ctrlf
  consult)
 
@@ -16,58 +17,16 @@
   #'std::selection::copy-candidate
   #'std::selection::files-up-one-level)
 
-;; Miniframe
-(mini-frame-mode)
-
-(setf
- mini-frame-resize          nil
- mini-frame-show-parameters #'std::mini-frame-show-parameters
- mini-frame-ignore-commands
- '(eval-expression
-   evil-ex
-   which-key--show-keymap
-   which-key--show-page
-   "edebug-eval-expression"
-   debugger-eval-expression
-   "std::search"
-   "std::help::manual"
-   "std::org::inbox-refile-targets"))
-
-(defvar std::selection::last-candidates nil)
-
-(std::add-advice #'std::selection::set-last-candidates
-    :before #'completing-read-default)
-(std::add-advice #'std::selection::set-last-candidates
-    :before #'completing-read-multiple)
-
-(defun std::mini-frame-show-parameters ()
-  (let ((width 0.9)
-        (last-cs std::selection::last-candidates)
-        height)
-    (pcase this-command
-      ('consult-imenu
-       (setf height 15 width 0.6))
-      ('find-file
-       (setf height 10))
-      ('std::selection::consult-rg
-       (setf height 25))
-      ('find-library
-       (setf height 10))
-      ((guard last-cs)
-       (setf height (if (listp last-cs)
-                        (min 8 (1+ (length last-cs)))
-                      8)))
-      (_ (setf height 2)))
-    (setf vertico-count (1- height)
-          std::selection::last-candidates nil)
-    `((background-color . "#2E2E32")
-      (left . 0.5)
-      (top . 40)
-      (height . ,height)
-      (width . ,width))))
+(setf vertico-posframe-poshandler
+      (defun std::selection::vertico-posframe-handler (info)
+        (cons (/ (- (plist-get info :parent-frame-width)
+                    (plist-get info :posframe-width))
+                 2)
+              50)))
 
 ;; Vertico
 (vertico-mode)
+(vertico-posframe-mode)
 (savehist-mode)
 
 (let ((vertico-repeat (expand-file-name "vertico/extensions/vertico-repeat.el" std::dirs::pkg-repos)))

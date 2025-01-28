@@ -1,9 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(cl-defun std::selection::set-last-candidates
-    (_ collection &rest _)
-  (setf std::selection::last-candidates collection))
-
 (defun std::selection::annotate-file-info (cand)
   "Same as `marginalia-annotate-file', but works with hiding the full path in an alist."
   (marginalia-annotate-file (get-text-property 0 :path cand)))
