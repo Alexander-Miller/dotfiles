@@ -1,24 +1,24 @@
 function rofi_utils
-  set -l change_wallpaper "Change Wallpaper"
-  set -l pick_book "Pick Book"
-  set -l copy_clipboard "Copy From Clipboard History"
-  set -l ytmpv "Watch Video With MPV"
-  set -l suspend "Suspend"
-  set -l bluetooth "Bluetooth"
+  set -l suspend      "1 Suspend"
+  set -l ytmpv        "2 Watch Video With MPV"
+  set -l pick_book    "3 Pick Book"
+  set -l bluetooth    "4 Bluetooth"
+  set -l cp_clipboard "5 Copy From Clipboard History"
+  set -l change_wp    "6 Change Wallpaper"
   set -l choices \
     ( \
     string join "|" \
     $suspend \
-    $change_wallpaper \
+    $change_wp \
     $pick_book \
-    $copy_clipboard \
+    $cp_clipboard \
     $ytmpv \
     $bluetooth \
     )
   set -l choice (echo -n "$choices" | rofi -sep "|" -dmenu -i)
 
   switch $choice
-    case $change_wallpaper
+    case $change_wp
       set -l wallpaper_dir "$HOME/Documents/git/dotfiles/.wallpapers"
       set -l wallpaper (fd '' $wallpaper_dir -x echo {/} | rofi -dmenu -i)
       if test -n "$wallpaper"
@@ -32,7 +32,7 @@ function rofi_utils
         zathura "$books_dir/$book" &
       end
 
-    case $copy_clipboard
+    case $cp_clipboard
       history | rofi -dmenu -i | xargs echo -n | xclip -sel clip
 
     case $ytmpv
@@ -52,6 +52,9 @@ function rofi_utils
     case $bluetooth
       set -l bctl_list (bluetoothctl devices)
       set -l device (echo $bctl_list | awk '{ print $3 }' | rofi -dmenu)
+      if ! test -n $device
+        exit 0
+      end
       set -l addr (echo $bctl_list | rg $device | awk '{ print $2 }')
       set -l is_connected (bluetoothctl info $addr | rg "Connected: yes")
       if test -n "$is_connected"
