@@ -14,8 +14,7 @@
   #'std::selection::set-last-candidates
   #'std::selection::orderless-dispatcher
   #'std::selection::copy-candidate
-  #'std::selection::files-up-one-level
-  #'std::selection::consult-rg)
+  #'std::selection::files-up-one-level)
 
 ;; Miniframe
 (mini-frame-mode)
@@ -154,7 +153,7 @@
  :leader
  "C-r" #'vertico-repeat
  "ry"  #'consult-yank-from-kill-ring
- "/"   #'std::selection::consult-rg
+ "/"   #'consult-ripgrep
  "jf"  #'find-function
  "jv"  #'find-variable
  "jl"  #'avy-goto-line

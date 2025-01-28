@@ -38,15 +38,6 @@
     (kill-new c)
     (message "Copied '%s'" c)))
 
-(defun std::selection::consult-rg (&optional arg)
-  "Ripgrep search in the current project."
-  (interactive "P")
-  (let ((default-directory
-          (if arg
-              (read-directory-name "Dir: ")
-            default-directory)))
-    (consult-ripgrep)))
-
 (defun std::selection::select-miniframe ()
   (interactive)
   (--when-let (--first
