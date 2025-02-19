@@ -155,7 +155,11 @@
   (mu4e-bookmark-define
    "date:7d..now"
    "Last 7 days"
-   ?o))
+   ?o)
+  (mu4e-bookmark-define
+   "maildir:/qwertz/Spam or maildir:/qwertz/Unerwünscht or maildir:/web/Spam or maildir:/web/Unerwünscht"
+   "Trash"
+   ?x))
 
 (std::after mu4e
   (std::keybind
