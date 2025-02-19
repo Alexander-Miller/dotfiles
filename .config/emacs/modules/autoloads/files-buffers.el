@@ -89,7 +89,7 @@
             ("rofi" . "~/.config/rofi/config.rasi")
             ("tridactyl" . "~/.config/tridactyl/tridactylrc")
             ("tridactyl theme" . "~/.config/tridactyl/themes/MorningStar.css")
-            ("xfce terminal" . "~/.config/xfce4/terminal/terminalrc")
+            ("xfce terminal" . "~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml")
             ("zathura" . "~/.config/zathura/zathurarc")
             (".xdefaults" . "~/.Xdefaults")
             ("ledger" . "~/.ledgerrc")
