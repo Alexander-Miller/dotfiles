@@ -53,8 +53,10 @@
 
 (defun std::org::agenda::switch-to ()
   (interactive)
-  (eyebrowse-switch-to-window-config 1)
-  (org-agenda-switch-to))
+  (-let [b (current-buffer)]
+    (eyebrowse-switch-to-window-config 1)
+    (with-current-buffer b
+      (org-agenda-switch-to))))
 
 (defun std::org::agenda::quit ()
   (interactive)
