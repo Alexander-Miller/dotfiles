@@ -185,8 +185,10 @@
 (define-key input-decode-map "\C-i" [C-i])
 
 ;; TS
-(std::after treesit
-  (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin"))))
+(std::after kotlin-mode
+  (std::pushnew auto-mode-alist '("\\.kts?\\'" . kotlin-ts-mode))
+  (std::after treesit
+    (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))))
 
 (std::keybind
  :global
