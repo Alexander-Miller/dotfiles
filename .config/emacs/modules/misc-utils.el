@@ -63,6 +63,7 @@
  kept-old-versions            2
  version-control              t
  create-lockfiles             nil
+ring-bell-function            'ignore
  vc-follow-symlinks           t
  browse-url-browser-function  #'browse-url-firefox
  user-mail-address            "alexanderm@web.de"
