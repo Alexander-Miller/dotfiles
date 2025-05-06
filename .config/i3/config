@@ -252,7 +252,7 @@ assign [class="Thunderbird"] → 4
 font pango: Fantasque Sans Mono 12
 
 # class                 border  backgr. text    indicator
-client.focused          #111111 #111111 #DDDDDD #111111 #225577
-client.focused_inactive #111111 #111111 #CCCCCC #FFFF00
-client.unfocused        #111111 #222222 #555555 #292D2E
-client.urgent           #2F343A #900000 #FFFFFF #900000
+client.focused          #111111 #111111 #DDDDDD #6699CC #225577
+client.focused_inactive #111111 #111111 #CCCCCC
+client.unfocused        #111111 #222222 #555555
+client.urgent           #2F343A #900000 #FFFFFF
