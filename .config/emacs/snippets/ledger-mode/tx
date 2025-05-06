@@ -4,5 +4,5 @@
 # expand-env: ((yas-after-exit-snippet-hook #'ledger-post-align-dwim))
 # --
 `(format-time-string "%Y")`-${1:01}-${2:01} * ${3:Payee}
-  ${4:From}
-  ${5:To}  ${6:Amount}
+  ${4:To}  ${5:Amount}
+  ${6:From}
