@@ -230,7 +230,8 @@ for_window [class="jetbrains-idea.*"]         border pixel 4
 for_window [class="Manjaro Settings Manager"] border pixel 4
 for_window [class="Teams"]                    border pixel 4
 for_window [class="Nemo"]                     border pixel 4
-for_window [class="Pinentry-gtk"]             border pixel 4
+for_window [class="org.gnome.FileRoller"]     border pixel 4
+for_window [class="Signal"]                   border pixel 4
 
 smart_gaps on
 smart_borders on
