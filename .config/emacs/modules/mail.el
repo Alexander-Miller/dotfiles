@@ -28,6 +28,9 @@
   (evil-set-initial-state 'mu4e-view-mode    'motion)
   (evil-set-initial-state 'mu4e-headers-mode 'motion)
 
+  (std::after mu4e-column-faces
+    (set-face-foreground 'mu4e-column-faces-date "#55CC55"))
+
   (require 'mu4e-org)
   (mu4e-column-faces-mode)
 
@@ -43,7 +46,7 @@
        (-let ((dir (mu4e-message-field message :maildir)))
          (cond
           ((string-suffix-p "Inbox" dir)
-           '(:foreground "#55CC55" :weight bold))
+           '(:foreground "#997799" :weight bold))
           ((string-suffix-p "Unbekannt" dir)
            '(:foreground "#6688BB" :weight bold))
           ((or (string-suffix-p "Spam" dir)
@@ -51,7 +54,7 @@
            '(:foreground "#F2777A" :weight bold))
           ((string-suffix-p "drafts" dir)
            '(:foreground "#F0C674" :weight bold))
-          ((string-suffix-p "sent" dir)
+          ((string-suffix-p "sent" (downcase dir))
            '(:foreground "#999999" :weight bold))
           (t
            '(:foreground "#000000" :weight bold)))))))
