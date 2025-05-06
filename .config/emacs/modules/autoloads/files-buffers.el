@@ -84,7 +84,7 @@
             ("ncmpcpp" . "~/.config/ncmpcpp/config")
             ("ncmpcpp keybinds" . "~/.config/ncmpcpp/bindings")
             ("paru" . "~/.config/paru/paru.conf")
-            ("polybar" . "~/.config/polybar/config")
+            ("polybar" . "~/.config/polybar/config.ini")
             ("polybar py start" . "~/.config/polybar/run_polybar.py")
             ("rofi" . "~/.config/rofi/config.rasi")
             ("tridactyl" . "~/.config/tridactyl/tridactylrc")
