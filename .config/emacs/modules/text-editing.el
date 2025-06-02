@@ -27,6 +27,7 @@
  groovy-mode
  jenkinsfile-mode
  markdown-mode
+ key-chord
  terraform-mode)
 
 (autoload #'yas-expand "yasnippet")
@@ -189,6 +190,15 @@
   (std::pushnew auto-mode-alist '("\\.kts?\\'" . kotlin-ts-mode))
   (std::after treesit
     (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))))
+
+(std::if-private-laptop
+ (key-chord-mode 1)
+ (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+ (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+ (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+ (key-chord-define evil-visual-state-map "kj" 'evil-normal-state)
+ (key-chord-define evil-operator-state-map "jk" 'evil-normal-state)
+ (key-chord-define evil-operator-state-map "kj" 'evil-normal-state))
 
 (std::keybind
  :global

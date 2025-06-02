@@ -162,6 +162,10 @@ BODY can either be raw lambda body or a function reference."
        ,then
      ,else))
 
+(defmacro std::if-private-laptop (&rest then)
+  `(when (string= "am-laptop" (system-name))
+     ,@then))
+
 (cl-defmacro std::notify (title &key (txt "") (icon :NONE))
   "Show a notification via `notify-send'."
   (declare (indent 1))
