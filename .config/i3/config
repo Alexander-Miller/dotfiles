@@ -18,8 +18,8 @@ bindsym $mod+Return exec --no-startup-id "i3-sensible-terminal"
 bindsym $mod+p exec --no-startup-id "xfce4-settings-manager"
 
 # Scratchpad
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+udiaeresis move scratchpad
+bindsym $mod+udiaeresis scratchpad show
 
 # kill
 bindsym $mod+q "kill"
