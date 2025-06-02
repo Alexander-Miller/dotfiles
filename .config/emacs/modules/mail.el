@@ -55,9 +55,9 @@
           ((string-suffix-p "drafts" dir)
            '(:foreground "#F0C674" :weight bold))
           ((string-suffix-p "sent" (downcase dir))
-           '(:foreground "#999999" :weight bold))
+           '(:foreground "#9F8B6F" :weight bold))
           (t
-           '(:foreground "#000000" :weight bold)))))))
+           '(:foreground "#1E8F8F" :weight bold)))))))
 
   (setf mu4e-column-faces-custom-column-handler #'std::mail::custom-column-handler)
 
