@@ -17,6 +17,7 @@
   #'std::org::refile
   #'std::org::journal-finish
   #'std::org::file-setup
+  #'std::org::paste-yt-link
   #'std::org::copy-link-at-point
   #'std::org::toggle-agenda-tag
   #'std::org::toggle-hydra/body)
@@ -253,6 +254,7 @@
    "id" #'org-insert-drawer
    "ii" #'org-time-stamp-inactive
    "iI" #'org-time-stamp
+   "iy" #'std::org::paste-yt-link
    ;; Toggles
    "z" #'std::org::toggle-hydra/body
    ;; Tables

@@ -6,6 +6,13 @@
   (setq-local fill-column 100)
   (auto-fill-mode t))
 
+(defun std::org::paste-yt-link ()
+  (interactive)
+  (let* ((url (current-kill 0))
+         (cmd "curl -s \"%S\" | rg -oP '(?<=<title>).*?(?=</title>)' | sed 's/ - YouTube$//'")
+         (title (shell-command-to-string (format cmd url))))
+    (insert (format "[[%S][%S]]" url (string-trim title)))))
+
 (defun std::org::mode-hook ()
   (org-appear-mode)
   (org-indent-mode)
