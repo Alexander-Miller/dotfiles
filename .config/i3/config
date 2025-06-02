@@ -36,7 +36,7 @@ bindsym --release Print       exec --no-startup-id "maim -d 3 ~/Pictures/screens
 bindsym --release Shift+Print exec --no-startup-id "fish -c named_screenshot"
 
 # yequake
-bindsym $mod+Shift+l exec --no-startup-id "fish -c yequake"
+bindsym $mod+Shift+o exec --no-startup-id "fish -c yequake"
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -73,10 +73,10 @@ bindsym $mod+Shift+w move up
 bindsym $mod+Shift+d move right
 
 # Move workspace
-bindsym $mod+Shift+Left  move workspace to output left
-bindsym $mod+Shift+Down  move workspace to output down
-bindsym $mod+Shift+Up    move workspace to output up
-bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+h move workspace to output left
+bindsym $mod+Shift+j move workspace to output down
+bindsym $mod+Shift+k move workspace to output up
+bindsym $mod+Shift+l move workspace to output right
 
 # Change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
