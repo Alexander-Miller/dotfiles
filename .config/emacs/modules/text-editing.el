@@ -19,6 +19,7 @@
  vimish-fold
  evil-vimish-fold
  adoc-mode
+ xkb-mode
  yaml-mode
  gnuplot
  csv-mode
@@ -193,12 +194,20 @@
 
 (std::if-private-laptop
  (key-chord-mode 1)
+
  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
  (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
  (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
  (key-chord-define evil-visual-state-map "kj" 'evil-normal-state)
  (key-chord-define evil-operator-state-map "jk" 'evil-normal-state)
- (key-chord-define evil-operator-state-map "kj" 'evil-normal-state))
+ (key-chord-define evil-operator-state-map "kj" 'evil-normal-state)
+
+ (key-chord-define evil-insert-state-map "sd" 'evil-normal-state)
+ (key-chord-define evil-insert-state-map "ds" 'evil-normal-state)
+ (key-chord-define evil-visual-state-map "sd" 'evil-normal-state)
+ (key-chord-define evil-visual-state-map "sd" 'evil-normal-state)
+ (key-chord-define evil-operator-state-map "sd" 'evil-normal-state)
+ (key-chord-define evil-operator-state-map "ds" 'evil-normal-state))
 
 (std::keybind
  :global
