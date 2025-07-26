@@ -1,0 +1,41 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+bright_foreground = "#6493C3"
+background        = "#19191F"
+foreground        = "#CCB18B"
+
+[colors.normal]
+black   = "#19191F"
+red     = "#D05D5D"
+green   = "#72B072"
+yellow  = "#F3CC70"
+blue    = "#5B87B5"
+magenta = "#B17EBD"
+cyan    = "#3FB0B0"
+white   = "#A3A3A3"
+
+[colors.bright]
+black   = "#4F4F4F"
+red     = "#E08080"
+green   = "#77BB77"
+yellow  = "#F6D58A"
+blue    = "#6493C3"
+magenta = "#C090C6"
+cyan    = "#2FA7A7"
+white   = "#D1D1D1"
+
+[window]
+padding = { x = 10, y = 10}
+
+[font]
+normal = { family = "Fantasque Sans Mono" }
+size   = 12
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+style = { shape = "Block", blinking = "On" }
+blink_interval = 750
