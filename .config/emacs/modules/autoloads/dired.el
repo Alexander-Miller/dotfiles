@@ -88,11 +88,12 @@
   ("q" nil "cancel"))
 
 (defhydra std::dired::file-crud-hydra (:exit t :hint nil)
-  ("d"  #'dired-do-delete        "Delete")
-  ("m"  #'dired-do-rename        "Move/Rename")
-  ("y"  #'dired-do-copy          "Copy")
-  ("s"  #'dired-do-symlink       "Symlink")
-  ("cd" #'dired-create-directory "Create Directory"))
+  ("d"  #'dired-do-delete         "Delete")
+  ("m"  #'dired-do-rename         "Move/Rename")
+  ("y"  #'dired-do-copy           "Copy")
+  ("s"  #'dired-do-symlink        "Symlink")
+  ("cd" #'dired-create-directory  "Create Directory")
+  ("cf" #'dired-create-empty-file "Create File"))
 
 (defun std::dired::preview ()
   (interactive)
