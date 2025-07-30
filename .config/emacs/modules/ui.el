@@ -44,7 +44,7 @@
  prettify-symbols-alist         '(("lambda" . "λ")))
 
 (setf
- idle-update-delay                1.0
+ which-func-update-timer          1.0
  fast-but-imprecise-scrolling     t
  display-line-numbers-widen       t
  display-line-numbers-width-start t
