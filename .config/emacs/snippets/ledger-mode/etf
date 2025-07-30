@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+#name: etf
+#key: etf
+# expand-env: ((yas-after-exit-snippet-hook #'ledger-post-align-dwim))
+# --
+$0`(format-time-string "%Y")`-${1:01}-${2:01} * Kauf ${3:ETF} - ETF Sparplan
+  Guthaben:Invest:$3    ${4:000} "$3" {${5:xxx},${6:yy} EUR} [`(format-time-string "%Y")`-$1-$2]
+  Guthaben:ING-Diba     -${7:xxx},${8:yy} EUR
