@@ -125,28 +125,28 @@
   (setf
    hl-todo-highlight-punctuation ":"
    hl-todo-keyword-faces
-   (-let [bold-box '((bold :box (:line-width -1 :color "#000000")))]
+   (-let [bold-box '((bold :box (:line-width -1 :color "#666666")))]
      `(("TODO"
         ,@bold-box
-        (:background "#DDBA1A" :foreground "#000000"))
+        (:foreground "#DDBA1A" :background "#111111"))
        ("NOTE"
         ,@bold-box
-        (:background "#559955" :foreground "#000000"))
+        (:foreground "#559955" :background "#111111"))
        ("IMPORTANT"
         ,@bold-box
-        (:background "#BB6666" :foreground "#000000" ))
+        (:foreground "#BB6666" :background "#111111"))
        ("FIXME"
         ,@bold-box
-        (:background "#C98459" :foreground "#000000"))
+        (:foreground "#C98459" :background "#111111"))
        ("DEPRECATED"
         ,@bold-box
-        (:background "#CCB18B" :foreground "#000000"))
+        (:foreground "#CCB18B" :background "#111111"))
        ("BUG"
         ,@bold-box
-        (:background "#AB3737" :foreground "#000000"))
+        (:foreground "#AB3737" :background "#111111"))
        ("XXX"
         ,@bold-box
-        (:background "#1E8F8F" :foreground "#000000"))))))
+        (:foreground "#1E8F8F" :background "#111111"))))))
 
 (std::after prism
   (prism-set-colors
