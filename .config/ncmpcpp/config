@@ -50,6 +50,7 @@ statusbar_color                       = cyan
 window_border_color                   = red
 active_window_border                  = red
 follow_now_playing_lyrics             = yes
+external_editor                       = "emacsclient -nw"
 clock_display_seconds                 = yes
 current_item_prefix                   = $(green_237)$b
 current_item_suffix                   = $/b$(end)
