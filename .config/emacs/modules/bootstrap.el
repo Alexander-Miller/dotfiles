@@ -38,11 +38,12 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 (setf load-path
-      (nconc (eval-when-compile
+      (append (eval-when-compile
                (when (file-exists-p std::dirs::pkg-build)
                  (directory-files std::dirs::pkg-build :full)))
-             load-path ))
+             load-path))
 (load std::pkg-autoloads-file :no-error :no-message)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/straight/build/morning-star")
 
