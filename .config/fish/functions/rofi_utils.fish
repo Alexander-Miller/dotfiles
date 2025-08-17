@@ -26,7 +26,7 @@ function rofi_utils
       end
 
     case $pick_book
-      set -l books_dir $HOME/Dropbox/Books
+      set -l books_dir $HOME/SyncThing/Books
       set -l book (fd pdf $books_dir -x echo {/} | rofi -dmenu -i)
       if test -n "$book"
         zathura "$books_dir/$book" &

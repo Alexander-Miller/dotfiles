@@ -6,7 +6,7 @@
 (std::autoload files-buffers
   #'std::buffers::scratch
   #'std::buffers::edit-module
-  #'std::buffers::edit-dropbox-file
+  #'std::buffers::edit-syncthing-file
   #'std::buffers::edit-fish-file
   #'std::buffers::edit-misc-cfg
   #'std::buffers::open/body
@@ -17,7 +17,7 @@
   #'std::buffers::other-buffer
   #'std::buffers::pop-to-messages-buffer
   #'std::buffers::pop-to-compile-buffer
-  #'std::buffers::dropbox-buffer-cleanup
+  #'std::buffers::syncthing-buffer-cleanup
   #'std::buffers::magit-buffers)
 
 (std::keybind
@@ -29,7 +29,7 @@
  "fs"  #'save-buffer
  "fr"  #'std::buffers::rename-buffer-file
  "fem" #'std::buffers::edit-module
- "fex" #'std::buffers::edit-dropbox-file
+ "fex" #'std::buffers::edit-syncthing-file
  "fef" #'std::buffers::edit-fish-file
  "fed" #'std::buffers::edit-misc-cfg
  "fE"  #'std::buffers::open/body
@@ -43,6 +43,6 @@
  "bc"  #'std::buffers::pop-to-compile-buffer
  "bd"  #'std::buffers::kill-this-buffer
  "bq"  #'std::buffers::bury-this-buffer
- "bK"  #'std::buffers::dropbox-buffer-cleanup
+ "bK"  #'std::buffers::syncthing-buffer-cleanup
  "TAB" #'std::buffers::other-buffer
  "b C-d" #'kill-buffer-and-window)

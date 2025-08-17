@@ -3,7 +3,7 @@
 (defun std::buffers::scratch ()
   "Open the shared scratch buffer."
   (interactive)
-  (pop-to-buffer (find-file-noselect "~/Dropbox/SCRATCH.el")))
+  (pop-to-buffer (find-file-noselect "~/SyncThing/SCRATCH.el")))
 
 (defun std::buffers::can-be-other-buffer? (buf)
   "Determine buffers not suited for `std::buffers::other-buffer'."
@@ -37,7 +37,7 @@
           (when (std::buffers::can-be-other-buffer? next)
             (setf found t)))
         (unless found
-          (setf next (find-file-noselect "~/Dropbox/SCRATCH.el")))))
+          (setf next (find-file-noselect "~/SyncThing/SCRATCH.el")))))
     (switch-to-buffer next)))
 
 (defun std::buffers::edit-module ()
@@ -101,10 +101,10 @@
                       (--map (propertize (car it) :path (cdr it)) alist))))
     (-some-> selection (assoc alist) (cdr) (find-file-noselect) (pop-to-buffer))))
 
-(defun std::buffers::edit-dropbox-file ()
-  "Open a dropbox file."
+(defun std::buffers::edit-syncthing-file ()
+  "Open a SyncThing file."
   (interactive)
-  (-let [default-directory "~/Dropbox/"]
+  (-let [default-directory "~/SyncThing/"]
     (call-interactively #'find-file)))
 
 (defun std::buffers::move-buffer-to-parent-frame ()
@@ -120,11 +120,11 @@
       (display-buffer-same-window buffer nil)
       (goto-char point))))
 
-(defun std::buffers::dropbox-buffer-cleanup ()
-  "Save and kill all dropbox buffers."
+(defun std::buffers::syncthing-buffer-cleanup ()
+  "Save and kill all SyncThing buffers."
   (interactive)
-  (let ((dpx (expand-file-name "~/Dropbox"))
-        (org (expand-file-name "~/Documents/Org")))
+  (let ((dpx (expand-file-name "~/SyncThing"))
+        (org (expand-file-name "~/SyncThing/Org")))
     (dolist (b (buffer-list))
       (-when-let (bf (buffer-file-name b))
         (when (or (s-starts-with? dpx bf)
@@ -238,7 +238,7 @@ If the universal prefix argument is used then kill also the window."
 
 (defhydra std::buffers::open (:exit t :hint nil)
   ("m" #'std::buffers::edit-module "Emacs Module")
-  ("x" #'std::buffers::edit-dropbox-file "Dropbox File")
+  ("x" #'std::buffers::edit-syncthing-file "SyncThing File")
   ("f" #'std::buffers::edit-fish-file "Fish File")
   ("d" #'std::buffers::edit-misc-cfg "Misc Config")
   ("q" nil "cancel"))
