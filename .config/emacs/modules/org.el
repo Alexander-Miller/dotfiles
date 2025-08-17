@@ -29,7 +29,7 @@
 (std::pushnew safe-local-variable-values
   '(eval std::org::file-setup))
 
-(setq-default org-directory "~/Documents/Org/")
+(setq-default org-directory "~/SyncThing/Org/")
 
 (defconst std::org::diary-file           (expand-file-name "Diary.org"             std::dirs::roam))
 (defconst std::org::inbox-file           (expand-file-name "Inbox.org"             std::dirs::roam))
@@ -320,8 +320,8 @@
    org-journal-date-prefix "\n* "
    org-journal-dir
    (std::if-work-laptop
-    "/home/am/Documents/Org/Journal-NT"
-    "/home/am/Documents/Org/Journal")
+    "/home/am/SyncThing/Org/Journal-NT"
+    "/home/am/SyncThing/Org/Journal")
    org-journal-file-type
    (std::if-work-laptop 'weekly 'yearly)
    org-journal-file-header

@@ -14,7 +14,7 @@
 
 (std::after elfeed
 
-  (setf rmh-elfeed-org-files (list "~/Documents/Org/Elfeed.org"))
+  (setf rmh-elfeed-org-files (list "~/SyncThing/Org/Elfeed.org"))
 
   (elfeed-org)
 

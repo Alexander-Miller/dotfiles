@@ -6,8 +6,8 @@
 (defconst std::dirs::pkg-repos    (concat user-emacs-directory "straight/repos"))
 (defconst std::dirs::pkg-build    (concat user-emacs-directory "straight/build"))
 (defconst std::dirs::repos        (expand-file-name "~/Documents/git"))
-(defconst std::dirs::org          (expand-file-name "~/Documents/Org"))
-(defconst std::dirs::roam         (expand-file-name "~/Documents/Org/Roam"))
+(defconst std::dirs::org          (expand-file-name "~/SyncThing/Org"))
+(defconst std::dirs::roam         (expand-file-name "~/SyncThing/Org/Roam"))
 (defconst std::pkg-autoloads-file (concat user-emacs-directory "cache/pkg-autoloads.el"))
 
 (setf

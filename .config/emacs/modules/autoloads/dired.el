@@ -81,7 +81,7 @@
   ("d" (dired "~/Documents") "Documents")
   ("w" (dired "~/Downloads") "Downloads")
   ("v" (dired "~/Videos")    "Videos")
-  ("o" (dired "~/Dropbox")   "Dropbox")
+  ("o" (dired "~/SyncThing") "SyncThing")
   ("p" (dired "~/Pictures")  "Pictures")
   ("m" (dired "~/Music")     "Music")
   ("M" (dired "/run/media")  "/run/media")
