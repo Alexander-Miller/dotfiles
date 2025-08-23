@@ -52,7 +52,8 @@ function rofi_utils
     case $bluetooth
       set -l bctl_list (bluetoothctl devices)
       set -l device (echo $bctl_list | awk '{ print $3 }' | rofi -dmenu)
-      if ! test -n $device
+      if test -z $device
+        notify-send Exit
         exit 0
       end
       set -l addr (echo $bctl_list | rg $device | awk '{ print $2 }')
