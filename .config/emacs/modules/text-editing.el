@@ -246,4 +246,14 @@
  "Z"  #'std::edit::fold-hydra/body
  "üü" #'anzu-query-replace
  "üf" #'std::edit::defun-query-replace
- "v"  #'er/expand-region)
+ "v"  #'er/expand-region
+ :evil (normal motion visual operator) 'global
+ "m" #'evil-backward-word-begin
+ "M" #'evil-backward-WORD-begin
+ "b" #'evil-set-marker
+ "B" #'evil-goto-mark-line
+ :evil (operator) 'global
+ "im" #'evil-inner-paren
+ "iM" #'evil-inner-curly
+ "am" #'evil-a-paren
+ "aM" #'evil-a-curly)
