@@ -4,7 +4,6 @@
  eyebrowse
  winum
  shackle
- window-purpose
  yequake
  (framey :type git :host github :repo "Alexander-Miller/framey"))
 
@@ -29,7 +28,7 @@
    (" *undo-tree*"           :select t   :align right :size 0.3)
    (magit-popup-mode         :select t   :align right :size 0.4)
    (debugger-mode            :select t   :align below :size 0.4)
-   (magit-diff-mode          :select nil :align right :size 0.5)
+   (magit-diff-mode          :select nil :align below :size 0.5)
    (magit-log-select-mode    :select nil :align right :size 0.5)
    ("*Ledger Report*"        :select t   :align below :size 0.5)
    ("*org-roam*"             :select nil :align right :size 0.25)
@@ -44,6 +43,7 @@
    (racer-help-mode          :select t   :align right :size 0.5)
    (help-mode                :select t   :align right :size 0.5)
    (helpful-mode             :select t   :align right :size 0.5)
+   (mu4e-view-mode           :select t   :align below :size 0.65)
    ("CAPTURE-journal.org"    :select t   :align below :size 0.25)
    (" *Embark Actions*"      :select nil :align below :size 0.5)
    (" *Deletions*"           :select t   :align below :size 0.25)
@@ -52,66 +52,18 @@
    ("*Org Note*"             :select t   :align below :size 0.33)
    ("*Org Links*"            :select t   :align below :size 0.2)
    (" *Org todo*"            :select t   :align below :size 0.2)
-   ("*Man.*"                 :select t   :align below :size 0.5  :regexp t)
+   ("*Man.*"                 :select t   :align right :size 0.5  :regexp t)
    ("*Org Src.*"             :select t   :align right :size 0.5  :regexp t)
-   ("*Go-Translate*"         :select t   :align right :size 0.5)))
+   ("*Go-Translate*"         :select t   :align right :size 0.5)
+   (".*"                     :select t   :align right :size 0.5 :regexpt t)))
 
 (defun std::maybe-display-shackle (buffer alist)
   (and (shackle-display-buffer-condition buffer alist)
        (shackle-display-buffer-action buffer alist)))
 
-(setf purpose-action-sequences
-      '((switch-to-buffer
-         . (purpose-display-reuse-window-buffer
-            purpose-display-reuse-window-purpose
-            std::maybe-display-shackle
-            purpose-display-maybe-same-window
-            purpose-display-maybe-other-window
-            purpose-display-maybe-other-frame
-            purpose-display-maybe-pop-up-window
-            purpose-display-maybe-pop-up-frame))
-
-        (prefer-same-window
-         . (purpose-display-maybe-same-window
-            std::maybe-display-shackle
-            purpose-display-reuse-window-buffer
-            purpose-display-reuse-window-purpose
-            purpose-display-maybe-other-window
-            purpose-display-maybe-other-frame
-            purpose-display-maybe-pop-up-window
-            purpose-display-maybe-pop-up-frame))
-
-        (force-same-window
-         . (purpose-display-maybe-same-window
-            std::maybe-display-shackle))
-
-        (prefer-other-window
-
-         . (purpose-display-reuse-window-buffer
-            purpose-display-reuse-window-purpose
-            std::maybe-display-shackle
-            purpose-display-maybe-other-window
-            purpose-display-maybe-pop-up-window
-            purpose-display-maybe-other-frame
-            purpose-display-maybe-pop-up-frame
-            purpose-display-maybe-same-window))
-
-        (prefer-other-frame
-         . (purpose-display-reuse-window-buffer-other-frame
-            purpose-display-reuse-window-purpose-other-frame
-            std::maybe-display-shackle
-            purpose-display-maybe-other-frame
-            purpose-display-maybe-pop-up-frame
-            purpose-display-maybe-other-window
-            purpose-display-maybe-pop-up-window
-            purpose-display-reuse-window-buffer
-            purpose-display-reuse-window-purpose
-            purpose-display-maybe-same-window))))
-
 (eyebrowse-mode)
 (winum-mode)
 (shackle-mode)
-(purpose-mode)
 (framey-mode)
 (winner-mode)
 
@@ -124,33 +76,6 @@
 (std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-7)
 (std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-8)
 (std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-9)
-
-(setf
- purpose-user-mode-purposes
- '((prog-mode                 . main)
-   (text-mode                 . main)
-   (dashboard-mode            . main)
-   (vterm-mode                . bottom)
-   (flycheck-error-list-mode  . bottom)
-   (messages-buffer-mode      . bottom)
-   (compilation-mode          . bottom)
-   (comint-mode               . bottom)
-   (calendar-mode             . bottom)
-   (inferior-emacs-lisp-mode  . bottom)
-   (special-mode              . bottom)
-   (ledger-report-mode        . bottom)
-   (xref--xref-buffer-mode    . right)
-   (undo-tree-visualizer-mode . right)
-   (org-roam-mode             . right)
-   (mu4e-headers-mode         . mu-main)
-   (help-mode                 . help)
-   (helpful-mode              . help)
-   (Info-mode                 . help)
-   (elfeed-search-mode        . elfeed)
-   (magit-status-mode         . magit-main)
-   (magit-log-mode            . magit-main)))
-
-(purpose-compile-user-configuration)
 
 (std::after yequake
   (setf
@@ -248,3 +173,62 @@ active desktop."
             (when (or force-select (not ,check))
               (delete-other-windows)
               (call-interactively ,command))))))))
+
+(setf display-buffer-alist
+      '((std::windows::match-buffer std::windows::display-buffer)
+        (shackle-display-buffer-condition shackle-display-buffer-action)))
+
+(defun std::windows::match-buffer (buffer-name &rest args)
+  (let ((mode (buffer-local-value 'major-mode (get-buffer buffer-name))))
+    (or (ht-get std::windows::purpose-map mode)
+        (ht-get std::windows::purpose-map (get mode 'derived-mode-parent)))))
+
+(defun std::windows::display-buffer (buffer-name alist &rest args)
+  (let* ((pu (std::windows::buffer-purpose buffer-name))
+         (w  (--first
+              (eq pu (std::windows::buffer-purpose (window-buffer it)))
+              (window-list))))
+    (unless (eq pu 'IGNORE)
+      (if w
+          (progn
+            (set-window-buffer w buffer-name)
+            (select-window (selected-window) :nr))
+        (setf w (shackle-display-buffer-action buffer-name alist))
+        (set-window-parameter w 'no-other-window t)))
+    w))
+
+(defun std::windows::buffer-purpose (buffer-name)
+  (let ((purp nil)
+        (mode (buffer-local-value 'major-mode (get-buffer buffer-name))))
+    (while (and mode (null purp))
+      (setf purp (ht-get std::windows::purpose-map mode)
+            mode (get mode 'derived-mode-parent)))
+    purp))
+
+(defconst std::windows::purpose-map
+  (ht
+   ('prog-mode         'main)
+   ('lisp-data-mode    'main)
+   ('conf-mode         'main)
+   ('conf-unix-mode    'main)
+   ('i3wm-config-mode  'main)
+   ('magit-status-mode 'main)
+   ('magit-log-mode    'main)
+   ('org-mode          'main)
+   ('dired-mode        'main)
+   ('yaml-mode         'main)
+   ('dashboard-mode    'main)
+   ('ledger-mode       'main)
+   ('css-mode          'main)
+
+   ('helpful-mode        'right)
+   ('help-mode           'right)
+   ('Man-mode            'right)
+   ('magit-revision-mode 'right)
+
+   ('mu4e-main-mode    'mu-main)
+   ('mu4e-headers-mode 'mu-main)
+   ('mu4e-view-mode    'mu-bottom)
+
+   ('messages-buffer-mode     'bottom)
+   ('flycheck-error-list-mode 'bottom)))

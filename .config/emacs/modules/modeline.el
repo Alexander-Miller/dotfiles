@@ -108,8 +108,11 @@
               'face 'std::modeline::major-mode-face))
 
 (doom-modeline-def-segment std::modeline::window-purpose
-  (propertize (symbol-name (purpose-buffer-purpose (current-buffer)))
-              'face 'std::modeline::window-purpose-active-face))
+  (propertize
+   (--if-let (std::windows::buffer-purpose (current-buffer))
+       (symbol-name it)
+     "---" )
+   'face 'std::modeline::window-purpose-active-face))
 
 (doom-modeline-def-segment std::modeline::margin
   "   " "   ")
