@@ -10,7 +10,6 @@ set -e  EMACS
 bind \ej down-or-search
 bind \ek up-or-search
 
-add_to_user_path ~/.cargo/bin rust-analyzer
 add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
 add_to_user_path ~/.cask/bin
 
