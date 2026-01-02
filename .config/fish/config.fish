@@ -9,6 +9,7 @@ set -e  EMACS
 
 bind \ej down-or-search
 bind \ek up-or-search
+bind alt-backspace backward-kill-word
 
 add_to_user_path ~/.sdkman/candidates/java/current/bin sdkman
 add_to_user_path ~/.cask/bin
