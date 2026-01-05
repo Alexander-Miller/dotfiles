@@ -1,0 +1,108 @@
+@define-color background #19191D;
+@define-color foreground #bbbbbb;
+@define-color blue       #6699cc;
+@define-color red        #ab3737;
+@define-color red2       #f2777a;
+@define-color yellow     #dbba1a;
+@define-color green      #66aa66;
+@define-color green2     #aaccaa;
+@define-color grey       #666666;
+@define-color purple     #997799;
+@define-color purple2    #cc66cc;
+@define-color aqua       #1e8f8f;
+@define-color brown      #ccb18b;
+@define-color orange     #c98459;
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-family: "Bedstead", "Font Awesome 5 Free", "Font Awesome 6 Free", Symbola;
+    font-size: 8pt;
+}
+
+window#waybar {
+    background: @background;
+    color: @foreground;
+    border: 1px solid #000000;
+}
+
+#mpd,
+#cpu,
+#workspaces,
+#custom-mu,
+#memory,
+#battery,
+#network,
+#clock,
+#pulseaudio,
+#tray {
+    padding: 0 5px;
+    margin: 0 2px;
+}
+
+#workspaces button {
+    padding: 0 0 0 4px;
+    color: @foreground;
+    background: transparent;
+}
+
+#workspaces button.active {
+    color: @purple;
+}
+
+#workspaces button.urgent {
+    color: @yellow;
+    background: @red;
+}
+
+#clock {
+    color: @foreground;
+}
+
+#clock label {
+    color: @red;
+}
+
+#pulseaudio.icon {
+    min-width: 14px;
+    padding-right: 2px;
+}
+
+#pulseaudio-slider {
+    padding: 0;
+    margin: 0;
+}
+
+#pulseaudio-slider slider {
+    background-size: 14px;
+}
+
+#pulseaudio-slider trough {
+    min-height: 2px;
+    min-width: 60px;
+    border-radius: 5px;
+    background: #999999;
+}
+
+#pulseaudio-slider highlight {
+    min-width: 10px;
+    border-radius: 5px;
+    background: @green;
+}
+
+#cpu.idle {
+    color: @green;
+}
+
+#cpu.normal {
+    color: @green;
+}
+
+#cpu.warning {
+    color: @yellow;
+}
+
+#cpu.critical {
+    color: @red;
+}

@@ -22,7 +22,9 @@ function rofi_utils
       set -l wallpaper_dir "$HOME/Documents/git/dotfiles/.wallpapers"
       set -l wallpaper (fd '' $wallpaper_dir -x echo {/} | rofi -dmenu -i)
       if test -n "$wallpaper"
-        feh --bg-scale "$wallpaper_dir/$wallpaper"
+        for screen in (hyprctl monitors -j | jq -r '.[].name')
+          hyprctl hyprpaper wallpaper $screen,$wallpaper_dir/$wallpaper
+        end
       end
 
     case $pick_book

@@ -1,0 +1,175 @@
+// -*- mode: js-json -*-
+
+{
+    "layer": "top",
+    "position": "top",
+    "height": 22,
+    "output": ["*"],
+
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+        "mpd"
+    ],
+
+    "modules-right": [
+        "custom/mu",
+        "cpu",
+        "memory",
+        "battery",
+        "network#eth",
+        "network#wlan",
+        "clock#date",
+        "clock#time",
+        "pulseaudio",
+        "pulseaudio/slider",
+        "tray",
+    ],
+
+    "hyprland/workspaces": {
+        "persistent-workspaces": false,
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "cursor": false,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "➊",
+            "2": "➋",
+            "3": "➌",
+            "4": "➍",
+            "5": "➎",
+            "6": "➏",
+            "7": "➐",
+            "8": "➑",
+            "9": "➒",
+            "10": "➓",
+            "scratchpad": "",
+        }
+    },
+
+    "mpd": {
+        "format": "<span color=\"#6699CC\">🎜</span> {artist} - {title}",
+        "format-paused": "<span color=\"#6699CC\">⏸</span> {artist} - {title}",
+        "format-stopped": "",
+        "cursor": false,
+    },
+
+    "custom/mu": {
+        "format": "<span color=\"#6699CC\"></span> {}",
+        "exec": "sh -lc \"echo $(mu find flag:unread -f i | wc -l)/$(mu find '' -f i | wc -l)\"",
+        "interval": 300,
+        "return-type": "text",
+        "tooltip": false
+    },
+
+    "cpu": {
+        "interval": 1,
+        "format": "<span color=\"#6699CC\"></span> {icon0} {icon1} {icon2} {icon3} {icon4} {icon5} {icon6} {icon7}",
+        "format-icons": [
+            "<span color=\"#66AA66\">▁</span>",
+            "<span color=\"#66AA66\">▂</span>",
+            "<span color=\"#DBBA1A\">▃</span>",
+            "<span color=\"#DBBA1A\">▄</span>",
+            "<span color=\"#DBBA1A\">▅</span>",
+            "<span color=\"#DBBA1A\">▆</span>",
+            "<span color=\"#AB3737\">▇</span>",
+            "<span color=\"#AB3737\">█</span>"
+        ],
+        "states": {
+            "idle": 0,
+            "normal": 0,
+            "warning": 50,
+            "critical": 80
+        }
+    },
+
+    "memory": {
+        "interval": 10,
+        "format": "<span color=\"#6699CC\"></span> {used:0.2f}G/{total:0.2f}G",
+        "tooltip-format": "RAM: {used:0.2f} GiB / {total:0.2f} GiB"
+    },
+
+    "battery": {
+        "interval": 10,
+        "states": {
+            "full": 99,
+            "warning": 50,
+            "critical": 10
+        },
+        "full-at": 100,
+        "format": "{icon} {capacity}%",
+        "format-charging": "{icon} {capacity}% ({time})",
+        "format-discharging": "{icon} {capacity}%",
+        "format-full": "<span color=\"#6699CC\"></span> Full",
+        "format-time": "<span color=\"#66AA66\">{H}h{m}</span>",
+        "format-icons": [
+            "<span color=\"#AB3737\"></span>",
+            "<span color=\"#DBBA1A\"></span>",
+            "<span color=\"#6699CC\"></span>",
+            "<span color=\"#6699CC\"></span>",
+        ],
+        "tooltip-format": "Battery: {capacity}%\n{time}"
+    },
+
+    "network#eth": {
+        "interface": "enp0s25",
+        "format-ethernet": " {ipaddr}",
+        "format-disconnected": "",
+        "tooltip-format-ethernet": "Ethernet: {ifname}\nIP: {ipaddr}"
+    },
+
+    "network#wlan": {
+        "interface": "wlan0",
+        "format-wifi": "<span color=\"#6699CC\"></span> {essid}",
+        "format-disconnected": "",
+        "tooltip-format-wifi": "Wi-Fi: {ifname}\nSSID: {essid}\nSignal: {signalStrength}%"
+    },
+
+    "clock#date": {
+        "interval": 60,
+        "format": "<span color=\"#6699CC\"></span> {:%a %e %b}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "year",
+            "weeks-pos"     : "right",
+            "mode-mon-col"  : 3,
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#BB77BB'><b>{}</b></span>",
+                "days":       "<span color='#BBBBBB'><b>{}</b></span>",
+                "weeks":      "<span color='#66BB66'><b>W{}</b></span>",
+                "weekdays":   "<span color='#DE935F'><b>{}</b></span>",
+                "today":      "<span color='#AB3737'><b><u>{}</u></b></span>"
+            }
+        },
+    },
+
+    "clock#time": {
+        "interval": 5,
+        "format": "<span color=\"#6699CC\"></span> {:%H:%M:%S}",
+    },
+
+    "pulseaudio": {
+        "justify": "left",
+        "format": "<span color=\"#6699CC\"></span>",
+        "format-headphone": "<span color=\"#6699CC\"></span>",
+        "format-bluetooth": "<span color=\"#6699CC\"></span>",
+        "format-muted": "<span color=\"#AB3737\"></span>",
+        "format-bluetooth-muted": "<span color=\"#AB3737\"></span>",
+        "tooltip": false,
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "cursor": false,
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+    },
+
+    "tray": {
+        "spacing": 7
+    }
+}
