@@ -3,6 +3,8 @@
 (std::using-packages
  sudo-edit)
 
+(recentf-mode)
+
 (std::autoload files-buffers
   #'std::buffers::scratch
   #'std::buffers::edit-module
@@ -23,11 +25,12 @@
 (std::keybind
  :leader
  "ff"  #'find-file
+ "fr"  #'recentf
  "fl"  #'find-library
  "fL"  #'locate
  "fo"  #'sudo-edit
  "fs"  #'save-buffer
- "fr"  #'std::buffers::rename-buffer-file
+ "fR"  #'std::buffers::rename-buffer-file
  "fem" #'std::buffers::edit-module
  "fex" #'std::buffers::edit-syncthing-file
  "fef" #'std::buffers::edit-fish-file
