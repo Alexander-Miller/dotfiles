@@ -64,7 +64,6 @@
 (eyebrowse-mode)
 (winum-mode)
 (shackle-mode)
-(framey-mode)
 (winner-mode)
 
 (std::add-advice #'std::windows::highlight-on-select :after #'winum-select-window-1)
@@ -173,6 +172,8 @@ active desktop."
             (when (or force-select (not ,check))
               (delete-other-windows)
               (call-interactively ,command))))))))
+
+(require 'ht)
 
 (setf display-buffer-alist
       '((std::windows::match-buffer std::windows::display-buffer)
