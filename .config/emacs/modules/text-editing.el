@@ -210,27 +210,23 @@
 
        (,(rx
           (group-n 1 "&")
-          (group-n 2 (or "kp" "to" "mo"))
-          space
-          (group-n 3 (seq symbol-start (1+ (or alnum "_")) symbol-end)))
-        (1 'font-lock-type-face t t)
-        (2 'font-lock-keyword-face t t)
-        (3 'font-lock-string-face t t))
-
-       (,(rx
-          (group-n 1 "&")
-          (group-n 2 (or "mp" "mt" "smp" "lt"))
-          space
-          (group-n 3 (seq symbol-start (1+ (or alnum "_")) symbol-end))
-          space
-          (group-n 4 (seq symbol-start (1+ (or alnum "_")) symbol-end)))
-        (1 'font-lock-type-face t t)
-        (2 'font-lock-keyword-face t t)
+          (group-n 2 (1+ (or alnum "_")) symbol-end)
+          (group-n 3 (1+ (or alnum "_" space)))
+          )
+        (1 'font-lock-type-face nil nil)
+        (2 'font-lock-keyword-face nil nil)
         (3 'font-lock-string-face t t)
-        (4 'font-lock-string-face t t))
+        )
+
+       (,(rx (group-n 1 (or "HRML" "HRMR"))
+             "("
+             (group-n 2 (1+ (or alnum space "," "_")))
+             ")")
+        (1 '(:inherit font-lock-keyword-face :weight bold) t t)
+        (2 'font-lock-string-face t t) )
 
        (,(rx (group-n 1 (seq symbol-start "MAGIC_KEY" symbol-end)))
-        (1 'font-lock-keyword-face t t))
+        (1 '(:inherit font-lock-constant-face :weight bold) t t))
 
        (,(rx
           (group-n 1 "#include")
