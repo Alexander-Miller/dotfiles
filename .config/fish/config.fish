@@ -6,6 +6,7 @@ set -gx EDITOR            "em e"
 set -e  fish_greeting
 set -eU fish_user_paths
 set -e  EMACS
+set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
 
 bind \ej down-or-search
 bind \ek up-or-search
