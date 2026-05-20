@@ -1,0 +1,22 @@
+// -*- js-indent-level: 2 -*-
+
+{
+  "dark": {
+    "mPrimary": "#5588BB",
+    "mOnPrimary": "#19191D",
+    "mSecondary": "#CC6666",
+    "mOnSecondary": "#090909",
+    "mTertiary": "#66BB66",
+    "mOnTertiary": "#282832",
+    "mError": "#BB5555",
+    "mOnError": "#090909",
+    "mSurface": "#FF0000",
+    "mOnSurface": "#00FF00",
+    "mSurfaceVariant": "#0000FF",
+    "mOnSurfaceVariant": "#FFFF00",
+    "mOutline": "#997799",
+    "mShadow": "#191919",
+    "mHover": "#CCB18B",
+    "mOnHover": "#19191D",
+  }
+}
