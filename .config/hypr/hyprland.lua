@@ -1,4 +1,5 @@
----------------------------------------------------------------------------------- Setup utilities -------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- Setup utilities -------------------------------------------------------------
 --------------------------------------------------------------------------------
 
 local MOD = "SUPER"
@@ -54,12 +55,18 @@ end)
 -- Core configuration ----------------------------------------------------------
 --------------------------------------------------------------------------------
 
-hl.monitor({
-  output = "",
-  mode = "preferred",
-  position = "auto",
-  scale = "auto",
-})
+--hl.monitor({
+--   output = "",
+--   mode = "preferred",
+--   position = "auto",
+--   scale = "auto",
+-- })
+hl.bind("SUPER + SHIFT + M", function()
+           hl.monitor({
+                 output = "eDP-1",
+                 disabled = true,
+           })
+end)
 
 hl.config({
   debug = {
@@ -253,7 +260,7 @@ hl.bind(kbd({ MOD, LS, "O" }), hl.dsp.exec_cmd("fish -c yequake"))
 hl.bind(kbd({ MOD, LS, "R" }), hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind(kbd({ MOD, CMM     }), hl.dsp.exec_cmd(IPC .. " settings toggle"))
 hl.bind(kbd({ MOD, "P"     }), hl.dsp.exec_cmd(IPC .. " controlCenter toggle"))
--- hl.bind(kbd({ MOD, LS, "X" }), hl.dsp.exec_cmd("hyprlock"))
+hl.bind(kbd({ MOD, LS, "X" }), hl.dsp.exec_cmd(IPC .. " lockScreen lock"))
 
 -- Media / hardware keys TODO
 -- hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("amixer -D pulse sset Master 5%+"), { repeating = true })

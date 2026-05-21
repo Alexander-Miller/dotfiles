@@ -44,10 +44,10 @@
         "autoShowDelay": 150,
         "backgroundOpacity": 1,
         "barType": "simple",
-        "capsuleColorKey": "none",
-        "capsuleOpacity": 1,
-        "contentPadding": 2,
-        "density": "mini",
+        "capsuleColorKey": "tertiary",
+        "capsuleOpacity": 0.2,
+        "contentPadding": 10,
+        "density": "default",
         "displayMode": "always_visible",
         "enableExclusionZoneInset": false,
         "fontScale": 1,
@@ -61,8 +61,8 @@
         "middleClickFollowMouse": false,
         "monitors": [
         ],
-        "mouseWheelAction": "none",
-        "mouseWheelWrap": true,
+        "mouseWheelAction": "workspace",
+        "mouseWheelWrap": false,
         "outerCorners": false,
         "position": "top",
         "reverseScroll": false,
@@ -71,11 +71,11 @@
         "rightClickFollowMouse": true,
         "screenOverrides": [
         ],
-        "showCapsule": false,
+        "showCapsule": true,
         "showOnWorkspaceSwitch": true,
-        "showOutline": false,
-        "useSeparateOpacity": true,
-        "widgetSpacing": 6,
+        "showOutline": true,
+        "useSeparateOpacity": false,
+        "widgetSpacing": 15,
         "widgets": {
             "center": [
                 {
@@ -102,7 +102,7 @@
                     "showIcon": true,
                     "showTextTooltip": true,
                     "textCollapse": "",
-                    "textCommand": "mpc current -f \"%artist% - %title%\"\n",
+                    "textCommand": "mpc status | rg -q '\\[playing\\]' && mpc current -f \"%artist% - %title%\" || echo \"---\"",
                     "textIntervalMs": 5000,
                     "textStream": false,
                     "wheelDownExec": "mpc volume -1",
@@ -112,25 +112,15 @@
                     "wheelUpExec": "mpc volume +1",
                     "wheelUpUpdateText": false,
                     "wheelUpdateText": false
-                },
-                {
-                    "colorName": "secondary",
-                    "hideWhenIdle": false,
-                    "id": "AudioVisualizer",
-                    "width": 200
                 }
             ],
             "left": [
-                {
-                    "id": "Spacer",
-                    "width": 5
-                },
                 {
                     "characterCount": 2,
                     "colorizeIcons": false,
                     "emptyColor": "none",
                     "enableScrollWheel": true,
-                    "focusedColor": "primary",
+                    "focusedColor": "tertiary",
                     "followFocusedScreen": true,
                     "fontWeight": "bold",
                     "groupedBorderOpacity": 1,
@@ -151,15 +141,15 @@
                 {
                     "hideWhenZero": false,
                     "hideWhenZeroUnread": false,
-                    "iconColor": "none",
+                    "iconColor": "primary",
                     "id": "NotificationHistory",
                     "showUnreadBadge": true,
-                    "unreadBadgeColor": "primary"
+                    "unreadBadgeColor": "error"
                 },
                 {
                     "compactMode": true,
                     "diskPath": "/",
-                    "iconColor": "tertiary",
+                    "iconColor": "primary",
                     "id": "SystemMonitor",
                     "showCpuCores": true,
                     "showCpuFreq": false,
@@ -180,45 +170,45 @@
                 },
                 {
                     "deviceNativePath": "__default__",
-                    "displayMode": "graphic-clean",
+                    "displayMode": "icon-always",
                     "hideIfIdle": false,
                     "hideIfNotDetected": true,
                     "id": "Battery",
                     "showNoctaliaPerformance": false,
-                    "showPowerProfiles": false
+                    "showPowerProfiles": true
                 },
                 {
                     "displayMode": "onhover",
-                    "iconColor": "none",
+                    "iconColor": "primary",
                     "id": "Volume",
                     "middleClickCommand": "pwvucontrol || pavucontrol",
-                    "textColor": "none"
+                    "textColor": "secondary"
                 },
                 {
                     "applyToAllMonitors": false,
                     "displayMode": "onhover",
-                    "iconColor": "none",
+                    "iconColor": "primary",
                     "id": "Brightness",
-                    "textColor": "none"
+                    "textColor": "secondary"
                 },
                 {
                     "colorizeDistroLogo": false,
-                    "colorizeSystemIcon": "none",
+                    "colorizeSystemIcon": "primary",
                     "colorizeSystemText": "none",
                     "customIconPath": "",
-                    "enableColorization": false,
+                    "enableColorization": true,
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": false
                 },
                 {
-                    "clockColor": "none",
+                    "clockColor": "primary",
                     "customFont": "Fantasque Sans Mono",
-                    "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "HH mm - dd MM",
+                    "formatHorizontal": " HH:mm   ddd MMM dd",
+                    "formatVertical": " HH mm - dd MM",
                     "id": "Clock",
                     "tooltipFormat": "HH:mm ddd, MMM dd",
-                    "useCustomFont": true
+                    "useCustomFont": false
                 },
                 {
                     "blacklist": [
@@ -226,10 +216,15 @@
                     "chevronColor": "none",
                     "colorizeIcons": false,
                     "drawerEnabled": true,
-                    "hidePassive": false,
+                    "hidePassive": true,
                     "id": "Tray",
                     "pinned": [
                     ]
+                },
+                {
+                    "defaultSettings": {
+                    },
+                    "id": "plugin:workspace-overview"
                 }
             ]
         }
@@ -263,7 +258,7 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Tokyo Night",
+        "predefinedScheme": "Ayu",
         "schedulingMode": "off",
         "syncGsettings": true,
         "useWallpaperColors": false
@@ -380,7 +375,7 @@
         "clockFormat": "hh\\nmm",
         "clockStyle": "custom",
         "compactLockScreen": false,
-        "dimmerOpacity": 0.24,
+        "dimmerOpacity": 0.55,
         "enableBlurBehind": true,
         "enableLockScreenCountdown": true,
         "enableLockScreenMediaControls": true,
@@ -422,7 +417,7 @@
         "passwordChars": false,
         "radiusRatio": 1,
         "reverseScroll": false,
-        "scaleRatio": 1,
+        "scaleRatio": 1.1500000000000001,
         "screenRadiusRatio": 1,
         "shadowDirection": "bottom_right",
         "shadowOffsetX": 2,
@@ -627,20 +622,20 @@
     "ui": {
         "boxBorderEnabled": true,
         "fontDefault": "Fantasque Sans Mono",
-        "fontDefaultScale": 1,
+        "fontDefaultScale": 1.05,
         "fontFixed": "Fantasque Sans Mono",
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
         "scrollbarAlwaysVisible": true,
         "settingsPanelMode": "attached",
-        "settingsPanelSideBarCardStyle": false,
+        "settingsPanelSideBarCardStyle": true,
         "tooltipsEnabled": true,
         "translucentWidgets": false
     },
     "wallpaper": {
         "automationEnabled": true,
-        "directory": "/home/am/Documents/git/dotfiles/.wallpapers",
+        "directory": "~/Documents/git/dotfiles/.wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [
@@ -660,7 +655,7 @@
         "showHiddenFiles": false,
         "skipStartupTransition": false,
         "solidColor": "#1a1a2e",
-        "sortOrder": "name",
+        "sortOrder": "name_desc",
         "transitionDuration": 3000,
         "transitionEdgeSmoothness": 1,
         "transitionType": [
